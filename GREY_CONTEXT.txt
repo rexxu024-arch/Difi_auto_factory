@@ -1,0 +1,389 @@
+### [1] PROJECT STRUCTURE (SECURITY FILTERED) ###
+./
+    config.py
+    main.py
+    Product_line_input.txt
+    .discord_automation_session/
+        Crashpad/
+            attachments/
+            reports/
+        Default/
+            AutofillStrikeDatabase/
+            blob_storage/
+                9eb67d97-1f44-40a2-be3b-04a43ddfd9e6/
+            BudgetDatabase/
+            Cache/
+                Cache_Data/
+            chrome_cart_db/
+            Code Cache/
+                js/
+                    index-dir/
+                wasm/
+                    index-dir/
+            commerce_subscription_db/
+            coupon_db/
+            databases/
+            DawnCache/
+            discounts_db/
+            Extension Rules/
+            Extension Scripts/
+            Extension State/
+            Feature Engagement Tracker/
+                AvailabilityDB/
+                EventDB/
+            GPUCache/
+            Local Storage/
+                leveldb/
+            Network/
+            parcel_tracking_db/
+            PersistentOriginTrials/
+            Safe Browsing Network/
+            Segmentation Platform/
+                SegmentInfoDB/
+                SignalDB/
+                SignalStorageConfigDB/
+            Service Worker/
+                CacheStorage/
+                    7d571773fef4871f82ca0457379cf2a39317562f/
+                        index.txt
+                        11bfb11a-286b-45a2-87e3-75e3c7c1d5da/
+                            index-dir/
+                        1c129de3-2a6a-4878-a7d0-815acb5bfcba/
+                            index-dir/
+            Session Storage/
+            Sessions/
+            Shared Dictionary/
+                cache/
+                    index-dir/
+            shared_proto_db/
+                metadata/
+            Site Characteristics Database/
+            Sync Data/
+                LevelDB/
+            WebStorage/
+        GraphiteDawnCache/
+        GrShaderCache/
+        Safe Browsing/
+        segmentation_platform/
+        ShaderCache/
+    .vscode/
+        settings.json
+    audit_harvest/
+    harvest_results/
+    modules/
+        harvester.py
+        mentor_hub.py
+        product_line.py
+        __init__.py
+    N/
+        A_Default/
+    Output/
+    Project_Root/
+
+============================================================
+
+### FILE: .\config.py ###
+import os
+from dotenv import load_dotenv
+
+# 强制加载 .env 物理环境
+load_dotenv()
+
+class Config:
+    # --- 1. 基础通信接口 ---
+    GAS_URL = os.getenv("GAS_URL")
+    TOKEN = os.getenv("DISCORD_TOKEN")
+    
+    # --- 2. 物理定位 (Discord 位点) ---
+    GUILD_ID = os.getenv("GUILD_ID")
+    CHANNEL_ID = os.getenv("CHANNEL_ID")
+    
+    # --- 3. 交互协议参数 (核心审计位点) ---
+    APP_ID = os.getenv("APPLICATION_ID")
+    MJ_ID = os.getenv("MJ_ID")
+    MJ_VERSION = os.getenv("MJ_VERSION")
+    SESSION_ID = os.getenv("SESSION_ID")
+    
+    # --- 4. API 加固 ---
+    PRODUCT_LINE_API_KEY = os.getenv("PRODUCT_LINE_API_KEY") or os.getenv("Product_line_API_KEY")
+    PRODUCT_LINE_API_URL = os.getenv("PRODUCT_LINE_API_URL") or os.getenv("Product_line_API_URL")
+
+    # --- 5. 产品物理规格矩阵 (Product Matrix) ---
+    PRODUCT_SPECS = {
+        "Sticker": {
+            "dpi": 300,
+            "remove_bg": True,
+            "limit": 10
+        }
+    }
+
+    @classmethod
+    def validate(cls):
+        essential_keys = [
+            "GAS_URL", "TOKEN", "GUILD_ID", "CHANNEL_ID", 
+            "APP_ID", "MJ_ID", "MJ_VERSION", "SESSION_ID"
+        ]
+        missing = [key for key in essential_keys if not getattr(cls, key)]
+        if missing:
+            print(f"❌ [CONFIG ERROR] 物理变量缺失: {missing}")
+            return False
+        return True
+
+============================================================
+
+### FILE: .\main.py ###
+import os
+from config import Config
+from modules import mentor_hub, product_line, harvester
+
+def main():
+    if not Config.validate(): return
+
+    while True:
+        # ... (省略菜单 print 代码) ...
+        cmd = input("👉 Enter choice: ")
+
+        if cmd == '1':
+            mentor_hub.run_add_claude_dna()
+        elif cmd == '2':
+            product_line.run_add_new_design()
+        elif cmd == '3':
+            # 物理对齐：直接进入收割逻辑，任务获取也由 harvester 自己负责
+            print("📡 [Direct Access] Initializing Harvester Engine...")
+            harvester.run_iron_harvest_logic() 
+            input("\n✅ Harvest Cycle Finished. Press Enter...")
+        elif cmd == '0':
+            break
+
+if __name__ == "__main__":
+    main()
+
+============================================================
+
+### FILE: .\Product_line_input.txt ###
+[
+  {"Category": "Blueprint-Technical-Mechanism", "Product_Type": "Poster", "Number_of_Designs": 10},
+  {"Category": "Academia-Jade-Artifact", "Product_Type": "Sticker", "Number_of_Designs": 10},
+  {"Category": "Zen-Mythic-Phoenix-Nirvana", "Product_Type": "Wall Art", "Number_of_Designs": 10},
+  {"Category": "AIAC-Parametric-Shell", "Product_Type": "Poster", "Number_of_Designs": 10},
+  {"Category": "Raiden-Tactical-Jade", "Product_Type": "T-Shirt", "Number_of_Designs": 10},
+  {"Category": "Zen-Ancient-Talisman-Seal", "Product_Type": "Sticker", "Number_of_Designs": 10},
+  {"Category": "AIAC-ZeroG-Lattice", "Product_Type": "Wall Art", "Number_of_Designs": 10},
+  {"Category": "Zen-Mythic-Kirin-Totem", "Product_Type": "Sticker", "Number_of_Designs": 10},
+  {"Category": "Academia-Time-Hourglass", "Product_Type": "Sticker", "Number_of_Designs": 10},
+  {"Category": "AIAC-Fractal-Core", "Product_Type": "T-Shirt", "Number_of_Designs": 10},
+  {"Category": "Vergil-Spatial-Shatter", "Product_Type": "Poster", "Number_of_Designs": 10},
+  {"Category": "AIAC-Metabolic-Pillar", "Product_Type": "Wall Art", "Number_of_Designs": 10},
+  {"Category": "Zen-Mythic-Wukong-Relic", "Product_Type": "T-Shirt", "Number_of_Designs": 10},
+  {"Category": "Vergil-Energy-Shield", "Product_Type": "Sticker", "Number_of_Designs": 10},
+  {"Category": "AIAC-Fluid-Dynamics", "Product_Type": "Wall Art", "Number_of_Designs": 10},
+  {"Category": "Zen-Ancient-Jian-Constellation", "Product_Type": "Sticker", "Number_of_Designs": 10},
+  {"Category": "Vergil-Rapid-Dash-Trails", "Product_Type": "T-Shirt", "Number_of_Designs": 10}
+]
+
+============================================================
+
+### FILE: .\.discord_automation_session\Default\Service Worker\CacheStorage\7d571773fef4871f82ca0457379cf2a39317562f\index.txt ###
+Error reading file: 'utf-8' codec can't decode byte 0x80 in position 54: invalid start byte
+
+============================================================
+
+### FILE: .\.vscode\settings.json ###
+{
+    "python-envs.pythonProjects": []
+}
+
+============================================================
+
+### FILE: .\modules\harvester.py ###
+import os, io, requests, time
+from PIL import Image
+from rembg import remove
+from config import Config
+
+def _get_imagine_payload(prompt):
+    return {
+        "type": 2,
+        "application_id": Config.APP_ID,
+        "guild_id": Config.GUILD_ID,
+        "channel_id": Config.CHANNEL_ID,
+        "session_id": Config.SESSION_ID,
+        "data": {
+            "version": Config.MJ_VERSION,
+            "id": Config.MJ_ID,
+            "name": "imagine",
+            "type": 1,
+            "options": [{"type": 3, "name": "prompt", "value": prompt}]
+        }
+    }
+
+def _get_upscale_payload(message_id, custom_id):
+    return {
+        "type": 3,
+        "application_id": Config.APP_ID,
+        "guild_id": Config.GUILD_ID,
+        "channel_id": Config.CHANNEL_ID,
+        "message_id": message_id,
+        "session_id": Config.SESSION_ID,
+        "data": {"component_type": 2, "custom_id": custom_id}
+    }
+
+def finalize_assets(t_id, category, path, main_idx):
+    """执行物理定稿：去背景 + 注入 300 DPI"""
+    specs = Config.PRODUCT_SPECS.get(category, Config.PRODUCT_SPECS["Sticker"])
+    concept_names = ['A', 'B', 'C']
+    c_idx = 0
+    
+    for i in range(1, 5):
+        raw_file = os.path.join(path, f"{t_id}_U{i}.png")
+        if not os.path.exists(raw_file): continue
+        
+        if i == main_idx:
+            output_main = os.path.join(path, f"{t_id}_MAIN_completed.png")
+            print(f"🧪 Processing Main Asset: {t_id}_U{i}...")
+            with open(raw_file, 'rb') as f:
+                img_data = f.read()
+                processed_data = remove(img_data) if specs["remove_bg"] else img_data
+                img = Image.open(io.BytesIO(processed_data))
+                # 注入物理 DPI 供 Printify 识别
+                img.save(output_main, "PNG", dpi=(specs["dpi"], specs["dpi"]))
+            os.remove(raw_file)
+            print(f"🚀 Main Asset Ready: {output_main} ({specs['dpi']} DPI)")
+        else:
+            new_concept = os.path.join(path, f"{t_id}_Concept_{concept_names[c_idx]}.png")
+            os.rename(raw_file, new_concept)
+            c_idx += 1
+
+def run_iron_harvest_logic(tasks):
+    headers = {"Authorization": Config.TOKEN}
+    for task in tasks:
+        t_id = task.get("ID")
+        prompt = task.get("MJ_Prompt")
+        category = task.get("Product_Type", "Sticker")
+        path = os.path.join("Output", category, t_id)
+        if not os.path.exists(path): os.makedirs(path)
+
+        print(f"\n🎬 Processing: {t_id}")
+        # 1. Trigger Imagine
+        requests.post("https://discord.com/api/v9/interactions", json=_get_imagine_payload(prompt), headers=headers)
+        
+        # 2. 此处应有轮询监听 Grid 并触发 U1-U4 的逻辑...
+        # (你可以将你之前 fetch_and_upscale 的代码填入此处)
+        
+        # 3. 假设下载完成后进行审计
+        print(f"🖼️ Grid for {t_id} is ready at {path}")
+        choice = input("🏆 Enter 1-4 for MAIN asset: ")
+        if choice in ['1','2','3','4']:
+            finalize_assets(t_id, category, path, int(choice))
+
+============================================================
+
+### FILE: .\modules\mentor_hub.py ###
+def run_add_claude_dna():
+    """
+    [Placeholder] Add Claude DNA 
+    后期将链接 Dify Mentor Hub 操控，批量发送 DNA 输入。
+    """
+    print("\n--- [PROCESS 1: Add Claude DNA] ---")
+    print("🚧 状态：开发中 (Mentor Hub Logic Pending)")
+    print("💡 提示：此模块未来将用于自动化发送指令至 Dify。")
+
+============================================================
+
+### FILE: .\modules\product_line.py ###
+import json
+import requests
+import time
+from config import Config
+
+def run_production_delivery():
+    input_file = "Product_line_input.txt"
+    
+    try:
+        with open(input_file, 'r', encoding='utf-8') as f:
+            tasks = json.load(f)
+        print(f"📦 [Dispatcher] 成功加载 {len(tasks)} 组生产任务。")
+    except Exception as e:
+        print(f"❌ 读取文件失败: {e}")
+        return
+
+    headers = {
+        "Authorization": f"Bearer {Config.Product_line_API_KEY}",
+        "Content-Type": "application/json"
+    }
+
+    target_url = "https://api.dify.ai/v1/chat-messages"
+
+    print("🚀 启动生产线物理对齐 [Category Enforcement Mode]...\n")
+
+    for index, task in enumerate(tasks):
+        # 提取当前任务的核心参数
+        category = task.get('Category', 'Unknown')
+        p_type = task.get('Product_Type', 'Item')
+        num = task.get('Number_of_Designs', 10)
+
+        # 构造“绝对指令”：防止模型模仿 System Prompt 里的 Zen 例子
+        # 我们把指令直接怼到模型的“嘴边”
+        mandatory_instruction = (
+            f"### PRODUCTION ORDER ###\n"
+            f"CURRENT CATEGORY: {category}\n"
+            f"PRODUCT TYPE: {p_type}\n"
+            f"QUANTITY: {num}\n"
+            f"--------------------------\n"
+            f"INSTRUCTION: Ignore all previous 'Zen' or 'Sticker' examples. "
+            f"Generate content strictly for the '{category}' category. "
+            f"Ensure the product style is a '{p_type}'. "
+            f"Output exactly {num} designs now."
+        )
+
+        payload = {
+            "inputs": {
+                "Category": category,
+                "Product_Type": p_type,
+                "Number_of_Designs": num
+            },
+            "query": mandatory_instruction,  # 用 Query 覆盖 Inputs 的模糊性
+            "response_mode": "blocking",
+            "conversation_id": "",           # 强制每一轮都是全新的，杜绝 Zen 记忆
+            "user": "Rex_Architect"
+        }
+
+        print(f"📡 [{index + 1}/{len(tasks)}] 正在切换生产线配置: {category}...")
+
+        try:
+            response = requests.post(
+                target_url, 
+                headers=headers, 
+                json=payload, 
+                timeout=150 # 增加超时，确保 10 个能写完
+            )
+            
+            if response.status_code == 200:
+                answer = response.json().get('answer', '')
+                # 审计产出品类
+                if category.lower() in answer.lower():
+                    print(f"✅ 对齐成功：已进入 {category} 生产序列。")
+                else:
+                    print(f"❌ 对齐失败：模型仍输出旧品类。请检查 Dify 后台变量绑定。")
+                
+                # 打印开头和结尾确认完整性
+                print(f"📝 产出头部: {answer[:100].strip()}...")
+                print(f"📝 产出尾部: ...{answer[-100:].strip()}")
+            else:
+                print(f"⚠️ 状态码 {response.status_code}: {response.text}")
+
+        except Exception as e:
+            print(f"❌ 系统异常: {e}")
+
+        time.sleep(Config.ACTION_DELAY)
+
+if __name__ == "__main__":
+    run_production_delivery()
+
+============================================================
+
+### FILE: .\modules\__init__.py ###
+
+
+============================================================
+

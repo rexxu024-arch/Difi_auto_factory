@@ -1,0 +1,19 @@
+[
+  {"Category": "Blueprint-Technical-Mechanism", "Product_Type": "Poster", "Number_of_Designs": 10},
+  {"Category": "Academia-Jade-Artifact", "Product_Type": "Sticker", "Number_of_Designs": 10},
+  {"Category": "Zen-Mythic-Phoenix-Nirvana", "Product_Type": "Wall Art", "Number_of_Designs": 10},
+  {"Category": "AIAC-Parametric-Shell", "Product_Type": "Poster", "Number_of_Designs": 10},
+  {"Category": "Raiden-Tactical-Jade", "Product_Type": "T-Shirt", "Number_of_Designs": 10},
+  {"Category": "Zen-Ancient-Talisman-Seal", "Product_Type": "Sticker", "Number_of_Designs": 10},
+  {"Category": "AIAC-ZeroG-Lattice", "Product_Type": "Wall Art", "Number_of_Designs": 10},
+  {"Category": "Zen-Mythic-Kirin-Totem", "Product_Type": "Sticker", "Number_of_Designs": 10},
+  {"Category": "Academia-Time-Hourglass", "Product_Type": "Sticker", "Number_of_Designs": 10},
+  {"Category": "AIAC-Fractal-Core", "Product_Type": "T-Shirt", "Number_of_Designs": 10},
+  {"Category": "Vergil-Spatial-Shatter", "Product_Type": "Poster", "Number_of_Designs": 10},
+  {"Category": "AIAC-Metabolic-Pillar", "Product_Type": "Wall Art", "Number_of_Designs": 10},
+  {"Category": "Zen-Mythic-Wukong-Relic", "Product_Type": "T-Shirt", "Number_of_Designs": 10},
+  {"Category": "Vergil-Energy-Shield", "Product_Type": "Sticker", "Number_of_Designs": 10},
+  {"Category": "AIAC-Fluid-Dynamics", "Product_Type": "Wall Art", "Number_of_Designs": 10},
+  {"Category": "Zen-Ancient-Jian-Constellation", "Product_Type": "Sticker", "Number_of_Designs": 10},
+  {"Category": "Vergil-Rapid-Dash-Trails", "Product_Type": "T-Shirt", "Number_of_Designs": 10}
+]

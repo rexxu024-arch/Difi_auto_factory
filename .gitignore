@@ -1,0 +1,4 @@
+.env
+Output/
+__pycache__/
+.discord_automation_session/
