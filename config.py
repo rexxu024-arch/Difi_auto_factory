@@ -1,54 +1,98 @@
 import os
 from dotenv import load_dotenv
 
-# 强制加载 .env 物理环境
-load_dotenv()
+# 1. 物理定位与加载
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ENV_PATH = os.path.join(BASE_DIR, ".env")
+load_dotenv(ENV_PATH, override=True)
 
 class Config:
-    # --- 1. 基础通信接口 ---
-    GAS_URL = os.getenv("GAS_URL")
-    TOKEN = os.getenv("DISCORD_TOKEN")
-    
-    # --- 2. 物理定位 (Discord 位点) ---
+    """
+    Grey 思维核心 - V18.0 严苛对齐协议
+    [Rule]: 严禁任何形式的推测。完全镜像 .env 截图内容。
+    """
+    PROJECT_ROOT = BASE_DIR
+
+    # --- [A] Printify 核心 (根据用户指示 ID=1) ---
+    Printify_API_KEY = os.getenv("Printify_API_KEY")
+    Printify_API_URL = "https://api.printify.com/v1"
+    Printify_SHOP_ID = "26983633"  # 物理事实：第一个店铺
+
+    # --- [B] Midjourney / Discord (镜像 .env 截图) ---
+    DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
     GUILD_ID = os.getenv("GUILD_ID")
     CHANNEL_ID = os.getenv("CHANNEL_ID")
-    
-    # --- 3. 交互协议参数 ---
-    APP_ID = os.getenv("APPLICATION_ID")
-    MJ_ID = os.getenv("MJ_ID")
-    MJ_VERSION = os.getenv("MJ_VERSION")
-    SESSION_ID = os.getenv("SESSION_ID")
 
-    # --- 4. 物理规格矩阵 (Product Matrix V13.0) ---
-    # 结构：Category -> Format -> Specific Specs
-    PRODUCT_SPECS = {
-        "Sticker": {
-            "default_limit": 10, # 测试阶段物理限制
-            "formats": {
-                "Kiss-Cut": {"dpi": 300, "target_px": 832, "remove_bg": True, "suffix": "KC_3x3"},
-                "Die-Cut":  {"dpi": 300, "target_px": 1024, "remove_bg": True, "suffix": "DC_ready"},
-                "Standard": {"dpi": 300, "target_px": 832, "remove_bg": False, "suffix": "ST_ready"}
-            }
-        },
-        "T-Shirt": {
-            "default_limit": 999,
-            "formats": {
-                "Standard": {"dpi": 300, "target_px": 4500, "remove_bg": True, "suffix": "SHIRT_print"}
-            }
-        },
-        "Poster": {
-            "default_limit": 999,
-            "formats": {
-                "Standard": {"dpi": 300, "target_px": 5400, "remove_bg": False, "suffix": "POSTER_final"}
-            }
-        }
-    }
+    # --- [C] Dify / Product Line (镜像 .env 截图) ---
+    Product_line_API_KEY = os.getenv("Product_line_API_KEY")
+    Product_line_API_URL = os.getenv("Product_line_API_URL")
+    
+    # --- [D] DeepSeek 核心 (Stage 5 动力源) ---
+    DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
+    DEEPSEEK_BASE_URL = os.getenv("DEEPSEEK_BASE_URL") or "https://api.deepseek.com"
+
+    # --- [E] Claude / Anthropic 核心 ---
+    CLAUDE_API_KEY = os.getenv("CLAUDE_API_KEY")
+    CLAUDE_BASE_URL = os.getenv("CLAUDE_BASE_URL") or "https://api.anthropic.com"
+   
 
     @classmethod
+    def audit(cls):
+        """全量审计：仅反馈 .env 中真实存在的键名读取状态"""
+        print(f"\n📡 [V18.0 审计] 物理锚点: {ENV_PATH}")
+        
+        # 验证清单 (完全对应截图中的键名)
+        checks = {
+            "Printify_API_KEY": cls.Printify_API_KEY,
+            "DISCORD_TOKEN": cls.DISCORD_TOKEN,
+            "Product_line_API_KEY": cls.Product_line_API_KEY,
+            "Printify_SHOP_ID (Manual)": cls.Printify_SHOP_ID
+        }
+        
+        success = True
+        for key, val in checks.items():
+            if val:
+                print(f"✅ {key:<25} | 已读取")
+            else:
+                print(f"❌ {key:<25} | 缺失 (EMPTY)")
+                success = False
+        return success
+    @classmethod
     def validate(cls):
-        essential_keys = ["GAS_URL", "TOKEN", "GUILD_ID", "CHANNEL_ID", "APP_ID", "MJ_ID", "SESSION_ID"]
-        missing = [key for key in essential_keys if not getattr(cls, key)]
-        if missing:
-            print(f"❌ [CONFIG ERROR] 物理变量缺失: {missing}")
-            return False
-        return True
+        """
+        [启动校验协议]：对接 main.py 的启动检查
+        执行全量审计并返回布尔值。
+        """
+        return cls.audit()
+
+    @classmethod
+    def audit(cls):
+        """全量审计：反馈 .env 中真实存在的键名读取状态"""
+        print(f"\n📡 [V18.0 审计] 物理锚点: {ENV_PATH}")
+        
+        # 验证清单 (完全对应你 .env 的核心变量)
+        checks = {
+            "Printify_API_KEY": cls.Printify_API_KEY,
+            "DISCORD_TOKEN": cls.DISCORD_TOKEN,
+            "Product_line_API_KEY": cls.Product_line_API_KEY,
+            "GUILD_ID": cls.GUILD_ID,
+            "CHANNEL_ID": cls.CHANNEL_ID
+        }
+        
+        is_safe = True
+        for key, val in checks.items():
+            if val and len(str(val)) > 0:
+                print(f"✅ {key:<25} | 已就绪")
+            else:
+                print(f"❌ {key:<25} | 缺失 (CRITICAL)")
+                is_safe = False
+        
+        if is_safe:
+            print("🚀 [CONFIG] 物理变量审计通过，生产环境就绪。")
+        else:
+            print("🛑 [CONFIG] 审计未通过，请检查 .env 文件。")
+            
+        return is_safe
+
+if __name__ == "__main__":
+    Config.audit()

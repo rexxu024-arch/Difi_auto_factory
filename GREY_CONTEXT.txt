@@ -1,7 +1,11 @@
 ### [1] PROJECT STRUCTURE (SECURITY FILTERED) ###
 ./
+    Audit_Purge_Tool.py
     config.py
+    debugmj.py
+    debug_gas_status.py
     main.py
+    process_test_sticker.py
     Product_line_input.txt
     .discord_automation_session/
         Crashpad/
@@ -71,14 +75,304 @@
     audit_harvest/
     harvest_results/
     modules/
-        harvester.py
+        iron_audit.py
         mentor_hub.py
+        mj_harvest.py
         product_line.py
+        spec_registry.py
         __init__.py
     N/
         A_Default/
     Output/
+        Sticker/
+            Kiss-Cut/
+                Sticker-Academia-Jade-Artifact-0002-Review/
+                    metadata.txt
+                Sticker-Academia-Jade-Artifact-0003-Review/
+                    metadata.txt
+                Sticker-Academia-Jade-Artifact-0004-Review/
+                    metadata.txt
+                Sticker-Academia-Jade-Artifact-0005-Review/
+                    metadata.txt
+                Sticker-Academia-Jade-Artifact-0006-Review/
+                    metadata.txt
+                Sticker-Academia-Jade-Artifact-0007-Review/
+                    metadata.txt
+                Sticker-Academia-Jade-Artifact-0008-Review/
+                    metadata.txt
+                Sticker-Academia-Jade-Artifact-0009-Review/
+                    metadata.txt
+                Sticker-Academia-Jade-Artifact-0010-Review/
+                    metadata.txt
+                Sticker-Academia-Time-Hourglass-0001-Review/
+                    metadata.txt
+                Sticker-Academia-Time-Hourglass-0002-Review/
+                    metadata.txt
+                Sticker-Academia-Time-Hourglass-0003-Review/
+                    metadata.txt
+                Sticker-Academia-Time-Hourglass-0004-Review/
+                    metadata.txt
+                Sticker-Academia-Time-Hourglass-0005-Review/
+                    metadata.txt
+                Sticker-Academia-Time-Hourglass-0006-Review/
+                    metadata.txt
+                Sticker-Academia-Time-Hourglass-0007-Review/
+                    metadata.txt
+                Sticker-Academia-Time-Hourglass-0008-Review/
+                    metadata.txt
+                Sticker-Academia-Time-Hourglass-0009-Review/
+                    metadata.txt
+                Sticker-Academia-Time-Hourglass-0010-Review/
+                    metadata.txt
+                Sticker-Cultivation-Heavy-Artifact-Blade-0003-Review/
+                    metadata.txt
+                Sticker-Cultivation-Heavy-Artifact-Blade-0004-Review/
+                    metadata.txt
+                Sticker-Cultivation-Heavy-Artifact-Blade-0005-Review/
+                    metadata.txt
+                Sticker-Cultivation-Heavy-Artifact-Blade-0008-Review/
+                    metadata.txt
+                Sticker-Cultivation-Heavy-Artifact-Blade-0009-Review/
+                    metadata.txt
+                Sticker-Cultivation-Heavy-Artifact-Blade-0010-Review/
+                    metadata.txt
+                Sticker-Mythic-Beast-0002-Review/
+                    metadata.txt
+                Sticker-Mythic-Beast-0004-Review/
+                    metadata.txt
+                Sticker-Mythic-Beast-0005-Review/
+                    metadata.txt
+                Sticker-Mythic-Beast-0007-Review/
+                    metadata.txt
+                Sticker-Mythic-Beast-0008-Review/
+                    metadata.txt
+                Sticker-Mythic-Beast-0010-Review/
+                    metadata.txt
+                Sticker-Zen-0001-Review/
+                    metadata.txt
+                Sticker-Zen-0002-Review/
+                    metadata.txt
+                Sticker-Zen-0003-Review/
+                    metadata.txt
+                Sticker-Zen-0004-Review/
+                    metadata.txt
+                Sticker-Zen-0005-Review/
+                    metadata.txt
+                Sticker-Zen-0007-Review/
+                    metadata.txt
+                Sticker-Zen-0008-Review/
+                    metadata.txt
+                Sticker-Zen-0009-Review/
+                    metadata.txt
+                Sticker-Zen-0010-Review/
+                    metadata.txt
+                Sticker-Zen-0011-Review/
+                    metadata.txt
+                Sticker-Zen-0012-Review/
+                    metadata.txt
+                Sticker-Zen-0013-Review/
+                    metadata.txt
+                Sticker-Zen-0014-Review/
+                    metadata.txt
+                Sticker-Zen-0015-Review/
+                    metadata.txt
+                Sticker-Zen-0016-Review/
+                    metadata.txt
+                Sticker-Zen-0017-Review/
+                    metadata.txt
+                Sticker-Zen-0018-Review/
+                    metadata.txt
+                Sticker-Zen-0019-Review/
+                    metadata.txt
+                Sticker-Zen-0020-Review/
+                    metadata.txt
+                Sticker-Zen-0022-Review/
+                    metadata.txt
+                Sticker-Zen-0024-Review/
+                    metadata.txt
+                Sticker-Zen-0025-Review/
+                    metadata.txt
+                Sticker-Zen-0026-Review/
+                    metadata.txt
+                Sticker-Zen-0027-Review/
+                    metadata.txt
+                Sticker-Zen-0029-Review/
+                    metadata.txt
+                Sticker-Zen-0031-Review/
+                    metadata.txt
+                Sticker-Zen-0032-Review/
+                    metadata.txt
+                Sticker-Zen-0034-Review/
+                    metadata.txt
+                Sticker-Zen-0035-Review/
+                    metadata.txt
+                Sticker-Zen-0036-Review/
+                    metadata.txt
+                Sticker-Zen-0037-Review/
+                    metadata.txt
+                Sticker-Zen-0038-Review/
+                    metadata.txt
+                Sticker-Zen-0040-Review/
+                    metadata.txt
+                Sticker-Zen-0041-Review/
+                    metadata.txt
+                Sticker-Zen-0042-Review/
+                    metadata.txt
+                Sticker-Zen-0043-Review/
+                    metadata.txt
+                Sticker-Zen-0044-Review/
+                    metadata.txt
+                Sticker-Zen-0045-Review/
+                    metadata.txt
+                Sticker-Zen-0046-Review/
+                    metadata.txt
+                Sticker-Zen-0047-Review/
+                    metadata.txt
+                Sticker-Zen-0048-Review/
+                    metadata.txt
+                Sticker-Zen-0049-Review/
+                    metadata.txt
+                Sticker-Zen-0050-Review/
+                    metadata.txt
+                Sticker-Zen-0051-Review/
+                    metadata.txt
+                Sticker-Zen-0052-Review/
+                    metadata.txt
+                Sticker-Zen-0053-Review/
+                    metadata.txt
+                Sticker-Zen-0055-Review/
+                    metadata.txt
+                Sticker-Zen-0056-Review/
+                    metadata.txt
+                Sticker-Zen-0057-Review/
+                    metadata.txt
+                Sticker-Zen-0058-Review/
+                    metadata.txt
+                Sticker-Zen-0059-Review/
+                    metadata.txt
+                Sticker-Zen-0060-Review/
+                    metadata.txt
+                Sticker-Zen-0061-Review/
+                    metadata.txt
+                Sticker-Zen-0062-Review/
+                    metadata.txt
+                Sticker-Zen-0063-Review/
+                    metadata.txt
+                Sticker-Zen-0064-Review/
+                    metadata.txt
+                Sticker-Zen-0065-Review/
+                    metadata.txt
+                Sticker-Zen-0066-Review/
+                    metadata.txt
+                Sticker-Zen-0067-Review/
+                    metadata.txt
+                Sticker-Zen-0068-Review/
+                    metadata.txt
+                Sticker-Zen-0069-Review/
+                    metadata.txt
+                Sticker-Zen-Ancient-Talisman-Seal-0002-Review/
+                    metadata.txt
+                Sticker-Zen-Ancient-Talisman-Seal-0004-Review/
+                    metadata.txt
+                Sticker-Zen-Ancient-Talisman-Seal-0005-Review/
+                    metadata.txt
+                Sticker-Zen-Ancient-Talisman-Seal-0008-Review/
+                    metadata.txt
+                Sticker-Zen-Ancient-Talisman-Seal-0010-Review/
+                    metadata.txt
+                Sticker-Zen-Mythic-Kirin-Totem-0001-Review/
+                    metadata.txt
+                Sticker-Zen-Mythic-Kirin-Totem-0002-Review/
+                    metadata.txt
+                Sticker-Zen-Mythic-Kirin-Totem-0003-Review/
+                    metadata.txt
+                Sticker-Zen-Mythic-Kirin-Totem-0004-Review/
+                    metadata.txt
+                Sticker-Zen-Mythic-Kirin-Totem-0006-Review/
+                    metadata.txt
+                Sticker-Zen-Mythic-Kirin-Totem-0007-Review/
+                    metadata.txt
+                Sticker-Zen-Mythic-Kirin-Totem-0008-Review/
+                    metadata.txt
+                Sticker-Zen-Mythic-Kirin-Totem-0009-Review/
+                    metadata.txt
+                Sticker-Zen-Mythic-Kirin-Totem-0010-Review/
+                    metadata.txt
+        Test/
+            Sticker-Academia-Jade-Artifact-0002-Review/
+                metadata.txt
+            Sticker-Academia-Jade-Artifact-0003-Review/
+                metadata.txt
+            Sticker-Academia-Jade-Artifact-0004-Review/
+                metadata.txt
+            Sticker-Academia-Jade-Artifact-0005-Review/
+                metadata.txt
+            Sticker-Academia-Jade-Artifact-0006-Review/
+                metadata.txt
     Project_Root/
+
+============================================================
+
+### FILE: .\Audit_Purge_Tool.py ###
+import requests
+import json
+import time
+
+# 配置你的 GAS URL
+GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwPyI_nd21Cn0exMaa9BC6AiTTuDt-NyN6siw9CockmaPLgufRKNMLT5-PsC0RI32SQNw/exec"
+
+# 审计黑名单关键词
+TARGET_KEYWORDS = ["Vergil", "Raiden", "雷电", "Jack the Ripper"]
+
+def run_purge_audit():
+    print(f"🚀 启动工业审计：物理抹除程序...")
+    print(f"🎯 目标关键词: {TARGET_KEYWORDS}")
+    
+    # --- 1. 拉取当前 Production_Line 的所有 DNA 数据 ---
+    try:
+        # 假设你的 GAS 支持 action=getDNA 参数来获取全量 JSON
+        res = requests.get(GAS_WEBAPP_URL, params={"action": "getDNA"}, timeout=20)
+        all_tasks = res.json()
+    except Exception as e:
+        print(f"🛑 无法拉取数据: {e}")
+        return
+
+    purged_count = 0
+    
+    # --- 2. 遍历并匹配关键词 ---
+    for task in all_tasks:
+        t_id = str(task.get('ID', '')).strip()
+        # 扫描 ID、Title、MJ_Prompt
+        content_to_scan = f"{t_id} {task.get('Title', '')} {task.get('MJ_Prompt', '')}".lower()
+        
+        # 检查是否命中关键词
+        if any(kw.lower() in content_to_scan for kw in TARGET_KEYWORDS):
+            print(f"🚨 审计命中: [{t_id}]")
+            
+            # --- 3. 发送 PURGE 指令执行物理删除 ---
+            # 构造 V52.0 协议 payload
+            payload = {
+                "id": t_id,
+                "status": "PURGE"  # 触发 GAS 中的 sheetB.deleteRow 逻辑
+            }
+            
+            try:
+                response = requests.post(GAS_WEBAPP_URL, data=json.dumps(payload), timeout=20)
+                if "Purged 1" in response.text:
+                    print(f"   🔥 表格行已物理抹除。")
+                    purged_count += 1
+                else:
+                    print(f"   ⚠️ GAS 响应异常: {response.text}")
+            except Exception as e:
+                print(f"   ❌ 发送销毁指令失败: {e}")
+            
+            # 避免请求频率过高
+            time.sleep(0.5)
+
+    print(f"\n🏁 审计结束。共从 Production_Line 抹除了 {purged_count} 行违规数据。")
+
+if __name__ == "__main__":
+    run_purge_audit()
 
 ============================================================
 
@@ -98,31 +392,40 @@ class Config:
     GUILD_ID = os.getenv("GUILD_ID")
     CHANNEL_ID = os.getenv("CHANNEL_ID")
     
-    # --- 3. 交互协议参数 (核心审计位点) ---
+    # --- 3. 交互协议参数 ---
     APP_ID = os.getenv("APPLICATION_ID")
     MJ_ID = os.getenv("MJ_ID")
     MJ_VERSION = os.getenv("MJ_VERSION")
     SESSION_ID = os.getenv("SESSION_ID")
-    
-    # --- 4. API 加固 ---
-    PRODUCT_LINE_API_KEY = os.getenv("PRODUCT_LINE_API_KEY") or os.getenv("Product_line_API_KEY")
-    PRODUCT_LINE_API_URL = os.getenv("PRODUCT_LINE_API_URL") or os.getenv("Product_line_API_URL")
 
-    # --- 5. 产品物理规格矩阵 (Product Matrix) ---
+    # --- 4. 物理规格矩阵 (Product Matrix V13.0) ---
+    # 结构：Category -> Format -> Specific Specs
     PRODUCT_SPECS = {
         "Sticker": {
-            "dpi": 300,
-            "remove_bg": True,
-            "limit": 10
+            "default_limit": 10, # 测试阶段物理限制
+            "formats": {
+                "Kiss-Cut": {"dpi": 300, "target_px": 832, "remove_bg": True, "suffix": "KC_3x3"},
+                "Die-Cut":  {"dpi": 300, "target_px": 1024, "remove_bg": True, "suffix": "DC_ready"},
+                "Standard": {"dpi": 300, "target_px": 832, "remove_bg": False, "suffix": "ST_ready"}
+            }
+        },
+        "T-Shirt": {
+            "default_limit": 999,
+            "formats": {
+                "Standard": {"dpi": 300, "target_px": 4500, "remove_bg": True, "suffix": "SHIRT_print"}
+            }
+        },
+        "Poster": {
+            "default_limit": 999,
+            "formats": {
+                "Standard": {"dpi": 300, "target_px": 5400, "remove_bg": False, "suffix": "POSTER_final"}
+            }
         }
     }
 
     @classmethod
     def validate(cls):
-        essential_keys = [
-            "GAS_URL", "TOKEN", "GUILD_ID", "CHANNEL_ID", 
-            "APP_ID", "MJ_ID", "MJ_VERSION", "SESSION_ID"
-        ]
+        essential_keys = ["GAS_URL", "TOKEN", "GUILD_ID", "CHANNEL_ID", "APP_ID", "MJ_ID", "SESSION_ID"]
         missing = [key for key in essential_keys if not getattr(cls, key)]
         if missing:
             print(f"❌ [CONFIG ERROR] 物理变量缺失: {missing}")
@@ -131,32 +434,166 @@ class Config:
 
 ============================================================
 
+### FILE: .\debugmj.py ###
+
+
+============================================================
+
+### FILE: .\debug_gas_status.py ###
+import requests
+import json
+import time
+
+# 确认这是你部署后的 URL
+GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwPyI_nd21Cn0exMaa9BC6AiTTuDt-NyN6siw9CockmaPLgufRKNMLT5-PsC0RI32SQNw/exec" 
+
+def debug_update_status():
+    print("🚀 正在执行 V43.0 原位覆盖测试...")
+    
+    test_cases = [
+        {"id": "Sticker-Zen-0001", "status": "defeat this"},   # 预期: Defeated_Prompt
+        {"id": "Sticker-Zen-0002", "status": "please revise"}, # 预期: Revised_Prompt
+        {"id": "Sticker-Zen-0003", "status": "completed"}      # 预期: Completed
+    ]
+
+    for case in test_cases:
+        print(f"📡 正在对标 ID: {case['id']} -> {case['status']}")
+        try:
+            # 此时 payload 非常简单，只需这两个字段
+            response = requests.post(GAS_WEBAPP_URL, data=json.dumps(case), timeout=20)
+            print(f"📥 GAS 响应: {response.text}")
+        except Exception as e:
+            print(f"❌ 错误: {e}")
+        time.sleep(0.5)
+
+if __name__ == "__main__":
+    debug_update_status()
+
+============================================================
+
 ### FILE: .\main.py ###
-import os
+import sys
+from modules import mentor_hub, product_line, mj_harvest, iron_audit
 from config import Config
-from modules import mentor_hub, product_line, harvester
+
+def print_stage(num, title, desc):
+    print(f"\n{'='*60}\n🎬 [STAGE {num}] - {title}\n📌 {desc}\n{'='*60}")
 
 def main():
-    if not Config.validate(): return
+    if not Config.validate(): 
+        sys.exit("❌ [CONFIG ERROR] 物理变量缺失，请检查 .env 文件。")
 
     while True:
-        # ... (省略菜单 print 代码) ...
-        cmd = input("👉 Enter choice: ")
+        print("\n" + "💎"*25)
+        print("🏛️  [GREY ARCHITECT V13.0] - PRODUCTION HUB")
+        print("💎"*25)
+        print("1️⃣ [MENTOR_HUB]      - 策略大脑 (Niche Analysis)")
+        print("2️⃣ [PRODUCT_LINE]    - DNA 生成 (GAS DNA Sync)")
+        print("3️⃣ [MJ_HARVEST]      - 钢铁收割 (Imagine & Auto-Un)")
+        print("4️⃣ [IRON_AUDIT]      - 物理审计 (Edit & Archive)")
+        print("0️⃣ [EXIT]            - 系统关闭")
+        
+        choice = input("\n👉 请选择执行阶段 (0-4): ").strip()
 
-        if cmd == '1':
-            mentor_hub.run_add_claude_dna()
-        elif cmd == '2':
-            product_line.run_add_new_design()
-        elif cmd == '3':
-            # 物理对齐：直接进入收割逻辑，任务获取也由 harvester 自己负责
-            print("📡 [Direct Access] Initializing Harvester Engine...")
-            harvester.run_iron_harvest_logic() 
-            input("\n✅ Harvest Cycle Finished. Press Enter...")
-        elif cmd == '0':
+        if choice == '1':
+            print_stage(1, "MENTOR_HUB", "分析市场 Niche 与 Prompt 逻辑架构...")
+            mentor_hub.run_logic()
+        elif choice == '2':
+            print_stage(2, "PRODUCT_LINE", "同步 GAS 任务数据，准备生产位点...")
+            product_line.run_logic()
+        elif choice == '3':
+            print_stage(3, "MJ_HARVEST", "启动异步收割：批量发送指令并追踪图片落地...")
+            mj_harvest.run_logic()
+            print("\n✅ [STAGE 3 COMPLETE] 所有任务已触发 Un 并验证下载。")
+        elif choice == '4':
+            print_stage(4, "IRON_AUDIT", "启动物理加工：去背景、DPI 注入与归档...")
+            iron_audit.run_logic()
+            print("\n✅ [STAGE 4 COMPLETE] 审计完成，任务已移至 -Ready。")
+        elif choice == '0':
+            print("👋 逻辑核心已离线。")
             break
+        else:
+            print("⚠️ 无效输入，请遵循 V13.0 协议流程。")
 
 if __name__ == "__main__":
     main()
+
+============================================================
+
+### FILE: .\process_test_sticker.py ###
+import os
+import io
+from PIL import Image
+from rembg import remove
+
+def prepare_test_main_asset():
+    """
+    针对当前目录下 Output/Test 路径下的第一个子文件夹进行物理加工
+    """
+    # 设定相对路径
+    base_path = "Output"
+    test_path = os.path.join(base_path, "Test")
+
+    if not os.path.exists(test_path):
+        print(f"❌ 找不到路径: {test_path}，请确保在 openclaw_difi 目录下运行此脚本")
+        return
+
+    # 获取第一个子文件夹
+    subfolders = [d for d in os.listdir(test_path) if os.path.isdir(os.path.join(test_path, d))]
+    if not subfolders:
+        print(f"📭 {test_path} 中没有子文件夹")
+        return
+
+    target_subfolder = os.path.join(test_path, subfolders[0])
+    print(f"📁 选定测试目标文件夹: {target_subfolder}")
+
+    # 寻找原图：支持 ID_U1.png 格式或简单的 U1.png
+    files = [f for f in os.listdir(target_subfolder) if f.endswith("_U1.png") or f == "U1.png"]
+    if not files:
+        # 备选：找任何带 _U 的 png
+        files = [f for f in os.listdir(target_subfolder) if "_U" in f and f.endswith(".png")]
+    
+    if not files:
+        print(f"❌ 在 {target_subfolder} 中找不到任何 U 系原图")
+        return
+    
+    raw_file_name = files[0]
+    raw_path = os.path.join(target_subfolder, raw_file_name)
+    
+    # 构造输出文件名：保持 ID 并加上 _MAIN 标记
+    t_id = raw_file_name.split("_U")[0] if "_U" in raw_file_name else "Sticker"
+    output_path = os.path.join(target_subfolder, f"{t_id}_MAIN.png")
+
+    print(f"🚀 开始加工原件: {raw_file_name}...")
+
+    try:
+        with open(raw_path, 'rb') as i:
+            input_data = i.read()
+            
+            # 1. 物理去背景 (RemBG)
+            print("🎨 执行 RemBG 深度去背景...")
+            no_bg_data = remove(input_data)
+            img = Image.open(io.BytesIO(no_bg_data))
+
+            # 2. 尺寸标准化 (2048px 是 Printify 的高画质安全线)
+            target_size = 2048
+            if img.width != target_size or img.height != target_size:
+                print(f"📏 缩放至 {target_size}x{target_size} (LANCZOS 采样)...")
+                img = img.resize((target_size, target_size), Image.Resampling.LANCZOS)
+
+            # 3. 注入 300 DPI 
+            print(f"💾 注入 300 DPI 并保存...")
+            img.save(output_path, "PNG", dpi=(300, 300))
+
+        print(f"✨ 加工成功！")
+        print(f"📍 最终样板位置: {output_path}")
+        print(f"\n👉 明天请使用这个带 '_MAIN' 的文件进行全流程肉身实测。")
+        
+    except Exception as e:
+        print(f"💥 处理失败，错误原因: {e}")
+
+if __name__ == "__main__":
+    prepare_test_main_asset()
 
 ============================================================
 
@@ -195,86 +632,72 @@ Error reading file: 'utf-8' codec can't decode byte 0x80 in position 54: invalid
 
 ============================================================
 
-### FILE: .\modules\harvester.py ###
-import os, io, requests, time
+### FILE: .\modules\iron_audit.py ###
+import os, io, shutil
 from PIL import Image
 from rembg import remove
 from config import Config
 
-def _get_imagine_payload(prompt):
-    return {
-        "type": 2,
-        "application_id": Config.APP_ID,
-        "guild_id": Config.GUILD_ID,
-        "channel_id": Config.CHANNEL_ID,
-        "session_id": Config.SESSION_ID,
-        "data": {
-            "version": Config.MJ_VERSION,
-            "id": Config.MJ_ID,
-            "name": "imagine",
-            "type": 1,
-            "options": [{"type": 3, "name": "prompt", "value": prompt}]
-        }
-    }
+def process_final_image(t_id, cat, fmt, folder, main_idx):
+    """物理加工协议：RemoveBG -> Resize -> DPI 300"""
+    spec = Config.PRODUCT_SPECS.get(cat, {}).get("formats", {}).get(fmt)
+    if not spec: spec = {"dpi": 300, "target_px": 1024, "remove_bg": False, "suffix": "READY"}
 
-def _get_upscale_payload(message_id, custom_id):
-    return {
-        "type": 3,
-        "application_id": Config.APP_ID,
-        "guild_id": Config.GUILD_ID,
-        "channel_id": Config.CHANNEL_ID,
-        "message_id": message_id,
-        "session_id": Config.SESSION_ID,
-        "data": {"component_type": 2, "custom_id": custom_id}
-    }
-
-def finalize_assets(t_id, category, path, main_idx):
-    """执行物理定稿：去背景 + 注入 300 DPI"""
-    specs = Config.PRODUCT_SPECS.get(category, Config.PRODUCT_SPECS["Sticker"])
-    concept_names = ['A', 'B', 'C']
-    c_idx = 0
-    
     for i in range(1, 5):
-        raw_file = os.path.join(path, f"{t_id}_U{i}.png")
+        raw_file = os.path.join(folder, f"{t_id}_U{i}.png")
         if not os.path.exists(raw_file): continue
-        
+
         if i == main_idx:
-            output_main = os.path.join(path, f"{t_id}_MAIN_completed.png")
-            print(f"🧪 Processing Main Asset: {t_id}_U{i}...")
+            print(f"⚙️  Processing MAIN Asset: {t_id}_U{i}...")
             with open(raw_file, 'rb') as f:
                 img_data = f.read()
-                processed_data = remove(img_data) if specs["remove_bg"] else img_data
-                img = Image.open(io.BytesIO(processed_data))
-                # 注入物理 DPI 供 Printify 识别
-                img.save(output_main, "PNG", dpi=(specs["dpi"], specs["dpi"]))
+                # 1. 去背景
+                processed = remove(img_data) if spec["remove_bg"] else img_data
+                img = Image.open(io.BytesIO(processed))
+                # 2. 物理缩放
+                if img.width != spec["target_px"]:
+                    img = img.resize((spec["target_px"], spec["target_px"]), Image.Resampling.LANCZOS)
+                # 3. DPI 注入
+                output_name = f"{t_id}_{spec['suffix']}.png"
+                img.save(os.path.join(folder, output_name), "PNG", dpi=(spec["dpi"], spec["dpi"]))
             os.remove(raw_file)
-            print(f"🚀 Main Asset Ready: {output_main} ({specs['dpi']} DPI)")
         else:
-            new_concept = os.path.join(path, f"{t_id}_Concept_{concept_names[c_idx]}.png")
-            os.rename(raw_file, new_concept)
-            c_idx += 1
+            # 归档概念图
+            os.rename(raw_file, os.path.join(folder, f"{t_id}_Concept_{i}.png"))
 
-def run_iron_harvest_logic(tasks):
-    headers = {"Authorization": Config.TOKEN}
-    for task in tasks:
-        t_id = task.get("ID")
-        prompt = task.get("MJ_Prompt")
-        category = task.get("Product_Type", "Sticker")
-        path = os.path.join("Output", category, t_id)
-        if not os.path.exists(path): os.makedirs(path)
+def run_logic():
+    print("🔍 Scanning for '-Review' folders...")
+    queue = [os.path.join(r, d) for r, ds, _ in os.walk("Output") for d in ds if d.endswith("-Review")]
 
-        print(f"\n🎬 Processing: {t_id}")
-        # 1. Trigger Imagine
-        requests.post("https://discord.com/api/v9/interactions", json=_get_imagine_payload(prompt), headers=headers)
+    if not queue:
+        print("📭 No folders ready for audit.")
+        return
+
+    for folder in queue:
+        parts = folder.split(os.sep)
+        # 兼容 Windows/Linux 路径
+        sel_cat, sel_fmt, t_id = parts[-3], parts[-2], parts[-1].replace("-Review", "")
         
-        # 2. 此处应有轮询监听 Grid 并触发 U1-U4 的逻辑...
-        # (你可以将你之前 fetch_and_upscale 的代码填入此处)
-        
-        # 3. 假设下载完成后进行审计
-        print(f"🖼️ Grid for {t_id} is ready at {path}")
-        choice = input("🏆 Enter 1-4 for MAIN asset: ")
-        if choice in ['1','2','3','4']:
-            finalize_assets(t_id, category, path, int(choice))
+        print(f"\n🔎 Auditing: {t_id} | Format: {sel_fmt}")
+        grid_path = os.path.join(folder, "Grid.png")
+        if os.path.exists(grid_path): os.startfile(grid_path)
+
+        choice = input("🏆 Select MAIN (1-4), '5' DELETE, 's' SKIP: ").strip()
+
+        if choice in ['1', '2', '3', '4']:
+            process_final_image(t_id, sel_cat, sel_fmt, folder, int(choice))
+            # 清理
+            prompt_file = os.path.join(folder, "mj_prompt.txt")
+            if os.path.exists(prompt_file): os.remove(prompt_file)
+            if os.path.exists(grid_path): os.remove(grid_path)
+            # 归档
+            os.rename(folder, folder.replace("-Review", "-Ready"))
+            print(f"✅ [{t_id}] Audit Success & Archived.")
+        elif choice == '5':
+            shutil.rmtree(folder)
+            print(f"🗑️  [{t_id}] Deleted.")
+    
+    print("\n🏁 [IRON_AUDIT CYCLE FINISHED] Returning to Console...")
 
 ============================================================
 
@@ -287,6 +710,199 @@ def run_add_claude_dna():
     print("\n--- [PROCESS 1: Add Claude DNA] ---")
     print("🚧 状态：开发中 (Mentor Hub Logic Pending)")
     print("💡 提示：此模块未来将用于自动化发送指令至 Dify。")
+
+============================================================
+
+### FILE: .\modules\mj_harvest.py ###
+import os, time, requests, datetime, shutil, re, json
+from config import Config
+from modules.spec_registry import Registry
+
+def _interaction(payload):
+    headers = {"Authorization": Config.TOKEN, "Content-Type": "application/json"}
+    return requests.post("https://discord.com/api/v9/interactions", json=payload, headers=headers)
+
+def _update_gas_status(t_id, status="Completed"):
+    """
+    [V52.0 协议精准定位版] 
+    参照 debug 逻辑：仅发送 ID 与 Status，触发 GAS 原位 ID 查找逻辑
+    """
+    # 严格对标 debug 逻辑的 payload 结构
+    payload = {"id": t_id, "status": status}
+    try:
+        # 使用 POST 发送，触发 GAS 的 doPost 原位更新路径
+        res = requests.post(Config.GAS_URL, data=json.dumps(payload), timeout=15)
+        # 只要响应中包含 V49/V52 审计成功的标识或 Updated 1 即可
+        return "Updated 1" in res.text or "V49" in res.text or "V52" in res.text
+    except Exception as e:
+        print(f"📡 GAS 通讯异常: {e}")
+        return False
+
+def _rescue_prompt(raw_prompt):
+    """自动清理中文及非法括号"""
+    is_edited = False
+    if re.search(r'[\u4e00-\u9fa5]|（|）', raw_prompt): is_edited = True
+    clean_text = re.sub(r'[\u4e00-\u9fa5]|（|）', '', raw_prompt)
+    clean_text = clean_text.replace('()', '').strip()
+    if "--" in clean_text:
+        parts = clean_text.split("--")
+        main_desc = parts[0].strip()
+        params = " --".join([p.strip() for p in parts[1:]])
+        clean_text = f"{main_desc} --{params}"
+    return clean_text, is_edited
+
+def _download_asset(url, save_dir, filename):
+    full_path = os.path.join(save_dir, filename)
+    try:
+        r = requests.get(url, stream=True, timeout=30)
+        if r.status_code == 200:
+            with open(full_path, 'wb') as f:
+                for chunk in r.iter_content(1024): f.write(chunk)
+            return True
+    except: pass
+    return False
+
+def check_assets_complete(save_path, t_id):
+    """资产完整度检查"""
+    required_files = [
+        "metadata.txt", f"{t_id}_Grid.png",
+        f"{t_id}_U1.png", f"{t_id}_U2.png", f"{t_id}_U3.png", f"{t_id}_U4.png"
+    ]
+    return all(os.path.exists(os.path.join(save_path, f)) for f in required_files)
+
+def save_metadata(save_path, task):
+    """元数据持久化"""
+    meta_content = f"""ID: {task.get('ID')}
+Style: {task.get('Style')}
+Title: {task.get('Title')}
+MJ_Prompt: {task.get('MJ_Prompt')}
+SEO_Hook: {task.get('SEO_Hook')}
+Timestamp: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+"""
+    with open(os.path.join(save_path, "metadata.txt"), "w", encoding="utf-8") as f:
+        f.write(meta_content)
+
+def run_logic():
+    print("\n" + "="*60)
+    print("🚀 [V16.0] mj_harvest 工业审计流水线 (ID 精准定位版)")
+    
+    # --- 1. 严格菜单选择 ---
+    for key, obj in Registry.CATALOG.items(): print(f"   [{key}] {obj.name}")
+    type_key = input(f"请选择大类 (1-{len(Registry.CATALOG)}): ") or "1"
+    selected_prod = Registry.CATALOG.get(type_key, Registry.STICKER)
+    sel_cat = selected_prod.name
+
+    for i, spec in enumerate(selected_prod.specs, 1): print(f"   [{i}] {spec}")
+    spec_idx = int(input(f"请选择制式 (1-{len(selected_prod.specs)}): ") or "1") - 1
+    sel_spec = selected_prod.specs[spec_idx]
+
+    # --- 2. 任务初始化 ---
+    try:
+        res = requests.get(Config.GAS_URL, params={"action": "getDNA"}, timeout=15)
+        task_queue = [
+            t for t in res.json() 
+            if str(t.get("Status")).strip() == "Ready_for_production" and 
+            str(t.get("Product_Type", "")).strip().lower() == sel_cat.lower()
+        ]
+        TOTAL_COUNT = len(task_queue)
+        DONE_COUNT = 0
+        DEFECT_LIST = []
+        print(f"📊 目标: {sel_cat}/{sel_spec} | 待产总数: {TOTAL_COUNT}")
+    except Exception as e:
+        print(f"🛑 拉取失败: {e}"); return
+
+    active_pool = {} 
+    MAX_PARALLEL = 3  
+    TIMEOUT_LIMIT = 480 
+
+    while task_queue or active_pool:
+        # A. 投放逻辑
+        while len(active_pool) < MAX_PARALLEL and task_queue:
+            task = task_queue.pop(0)
+            t_id = str(task.get('ID', '')).strip()
+            raw_prompt = task.get('MJ_Prompt', '').strip()
+            
+            save_path = os.path.join("Output", sel_cat, sel_spec, f"{t_id}-Review")
+            if not os.path.exists(save_path): os.makedirs(save_path)
+            save_metadata(save_path, task)
+
+            ready_prompt, was_edited = _rescue_prompt(raw_prompt)
+            # 注入 ID 标签
+            if "--" in ready_prompt:
+                main_p, params = ready_prompt.split('--', 1)
+                full_prompt = f"{main_p.strip()}  ID_{t_id}  --{params}"
+            else:
+                full_prompt = f"{ready_prompt}  ID_{t_id}"
+
+            resp = _interaction({
+                "type": 2, "application_id": Config.APP_ID, "guild_id": Config.GUILD_ID,
+                "channel_id": Config.CHANNEL_ID, "session_id": Config.SESSION_ID,
+                "data": {"version": Config.MJ_VERSION, "id": Config.MJ_ID, "name": "imagine", "type": 1, 
+                         "options": [{"type": 3, "name": "prompt", "value": full_prompt}]}
+            })
+            
+            if resp.status_code < 400:
+                active_pool[t_id] = {"path": save_path, "u_triggered": False, "u_received": set(), "start_time": time.time(), "f_print": ready_prompt[:50], "was_edited": was_edited}
+                print(f"🎬 [{t_id}] 投放成功 {'(Rescue)' if was_edited else ''}")
+            else:
+                if os.path.exists(save_path): shutil.rmtree(save_path)
+                # 参照 debug 逻辑，写入对应 ID 的失败状态
+                _update_gas_status(t_id, "Defeated_Prompt")
+                DEFECT_LIST.append(t_id)
+            time.sleep(10)
+
+        # B. 监听与物理收割
+        if active_pool:
+            time.sleep(15)
+            try:
+                msgs = requests.get(f"https://discord.com/api/v9/channels/{Config.CHANNEL_ID}/messages?limit=50", headers={"Authorization": Config.TOKEN}, timeout=10).json()
+            except: continue
+            
+            now = time.time()
+            for tid in list(active_pool.keys()):
+                info = active_pool[tid]
+                
+                # 超时处理
+                if now - info["start_time"] > TIMEOUT_LIMIT:
+                    if os.path.exists(info["path"]): shutil.rmtree(info["path"])
+                    _update_gas_status(tid, "Defeated_Prompt")
+                    print(f"🗑️ [{tid}] 任务超时，标记 Defeated")
+                    DEFECT_LIST.append(tid)
+                    del active_pool[tid]
+                    continue
+
+                for m in msgs:
+                    content = m.get("content", "")
+                    if f"ID_{tid}" in content or info["f_print"] in content:
+                        if "Image #" not in content and m.get("components") and not info["u_triggered"]:
+                            if m.get("attachments"): _download_asset(m["attachments"][0]["url"], info["path"], f"{tid}_Grid.png")
+                            info["u_triggered"] = True 
+                            btns = m["components"][0]["components"]
+                            for i in range(4):
+                                _interaction({"type": 3, "application_id": Config.APP_ID, "guild_id": Config.GUILD_ID, "channel_id": Config.CHANNEL_ID, "message_id": m['id'], "session_id": Config.SESSION_ID, "data": {"component_type": 2, "custom_id": btns[i]["custom_id"]}})
+                                time.sleep(2)
+                        elif "Image #" in content and m.get("attachments"):
+                            u_idx = content.split("Image #")[-1][0]
+                            if u_idx not in info["u_received"]:
+                                if _download_asset(m["attachments"][0]["url"], info["path"], f"{tid}_U{u_idx}.png"): 
+                                    info["u_received"].add(u_idx)
+
+                # 实时状态回传 (原位更新)
+                if check_assets_complete(info["path"], tid):
+                    # 根据 Rescue 逻辑确定最终标签
+                    final_label = "Revised_Prompt" if info["was_edited"] else "Completed"
+                    if _update_gas_status(tid, final_label):
+                        DONE_COUNT += 1
+                        print(f"✅ [{tid}] 审计通过 -> {final_label}")
+                        del active_pool[tid]
+
+        if TOTAL_COUNT > 0:
+            print(f"\r📈 进度: {DONE_COUNT}/{TOTAL_COUNT} | 活跃: {len(active_pool)} | 异常: {len(DEFECT_LIST)}", end="")
+
+    print(f"\n🏁 审计结束。成功: {DONE_COUNT}/{TOTAL_COUNT} | 失败: {len(DEFECT_LIST)}")
+
+if __name__ == "__main__":
+    run_logic()
 
 ============================================================
 
@@ -382,7 +998,1263 @@ if __name__ == "__main__":
 
 ============================================================
 
+### FILE: .\modules\spec_registry.py ###
+# modules/spec_registry.py
+
+class ProductDef:
+    """产品定义类"""
+    def __init__(self, name, specs):
+        self.name = name          # 产品大类名：如 Sticker
+        self.specs = specs        # 生产制式列表：如 Kiss-Cut
+
+class Registry:
+    # --- 1. 硬编码固定顺序与产品制式 (按你的要求排序) ---
+    STICKER = ProductDef("Sticker", ["Kiss-Cut", "Die-Cut", "Standard"])
+    POSTER = ProductDef("Poster", ["Fine-Art-Print", "Blueprint-Texture", "Laminated"])
+    TSHIRT = ProductDef("T-Shirt", ["DTG-Print", "Screen-Print"])
+    WALL_ART = ProductDef("Wall Art", ["Canvas-Wrapped", "Acrylic-Mount"])
+
+    # 映射表：确保用户按 1, 2, 3, 4 选择时永远对应正确的产品
+    CATALOG = {
+        "1": STICKER,
+        "2": POSTER,
+        "3": TSHIRT,
+        "4": WALL_ART
+    }
+
+    @staticmethod
+    def get_processing_logic(product_type, spec):
+        """
+        预留接口：大流程四（审核+图像处理）的调用逻辑
+        目前返回空字典，之后我们针对每种 spec 补齐具体参数
+        """
+        # 逻辑示例：logic_key = "sticker_kiss_cut"
+        return {}
+
+============================================================
+
 ### FILE: .\modules\__init__.py ###
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Academia-Jade-Artifact-0002-Review\metadata.txt ###
+ID: Sticker-Academia-Jade-Artifact-0002
+Style: Academia-Jade-Artifact Mentor-Grade Style
+Title: Jade Library Seal of Forgotten Lore | 忘れられた知の玉璽
+MJ_Prompt: A heavy library seal stamp artifact made of Translucent Imperial Jade, Kintsugi Gold Veins tracing cracks from ancient use, Bioluminescent Glow pulsing within carved runic text, Internal Crystalline Structures visible at broken edges under study lamp light, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: jade seal, academic authority, library artifact, runic text, glowing script, gold kintsugi, crystalline break, ancient knowledge, wax stamp, scholarly power, artifact sticker, lore keeper, mentor-grade
+Timestamp: 2026-04-04 23:50:40
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Academia-Jade-Artifact-0003-Review\metadata.txt ###
+ID: Sticker-Academia-Jade-Artifact-0003
+Style: Academia-Jade-Artifact Mentor-Grade Style
+Title: Astrolabe of Jade and Starlight | 玉石の星測儀
+MJ_Prompt: A complex astrolabe artifact crafted from Translucent Imperial Jade rings, Kintsugi Gold Veins mending celestial map plates, Bioluminescent Glow highlighting constellation points, Internal Crystalline Structures within gear mechanisms under observatory lighting, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: jade astrolabe, astronomical instrument, star mapping, celestial artifact, glowing constellations, gold repair, crystal gears, ancient science, navigation tool, scholarly device, artifact sticker, cosmic academia, mentor-grade
+Timestamp: 2026-04-04 23:51:38
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Academia-Jade-Artifact-0004-Review\metadata.txt ###
+ID: Sticker-Academia-Jade-Artifact-0004
+Style: Academia-Jade-Artifact Mentor-Grade Style
+Title: Scholar's Jade Inkwell with Eternal Ink | 学者の玉インク壺
+MJ_Prompt: An ornate academic inkwell artifact hewn from Translucent Imperial Jade, Kintsugi Gold Veins sealing hairline fractures, Bioluminescent Glow emanating from dark eternal ink within, Internal Crystalline Structures visible in the jade's depths under desk lamp glow, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: jade inkwell, writing artifact, eternal ink, scholar's desk, glowing fluid, gold kintsugi, crystal clarity, ancient stationery, calligraphy tool, knowledge vessel, artifact sticker, academic essence, mentor-grade
+Timestamp: 2026-04-04 23:53:01
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Academia-Jade-Artifact-0005-Review\metadata.txt ###
+ID: Sticker-Academia-Jade-Artifact-0005
+Style: Academia-Jade-Artifact Mentor-Grade Style
+Title: Jade-Cased Magnifying Glass of Revelation | 啓示の玉虫眼鏡
+MJ_Prompt: A scholar's magnifying glass with handle and frame of Translucent Imperial Jade, Kintsugi Gold Veins repairing the delicate grip, Bioluminescent Glow focusing through the lens onto ancient text, Internal Crystalline Structures in the jade handle under focused light, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: jade magnifier, inspection tool, revealing artifact, scholarly lens, glowing focus, gold repair, crystal handle, ancient research, detail study, discovery instrument, artifact sticker, academic vision, mentor-grade
+Timestamp: 2026-04-04 23:53:37
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Academia-Jade-Artifact-0006-Review\metadata.txt ###
+ID: Sticker-Academia-Jade-Artifact-0006
+Style: Academia-Jade-Artifact Mentor-Grade Style
+Title: Abacus of Jade Calculation | 玉算盤
+MJ_Prompt: An ancient calculation abacus artifact with beads of Translucent Imperial Jade on bronze rods, Kintsugi Gold Veins mending cracked beads, Bioluminescent Glow within each jade bead, Internal Crystalline Structures visible in broken bead fragments under study light, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: jade abacus, calculation artifact, mathematical tool, ancient computing, glowing beads, gold kintsugi, crystal fragments, scholarly math, accounting history, number keeper, artifact sticker, academic logic, mentor-grade
+Timestamp: 2026-04-04 23:54:44
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Academia-Jade-Artifact-0007-Review\metadata.txt ###
+ID: Sticker-Academia-Jade-Artifact-0007
+Style: Academia-Jade-Artifact Mentor-Grade Style
+Title: Quill Pen with Jade Nib and Kintsugi | 金継ぎ玉ペン先
+MJ_Prompt: A scholarly quill pen artifact with the writing nib crafted from Translucent Imperial Jade, Kintsugi Gold Veins repairing the delicate nib point, Bioluminescent Glow trailing from the tip as if writing with light, Internal Crystalline Structures within the jade nib under candlelight, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: jade quill, writing artifact, scholarly pen, glowing ink trail, gold repair, crystal nib, ancient authorship, calligraphy history, knowledge creation, scribe tool, artifact sticker, academic expression, mentor-grade
+Timestamp: 2026-04-04 23:55:46
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Academia-Jade-Artifact-0008-Review\metadata.txt ###
+ID: Sticker-Academia-Jade-Artifact-0008
+Style: Academia-Jade-Artifact Mentor-Grade Style
+Title: Jade Mortar and Pestle of Alchemy | 錬金術の玉臼
+MJ_Prompt: An alchemical mortar and pestle artifact carved from solid Translucent Imperial Jade, Kintsugi Gold Veins sealing ritual cracks, Bioluminescent Glow from residual mystical compounds inside, Internal Crystalline Structures visible in the jade's matrix under laboratory light, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: jade mortar, alchemy artifact, mystical tool, potion making, glowing residue, gold kintsugi, crystal matrix, ancient science, herbalism, transformation vessel, artifact sticker, academic alchemy, mentor-grade
+Timestamp: 2026-04-04 23:57:03
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Academia-Jade-Artifact-0009-Review\metadata.txt ###
+ID: Sticker-Academia-Jade-Artifact-0009
+Style: Academia-Jade-Artifact Mentor-Grade Style
+Title: Scholar's Key to Forbidden Archives | 禁書館の玉鍵
+MJ_Prompt: An ornate large key artifact to forbidden archives, forged from Translucent Imperial Jade, Kintsugi Gold Veins repairing the intricate teeth, Bioluminescent Glow emanating from the key's bow, Internal Crystalline Structures within the jade shaft under archive torchlight, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: jade key, archive artifact, forbidden knowledge, scholarly access, glowing lockpick, gold repair, crystal shaft, ancient library, secret access, guardian tool, artifact sticker, academic gateway, mentor-grade
+Timestamp: 2026-04-04 23:57:39
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Academia-Jade-Artifact-0010-Review\metadata.txt ###
+ID: Sticker-Academia-Jade-Artifact-0010
+Style: Academia-Jade-Artifact Mentor-Grade Style
+Title: Jade-Hilted Letter Opener of Sealed Scrolls | 封巻物の玉開封刀
+MJ_Prompt: A ceremonial letter opener artifact with hilt of Translucent Imperial Jade, Kintsugi Gold Veins mending the decorative handle, Bioluminescent Glow along the blade edge, Internal Crystalline Structures within the jade hilt under study desk light, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: jade letter opener, archive tool, scroll unsealing, scholarly blade, glowing edge, gold kintsugi, crystal hilt, ancient correspondence, document access, knowledge revealer, artifact sticker, academic utility, mentor-grade
+Timestamp: 2026-04-04 23:57:50
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Academia-Time-Hourglass-0001-Review\metadata.txt ###
+ID: Sticker-Academia-Time-Hourglass-0001
+Style: Academia-Time-Hourglass Mentor-Grade Style
+Title: Hourglass of Knowledge | 学識の砂時計
+MJ_Prompt: An hourglass filled with swirling ancient parchment scrolls and glowing Latin text, Translucent Imperial Jade glass, Kintsugi Gold Veins repairing the frame, Bioluminescent Glow from the flowing sand, Internal Crystalline Structures visible within the glass, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: academia, hourglass, knowledge, vintage, study, wisdom, time, library, scholar, ancient, glow, sticker, decorative
+Timestamp: 2026-04-05 00:25:16
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Academia-Time-Hourglass-0002-Review\metadata.txt ###
+ID: Sticker-Academia-Time-Hourglass-0002
+Style: Academia-Time-Hourglass Mentor-Grade Style
+Title: Celestial Study Timer | 天体研究タイマー
+MJ_Prompt: An ornate hourglass where the upper bulb contains a miniature starry night sky and the lower bulb holds a glowing open book, Translucent Imperial Jade glass, Kintsugi Gold Veins on a brass astrolabe base, Bioluminescent Glow from constellation sand, Internal Crystalline Structures like quartz in the frame, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: celestial, astronomy, study, time, stars, cosmic, book, glow, academia, hourglass, decorative, sticker, vintage
+Timestamp: 2026-04-05 00:26:19
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Academia-Time-Hourglass-0003-Review\metadata.txt ###
+ID: Sticker-Academia-Time-Hourglass-0003
+Style: Academia-Time-Hourglass Mentor-Grade Style
+Title: Alchemical Sands of Time | 錬金術の時の砂
+MJ_Prompt: An alchemical hourglass with sand that transforms from lead particles to gold dust as it falls, Translucent Imperial Jade glass vessels, Kintsugi Gold Veins on a pewter stand, Bioluminescent Glow from the transmuting sand, Internal Crystalline Structures of philosopher's stone fragments, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: alchemy, transformation, time, gold, lead, science, magic, hourglass, glow, academia, mystical, sticker, decorative
+Timestamp: 2026-04-05 00:27:42
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Academia-Time-Hourglass-0004-Review\metadata.txt ###
+ID: Sticker-Academia-Time-Hourglass-0004
+Style: Academia-Time-Hourglass Mentor-Grade Style
+Title: Botanical Thesis Timer | 植物学論文タイマー
+MJ_Prompt: An hourglass filled with pressed botanical specimens and seed packets instead of sand, Translucent Imperial Jade glass, Kintsugi Gold Veins on an oak wood base, Bioluminescent Glow from bioluminescent mushroom spores in the sand, Internal Crystalline Structures like amber with trapped leaves, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: botany, plants, study, thesis, nature, science, hourglass, vintage, glow, academia, herbal, sticker, decorative
+Timestamp: 2026-04-05 00:27:53
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Academia-Time-Hourglass-0005-Review\metadata.txt ###
+ID: Sticker-Academia-Time-Hourglass-0005
+Style: Academia-Time-Hourglass Mentor-Grade Style
+Title: Mathematical Sands of Proof | 数学的証明の砂
+MJ_Prompt: An hourglass where the sand is composed of floating mathematical symbols and equations that solve themselves as they fall, Translucent Imperial Jade glass, Kintsugi Gold Veins on a geometric brass frame, Bioluminescent Glow from the glowing symbols, Internal Crystalline Structures forming fractal patterns in the glass, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: mathematics, equations, proof, geometry, time, study, academia, hourglass, glow, symbols, intellectual, sticker, decorative
+Timestamp: 2026-04-05 00:28:28
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Academia-Time-Hourglass-0006-Review\metadata.txt ###
+ID: Sticker-Academia-Time-Hourglass-0006
+Style: Academia-Time-Hourglass Mentor-Grade Style
+Title: Literary Hourglass | 文学の砂時計
+MJ_Prompt: An hourglass filled with swirling ink and fragments of classic novel text, Translucent Imperial Jade glass, Kintsugi Gold Veins on a vintage book cover base, Bioluminescent Glow from the ink as it flows, Internal Crystalline Structures like ink crystals forming, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: literature, books, ink, writing, study, time, vintage, academia, hourglass, glow, novel, sticker, decorative
+Timestamp: 2026-04-05 00:30:06
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Academia-Time-Hourglass-0007-Review\metadata.txt ###
+ID: Sticker-Academia-Time-Hourglass-0007
+Style: Academia-Time-Hourglass Mentor-Grade Style
+Title: Architectural Study Sands | 建築学研究の砂
+MJ_Prompt: An hourglass where the sand is tiny, detailed models of famous buildings and blueprints, Translucent Imperial Jade glass, Kintsugi Gold Veins on a marble pillar base, Bioluminescent Glow from the miniature windows, Internal Crystalline Structures like cathedral glass, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: architecture, buildings, blueprints, design, study, time, academia, hourglass, glow, miniature, detailed, sticker, decorative
+Timestamp: 2026-04-05 00:30:17
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Academia-Time-Hourglass-0008-Review\metadata.txt ###
+ID: Sticker-Academia-Time-Hourglass-0008
+Style: Academia-Time-Hourglass Mentor-Grade Style
+Title: Musical Composition Timer | 音楽作曲タイマー
+MJ_Prompt: An hourglass filled with floating musical notes and staff lines that play a silent melody as they fall, Translucent Imperial Jade glass, Kintsugi Gold Veins on a violin scroll base, Bioluminescent Glow from the notes, Internal Crystalline Structures that refract light like a crystal chandelier, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: music, composition, notes, melody, study, time, academia, hourglass, glow, artistic, sticker, decorative, vintage
+Timestamp: 2026-04-05 00:30:52
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Academia-Time-Hourglass-0009-Review\metadata.txt ###
+ID: Sticker-Academia-Time-Hourglass-0009
+Style: Academia-Time-Hourglass Mentor-Grade Style
+Title: Philosophical Sands of Thought | 哲学的思考の砂
+MJ_Prompt: An hourglass containing sand that forms and dissolves famous philosophical thought experiments like Schrödinger's cat, Translucent Imperial Jade glass, Kintsugi Gold Veins on a stone tablet base, Bioluminescent Glow from the ideas, Internal Crystalline Structures resembling logic gates, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: philosophy, thought, ideas, paradox, study, time, academia, hourglass, glow, intellectual, deep, sticker, decorative
+Timestamp: 2026-04-05 00:32:30
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Academia-Time-Hourglass-0010-Review\metadata.txt ###
+ID: Sticker-Academia-Time-Hourglass-0010
+Style: Academia-Time-Hourglass Mentor-Grade Style
+Title: Cartographic Timekeeper | 地図学の時間計
+MJ_Prompt: An hourglass where the sand is made of shifting, glowing map fragments from ancient to modern eras, Translucent Imperial Jade glass, Kintsugi Gold Veins on a compass rose base, Bioluminescent Glow from the map lines, Internal Crystalline Structures like geodes in the glass, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: cartography, maps, geography, exploration, study, time, academia, hourglass, glow, vintage, travel, sticker, decorative
+Timestamp: 2026-04-05 00:32:41
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Cultivation-Heavy-Artifact-Blade-0003-Review\metadata.txt ###
+ID: Sticker-Cultivation-Heavy-Artifact-Blade-0003
+Style: Cultivation-Heavy-Artifact-Blade Mentor-Grade Style
+Title: Crystalline Core Blade Sticker | 晶核重剑贴纸
+MJ_Prompt: A heavy cultivation artifact blade with a massive Internal Crystalline Structure at its core, encased in Translucent Imperial Jade, Kintsugi Gold Veins tracing the crystal's facets, Bioluminescent Glow radiating outwards, epic fantasy weapon, masterful lighting, hyper-detailed texture, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: cultivation, crystal core, jade blade, kintsugi, bioluminescent, fantasy weapon, artifact, sticker, die-cut, vector, glowing, 3D
+Timestamp: 2026-04-04 23:38:53
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Cultivation-Heavy-Artifact-Blade-0004-Review\metadata.txt ###
+ID: Sticker-Cultivation-Heavy-Artifact-Blade-0004
+Style: Cultivation-Heavy-Artifact-Blade Mentor-Grade Style
+Title: Dual Element Blade Sticker | 双元重器贴纸
+MJ_Prompt: A heavy artifact blade split between two elements, one side Translucent Imperial Jade with Kintsugi Gold Veins, the other side dark stone with Bioluminescent Glow veins, clashing at a central Internal Crystalline Structure, cultivation weapon, masterful lighting, hyper-detailed texture, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: cultivation, dual element, yin yang blade, jade, kintsugi, bioluminescent, crystal, fantasy, sticker, die-cut, vector, contrast
+Timestamp: 2026-04-04 23:40:49
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Cultivation-Heavy-Artifact-Blade-0005-Review\metadata.txt ###
+ID: Sticker-Cultivation-Heavy-Artifact-Blade-0005
+Style: Cultivation-Heavy-Artifact-Blade Mentor-Grade Style
+Title: Runic Heavy Cleaver Sticker | 符纹重斩贴纸
+MJ_Prompt: A brutally heavy cultivation cleaver artifact, forged from Translucent Imperial Jade, covered in ancient runes filled with Kintsugi Gold, Bioluminescent Glow illuminating the script, Internal Crystalline Structures visible beneath the surface, epic fantasy weapon, masterful lighting, hyper-detailed texture, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: cultivation, heavy cleaver, runes, jade, kintsugi, bioluminescent, crystal, fantasy weapon, sticker, die-cut, vector, ancient
+Timestamp: 2026-04-04 23:41:22
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Cultivation-Heavy-Artifact-Blade-0008-Review\metadata.txt ###
+ID: Sticker-Cultivation-Heavy-Artifact-Blade-0008
+Style: Cultivation-Heavy-Artifact-Blade Mentor-Grade Style
+Title: Primal Beast Bone Blade Sticker | 荒古骨刃贴纸
+MJ_Prompt: A heavy artifact blade crafted from a primal beast's bone, infused with Translucent Imperial Jade and Kintsugi Gold Veins along the marrow, Bioluminescent Glow in the eye sockets, Internal Crystalline Structures fossilized within, cultivation primal weapon, masterful lighting, hyper-detailed texture, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: cultivation, bone blade, primal beast, jade infusion, kintsugi, bioluminescent, fossil crystal, fantasy, sticker, die-cut, vector, ancient
+Timestamp: 2026-04-04 23:43:59
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Cultivation-Heavy-Artifact-Blade-0009-Review\metadata.txt ###
+ID: Sticker-Cultivation-Heavy-Artifact-Blade-0009
+Style: Cultivation-Heavy-Artifact-Blade Mentor-Grade Style
+Title: Celestial Gate Keyblade Sticker | 天门钥刃贴纸
+MJ_Prompt: A heavy, ornate key-shaped artifact blade, forged from Translucent Imperial Jade with intricate Kintsugi Gold Veins forming celestial patterns, Bioluminescent Glow outlining the teeth, a perfect Internal Crystalline Structure as the keyhole, cultivation celestial weapon, masterful lighting, hyper-detailed texture, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: cultivation, keyblade, celestial gate, jade, kintsugi, bioluminescent, crystal keyhole, fantasy, sticker, die-cut, vector, ornate
+Timestamp: 2026-04-04 23:45:33
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Cultivation-Heavy-Artifact-Blade-0010-Review\metadata.txt ###
+ID: Sticker-Cultivation-Heavy-Artifact-Blade-0010
+Style: Cultivation-Heavy-Artifact-Blade Mentor-Grade Style
+Title: World Tree Root Blade Sticker | 世界树根刃贴纸
+MJ_Prompt: A heavy artifact blade grown from a World Tree root, the wood transformed into Translucent Imperial Jade, Kintsugi Gold Veins like sap lines, Bioluminescent Glow fungi growing on it, Internal Crystalline Structures as nutrient deposits, cultivation nature weapon, masterful lighting, hyper-detailed texture, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: cultivation, world tree, root blade, jade wood, kintsugi, bioluminescent, crystal, fantasy, sticker, die-cut, vector, organic
+Timestamp: 2026-04-04 23:47:24
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Mythic-Beast-0002-Review\metadata.txt ###
+ID: Sticker-Mythic-Beast-0002
+Style: Sticker-Zen-Mythic-Beast Mentor-Grade Style
+Title: Celestial Kirin Sticker | 天麒麟 (Ten Kirin)
+MJ_Prompt: A majestic Kirin (Qilin) dragon-deer, its scales and mane made of Translucent Imperial Jade, Kintsugi Gold Veins forming intricate circuit-like patterns along its body, a soft Bioluminescent Glow pulsing from its chest and hooves, Internal Crystalline Structures visible like geodes within its jade form, standing on a cloud, divine and peaceful, cinematic lighting, hyper-realistic details, Mentor-Grade craftsmanship, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: kirin, qilin, celestial, dragon, deer, jade, gold leaf, glowing, mythical creature, Asian mythology, peaceful, powerful, intricate design, vinyl sticker
+Timestamp: 2026-04-04 23:17:43
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Mythic-Beast-0004-Review\metadata.txt ###
+ID: Sticker-Mythic-Beast-0004
+Style: Sticker-Zen-Mythic-Beast Mentor-Grade Style
+Title: Moon Rabbit Alchemist Sticker | 月の兎錬金術師 (Tsuki no Usagi Renkinjutsushi)
+MJ_Prompt: A wise mythic rabbit from the moon, pounding the elixir of life in a jade mortar, its fur and ears made of Translucent Imperial Jade with delicate Kintsugi Gold Veins mending cracks, Bioluminescent Glow from the mortar and its eyes, Internal Crystalline Structures visible in the jade tools, surrounded by floating herbs and mist, mystical alchemy scene, soft glowing light, hyper-detailed texture, Mentor-Grade quality, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: moon rabbit, jade rabbit, alchemy, elixir, mythic beast, zen, folklore, glowing, intricate, magical, Japanese legend, detailed art, laptop sticker
+Timestamp: 2026-04-04 23:25:25
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Mythic-Beast-0005-Review\metadata.txt ###
+ID: Sticker-Mythic-Beast-0005
+Style: Sticker-Zen-Mythic-Beast Mentor-Grade Style
+Title: Forest Guardian Kodama Sticker | 森の守護木霊 (Mori no Shugo Kodama)
+MJ_Prompt: A Kodama tree spirit peeking from ancient bark, its form sculpted from Translucent Imperial Jade with Kintsugi Gold Veins like glowing sap lines, Bioluminescent Glow emanating from its eyes and heart, Internal Crystalline Structures resembling ancient amber within the jade, surrounded by glowing mushrooms and fireflies, mystical forest guardian, ethereal lighting, incredibly detailed, Mentor-Grade rendering, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: kodama, tree spirit, forest guardian, jade sculpture, bioluminescent, Studio Ghibli, mythical creature, nature spirit, magical, glowing, detailed design, waterproof sticker
+Timestamp: 2026-04-04 23:25:36
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Mythic-Beast-0007-Review\metadata.txt ###
+ID: Sticker-Mythic-Beast-0007
+Style: Sticker-Zen-Mythic-Beast Mentor-Grade Style
+Title: Baku Dream Eater Sticker | 夢喰い獏 (Yumekui Baku)
+MJ_Prompt: A Baku (dream-eating chimera) with elephant, lion, and ox features, crafted from Translucent Imperial Jade, Kintsugi Gold Veins tracing where dream fragments are mended, Bioluminescent Glow from its trunk and eyes as it consumes nightmares, Internal Crystalline Structures glowing within its jade body, surrounded by swirling dream clouds, protective night creature, mystical dark lighting, incredibly detailed, Mentor-Grade quality, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: baku, dream eater, chimera, nightmare, protector, jade art, gold repair, glowing, Japanese myth, spiritual, detailed creature design, collectible sticker
+Timestamp: 2026-04-04 23:28:22
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Mythic-Beast-0008-Review\metadata.txt ###
+ID: Sticker-Mythic-Beast-0008
+Style: Sticker-Zen-Mythic-Beast Mentor-Grade Style
+Title: Celestial Crane Serenity Sticker | 天鶴の静寂 (Tenkaku no Seijaku)
+MJ_Prompt: A graceful celestial crane, its feathers individually carved from Translucent Imperial Jade with Kintsugi Gold Veins highlighting each barb, Bioluminescent Glow from its crown and wingtips, Internal Crystalline Structures visible like frost within the jade, standing on one leg in a zen garden pond, epitome of peace and longevity, soft morning light, hyper-realistic details, Mentor-Grade texture, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: crane, celestial, zen, longevity, peace, jade feathers, gold detail, bioluminescent, mythical bird, Japanese symbol, elegant, detailed art, sticker decal
+Timestamp: 2026-04-04 23:28:33
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Mythic-Beast-0010-Review\metadata.txt ###
+ID: Sticker-Mythic-Beast-0010
+Style: Sticker-Zen-Mythic-Beast Mentor-Grade Style
+Title: Koi Dragon Transformation Sticker | 鯉龍変身 (Koi Ryū Henshin)
+MJ_Prompt: A mythic koi fish in the moment of transforming into a dragon, its scales made of Translucent Imperial Jade, Kintsugi Gold Veins tracing the path of ascension, intense Bioluminescent Glow from its body as it leaps a waterfall, Internal Crystalline Structures bursting with energy, water splashing in golden light, symbol of perseverance, epic transformation scene, cinematic lighting, ultra-detailed, Mentor-Grade quality, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: koi dragon, transformation, perseverance, waterfall, jade scales, gold kintsugi, bioluminescent, Chinese myth, powerful, dynamic, detailed illustration, motivational sticker
+Timestamp: 2026-04-04 23:30:39
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0001-Review\metadata.txt ###
+ID: Sticker-Zen-0001
+Style: Zen Mentor-Grade Style
+Title: Zen Koi Pond Sticker | 禅意锦鲤池
+MJ_Prompt: A single, serene koi fish swimming in a minimalist pond, its scales rendered in Translucent Imperial Jade with Kintsugi Gold Veins, internal bioluminescent glow from within the jade, hyper-detailed, macro photography, studio lighting, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: koi fish sticker, jade art, zen decor, kintsugi, minimalist design, spiritual gift, laptop decal, water bottle sticker, journal accessory, calming aesthetic, Japanese art, bioluminescent, collectible sticker
+Timestamp: 2026-04-04 22:37:59
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0002-Review\metadata.txt ###
+ID: Sticker-Zen-0002
+Style: Zen Mentor-Grade Style
+Title: Bonsai Tree of Serenity Sticker | 宁静盆栽树
+MJ_Prompt: A miniature bonsai tree, its trunk and branches crafted from Petrified Driftwood, with leaves of glowing Moss Agate, a single crystal geode at its base pulsing with soft light, hyper-realistic, intricate details, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: bonsai sticker, petrified wood, moss agate, crystal geode, miniature garden, zen art, nature lover gift, plant parent sticker, serene design, detailed illustration, geek decor, glowing art, unique decal
+Timestamp: 2026-04-04 22:38:10
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0003-Review\metadata.txt ###
+ID: Sticker-Zen-0003
+Style: Zen Mentor-Grade Style
+Title: Lotus Mandala Sticker | 莲花曼荼罗
+MJ_Prompt: A geometric mandala with a blooming lotus at its center, petals made of layered Mother of Pearl, the intricate patterns inlaid with Platinum Filigree that emits a soft, divine light, sacred geometry, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: lotus mandala sticker, mother of pearl, platinum filigree, sacred geometry, spiritual symbol, meditation aid, yoga art, chakra design, minimalist mandala, metallic sticker, holographic effect, gift for her, mindful art
+Timestamp: 2026-04-04 22:38:21
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0004-Review\metadata.txt ###
+ID: Sticker-Zen-0004
+Style: Zen Mentor-Grade Style
+Title: Stone Guardian Lion Sticker | 石狮守护者
+MJ_Prompt: A mythical Shishi guardian lion statue, carved from Volcanic Basalt, with a mane of flowing Obsidian strands and eyes that are polished Moonstone orbs glowing with inner wisdom, majestic, mythical, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: guardian lion sticker, shishi dog, volcanic rock, obsidian, moonstone, mythical creature, protection symbol, Asian folklore, statue art, powerful design, textural sticker, collector item, altar decor
+Timestamp: 2026-04-04 22:39:49
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0005-Review\metadata.txt ###
+ID: Sticker-Zen-0005
+Style: Zen Mentor-Grade Style
+Title: Zen Bamboo Forest Sticker | 禅意竹林
+MJ_Prompt: A dense grove of bamboo stalks, each segment made of polished Black Bamboo with joints accented by Copper Rivets, morning mist glowing with ethereal light between the canes, serene atmosphere, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: bamboo forest sticker, black bamboo, copper accents, zen garden, peaceful scene, nature wallpaper, Asian aesthetic, minimalist landscape, misty art, calming vibe, laptop skin, water-resistant decal, artistic sticker
+Timestamp: 2026-04-04 22:40:00
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0007-Review\metadata.txt ###
+ID: Sticker-Zen-0007
+Style: Zen Mentor-Grade Style
+Title: Cherry Blossom Branch Sticker | 樱花枝
+MJ_Prompt: A single, graceful branch of a cherry blossom tree, the wood is Weathered Teak, and the blossoms are delicate clusters of Pink Opal and Clear Quartz, catching the light, hyper-detailed, fragile beauty, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: cherry blossom sticker, pink opal, clear quartz, weathered teak, spring aesthetic, floral art, Japanese sakura, delicate design, crystal flowers, nature jewelry, feminine sticker, gift for mom, bloom where planted
+Timestamp: 2026-04-04 22:41:15
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0008-Review\metadata.txt ###
+ID: Sticker-Zen-0008
+Style: Zen Mentor-Grade Style
+Title: Zen Circle Ensō Sticker | 円相禅
+MJ_Prompt: A single, perfectly imperfect brushstroke circle (ensō), the ink is Molten Gold flowing over a background of crushed Lapis Lazuli pigment, the stroke has texture and depth, symbol of enlightenment, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: enso circle sticker, zen circle, molten gold, lapis lazuli, brushstroke art, enlightenment symbol, minimalist design, meditation tool, gold foil sticker, luxury decal, spiritual art, one stroke, perfect imperfection
+Timestamp: 2026-04-04 22:41:26
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0009-Review\metadata.txt ###
+ID: Sticker-Zen-0009
+Style: Zen Mentor-Grade Style
+Title: Praying Mantis on Rock Sticker | 磐石螳螂
+MJ_Prompt: A detailed praying mantis in a meditative pose, perched on a river rock of Polished River Stone, the insect's body is crafted from Jade and Bronze, with articulated limbs, macro photography, serene predator, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: praying mantis sticker, jade insect, bronze art, macro photography, nature detail, zen insect, meditation pose, unique bug art, garden guardian, realistic sticker, animal lover gift, intricate illustration, patience symbol
+Timestamp: 2026-04-04 22:43:15
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0010-Review\metadata.txt ###
+ID: Sticker-Zen-0010
+Style: Zen Mentor-Grade Style
+Title: Floating Island Sanctuary Sticker | 浮岛圣所
+MJ_Prompt: A tiny, floating island with a single pine tree, the island is a chunk of Mossy Granite, the tree is Ancient Bristlecone Pine with bark like Petrified Wood, a small glowing lantern hangs from a branch, dreamlike, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: floating island sticker, mossy granite, ancient tree, miniature world, fantasy landscape, dream core, serene escape, glowing lantern, imaginative art, detailed diorama, sticker for dreamers, unique landscape, collectible art
+Timestamp: 2026-04-04 22:43:51
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0011-Review\metadata.txt ###
+ID: Sticker-Zen-0011
+Style: Zen Mentor-Grade Style
+Title: Tranquil Koi Pond Sticker | 静寂の池
+MJ_Prompt: A single koi fish swimming in a minimalist pond, rendered in translucent imperial jade with subtle kintsugi gold veins along its scales, soft internal bioluminescent glow from within the fish, serene and meditative, zen garden aesthetic, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: koi fish sticker, jade aesthetic, kintsugi art, zen garden decor, minimalist design, die-cut vinyl, laptop sticker, water bottle decal, spiritual gift, meditation accessory, Japanese art, calming design, nature illustration
+Timestamp: 2026-04-04 22:45:24
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0012-Review\metadata.txt ###
+ID: Sticker-Zen-0012
+Style: Zen Mentor-Grade Style
+Title: Bonsai Serenity Sticker | 盆景の静けさ
+MJ_Prompt: A miniature bonsai tree with gnarled black obsidian trunk and delicate foliage of powdered jade and gold leaf, roots intertwined with glowing quartz crystals, peaceful and balanced composition, zen philosophy, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: bonsai tree sticker, obsidian and jade, crystal roots, miniature garden, zen art, plant lover gift, laptop decal, journal sticker, mindfulness symbol, black and gold design, spiritual botany, intricate illustration, calming nature
+Timestamp: 2026-04-04 22:45:58
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0013-Review\metadata.txt ###
+ID: Sticker-Zen-0013
+Style: Zen Mentor-Grade Style
+Title: Lotus Enlightenment Sticker | 悟りの蓮
+MJ_Prompt: A blooming lotus flower with petals of layered mother-of-pearl and moonstone, center glowing with a soft golden light, floating on calm water with ripple effects, symbol of purity and awakening, zen iconography, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: lotus flower sticker, mother-of-pearl design, moonstone petals, spiritual symbol, enlightenment art, yoga decal, meditation aid, water element, serene illustration, pearl and gold aesthetic, Buddhist art, feminine design, healing crystal vibe
+Timestamp: 2026-04-04 22:47:15
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0014-Review\metadata.txt ###
+ID: Sticker-Zen-0014
+Style: Zen Mentor-Grade Style
+Title: Zen Circle Ensō Sticker | 円相の墨
+MJ_Prompt: A single, imperfect brushstroke circle (ensō) drawn with liquid obsidian ink that has internal cracks filled with flowing molten gold, suspended in empty space, embodying wabi-sabi and the beauty of imperfection, minimalist zen art, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: enso circle sticker, Japanese calligraphy, wabi-sabi art, kintsugi ink, minimalist symbol, philosophy decal, laptop sticker, notebook accent, black and gold design, imperfect beauty, mindfulness reminder, abstract art, spiritual logo
+Timestamp: 2026-04-04 22:48:18
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0015-Review\metadata.txt ###
+ID: Sticker-Zen-0015
+Style: Zen Mentor-Grade Style
+Title: Stone Garden Ripple Sticker | 枯山水の波紋
+MJ_Prompt: A top-down view of a zen rock garden (karesansui), with raked white sand forming perfect concentric circles around a central moss-covered stone of jade and slate, the patterns glowing faintly with ambient light, meditative geometry, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: zen garden sticker, karesansui art, raked sand design, moss stone, geometric pattern, minimalist landscape, desktop decal, planner sticker, calm workspace, Japanese rock garden, sand ripple, contemplative art, office decor
+Timestamp: 2026-04-04 22:49:03
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0016-Review\metadata.txt ###
+ID: Sticker-Zen-0016
+Style: Zen Mentor-Grade Style
+Title: Pagoda Peace Sticker | 塔の安らぎ
+MJ_Prompt: A stylized multi-tiered pagoda roof made of layered blue-gray porcelain with gold filigree edges, nestled among cherry blossom branches with petals of frosted glass, soft glow emanating from within the structure, serene Asian architecture, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: pagoda sticker, Asian architecture, porcelain and gold, cherry blossom art, temple design, travel decal, cultural symbol, blue and gold aesthetic, serene building, Japan inspired, detailed illustration, spiritual place, peaceful scene
+Timestamp: 2026-04-04 22:49:38
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0017-Review\metadata.txt ###
+ID: Sticker-Zen-0017
+Style: Zen Mentor-Grade Style
+Title: Bamboo Grove Sticker | 竹林の響き
+MJ_Prompt: A cluster of bamboo stalks with segments of polished jade and brushed bronze, leaves of delicate green silk, with a soft dappled light filtering through, creating a sense of depth and tranquility, zen nature scene, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: bamboo sticker, jade and bronze, Asian plants, nature texture, zen forest, eco-friendly design, plant lover decal, green aesthetic, resilience symbol, vertical composition, calming green, organic material art, garden sticker
+Timestamp: 2026-04-04 22:51:03
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0018-Review\metadata.txt ###
+ID: Sticker-Zen-0018
+Style: Zen Mentor-Grade Style
+Title: Meditating Frog Sticker | 座禅蛙
+MJ_Prompt: A stylized frog in a meditative lotus position, its skin textured like moss-covered river stone with veins of gold, sitting on a lily pad of translucent jade, peaceful and whimsical zen mascot, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: frog sticker, meditating animal, zen mascot, moss and stone texture, whimsical nature, kawaii zen, mindfulness character, cute decal, good luck charm, animal yoga, stone texture art, playful spiritual, pond life
+Timestamp: 2026-04-04 22:51:56
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0019-Review\metadata.txt ###
+ID: Sticker-Zen-0019
+Style: Zen Mentor-Grade Style
+Title: Tea Ceremony Sticker | 茶の湯の静寂
+MJ_Prompt: A simple ceramic matcha bowl (chawan) with a crackled celadon glaze, filled with vibrant green powdered tea, a bamboo whisk (chasen) resting beside it, steam rising with a subtle golden glow, ritualistic zen still life, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: matcha bowl sticker, tea ceremony, Japanese pottery, celadon glaze, zen ritual, culinary art, foodie decal, calm moment, bamboo whisk, green tea aesthetic, wabi-sabi object, mindfulness practice, ceramic art
+Timestamp: 2026-04-04 22:52:30
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0020-Review\metadata.txt ###
+ID: Sticker-Zen-0020
+Style: Zen Mentor-Grade Style
+Title: Mountain Path Sticker | 山道の瞑想
+MJ_Prompt: A winding stone path leading up a misty mountain, steps made of slate and embedded with glowing quartz crystals, distant pagoda silhouette, atmospheric perspective, journey and contemplation theme, zen landscape, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: mountain path sticker, hiking trail, mystical journey, quartz crystal steps, misty landscape, adventure decal, spiritual path, landscape illustration, slate texture, glowing elements, faraway temple, contemplative walk, nature trail
+Timestamp: 2026-04-04 22:53:47
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0022-Review\metadata.txt ###
+ID: Sticker-Zen-0022
+Style: Sticker-Zen Mentor-Grade Style
+Title: Zen Garden Stone Sticker | 瞑想石 (Meisōseki)
+MJ_Prompt: A perfectly smooth zen garden stone, surface made of translucent imperial jade with a network of fine kintsugi gold veins, pulsing with a soft bioluminescent glow that highlights complex internal crystalline structures, placed on raked sand, dramatic side lighting, hyper-realistic texture, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: zen garden, meditation stone, jade rock, kintsugi, glowing stone, calm, focus, desk decor, minimalist, Japanese garden, soothing, collectible sticker, planner sticker
+Timestamp: 2026-04-04 22:55:21
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0024-Review\metadata.txt ###
+ID: Sticker-Zen-0024
+Style: Sticker-Zen Mentor-Grade Style
+Title: Enso Circle with Crystals Sticker | 水晶の円相 (Suishō no Ensō)
+MJ_Prompt: A single, fluid brushstroke forming an ensō circle, the ink is translucent imperial jade with kintsugi gold veins tracing its path, the center of the circle contains a cluster of glowing internal crystalline structures emitting bioluminescent light, ink splash effect, dynamic lighting, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: enso circle, Japanese calligraphy, jade ink, kintsugi, crystal core, enlightenment, simplicity, zen philosophy, brushstroke art, spiritual sticker, laptop sticker, water bottle decal
+Timestamp: 2026-04-04 22:57:11
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0025-Review\metadata.txt ###
+ID: Sticker-Zen-0025
+Style: Sticker-Zen Mentor-Grade Style
+Title: Koi Fish in Jade Pond Sticker | 翡翠の鯉 (Hisui no Koi)
+MJ_Prompt: A graceful koi fish swimming upwards, its scales crafted from overlapping pieces of translucent imperial jade connected by kintsugi gold veins, a soft bioluminescent glow from within illuminates the internal crystalline structures of its body, water droplet effects, ethereal underwater lighting, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: koi fish, jade koi, kintsugi fish, glowing koi, perseverance, luck, water art, Japanese symbol, calming sticker, aquarium decor, motivational, vinyl sticker, car decal
+Timestamp: 2026-04-04 22:58:46
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0026-Review\metadata.txt ###
+ID: Sticker-Zen-0026
+Style: Sticker-Zen Mentor-Grade Style
+Title: Mountain and Moon Sticker | 山月 (Sangetsu)
+MJ_Prompt: A minimalist mountain range under a full moon, the peaks are carved from translucent imperial jade with kintsugi gold veins running down the slopes, the moon is a sphere of pure bioluminescent glow with visible internal crystalline structures, starry night sky, serene atmosphere, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: mountain landscape, jade mountains, glowing moon, kintsugi peaks, night scene, tranquility, wanderlust, minimalist landscape, nature sticker, adventure decal, hiking gift, scenic sticker
+Timestamp: 2026-04-04 23:00:30
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0027-Review\metadata.txt ###
+ID: Sticker-Zen-0027
+Style: Sticker-Zen Mentor-Grade Style
+Title: Zen Temple Lantern Sticker | 禅寺の灯籠 (Zendera no Tōrō)
+MJ_Prompt: A traditional stone zen lantern, its panels made of translucent imperial jade held together by kintsugi gold seams, a powerful bioluminescent glow radiates from within, casting light that reveals the intricate internal crystalline structures of the jade, moss details, warm ambient glow, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: zen lantern, stone lantern, jade light, kintsugi lamp, illumination, guidance, temple decor, Asian architecture, peaceful light, garden sticker, spiritual light, collectible art sticker
+Timestamp: 2026-04-04 23:02:23
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0029-Review\metadata.txt ###
+ID: Sticker-Zen-0029
+Style: Sticker-Zen Mentor-Grade Style
+Title: Bamboo Forest Sticker | 光る竹林 (Hikaru Chikurin)
+MJ_Prompt: A cluster of bamboo stalks, each segment made of translucent imperial jade connected by rings of kintsugi gold, a soft bioluminescent glow filters through the jade, illuminating the intricate internal crystalline structures within, morning mist, sunbeams, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: bamboo forest, jade bamboo, kintsugi joints, glowing plants, resilience, growth, Asian forest, nature walk, green aesthetic, plant lover sticker, garden art, journal sticker
+Timestamp: 2026-04-04 23:04:17
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0031-Review\metadata.txt ###
+ID: Sticker-Zen-0031
+Style: Sticker-Zen Mentor-Grade Style
+Title: Kintsugi Lotus Sticker | 金継ぎの蓮
+MJ_Prompt: A single lotus flower, its petals made of translucent imperial jade with intricate kintsugi gold veins repairing delicate cracks, subtle bioluminescent glow emanating from the internal crystalline structures, ultra-detailed, hyper-realistic, studio lighting, sharp focus, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, --ar 1:1
+SEO_Hook: zen sticker, kintsugi art, jade lotus, gold repair, bioluminescent, meditation, spiritual, minimalist design, Japanese aesthetic, mindfulness, waterproof sticker, laptop decal, spiritual gift
+Timestamp: 2026-04-04 23:06:05
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0032-Review\metadata.txt ###
+ID: Sticker-Zen-0032
+Style: Sticker-Zen Mentor-Grade Style
+Title: Glowing Zen Garden Stone Sticker | 光る枯山水の石
+MJ_Prompt: A perfectly raked zen garden sand pattern surrounding a central stone, the stone is translucent imperial jade with internal crystalline structures visible, kintsugi gold veins trace a path across its surface, emitting a soft bioluminescent glow, hyper-detailed texture, serene composition, studio lighting, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, --ar 1:1
+SEO_Hook: zen garden sticker, raked sand, glowing stone, jade rock, meditation aid, desktop decor, calm focus, Japanese garden, minimalist art, bioluminescent, kintsugi, mindfulness tool, office decor
+Timestamp: 2026-04-04 23:07:55
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0034-Review\metadata.txt ###
+ID: Sticker-Zen-0034
+Style: Sticker-Zen Mentor-Grade Style
+Title: Kintsugi Enso Circle Sticker | 金継ぎ円相
+MJ_Prompt: A single, imperfect brushstroke Enso circle, the ink line is made of translucent imperial jade with glowing internal crystalline structures, kintsugi gold veins repair breaks in the stroke, the circle floats with a bioluminescent aura against a dark void, minimalist, powerful, hyper-detailed, studio lighting, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, --ar 1:1
+SEO_Hook: enso circle sticker, Japanese calligraphy, kintsugi art, imperfection beauty, enlightenment, minimalist design, spiritual symbol, meditation, jade ink, glowing art, wisdom, laptop decal, journal sticker
+Timestamp: 2026-04-04 23:11:08
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0035-Review\metadata.txt ###
+ID: Sticker-Zen-0035
+Style: Sticker-Zen Mentor-Grade Style
+Title: Bioluminescent Koi Pond Sticker | 発光鯉
+MJ_Prompt: A serene koi fish swimming upwards, its scales are translucent imperial jade plates with visible internal crystalline structures, kintsugi gold veins outline each scale, the fish emits a soft bioluminescent glow, water droplets with light refraction, hyper-realistic, peaceful, studio lighting, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, --ar 1:1
+SEO_Hook: koi fish sticker, glowing koi, jade fish, perseverance, good luck, water art, Japanese pond, bioluminescent, kintsugi scales, tranquility, fortune, car decal, hydroflask sticker, aquatic decor
+Timestamp: 2026-04-04 23:12:48
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0036-Review\metadata.txt ###
+ID: Sticker-Zen-0036
+Style: Sticker-Zen Mentor-Grade Style
+Title: Fractal Cherry Blossom Sticker | フラクタル桜
+MJ_Prompt: A single cherry blossom branch, each petal is a fractal pattern of translucent imperial jade, infinitely detailed internal crystalline structures, kintsugi gold veins form the delicate veins of the petals, a bioluminescent glow pulses from the center of each flower, macro detail, ethereal, studio lighting, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, --ar 1:1
+SEO_Hook: cherry blossom sticker, fractal art, jade flower, sakura, spring, impermanence, beauty, glowing blossom, kintsugi details, macro photography, nature pattern, laptop skin, phone case sticker, gift for her
+Timestamp: 2026-04-04 23:12:59
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0037-Review\metadata.txt ###
+ID: Sticker-Zen-0037
+Style: Sticker-Zen Mentor-Grade Style
+Title: Golden Veined Mountain Sticker | 金脈山
+MJ_Prompt: A minimalist mountain range silhouette, the peaks are carved from translucent imperial jade, glowing internal crystalline structures shine like stars within, rivers of kintsugi gold veins flow down the slopes, the entire scene has a soft bioluminescent ambient glow, serene landscape, hyper-detailed texture, studio lighting, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, --ar 1:1
+SEO_Hook: mountain sticker, zen landscape, jade mountains, kintsugi rivers, stability, journey, minimalist landscape, glowing peaks, nature art, adventure, hike, travel sticker, ski helmet decal, backpack decor
+Timestamp: 2026-04-04 23:14:54
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0038-Review\metadata.txt ###
+ID: Sticker-Zen-0038
+Style: Sticker-Zen Mentor-Grade Style
+Title: Meditating Crystal Frog Sticker | 瞑想する水晶の蛙
+MJ_Prompt: A frog in a meditative pose, its body crafted from translucent imperial jade with complex internal crystalline structures visible, kintsugi gold veins trace patterns like ancient symbols on its skin, a bioluminescent glow emanates from its core, sitting on a lotus leaf, whimsical yet serene, hyper-realistic, studio lighting, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, --ar 1:1
+SEO_Hook: frog sticker, meditation frog, jade animal, crystal core, zen animal, patience, transformation, kintsugi patterns, bioluminescent, whimsical art, mindfulness, funny zen, laptop sticker, guitar case decal
+Timestamp: 2026-04-04 23:15:05
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0040-Review\metadata.txt ###
+ID: Sticker-Zen-0040
+Style: Sticker-Zen Mentor-Grade Style
+Title: Translucent Jade Dragon Sticker | 透き通る翡翠の龍ステッカー
+MJ_Prompt: A majestic Zen dragon composed of Translucent Imperial Jade with Kintsugi Gold Veins, Bioluminescent Glow emanating from Internal Crystalline Structures, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: die-cut sticker, kawaii, anime, laptop decal, water bottle art, planner decoration, journal sticker, vinyl sticker, holographic, zen decor, spiritual, dragon art, collectible
+Timestamp: 2026-04-05 00:33:16
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0041-Review\metadata.txt ###
+ID: Sticker-Zen-0041
+Style: Sticker-Zen Mentor-Grade Style
+Title: Kintsugi Gold Dragon Sticker | 金継ぎの龍ステッカー
+MJ_Prompt: A Zen dragon with Kintsugi Gold Veins repairing Translucent Imperial Jade scales, Bioluminescent Glow from Internal Crystalline Structures, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: Japanese aesthetic, wabi-sabi, kintsugi art, broken beauty, repair art, gold foil sticker, luxury sticker, spiritual healing, mindfulness, dragon mythology, Asian art, decorative sticker, art collectible
+Timestamp: 2026-04-05 00:34:34
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0042-Review\metadata.txt ###
+ID: Sticker-Zen-0042
+Style: Sticker-Zen Mentor-Grade Style
+Title: Bioluminescent Crystal Dragon Sticker | 生物発光クリスタルドラゴンステッカー
+MJ_Prompt: A Zen dragon with glowing Internal Crystalline Structures emitting Bioluminescent Glow through Translucent Imperial Jade skin, Kintsugi Gold Veins, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: glow in the dark, neon aesthetic, cyberpunk zen, crystal healing, spiritual energy, mystical creature, fantasy art, rave culture, festival sticker, UV reactive, magical creature, ethereal art, cosmic dragon
+Timestamp: 2026-04-05 00:35:24
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0043-Review\metadata.txt ###
+ID: Sticker-Zen-0043
+Style: Sticker-Zen Mentor-Grade Style
+Title: Imperial Jade Dragon Head Sticker | 帝国翡翠の龍頭ステッカー
+MJ_Prompt: Close-up of a Zen dragon head made of Translucent Imperial Jade with intricate Kintsugi Gold Veins, Bioluminescent Glow in eyes from Internal Crystalline Structures, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: dragon head, portrait sticker, mythical creature, Asian mythology, Chinese dragon, detailed illustration, tattoo style, minimalist art, symbol sticker, power emblem, strength symbol, protective charm, character design
+Timestamp: 2026-04-05 00:36:10
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0044-Review\metadata.txt ###
+ID: Sticker-Zen-0044
+Style: Sticker-Zen Mentor-Grade Style
+Title: Zen Dragon Coil Sticker | 禅の龍の渦巻きステッカー
+MJ_Prompt: Missing
+SEO_Hook: mandala art, circular design, meditation symbol, spiritual geometry, sacred geometry, yin yang balance, harmony sticker, zen circle, endless knot, Buddhist art, mindfulness tool, decorative roundel, symmetrical art
+Timestamp: 2026-04-05 00:37:00
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0045-Review\metadata.txt ###
+ID: Sticker-Zen-0045
+Style: Sticker-Zen Mentor-Grade Style
+Title: Floating Zen Dragon Sticker | 浮遊する禅の龍ステッカー
+MJ_Prompt: A Zen dragon floating serenely through clouds, body of Translucent Imperial Jade with Kintsugi Gold Veins, Bioluminescent Glow trailing from Internal Crystalline Structures, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: cloud dragon, flying creature, sky art, freedom symbol, dreamy aesthetic, ethereal creature, weightless art, air element, celestial being, heaven dragon, peaceful scene, tranquil art, floating illusion
+Timestamp: 2026-04-05 00:37:51
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0046-Review\metadata.txt ###
+ID: Sticker-Zen-0046
+Style: Sticker-Zen Mentor-Grade Style
+Title: Dragon and Pearl Sticker | 龍と真珠ステッカー
+MJ_Prompt: A Zen dragon chasing a pearl of Translucent Imperial Jade, Kintsugi Gold Veins throughout body, Bioluminescent Glow from Internal Crystalline Structures illuminating the scene, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: dragon pearl, wisdom symbol, treasure guardian, chase scene, dynamic action, movement art, pursuit motif, goal achievement, ambition symbol, success charm, fortune dragon, wealth attraction, prosperity art
+Timestamp: 2026-04-05 00:38:41
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0047-Review\metadata.txt ###
+ID: Sticker-Zen-0047
+Style: Sticker-Zen Mentor-Grade Style
+Title: Zen Dragon Calligraphy Sticker | 禅の龍の書道ステッカー
+MJ_Prompt: A Zen dragon formed from Japanese calligraphy brush strokes of Translucent Imperial Jade ink with Kintsugi Gold Veins, Bioluminescent Glow accents from Internal Crystalline Structures, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: calligraphy art, brush stroke design, ink painting, Japanese writing, artistic lettering, abstract dragon, minimalist ink, sumi-e style, Asian calligraphy, artistic expression, flowing lines, dynamic brushwork, cultural art
+Timestamp: 2026-04-05 00:39:30
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0048-Review\metadata.txt ###
+ID: Sticker-Zen-0048
+Style: Sticker-Zen Mentor-Grade Style
+Title: Crystalline Dragon Scale Sticker | 結晶の龍の鱗ステッカー
+MJ_Prompt: A single detailed dragon scale of Translucent Imperial Jade showing intricate Internal Crystalline Structures with Kintsugi Gold Veins repairs, Bioluminescent Glow from within, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: dragon scale, texture art, pattern design, reptilian skin, geometric pattern, scale motif, armor plating, protective symbol, detailed texture, surface pattern, repeatable design, tileable art, nature texture
+Timestamp: 2026-04-05 00:40:17
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0049-Review\metadata.txt ###
+ID: Sticker-Zen-0049
+Style: Sticker-Zen Mentor-Grade Style
+Title: Sleeping Zen Dragon Sticker | 眠れる禅の龍ステッカー
+MJ_Prompt: A peaceful Zen dragon sleeping curled up, body of Translucent Imperial Jade with Kintsugi Gold Veins, soft Bioluminescent Glow pulsing from Internal Crystalline Structures, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: sleeping dragon, peaceful creature, rest art, calm aesthetic, dream dragon, night scene, cozy art, protective sleep, guardian resting, tranquil moment, serene creature, bedtime story, fantasy sleep
+Timestamp: 2026-04-05 00:41:04
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0050-Review\metadata.txt ###
+ID: Sticker-Zen-0050
+Style: Sticker-Zen Mentor-Grade Style
+Title: Translucent Jade Dragon Sticker | 透光翡翠龍貼紙
+MJ_Prompt: Translucent Imperial Jade dragon with Kintsugi Gold Veins, Bioluminescent Glow, and Internal Crystalline Structures, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: die-cut sticker, kawaii, anime, laptop decal, water bottle art, planner decoration, journal sticker, vinyl sticker, waterproof, holographic effect, cute aesthetic, Japanese culture, spiritual
+Timestamp: 2026-04-05 00:41:52
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0051-Review\metadata.txt ###
+ID: Sticker-Zen-0051
+Style: Sticker-Zen Mentor-Grade Style
+Title: Kintsugi Gold Dragon Sticker | 金継ぎ金龍貼紙
+MJ_Prompt: Kintsugi Gold Veins dragon with Translucent Imperial Jade accents, Bioluminescent Glow, and Internal Crystalline Structures, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: gold foil sticker, luxury decal, metallic finish, premium sticker, phone case decor, car window sticker, laptop skin, gift sticker, Japanese art, wabi-sabi, broken beauty, spiritual symbol, collectible
+Timestamp: 2026-04-05 00:42:40
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0052-Review\metadata.txt ###
+ID: Sticker-Zen-0052
+Style: Sticker-Zen Mentor-Grade Style
+Title: Bioluminescent Dragon Sticker | 生物発光ドラゴンステッカー
+MJ_Prompt: Bioluminescent Glow dragon with Translucent Imperial Jade body, Kintsugi Gold Veins, and Internal Crystalline Structures, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: glow in dark sticker, UV reactive, night light effect, rave sticker, festival decal, psychedelic art, trippy design, neon colors, cyberpunk aesthetic, futuristic, Japanese mythology, yokai art, magical
+Timestamp: 2026-04-05 00:43:28
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0053-Review\metadata.txt ###
+ID: Sticker-Zen-0053
+Style: Sticker-Zen Mentor-Grade Style
+Title: Crystalline Dragon Sticker | 結晶龍ステッカー
+MJ_Prompt: Internal Crystalline Structures dragon with Translucent Imperial Jade surface, Kintsugi Gold Veins, and Bioluminescent Glow, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: crystal healing sticker, geometric design, prismatic effect, rainbow reflection, spiritual crystal, mineral art, geology aesthetic, sacred geometry, mandala pattern, meditation tool, energy crystal, new age, mystical
+Timestamp: 2026-04-05 00:44:15
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0055-Review\metadata.txt ###
+ID: Sticker-Zen-0055
+Style: Sticker-Zen Mentor-Grade Style
+Title: Azure Dragon Warrior Sticker | 蒼龍戦士ステッカー
+MJ_Prompt: Warrior Azure dragon with Translucent Imperial Jade armor, Kintsugi Gold Veins repairs, Bioluminescent Glow eyes, and Internal Crystalline Structures weapons, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: samurai sticker, warrior dragon, battle ready, Japanese warrior, martial arts, shogun aesthetic, armor design, weapon art, battle damage, heroic symbol, protective talisman, strength tattoo, warrior spirit
+Timestamp: 2026-04-05 00:45:58
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0056-Review\metadata.txt ###
+ID: Sticker-Zen-0056
+Style: Sticker-Zen Mentor-Grade Style
+Title: Dragon & Cherry Blossom Sticker | 龍と桜ステッカー
+MJ_Prompt: Zen dragon with Translucent Imperial Jade scales surrounded by cherry blossoms, Kintsugi Gold Veins branches, Bioluminescent Glow petals, and Internal Crystalline Structures dewdrops, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: cherry blossom sticker, spring aesthetic, Japanese spring, sakura art, floral dragon, nature spirit, seasonal decoration, spring festival, hanami theme, floral pattern, botanical art, spring renewal, ephemeral beauty
+Timestamp: 2026-04-05 00:46:34
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0057-Review\metadata.txt ###
+ID: Sticker-Zen-0057
+Style: Sticker-Zen Mentor-Grade Style
+Title: Moonlit Zen Dragon Sticker | 月明かり禅龍ステッカー
+MJ_Prompt: Zen dragon under moonlight with Translucent Imperial Jade reflecting moonbeams, Kintsugi Gold Veins constellations, Bioluminescent Glow moonlight, and Internal Crystalline Structures stars, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: moon sticker, night sky, celestial dragon, astronomy art, lunar cycle, moon phases, night aesthetic, dreamy sticker, sleep aid, bedtime story, celestial navigation, star map, cosmic art
+Timestamp: 2026-04-05 00:47:41
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0058-Review\metadata.txt ###
+ID: Sticker-Zen-0058
+Style: Sticker-Zen Mentor-Grade Style
+Title: Dragon Calligraphy Sticker | 龍書道ステッカー
+MJ_Prompt: Zen dragon formed from Japanese calligraphy strokes using Translucent Imperial Jade ink, Kintsugi Gold Veins brushwork, Bioluminescent Glow highlights, and Internal Crystalline Structures ink splatters, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: calligraphy sticker, Japanese writing, brush stroke art, ink painting, sumi-e style, traditional art, kanji design, writing aesthetic,书法艺术, ink wash, brush pen art, artistic writing, cultural heritage
+Timestamp: 2026-04-05 00:48:47
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0059-Review\metadata.txt ###
+ID: Sticker-Zen-0059
+Style: Sticker-Zen Mentor-Grade Style
+Title: Mini Zen Dragon Set Sticker | ミニ禅龍セットステッカー
+MJ_Prompt: Set of three mini Zen dragons featuring Translucent Imperial Jade, Kintsugi Gold Veins, Bioluminescent Glow, and Internal Crystalline Structures variations, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: sticker pack, multiple designs, collection set, variety pack, mini stickers, small decals, multi-pack, gift set, assortment, mixed designs, bundle deal, collectible set, variety art
+Timestamp: 2026-04-05 00:50:07
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0060-Review\metadata.txt ###
+ID: Sticker-Zen-0060
+Style: Sticker-Zen Mentor-Grade Style
+Title: Translucent Jade Dragon Sticker | 透き通る翡翠の龍ステッカー
+MJ_Prompt: A detailed sticker design of a Zen dragon, Translucent Imperial Jade material, Kintsugi Gold Veins, Bioluminescent Glow, Internal Crystalline Structures, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: zen sticker, jade dragon, bioluminescent, kintsugi, die-cut, vector art, spiritual, translucent, crystal, dragon art, Asian mythology, sticker collection, laptop decal
+Timestamp: 2026-04-05 00:50:42
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0061-Review\metadata.txt ###
+ID: Sticker-Zen-0061
+Style: Sticker-Zen Mentor-Grade Style
+Title: Kintsugi Gold Dragon Sticker | 金継ぎの龍ステッカー
+MJ_Prompt: A Zen dragon sticker with Kintsugi Gold Veins repairing Translucent Imperial Jade, Bioluminescent Glow from cracks, Internal Crystalline Structures visible, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: kintsugi art, gold repair, broken beauty, Japanese art, dragon sticker, spiritual healing, imperfection, glow in dark, crystal core, art therapy, mindfulness, collectible sticker, phone case decal
+Timestamp: 2026-04-05 00:51:45
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0062-Review\metadata.txt ###
+ID: Sticker-Zen-0062
+Style: Sticker-Zen Mentor-Grade Style
+Title: Bioluminescent Zen Dragon Sticker | 生物発光の禅龍ステッカー
+MJ_Prompt: A glowing Zen dragon sticker with Bioluminescent Glow illuminating Translucent Imperial Jade body, Kintsugi Gold Veins, Internal Crystalline Structures glowing from within, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: glow in dark, bioluminescent art, night glow, mystical creature, fantasy sticker, rave culture, UV reactive, spiritual light, ethereal, magical, rave gear, festival sticker, water bottle decal
+Timestamp: 2026-04-05 00:52:50
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0063-Review\metadata.txt ###
+ID: Sticker-Zen-0063
+Style: Sticker-Zen Mentor-Grade Style
+Title: Crystalline Dragon Core Sticker | 結晶の龍コアステッカー
+MJ_Prompt: A Zen dragon sticker focusing on Internal Crystalline Structures within Translucent Imperial Jade, Kintsugi Gold Veins as circuitry, Bioluminescent Glow from crystal formations, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: crystal core, geometric dragon, sacred geometry, mineral art, crystal healing, energy centers, chakra dragon, metaphysical, gemstone art, spiritual science, geology nerd, journal sticker, tablet decal
+Timestamp: 2026-04-05 00:53:34
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0064-Review\metadata.txt ###
+ID: Sticker-Zen-0064
+Style: Sticker-Zen Mentor-Grade Style
+Title: Imperial Jade Dragon Meditation Sticker | 帝王翡翠の龍瞑想ステッカー
+MJ_Prompt: A meditative Zen dragon sticker made of Translucent Imperial Jade in lotus position, Kintsugi Gold Veins as energy lines, Bioluminescent Glow at energy points, Internal Crystalline Structures visible, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: meditation dragon, yoga art, mindfulness, spiritual practice, zen Buddhism, lotus position, energy lines, chakra alignment, calm focus, meditation aid, yoga mat decal, planner sticker, laptop skin
+Timestamp: 2026-04-05 00:54:21
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0065-Review\metadata.txt ###
+ID: Sticker-Zen-0065
+Style: Sticker-Zen Mentor-Grade Style
+Title: Zen Dragon Waterfall Sticker | 禅龍滝ステッカー
+MJ_Prompt: A Zen dragon sticker flowing like water through Translucent Imperial Jade, Kintsugi Gold Veins as water streams, Bioluminescent Glow like underwater light, Internal Crystalline Structures like river stones, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: water dragon, flow state, liquid art, waterfall aesthetic, fluid dynamics, calming waters, river spirit, aquatic dragon, zen garden, water element, hydro flask decal, surfboard sticker, water bottle art
+Timestamp: 2026-04-05 00:55:09
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0066-Review\metadata.txt ###
+ID: Sticker-Zen-0066
+Style: Sticker-Zen Mentor-Grade Style
+Title: Golden Vein Circuitry Dragon Sticker | 金の静脈回路龍ステッカー
+MJ_Prompt: A cyber-Zen dragon sticker with Kintsugi Gold Veins as glowing circuitry on Translucent Imperial Jade, Bioluminescent Glow at connection nodes, Internal Crystalline Structures as processing cores, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: cyber dragon, tech spirituality, circuit board art, glitch art, digital zen, future Buddhism, neon circuits, cyberpunk, techwear, gamer culture, PC case sticker, gaming laptop, keyboard decal
+Timestamp: 2026-04-05 00:56:01
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0067-Review\metadata.txt ###
+ID: Sticker-Zen-0067
+Style: Sticker-Zen Mentor-Grade Style
+Title: Moonlit Jade Dragon Sticker | 月明かりの翡翠龍ステッカー
+MJ_Prompt: A nocturnal Zen dragon sticker with Bioluminescent Glow mimicking moonlight on Translucent Imperial Jade, Kintsugi Gold Veins catching the light, Internal Crystalline Structures glowing softly, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: moon dragon, night aesthetic, lunar art, celestial, midnight glow, dreamy art, sleep aid, night sky, star dragon, astronomy, telescope decal, dream journal, night light sticker
+Timestamp: 2026-04-05 00:56:48
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0068-Review\metadata.txt ###
+ID: Sticker-Zen-0068
+Style: Sticker-Zen Mentor-Grade Style
+Title: Fractal Zen Dragon Sticker | フラクタル禅龍ステッカー
+MJ_Prompt: A fractal pattern Zen dragon sticker with Internal Crystalline Structures forming recursive patterns in Translucent Imperial Jade, Kintsugi Gold Veins as fractal boundaries, Bioluminescent Glow at pattern nodes, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: fractal art, mathematical dragon, recursive patterns, infinity symbol, sacred geometry, mandala dragon, psychedelic art, math nerd, pattern design, optical illusion, science sticker, calculator decal, math journal
+Timestamp: 2026-04-05 00:57:36
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-0069-Review\metadata.txt ###
+ID: Sticker-Zen-0069
+Style: Sticker-Zen Mentor-Grade Style
+Title: Zen Dragon Guardian Sticker | 禅龍守護者ステッカー
+MJ_Prompt: A protective Zen dragon sticker in guardian pose with Translucent Imperial Jade scales, Kintsugi Gold Veins as armor seams, Bioluminescent Glow from eyes, Internal Crystalline Structures as power source, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus --ar 1:1 --tile
+SEO_Hook: guardian dragon, protective symbol, armor art, spiritual protection, warrior zen, defensive art, talisman, amulet, good luck charm, safety symbol, car window sticker, helmet decal, shield emblem
+Timestamp: 2026-04-05 00:58:23
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-Ancient-Talisman-Seal-0002-Review\metadata.txt ###
+ID: Sticker-Zen-Ancient-Talisman-Seal-0002
+Style: Zen-Ancient-Talisman-Seal Mentor-Grade Style
+Title: Golden Lotus Talisman Seal | 金莲法印
+MJ_Prompt: An ancient Zen talisman seal in the shape of a lotus, made of Translucent Imperial Jade petals with Kintsugi Gold Veins along the edges, emitting a gentle Bioluminescent Glow from the center, showing complex Internal Crystalline Structures like frozen light, floating on solid white, white contour border, vector clean edges, die-cut sticker style, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: lotus seal, golden lotus, zen symbol, spiritual emblem, jade artifact, glowing talisman, meditation seal, buddhist art, sacred sticker, enlightenment tool, decorative decal, water bottle sticker
+Timestamp: 2026-04-04 23:59:56
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-Ancient-Talisman-Seal-0004-Review\metadata.txt ###
+ID: Sticker-Zen-Ancient-Talisman-Seal-0004
+Style: Zen-Ancient-Talisman-Seal Mentor-Grade Style
+Title: Enso Circle Protection Seal | 円相护印
+MJ_Prompt: A perfect Enso circle Zen talisman seal, formed from Translucent Imperial Jade with Kintsugi Gold Veins creating imperfect beauty breaks in the circle, radiating Bioluminescent Glow along the entire circumference, showing swirling Internal Crystalline Structures within the jade, on solid white, white contour border, vector clean edges, die-cut sticker style, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: enso seal, circle talisman, zen circle, imperfect beauty, jade circle, glowing ring, meditation symbol, wabi-sabi art, protection seal, minimalist circle, spiritual decal, journal sticker
+Timestamp: 2026-04-05 00:01:35
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-Ancient-Talisman-Seal-0005-Review\metadata.txt ###
+ID: Sticker-Zen-Ancient-Talisman-Seal-0005
+Style: Zen-Ancient-Talisman-Seal Mentor-Grade Style
+Title: Dragon Wisdom Talisman Seal | 龙智法印
+MJ_Prompt: An ancient Zen talisman seal featuring a coiled dragon, carved from Translucent Imperial Jade scales with Kintsugi Gold Veins along the spine, eyes glowing with intense Bioluminescent Glow, body showing intricate Internal Crystalline Structures like dragon bones, on solid white background, white contour border, vector clean edges, die-cut sticker style, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: dragon seal, wisdom talisman, zen dragon, jade dragon, mythical creature, glowing eyes, protection symbol, asian mythology, power seal, fantasy sticker, gaming decal, laptop dragon
+Timestamp: 2026-04-05 00:03:11
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-Ancient-Talisman-Seal-0008-Review\metadata.txt ###
+ID: Sticker-Zen-Ancient-Talisman-Seal-0008
+Style: Zen-Ancient-Talisman-Seal Mentor-Grade Style
+Title: Phoenix Rebirth Seal | 凤凰生印
+MJ_Prompt: A Zen talisman seal of a rising phoenix, formed from Translucent Imperial Jade feathers with Kintsugi Gold Veins highlighting each plume, entire body glowing with Bioluminescent Glow, showing radiant Internal Crystalline Structures within, on solid white, white contour border, vector clean edges, die-cut sticker style, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: phoenix seal, rebirth talisman, zen phoenix, jade bird, glowing rebirth, transformation symbol, renewal emblem, mythical bird, new beginning, inspirational sticker, healing decal, spiritual rebirth
+Timestamp: 2026-04-05 00:08:50
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-Ancient-Talisman-Seal-0010-Review\metadata.txt ###
+ID: Sticker-Zen-Ancient-Talisman-Seal-0010
+Style: Zen-Ancient-Talisman-Seal Mentor-Grade Style
+Title: Turtle Longevity Seal | 龟寿印
+MJ_Prompt: A Zen talisman seal of a wise turtle, carved from Translucent Imperial Jade shell with Kintsugi Gold Veins mapping ancient patterns, glowing with Bioluminescent Glow from the edges, showing Internal Crystalline Structures like turtle shell plates, on solid white, white contour border, vector clean edges, die-cut sticker style, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: turtle seal, longevity talisman, zen turtle, jade animal, glowing shell, wisdom symbol, patience emblem, slow living, longevity gift, animal lover sticker, nature decal, spiritual animal
+Timestamp: 2026-04-05 00:13:09
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-Mythic-Kirin-Totem-0001-Review\metadata.txt ###
+ID: Sticker-Zen-Mythic-Kirin-Totem-0001
+Style: Zen-Mythic-Kirin-Totem Mentor-Grade Style
+Title: Kirin Totem Sticker | 麒麟图腾贴纸
+MJ_Prompt: A Zen-Mythic Kirin Totem, Translucent Imperial Jade body with Kintsugi Gold Veins forming ancient patterns, Bioluminescent Glow emanating from Internal Crystalline Structures within the creature's form, ethereal mist, hyper-detailed, mythical creature design, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: mythical kirin, jade totem, gold kintsugi, bioluminescent, zen creature, spiritual sticker, die-cut decal, laptop sticker, water bottle decal, journal decoration, mythical beast, collectible art, zen mythology
+Timestamp: 2026-04-05 00:15:04
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-Mythic-Kirin-Totem-0002-Review\metadata.txt ###
+ID: Sticker-Zen-Mythic-Kirin-Totem-0002
+Style: Zen-Mythic-Kirin-Totem Mentor-Grade Style
+Title: Celestial Kirin Guardian Sticker | 天界麒麟守护者贴纸
+MJ_Prompt: A Celestial Kirin Guardian Totem, Bioluminescent Glow outlining a majestic Kirin form with Translucent Imperial Jade scales, Kintsugi Gold Veins tracing celestial constellations on its body, Internal Crystalline Structures visible like stars within, on a solid white background, white contour border, vector clean edges, die-cut sticker style, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: celestial guardian, star kirin, jade scales, constellation art, glowing creature, protective totem, spiritual art, vinyl sticker, phone case decal, mythical guardian, zen art, collectible sticker, astral mythology
+Timestamp: 2026-04-05 00:15:35
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-Mythic-Kirin-Totem-0003-Review\metadata.txt ###
+ID: Sticker-Zen-Mythic-Kirin-Totem-0003
+Style: Zen-Mythic-Kirin-Totem Mentor-Grade Style
+Title: Kintsugi Kirin Amulet Sticker | 金继麒麟护身符贴纸
+MJ_Prompt: A Kintsugi Kirin Amulet Totem, the mythical beast appears as a broken and repaired artifact with prominent Kintsugi Gold Veins, made of Translucent Imperial Jade that reveals Bioluminescent Glow from within, Internal Crystalline Structures catching the light, minimalist zen design, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: kintsugi art, broken repaired, jade amulet, glowing talisman, minimalist zen, symbolic sticker, laptop decal, spiritual charm, Japanese art, mythical amulet, repair art, meaningful design, totem sticker
+Timestamp: 2026-04-05 00:16:54
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-Mythic-Kirin-Totem-0004-Review\metadata.txt ###
+ID: Sticker-Zen-Mythic-Kirin-Totem-0004
+Style: Zen-Mythic-Kirin-Totem Mentor-Grade Style
+Title: Crystalline Kirin Spirit Sticker | 水晶麒麟精灵贴纸
+MJ_Prompt: A Crystalline Kirin Spirit Totem, the creature's form is composed entirely of intricate Internal Crystalline Structures that emit a soft Bioluminescent Glow, with accents of Kintsugi Gold Veins along the edges, Translucent Imperial Jade tones, ethereal and abstract, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: crystal creature, geometric kirin, glowing spirit, abstract totem, zen geometry, crystal art, spiritual geometry, laptop sticker, water bottle art, mystical design, light spirit, collectible decal, zen crystal
+Timestamp: 2026-04-05 00:17:58
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-Mythic-Kirin-Totem-0006-Review\metadata.txt ###
+ID: Sticker-Zen-Mythic-Kirin-Totem-0006
+Style: Zen-Mythic-Kirin-Totem Mentor-Grade Style
+Title: Bioluminescent Kirin Mandala Sticker | 生物发光麒麟曼荼罗贴纸
+MJ_Prompt: A Kirin Mandala Totem, the mythical beast arranged in a symmetrical circular pattern, its body glowing with Bioluminescent Glow, constructed from Translucent Imperial Jade segments joined by Kintsugi Gold Veins, intricate Internal Crystalline Structures at the center, zen mandala art, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: kirin mandala, circular design, glowing symmetry, jade mandala, spiritual circle, meditation art, yoga sticker, journal decoration, symmetrical totem, zen mandala, sacred geometry, mythical mandala, sticker art
+Timestamp: 2026-04-05 00:19:16
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-Mythic-Kirin-Totem-0007-Review\metadata.txt ###
+ID: Sticker-Zen-Mythic-Kirin-Totem-0007
+Style: Zen-Mythic-Kirin-Totem Mentor-Grade Style
+Title: Zen Kirin Cub Sticker | 禅麒麟幼兽贴纸
+MJ_Prompt: A Zen Kirin Cub Totem, a younger, more playful version of the mythical creature made of Translucent Imperial Jade, with delicate Kintsugi Gold Veins like cracks of lightning, a warm Bioluminescent Glow in its belly, small Internal Crystalline Structures visible, adorable mythical design, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: kirin cub, baby mythical, playful creature, jade animal, cute totem, glowing belly, adorable sticker, kids decoration, playful art, mythical pet, charming design, kawaii kirin, collectible cute
+Timestamp: 2026-04-05 00:20:24
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-Mythic-Kirin-Totem-0008-Review\metadata.txt ###
+ID: Sticker-Zen-Mythic-Kirin-Totem-0008
+Style: Zen-Mythic-Kirin-Totem Mentor-Grade Style
+Title: Stormcaller Kirin Totem Sticker | 唤雷麒麟图腾贴纸
+MJ_Prompt: A Stormcaller Kirin Totem, the creature summoned from a tempest, its Translucent Imperial Jade form crackling with Kintsugi Gold Veins like lightning, Bioluminescent Glow intensifying at its hooves and antlers, Internal Crystalline Structures charged with energy, dynamic zen action, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: storm kirin, lightning creature, energy totem, dynamic myth, powerful sticker, action design, gamer decal, laptop art, energetic art, thunder beast, elemental kirin, powerful zen, storm art
+Timestamp: 2026-04-05 00:21:31
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-Mythic-Kirin-Totem-0009-Review\metadata.txt ###
+ID: Sticker-Zen-Mythic-Kirin-Totem-0009
+Style: Zen-Mythic-Kirin-Totem Mentor-Grade Style
+Title: Kirin & Cherry Blossom Sticker | 麒麟与樱花贴纸
+MJ_Prompt: A Kirin Totem resting beneath a cherry blossom tree, the creature's Translucent Imperial Jade body adorned with Kintsugi Gold Veins, soft Bioluminescent Glow matching the pink blossoms, Internal Crystalline Structures like dewdrops, serene zen scene, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: kirin blossoms, cherry blossom, serene scene, peaceful totem, spring myth, floral creature, nature sticker, calming art, spring design, floral zen, peaceful decal, blossom art, mythical nature
+Timestamp: 2026-04-05 00:22:50
+
+
+============================================================
+
+### FILE: .\Output\Sticker\Kiss-Cut\Sticker-Zen-Mythic-Kirin-Totem-0010-Review\metadata.txt ###
+ID: Sticker-Zen-Mythic-Kirin-Totem-0010
+Style: Zen-Mythic-Kirin-Totem Mentor-Grade Style
+Title: Geometric Kirin Sigil Sticker | 几何麒麟符印贴纸
+MJ_Prompt: A Geometric Kirin Sigil Totem, the creature deconstructed into clean, interlocking geometric shapes of Translucent Imperial Jade, connected by precise Kintsugi Gold Veins, Bioluminescent Glow at the intersections, Internal Crystalline Structures as core shapes, modern zen design, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: geometric kirin, modern totem, sigil design, clean geometry, jade shapes, glowing lines, modern zen, tech decal, minimalist sticker, symbolic geometry, abstract myth, graphic design, sigil art
+Timestamp: 2026-04-05 00:23:55
+
+
+============================================================
+
+### FILE: .\Output\Test\Sticker-Academia-Jade-Artifact-0002-Review\metadata.txt ###
+ID: Sticker-Academia-Jade-Artifact-0002
+Style: Academia-Jade-Artifact Mentor-Grade Style
+Title: Jade Library Seal of Forgotten Lore | 忘れられた知の玉璽
+MJ_Prompt: A heavy library seal stamp artifact made of Translucent Imperial Jade, Kintsugi Gold Veins tracing cracks from ancient use, Bioluminescent Glow pulsing within carved runic text, Internal Crystalline Structures visible at broken edges under study lamp light, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: jade seal, academic authority, library artifact, runic text, glowing script, gold kintsugi, crystalline break, ancient knowledge, wax stamp, scholarly power, artifact sticker, lore keeper, mentor-grade
+Timestamp: 2026-04-04 23:50:40
+
+
+============================================================
+
+### FILE: .\Output\Test\Sticker-Academia-Jade-Artifact-0003-Review\metadata.txt ###
+ID: Sticker-Academia-Jade-Artifact-0003
+Style: Academia-Jade-Artifact Mentor-Grade Style
+Title: Astrolabe of Jade and Starlight | 玉石の星測儀
+MJ_Prompt: A complex astrolabe artifact crafted from Translucent Imperial Jade rings, Kintsugi Gold Veins mending celestial map plates, Bioluminescent Glow highlighting constellation points, Internal Crystalline Structures within gear mechanisms under observatory lighting, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: jade astrolabe, astronomical instrument, star mapping, celestial artifact, glowing constellations, gold repair, crystal gears, ancient science, navigation tool, scholarly device, artifact sticker, cosmic academia, mentor-grade
+Timestamp: 2026-04-04 23:51:38
+
+
+============================================================
+
+### FILE: .\Output\Test\Sticker-Academia-Jade-Artifact-0004-Review\metadata.txt ###
+ID: Sticker-Academia-Jade-Artifact-0004
+Style: Academia-Jade-Artifact Mentor-Grade Style
+Title: Scholar's Jade Inkwell with Eternal Ink | 学者の玉インク壺
+MJ_Prompt: An ornate academic inkwell artifact hewn from Translucent Imperial Jade, Kintsugi Gold Veins sealing hairline fractures, Bioluminescent Glow emanating from dark eternal ink within, Internal Crystalline Structures visible in the jade's depths under desk lamp glow, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: jade inkwell, writing artifact, eternal ink, scholar's desk, glowing fluid, gold kintsugi, crystal clarity, ancient stationery, calligraphy tool, knowledge vessel, artifact sticker, academic essence, mentor-grade
+Timestamp: 2026-04-04 23:53:01
+
+
+============================================================
+
+### FILE: .\Output\Test\Sticker-Academia-Jade-Artifact-0005-Review\metadata.txt ###
+ID: Sticker-Academia-Jade-Artifact-0005
+Style: Academia-Jade-Artifact Mentor-Grade Style
+Title: Jade-Cased Magnifying Glass of Revelation | 啓示の玉虫眼鏡
+MJ_Prompt: A scholar's magnifying glass with handle and frame of Translucent Imperial Jade, Kintsugi Gold Veins repairing the delicate grip, Bioluminescent Glow focusing through the lens onto ancient text, Internal Crystalline Structures in the jade handle under focused light, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: jade magnifier, inspection tool, revealing artifact, scholarly lens, glowing focus, gold repair, crystal handle, ancient research, detail study, discovery instrument, artifact sticker, academic vision, mentor-grade
+Timestamp: 2026-04-04 23:53:37
+
+
+============================================================
+
+### FILE: .\Output\Test\Sticker-Academia-Jade-Artifact-0006-Review\metadata.txt ###
+ID: Sticker-Academia-Jade-Artifact-0006
+Style: Academia-Jade-Artifact Mentor-Grade Style
+Title: Abacus of Jade Calculation | 玉算盤
+MJ_Prompt: An ancient calculation abacus artifact with beads of Translucent Imperial Jade on bronze rods, Kintsugi Gold Veins mending cracked beads, Bioluminescent Glow within each jade bead, Internal Crystalline Structures visible in broken bead fragments under study light, white contour border, vector clean edges, die-cut sticker style, solid white background, 3D relief effect, sharp focus, --ar 1:1
+SEO_Hook: jade abacus, calculation artifact, mathematical tool, ancient computing, glowing beads, gold kintsugi, crystal fragments, scholarly math, accounting history, number keeper, artifact sticker, academic logic, mentor-grade
+Timestamp: 2026-04-04 23:54:44
 
 
 ============================================================
