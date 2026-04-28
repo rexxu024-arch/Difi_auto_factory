@@ -1,6 +1,12 @@
 import os, time, requests, datetime, shutil, re, json
+from pathlib import Path
+from openpyxl import load_workbook
 from config import Config
 from modules.spec_registry import Registry
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+PRODUCTION_LINE_PATH = PROJECT_ROOT / "Database" / "Production_Line.xlsx"
+PRODUCTION_HEADERS = ["ID", "Timestamp", "Category", "Product_Type", "Style", "Title", "MJ_Prompt", "SEO_Hook", "Status"]
 
 # --- 1. 核心通讯 (保持 V15.9 稳定性) ---
 def _interaction(payload):
@@ -9,11 +15,95 @@ def _interaction(payload):
         return requests.post("https://discord.com/api/v9/interactions", json=payload, headers=headers, timeout=10)
     except: return None
 
-def _update_gas_status(t_id, status="Completed"):
-    payload = {"id": t_id, "status": status}
+def _load_production_workbook():
+    wb = load_workbook(PRODUCTION_LINE_PATH)
+    ws = wb.active
+    headers = [ws.cell(1, c).value for c in range(1, len(PRODUCTION_HEADERS) + 1)]
+    if headers != PRODUCTION_HEADERS:
+        wb.close()
+        raise RuntimeError(f"Production_Line.xlsx header mismatch: {headers}")
+    return wb, ws, {name: idx + 1 for idx, name in enumerate(PRODUCTION_HEADERS)}
+
+def _read_ready_tasks(product_type):
+    wb, ws, cols = _load_production_workbook()
+    tasks = []
     try:
-        requests.post(Config.GAS_URL, data=json.dumps(payload), timeout=15)
-    except: pass
+        for row in range(2, ws.max_row + 1):
+            row_status = str(ws.cell(row, cols["Status"]).value or "").strip()
+            row_product = str(ws.cell(row, cols["Product_Type"]).value or "").strip()
+            if row_status != "Ready_for_production":
+                continue
+            if row_product.lower() != str(product_type).lower():
+                continue
+            task = {header: ws.cell(row, cols[header]).value for header in PRODUCTION_HEADERS}
+            task["_row"] = row
+            tasks.append(task)
+    finally:
+        wb.close()
+    return tasks
+
+def _update_status_via_excel_com(t_id, status):
+    import pythoncom
+    import win32com.client
+
+    pythoncom.CoInitialize()
+    excel = None
+    workbook = None
+    created_excel = False
+    abs_path = str(PRODUCTION_LINE_PATH)
+    try:
+        try:
+            workbook = win32com.client.GetObject(abs_path)
+            excel = workbook.Application
+        except Exception:
+            excel = win32com.client.DispatchEx("Excel.Application")
+            created_excel = True
+            excel.DisplayAlerts = False
+            workbook = excel.Workbooks.Open(abs_path)
+
+        ws = workbook.Worksheets(1)
+        headers = [ws.Cells(1, c).Value for c in range(1, len(PRODUCTION_HEADERS) + 1)]
+        if headers != PRODUCTION_HEADERS:
+            raise RuntimeError(f"Production_Line.xlsx header mismatch: {headers}")
+
+        max_row = ws.UsedRange.Rows.Count
+        for row in range(2, max_row + 1):
+            if str(ws.Cells(row, 1).Value or "").strip() == str(t_id).strip():
+                ws.Cells(row, 9).Value = status
+                workbook.Save()
+                return True
+        return False
+    finally:
+        if created_excel and workbook is not None:
+            workbook.Close(SaveChanges=True)
+        if created_excel and excel is not None:
+            excel.Quit()
+        pythoncom.CoUninitialize()
+
+def _update_product_line_status(t_id, status="Completed"):
+    try:
+        wb, ws, cols = _load_production_workbook()
+        try:
+            for row in range(2, ws.max_row + 1):
+                if str(ws.cell(row, cols["ID"]).value or "").strip() == str(t_id).strip():
+                    ws.cell(row, cols["Status"]).value = status
+                    try:
+                        wb.save(PRODUCTION_LINE_PATH)
+                    except PermissionError:
+                        wb.close()
+                        if _update_status_via_excel_com(t_id, status):
+                            return
+                        print(f"[WARN] ID:{t_id} not found in Production_Line.xlsx; status not updated.")
+                        return
+                    return
+            print(f"[WARN] ID:{t_id} not found in Production_Line.xlsx; status not updated.")
+        finally:
+            try:
+                wb.close()
+            except Exception:
+                pass
+    except Exception as exc:
+        print(f"[WARN] Failed to update Production_Line.xlsx status for ID:{t_id}: {exc}")
 
 def _download_asset(url, save_dir, filename):
     full_path = os.path.join(save_dir, filename)
@@ -28,7 +118,7 @@ def _download_asset(url, save_dir, filename):
 
 def _purge_asset(path, t_id, status="Defeated_Prompt"):
     if path and os.path.exists(path): shutil.rmtree(path)
-    _update_gas_status(t_id, status)
+    _update_product_line_status(t_id, status)
     print(f"🗑️ [ID:{t_id}] 清理并标记为 {status}")
 
 def save_dual_metadata(save_path, task_a, task_b=None):
@@ -53,8 +143,7 @@ def run_logic():
 
     # 任务初始化
     try:
-        res = requests.get(Config.GAS_URL, params={"action": "getDNA"}, timeout=15)
-        raw_list = [t for t in res.json() if str(t.get("Status")) == "Ready_for_production" and str(t.get("Product_Type")).lower() == sel_cat.lower()]
+        raw_list = _read_ready_tasks(sel_cat)
         style_map = {}
         for t in raw_list:
             s = t.get("Style", "Default"); style_map.setdefault(s, []).append(t)
@@ -68,12 +157,14 @@ def run_logic():
                     else:
                         # 妥善处理末尾孤儿
                         orphan = tasks.pop(0)
-                        _update_gas_status(orphan['ID'], "Defeated_Orphan")
+                        _update_product_line_status(orphan['ID'], "Defeated_Orphan")
                         print(f"⚠️ [Orphan] {orphan['ID']} 样式配对失败，已排除。")
                 else:
                     batch_queue.append([tasks.pop(0)])
         print(f"📦 预备批次: {len(batch_queue)}")
-    except: return
+    except Exception as exc:
+        print(f"[ERROR] Failed to load Production_Line.xlsx tasks: {exc}")
+        return
 
     active_pool = {}
     MAX_PARALLEL = 3
@@ -144,13 +235,13 @@ def run_logic():
                             shutil.move(os.path.join(p_info["path"], f"{partner_id}_Grid.png"), m_path)
                             shutil.rmtree(info["path"]); shutil.rmtree(p_info["path"])
                             save_dual_metadata(m_path, info['task_obj'], p_info['task_obj'])
-                            _update_gas_status(tid); _update_gas_status(partner_id)
+                            _update_product_line_status(tid); _update_product_line_status(partner_id)
                             print(f"💎 [MASTER] {tid} & {partner_id} PAIRED.")
                             del active_pool[tid]
                             del active_pool[partner_id]
                     else:
                         save_dual_metadata(info["path"], info['task_obj'])
-                        _update_gas_status(tid); print(f"✅ [DONE] {tid}"); del active_pool[tid]
+                        _update_product_line_status(tid); print(f"✅ [DONE] {tid}"); del active_pool[tid]
 
     print("\n🏁 全覆盖流程结束。")
 

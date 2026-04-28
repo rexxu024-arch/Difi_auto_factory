@@ -1,5 +1,5 @@
 import sys
-from modules import mentor_hub, product_line, mj_harvest, iron_audit
+from modules import mentor_hub, product_line
 from config import Config
 
 def print_stage(num, title, desc):
@@ -25,13 +25,15 @@ def main():
             print_stage(1, "MENTOR_HUB", "分析市场 Niche 与 Prompt 逻辑架构...")
             mentor_hub.run_logic()
         elif choice == '2':
-            print_stage(2, "PRODUCT_LINE", "同步 GAS 任务数据，准备生产位点...")
+            print_stage(2, "PRODUCT_LINE", "同步 Gold DNA，准备生产位点...")
             product_line.run_logic()
         elif choice == '3':
+            from modules import mj_harvest
             print_stage(3, "MJ_HARVEST", "启动异步收割：批量发送指令并追踪图片落地...")
             mj_harvest.run_logic()
             print("\n✅ [STAGE 3 COMPLETE] 所有任务已触发 Un 并验证下载。")
         elif choice == '4':
+            from modules import iron_audit
             print_stage(4, "IRON_AUDIT", "启动物理加工：去背景、DPI 注入与归档...")
             iron_audit.run_logic()
             print("\n✅ [STAGE 4 COMPLETE] 审计完成，任务已移至 -Ready。")

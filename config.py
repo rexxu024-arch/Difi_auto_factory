@@ -96,3 +96,7 @@ class Config:
 
 if __name__ == "__main__":
     Config.audit()
+
+CLAUDE_API_KEY = Config.CLAUDE_API_KEY
+DEEPSEEK_API_KEY = Config.DEEPSEEK_API_KEY
+BASE_URL = Config.CLAUDE_BASE_URL or Config.DEEPSEEK_BASE_URL
