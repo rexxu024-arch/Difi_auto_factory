@@ -57,13 +57,13 @@ PRODUCT_TEMPLATES = {
     },
     "Poster": {
         "layout": "Full_Frame",
-        "ar": "--ar 9:16",
-        "suffix": "full frame, cinematic lighting, edge-to-edge composition, immersive environment",
+        "ar": "--ar 2:3",
+        "suffix": "premium matte vertical poster composition, full frame, cinematic lighting, edge-to-edge composition, immersive environment, 12x18 wall art format",
     },
     "Acrylic": {
         "layout": "Full_Frame",
-        "ar": "--ar 2:3",
-        "suffix": "3D depth, refractive light, internal glow, ray tracing",
+        "ar": "--ar 5:7",
+        "suffix": "premium vertical acrylic photo block composition, 3D depth, refractive light, internal glow, ray tracing, gallery collectible art object",
     },
     "T-shirt": {
         "layout": "Isolated",
@@ -371,7 +371,14 @@ def build_prompt(seed, product_type, batch_count=BATCH_LIMIT):
         "rules": [
             f"Generate exactly {int(batch_count)} visually unified but non-duplicate design variants.",
             "Each item must contain Title, MJ_Prompt, SEO_Hook.",
-            "Keep the core subject, material logic, and lighting from Gold_Prompt_DNA.",
+            "Preserve the material logic, mood, and premium visual language from Gold_Prompt_DNA, but DO NOT repeat the same core subject across the batch.",
+            "Every batch must cover a subject diversity matrix: creature, botanical object, ritual instrument, architectural relic, talisman/seal, vessel/container, celestial object, weapon/tool, landscape micro-scene, abstract symbol.",
+            "Use each primary subject slot at most once per batch. If one item is a phoenix, no other item may be phoenix-like; if one item is a seal, no other item may be seal/medallion/sigil-like.",
+            "Do not let the source DNA become a repeated mascot. The source DNA is a material and atmosphere reference, not permission to repeat one object 20 times.",
+            "Titles must make the unique focal object obvious in 2 to 5 words.",
+            "Adjacent designs must not share the same primary noun or silhouette. Examples: do not output 20 Enso circles, 20 koi, 20 dragons, 20 torii gates, or 20 hourglasses.",
+            "Each design must have a visibly different silhouette, focal object, pose/angle, accessory system, and composition, while still belonging to the same Sub_Category aesthetic.",
+            "Avoid synonym-only variation. Colorway, lighting, or adjective changes alone are not enough to count as a new design.",
             "Do not preserve the original Midjourney aspect ratio; use product_ar exactly.",
             "MJ_Prompt must follow: [DNA Subject Description], [Product Suffix Keywords], [Product AR] --v 6.1 --style raw --no skin, person, text, watermark",
             "Do not include newline characters.",
@@ -507,6 +514,82 @@ def normalize_variants(seed, raw_variants, product_type):
     if len(variants) != 20:
         raise ProductLineError(f"Expected 20 variants, got {len(variants)}")
     return variants
+
+
+SIMILARITY_STOPWORDS = {
+    "with", "from", "into", "that", "this", "style", "sticker", "design", "white", "background",
+    "isolated", "vector", "clean", "edges", "border", "solid", "sharp", "focus", "raw", "skin",
+    "person", "text", "watermark", "mentor-grade", "hyper-detailed", "premium", "composition",
+    "cinematic", "lighting", "material", "system", "primary", "surface", "relief", "visible",
+    "handcrafted", "subtle", "internal", "glow", "crisp", "silhouette", "readability",
+    "celestial", "astral", "lunar", "cosmic", "starbound", "starborne", "moonlit", "moonstone",
+    "jade", "obsidian", "sapphire", "rainbow", "white", "black", "golden", "silver", "indigo",
+    "violet", "emerald", "nebula", "ink-wash", "fragments", "floating", "orbiting", "crafted",
+    "carved", "formed", "constructed", "sculpted", "ancient", "sacred", "mythical", "divine",
+}
+
+
+SUBJECT_GROUPS = {
+    "phoenix": {"phoenix", "bird", "crane", "eagle", "feather", "wings", "winged"},
+    "dragon": {"dragon", "serpent", "wyrm"},
+    "koi": {"koi", "fish", "carp"},
+    "beast": {"lion", "tiger", "fox", "wolf", "kirin", "qilin", "guardian", "beast"},
+    "lotus": {"lotus", "flower", "bloom", "petal", "blossom"},
+    "tree": {"tree", "bonsai", "bamboo", "branch", "pine", "willow"},
+    "instrument": {"guqin", "bell", "chime", "flute", "drum", "singing", "bowl", "instrument"},
+    "vessel": {"vessel", "cauldron", "urn", "chalice", "bowl", "jar", "teapot", "incense", "burner"},
+    "gate": {"gate", "torii", "portal", "doorway", "archway", "shrine"},
+    "pagoda": {"pagoda", "temple", "tower", "lantern", "pavilion", "bridge"},
+    "seal": {"seal", "sigil", "medallion", "emblem", "crest", "talisman", "amulet"},
+    "globe": {"globe", "orb", "sphere", "planet", "astrolabe", "compass"},
+    "scroll": {"scroll", "manuscript", "tablet", "book", "sutra", "script"},
+    "weapon": {"sword", "blade", "dagger", "spear", "staff", "wand", "vajra"},
+    "landscape": {"mountain", "waterfall", "river", "island", "garden", "landscape", "pond"},
+    "abstract": {"enso", "mandala", "geometry", "knot", "spiral", "circle", "constellation"},
+}
+
+
+def diversity_tokens(title, prompt):
+    text = strip_suffix(f"{title} {prompt}").lower()
+    words = re.findall(r"[a-z][a-z-]{3,}", text)
+    return {
+        word
+        for word in words
+        if word not in SIMILARITY_STOPWORDS and not word.startswith("variant")
+    }
+
+
+def subject_key(title, prompt):
+    text = strip_suffix(f"{title} {prompt}").lower()
+    words = set(re.findall(r"[a-z][a-z-]{2,}", text))
+    for key, aliases in SUBJECT_GROUPS.items():
+        if words & aliases:
+            return key
+    title_words = [
+        word
+        for word in re.findall(r"[a-z][a-z-]{3,}", str(title or "").lower())
+        if word not in SIMILARITY_STOPWORDS
+    ]
+    return title_words[-1] if title_words else ""
+
+
+def similarity_score(tokens_a, tokens_b):
+    if not tokens_a or not tokens_b:
+        return 0.0
+    return len(tokens_a & tokens_b) / max(1, len(tokens_a | tokens_b))
+
+
+def too_similar_to_saved(title, prompt, saved_variants, threshold=0.50):
+    current = diversity_tokens(title, prompt)
+    current_subject = subject_key(title, prompt)
+    for saved in saved_variants:
+        saved_subject = saved.get("_subject_key", "")
+        if current_subject and saved_subject and current_subject == saved_subject:
+            return True, 1.0, saved["Title"]
+        score = similarity_score(current, saved["_diversity_tokens"])
+        if score >= threshold:
+            return True, score, saved["Title"]
+    return False, 0.0, ""
 
 
 def normalize_variant(seed, item, product_type, index=1):
@@ -712,12 +795,18 @@ def process_seed(seed, product_type="Sticker", batch_count=BATCH_LIMIT, max_seco
             print(f"[AUDIT] Batch exceeded {max_seconds}s after saved={saved}. Breaking for debug-safe resume.")
             break
         variant = normalize_variant(seed, item, product_type, saved + 1)
+        too_close, score, near_title = too_similar_to_saved(variant["Title"], variant["MJ_Prompt"], output_rows)
+        if too_close:
+            print(f"[DIVERSITY] Rejected near-duplicate score={score:.2f}: {variant['Title']} ~ {near_title}")
+            continue
         fp = f"{variant['Title']}|{variant['MJ_Prompt']}|{variant['SEO_Hook']}"
         if fp in seen:
             continue
         seen.add(fp)
         row = build_output_row(seed, variant, product_type)
         row["MJ_Prompt"] = clean_prompt(row["MJ_Prompt"])
+        row["_diversity_tokens"] = diversity_tokens(row["Title"], row["MJ_Prompt"])
+        row["_subject_key"] = subject_key(row["Title"], row["MJ_Prompt"])
         append_row(row)
         increment_design_count_by_row(seed, 1)
         saved += 1

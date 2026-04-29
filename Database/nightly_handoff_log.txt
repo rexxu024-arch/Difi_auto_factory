@@ -1,0 +1,35 @@
+[2026-04-29 00:03:10] Sticker overnight runner started. counts={'Quality_Hold_LowRes_U': 27, 'Printify_UI_Mockups5': 17, 'Ready_for_Printify': 105}
+[2026-04-29 00:05:28] [FULL-PIPELINE] 1/1 Sticker-Zen-0008 product=69f1aef4bb6f6dd6270dc7d5 selected_mockups=5
+[DONE] Full Printify pipeline completed: 1
+[2026-04-29 00:05:32] [DONE] UI mockup uploads: 0
+[2026-04-29 00:05:33] Sticker progress processed=1 counts={'Quality_Hold_LowRes_U': 27, 'Printify_UI_Mockups5': 18, 'Ready_for_Printify': 104}
+[2026-04-29 00:07:43] [FULL-PIPELINE] 1/1 Sticker-Zen-0009 product=69f1af85bb6f6dd6270dc848 selected_mockups=5
+[DONE] Full Printify pipeline completed: 1
+[2026-04-29 00:07:45] [DONE] UI mockup uploads: 0
+[2026-04-29 00:07:46] Sticker progress processed=2 counts={'Quality_Hold_LowRes_U': 27, 'Printify_UI_Mockups5': 19, 'Ready_for_Printify': 103}
+[2026-04-29 00:08:33] [FULL-PIPELINE-FAIL] Sticker-Zen-0010: no close frame received or sent
+[DONE] Full Printify pipeline completed: 0
+[2026-04-29 00:08:40] [MOCKUP-UI-FAIL] Sticker-Zen-0010: Open Printify product page first: 69f1b00840c796ee97058144
+[DONE] UI mockup uploads: 0
+[2026-04-29 00:08:40] Sticker progress processed=2 counts={'Quality_Hold_LowRes_U': 27, 'Printify_UI_Mockups5': 19, 'Printify_UI_Failed': 1, 'Ready_for_Printify': 102}
+[2026-04-29 00:11:51] [FULL-PIPELINE-FAIL] Sticker-Zen-0010: Mockups still unlinked: 5
+[DONE] Full Printify pipeline completed: 0
+[2026-04-29 00:12:31] Sticker progress processed=2 counts={'Quality_Hold_LowRes_U': 27, 'Printify_UI_Mockups5': 19, 'Printify_UI_Failed': 1, 'Ready_for_Printify': 102}
+[2026-04-29 00:14:29] [FULL-PIPELINE] 1/1 Sticker-Zen-0010 product=69f1b00840c796ee97058144 selected_mockups=5
+[DONE] Full Printify pipeline completed: 1
+[2026-04-29 00:14:36] [DONE] UI mockup uploads: 0
+[2026-04-29 00:14:37] Sticker progress processed=3 counts={'Quality_Hold_LowRes_U': 27, 'Printify_UI_Mockups5': 20, 'Ready_for_Printify': 102}
+[2026-04-29 00:16:03] [FULL-PIPELINE-FAIL] Sticker-Zen-0022: Continue button not found
+[DONE] Full Printify pipeline completed: 0
+[2026-04-29 00:16:50] [MOCKUP-UI-FAIL] Sticker-Zen-0022: Continue button not found
+[DONE] UI mockup uploads: 0
+[2026-04-29 00:16:50] Sticker progress processed=3 counts={'Quality_Hold_LowRes_U': 27, 'Printify_UI_Mockups5': 20, 'Printify_UI_Failed': 1, 'Ready_for_Printify': 101}
+[2026-04-29 00:17:45] [FULL-PIPELINE-FAIL] Sticker-Zen-0022: Continue button not found
+[DONE] Full Printify pipeline completed: 0
+[2026-04-29 00:19:26] [MOCKUP-UI] Sticker-Zen-0022 product=69f1b1ab63935da7e8064bab selected_mockups=5
+[DONE] UI mockup uploads: 1
+[2026-04-29 00:19:26] Sticker progress processed=4 counts={'Quality_Hold_LowRes_U': 27, 'Printify_UI_Mockups5': 21, 'Ready_for_Printify': 101}
+[2026-04-29 01:50:39] Checkpoint blocked: git add could not create .git/index.lock (Permission denied). Working tree left unchanged; no push attempted.
+[2026-04-29T01:52:43-07:00] Checkpoint blocked: git add failed with Unable to create .git/index.lock: Permission denied. No commit or push performed. Working tree still has uncommitted code and data changes; transient files remain untracked.
+
+2026-04-29 03:53:28 -07:00 checkpoint blocked: git could not create .git/index.lock (permission denied) during staging/commit. No force action taken.

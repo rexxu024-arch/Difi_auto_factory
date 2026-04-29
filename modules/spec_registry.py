@@ -9,7 +9,8 @@ class ProductDef:
 class Registry:
     # --- 1. 硬编码固定顺序与产品制式 (按你的要求排序) ---
     STICKER = ProductDef("Sticker", ["Kiss-Cut", "Die-Cut", "Standard"])
-    POSTER = ProductDef("Poster", ["Fine-Art-Print", "Blueprint-Texture", "Laminated"])
+    POSTER = ProductDef("Poster", ["Premium-Matte-Vertical", "Fine-Art-Print", "Blueprint-Texture", "Laminated"])
+    ACRYLIC = ProductDef("Acrylic", ["Photo-Block", "Acrylic-Mount"])
     TSHIRT = ProductDef("T-Shirt", ["DTG-Print", "Screen-Print"])
     WALL_ART = ProductDef("Wall Art", ["Canvas-Wrapped", "Acrylic-Mount"])
 
@@ -17,8 +18,9 @@ class Registry:
     CATALOG = {
         "1": STICKER,
         "2": POSTER,
-        "3": TSHIRT,
-        "4": WALL_ART
+        "3": ACRYLIC,
+        "4": TSHIRT,
+        "5": WALL_ART
     }
 
     @staticmethod
