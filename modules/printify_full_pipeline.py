@@ -23,6 +23,23 @@ EBAY_BOOK = PROJECT_ROOT / "Database" / "eBay_listing.xlsx"
 CHROME_DEBUG_URL = "http://127.0.0.1:9222"
 
 
+class PrintifyLoginRequired(RuntimeError):
+    pass
+
+
+def _assert_printify_ui_logged_in():
+    try:
+        with urllib.request.urlopen(f"{CHROME_DEBUG_URL}/json/list", timeout=10) as response:
+            pages = json.load(response)
+    except Exception as exc:
+        raise PrintifyLoginRequired(f"Printify browser control is unavailable: {exc}") from exc
+    printify_pages = [page for page in pages if "printify.com/app" in page.get("url", "")]
+    if not printify_pages:
+        raise PrintifyLoginRequired("Open and log in to Printify in the Codex browser before UI mockup upload.")
+    if any("/auth/login" in page.get("url", "") for page in printify_pages):
+        raise PrintifyLoginRequired("Printify login required in Codex browser; stopping before creating more products.")
+
+
 def _open_product_tab(product_id):
     url = f"https://printify.com/app/mockup-library/shops/{Config.Printify_SHOP_ID}/products/{product_id}?revealUploads=true"
     with urllib.request.urlopen(f"{CHROME_DEBUG_URL}/json/list", timeout=10) as response:
@@ -118,6 +135,7 @@ def run(limit=0, batch_size=75, batch_delay=3600, publish=False):
             item_id = row["ID"]
             row_idx = row["_row_idx"]
             try:
+                _assert_printify_ui_logged_in()
                 product_id = _ensure_product_id(row)
                 _set_cell(ws, cols, row_idx, "Printify_Product_ID", product_id)
                 _set_cell(ws, cols, row_idx, "Status", "Printify_BaseStaged_DefaultMockups3")
@@ -149,6 +167,9 @@ def run(limit=0, batch_size=75, batch_delay=3600, publish=False):
                 if batch_size and completed % batch_size == 0 and completed < len(rows):
                     print(f"[BATCH-COOLDOWN] {completed}/{len(rows)} sleeping {batch_delay}s")
                     time.sleep(batch_delay)
+            except PrintifyLoginRequired as exc:
+                print(f"[FULL-PIPELINE-PAUSED] {item_id}: {exc}")
+                break
             except Exception as exc:
                 _set_cell(ws, cols, row_idx, "Status", "Printify_UI_Failed")
                 wb.save(EBAY_BOOK)

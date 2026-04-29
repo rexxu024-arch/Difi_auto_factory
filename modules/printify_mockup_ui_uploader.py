@@ -175,6 +175,8 @@ async def _upload_mockups_once(product_id, files, keep_default_mockups=False, ex
     async with CdpPage(ws_url) as page:
         await page.navigate(f"https://printify.com/app/mockup-library/shops/{Config.Printify_SHOP_ID}/products/{product_id}?revealUploads=true")
         for _ in range(30):
+            if await page.eval("!!location.href && /\\/auth\\/login/.test(location.href)"):
+                raise RuntimeError("Printify login required in Codex browser")
             if await page.eval("!!document.body && /Mockup library/.test(document.body.innerText || '')"):
                 break
             await asyncio.sleep(1)
@@ -341,6 +343,8 @@ async def _upload_files_to_library(product_id, files, keep_default_mockups=True)
     async with CdpPage(ws_url) as page:
         await page.navigate(f"https://printify.com/app/mockup-library/shops/{Config.Printify_SHOP_ID}/products/{product_id}?revealUploads=true")
         for _ in range(30):
+            if await page.eval("!!location.href && /\\/auth\\/login/.test(location.href)"):
+                raise RuntimeError("Printify login required in Codex browser")
             if await page.eval("!!document.body && /Mockup library/.test(document.body.innerText || '')"):
                 break
             await asyncio.sleep(1)
@@ -421,6 +425,8 @@ async def _select_latest_library_mockups(product_id, add_count, expected_count=5
     async with CdpPage(ws_url) as page:
         await page.navigate(f"https://printify.com/app/mockup-library/shops/{Config.Printify_SHOP_ID}/products/{product_id}?revealUploads=true")
         for _ in range(30):
+            if await page.eval("!!location.href && /\\/auth\\/login/.test(location.href)"):
+                raise RuntimeError("Printify login required in Codex browser")
             ready = await page.eval(
                 """((addCount) => {
                     if (!(document.body && /Mockup library/.test(document.body.innerText || '') && /My Uploads/.test(document.body.innerText || ''))) return false;
