@@ -157,8 +157,8 @@ def build_rows() -> list[dict[str, str]]:
             "Create verified replacement listing for source-repaired live cover failure",
             "READY_TO_REPLACE_VERIFIED",
             f"{replacement_status['READY_TO_REPLACE_VERIFIED']} row already failed source repair plus live eBay audit.",
-            "Build one replacement listing from local assets, live-audit it, then retire old item only after pass.",
-            "New listing returns LIKELY_COVER and production-design audit passes.",
+            "py modules\\ebay_replacement_draft_builder.py --limit 1",
+            "Replacement row is created as Ready_for_Printify; public publish still waits for QA and retire sequencing.",
             "high",
             "single replacement listing",
         )

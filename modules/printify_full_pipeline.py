@@ -91,7 +91,7 @@ def _stable_selected_count(product_id, expected_count=5, checks=3, delay=8):
     for _ in range(checks):
         product = _fetch_product(product_id)
         last_count = _selected_count(product)
-        if last_count != expected_count:
+        if last_count < expected_count:
             return last_count
         time.sleep(delay)
     return last_count
@@ -195,7 +195,8 @@ def _canonical_product_filter(value):
     return None
 
 
-def _load_workbook_rows(limit, product_type=None):
+def _load_workbook_rows(limit, product_type=None, ids=None):
+    id_set = set(ids or [])
     wb = load_workbook(EBAY_BOOK)
     ws = wb.active
     headers = [ws.cell(1, c).value for c in range(1, ws.max_column + 1)]
@@ -216,6 +217,8 @@ def _load_workbook_rows(limit, product_type=None):
     for row_idx in range(2, ws.max_row + 1):
         row = {header: ws.cell(row_idx, cols[header]).value for header in headers}
         row["_row_idx"] = row_idx
+        if id_set and str(row.get("ID") or "").strip() not in id_set:
+            continue
         if row.get("Status") in eligible:
             if product_filter and _canonical_product_filter(row.get("Product_Type")) != product_filter:
                 continue
@@ -232,8 +235,8 @@ def _set_cell(ws, cols, row_idx, name, value):
     ws.cell(row_idx, cols[name]).value = value
 
 
-def run(limit=0, batch_size=75, batch_delay=3600, publish=False, product_type=None):
-    wb, ws, headers, cols, rows = _load_workbook_rows(limit, product_type=product_type)
+def run(limit=0, batch_size=75, batch_delay=3600, publish=False, product_type=None, ids=None):
+    wb, ws, headers, cols, rows = _load_workbook_rows(limit, product_type=product_type, ids=ids)
     completed = 0
     try:
         for row in rows:
@@ -262,8 +265,8 @@ def run(limit=0, batch_size=75, batch_delay=3600, publish=False, product_type=No
                             f"labels={sorted(labels)} stable_labels={sorted(stable_labels)}"
                         )
                     stable_defaults = _default_count(product)
-                    if stable_defaults != 1:
-                        raise RuntimeError(f"acrylic default mockups={stable_defaults}, expected exactly 1")
+                    if stable_defaults < 1:
+                        raise RuntimeError("acrylic default mockups=0, expected at least 1")
                     _assert_production_design(item_id, product_id, row)
                     _assert_primary_cover(item_id, product_id, row)
                     status_count = stable_count if stable_count != expected_count else expected_count
@@ -291,8 +294,8 @@ def run(limit=0, batch_size=75, batch_delay=3600, publish=False, product_type=No
                             f"poster official mockups missing: selected={stable_count}, official={official_count}"
                         )
                     stable_defaults = _default_count(product)
-                    if stable_defaults != 1:
-                        raise RuntimeError(f"poster default mockups={stable_defaults}, expected exactly 1")
+                    if stable_defaults < 1:
+                        raise RuntimeError("poster default mockups=0, expected at least 1")
                     _assert_production_design(item_id, product_id, row)
                     _set_cell(ws, cols, row_idx, "Status", f"Printify_UI_Mockups{stable_count}")
                     wb.save(EBAY_BOOK)
@@ -314,20 +317,20 @@ def run(limit=0, batch_size=75, batch_delay=3600, publish=False, product_type=No
                 )
                 product = _fetch_product(product_id)
                 count = _selected_count(product)
-                if count != expected_count:
-                    raise RuntimeError(f"selected mockups={count}, expected {expected_count}")
+                if count < expected_count:
+                    raise RuntimeError(f"selected mockups={count}, expected at least {expected_count}")
                 defaults = _default_count(product)
-                if defaults != 1:
-                    raise RuntimeError(f"default mockups={defaults}, expected exactly 1")
+                if defaults < 1:
+                    raise RuntimeError("default mockups=0, expected at least 1")
                 stable_count = _stable_selected_count(product_id, expected_count=expected_count)
-                if stable_count != expected_count:
+                if stable_count < expected_count:
                     raise RuntimeError(
-                        f"selected mockups unstable after save: {stable_count}, expected {expected_count}"
+                        f"selected mockups unstable after save: {stable_count}, expected at least {expected_count}"
                     )
                 product = _fetch_product(product_id)
                 stable_defaults = _default_count(product)
-                if stable_defaults != 1:
-                    raise RuntimeError(f"default mockups unstable after save: {stable_defaults}, expected exactly 1")
+                if stable_defaults < 1:
+                    raise RuntimeError("default mockups unstable after save: 0, expected at least 1")
                 _assert_production_design(item_id, product_id, row)
                 _assert_primary_cover(item_id, product_id, row)
                 _set_cell(
@@ -372,11 +375,14 @@ if __name__ == "__main__":
     parser.add_argument("--batch-delay", type=int, default=3600)
     parser.add_argument("--publish", action="store_true")
     parser.add_argument("--product-type", default=None, choices=["Sticker", "Poster", "Acrylic"])
+    parser.add_argument("--ids", default="", help="Comma-separated listing IDs to process first.")
     args = parser.parse_args()
+    ids = [part.strip() for part in args.ids.split(",") if part.strip()] or None
     run(
         limit=args.limit,
         batch_size=args.batch_size,
         batch_delay=args.batch_delay,
         publish=args.publish,
         product_type=args.product_type,
+        ids=ids,
     )

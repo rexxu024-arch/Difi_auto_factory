@@ -233,7 +233,7 @@ def build_actions(strategy: dict[str, object]) -> list[FactoryAction]:
                 "Create one verified replacement listing for a live cover failure that survived source repair.",
                 "READY_TO_REPLACE_VERIFIED",
                 f"{replacement_ready} listing already failed source repair plus live eBay buyer-page audit.",
-                "Build one replacement from local assets, publish only after image/design QA, then retire old item after live audit passes.",
+                "py modules\\ebay_replacement_draft_builder.py --limit 1",
                 "yes",
                 "Printify API/UI and eBay live audit",
                 "high",

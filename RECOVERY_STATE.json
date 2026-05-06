@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-06T12:22:00-04:00",
+  "updated_at": "2026-05-06T13:00:00-04:00",
   "timezone": "America/New_York",
   "source_of_truth": [
     "START_HERE_OPENCLAW.md",
@@ -72,7 +72,8 @@
     "replacement_queue": "Database/eBay_Cover_Replacement_Queue.csv",
     "repair_decisions": "Database/eBay_Cover_Repair_Decisions.csv",
     "next_action_if_logged_in": "Run one targeted source repair with py modules\\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120, then live audit the same SKU before scaling.",
-    "latest_single_sku_test": "Sticker-Academia-0005: Printify source repair reached save/publish stage and custom cover is present in Printify, but direct live eBay buyer-page audit still matched local U4 exactly. This row is now SOURCE_REPAIR_DONE_LIVE_STILL_BAD and READY_TO_REPLACE_VERIFIED in the replacement queue."
+    "latest_single_sku_test": "Sticker-Academia-0005: Printify source repair reached save/publish stage and custom cover is present in Printify, but direct live eBay buyer-page audit still matched local U4 exactly. This row is now SOURCE_REPAIR_DONE_LIVE_STILL_BAD and READY_TO_REPLACE_VERIFIED in the replacement queue.",
+    "replacement_draft_latest": "Created local Ready_for_Printify row Sticker-Academia-0005-FIX1. Online Printify draft creation is paused by network guard until connectivity improves. Target command: py modules\\printify_full_pipeline.py --ids Sticker-Academia-0005-FIX1 --limit 1 (no --publish)."
   },
   "printify_login_state": {
     "allowed_google_account": "rexxu024@gmail.com",
@@ -137,5 +138,6 @@
     "sticker": "Custom cover should show the actual 4pc 6x6 sticker set when possible; gallery/detail images are allowed if description clarifies they are concept/detail references.",
     "poster_acrylic": "Use one full production design; no die-cut/sticker-split logic. Preserve Printify official mockups/defaults as product-context images unless they create buyer confusion.",
     "future_rd": "Premium MJ-generated scene/mockups from real production images are allowed only after QA; track as R&D, not a blocker for current production."
-  }
+  },
+  "network_policy": "If network_guard returns pause or unstable high jitter/loss, do local tasks only: QA, copy, pricing, registry, reports, R&D planning. Do not bulk upload or publish."
 }

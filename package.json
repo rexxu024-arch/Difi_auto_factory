@@ -11,6 +11,7 @@
     "printify:login": "py modules\\printify_login_guard.py",
     "printify:login:dry": "py modules\\printify_login_guard.py --dry-run",
     "printify:cover-repair": "py modules\\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120",
+    "ebay:replacement-draft": "py modules\\ebay_replacement_draft_builder.py --limit 1",
     "printify:design-audit": "py modules\\printify_design_audit.py --limit 2 --sleep-seconds 1",
     "etsy:api-status": "py modules\\etsy_app_status_probe.py",
     "report": "py modules\\factory_morning_report.py",

@@ -811,3 +811,11 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - The new blocker is true image insufficiency: selected image count below expected, zero default image, or audit error.
 - Updated factory backlog and supervisor so a source-repaired live eBay failure can surface as `READY_TO_REPLACE_VERIFIED`.
 - Confirmed local supervisor preserves `Sticker-Academia-0005` as the verified replacement-path sample.
+
+
+## 2026-05-06 13:00:00 -04:00 Replacement Draft Created, Online Upload Paused By Network Guard
+- Added `modules/ebay_replacement_draft_builder.py` and targeted `--ids` support to `modules/printify_full_pipeline.py`.
+- Created local replacement row `Sticker-Academia-0005-FIX1` from the verified failed listing `Sticker-Academia-0005`.
+- The replacement row is `Ready_for_Printify`, with old Printify/eBay external IDs cleared.
+- Ran network guard before online upload: Printify avg 474ms, max 2780ms, Discord loss 16%; strategy returned `pause`.
+- Therefore no Printify upload and no eBay publish were attempted. Next online action when network improves: `py modules\printify_full_pipeline.py --ids Sticker-Academia-0005-FIX1 --limit 1` without `--publish`.
