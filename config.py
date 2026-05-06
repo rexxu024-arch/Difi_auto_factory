@@ -16,7 +16,10 @@ class Config:
     # --- [A] Printify 核心 (根据用户指示 ID=1) ---
     Printify_API_KEY = os.getenv("Printify_API_KEY")
     Printify_API_URL = "https://api.printify.com/v1"
+    Printify_EBAY_SHOP_ID = os.getenv("Printify_EBAY_SHOP_ID") or "26983633"
+    Printify_ETSY_SHOP_ID = os.getenv("Printify_ETSY_SHOP_ID") or "24260389"
     Printify_SHOP_ID = "26983633"  # 物理事实：第一个店铺
+    PRINTIFY_LOGIN_EMAIL = os.getenv("PRINTIFY_LOGIN_EMAIL") or os.getenv("Printify_LOGIN_EMAIL") or ""
 
     # --- [B] Midjourney / Discord (镜像 .env 截图) ---
     DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
@@ -34,6 +37,26 @@ class Config:
     # --- [E] Claude / Anthropic 核心 ---
     CLAUDE_API_KEY = os.getenv("CLAUDE_API_KEY")
     CLAUDE_BASE_URL = os.getenv("CLAUDE_BASE_URL") or "https://api.anthropic.com"
+
+    # --- [F] Etsy Open API / OAuth 2.0 PKCE ---
+    ETSY_KEYSTRING = (
+        os.getenv("ETSY_KEYSTRING")
+        or os.getenv("ETSY_KEY_STRING")
+        or os.getenv("ETSY_CLIENT_ID")
+        or os.getenv("Etsy_Key_string")
+    )
+    ETSY_SHARED_SECRET = (
+        os.getenv("ETSY_SHARED_SECRET")
+        or os.getenv("ETSY_SECRET")
+        or os.getenv("Etsy_shared_secret")
+    )
+    ETSY_REDIRECT_URI = os.getenv("ETSY_REDIRECT_URI") or "http://localhost:8765/etsy/oauth/callback"
+    ETSY_SCOPES = os.getenv(
+        "ETSY_SCOPES",
+        "shops_r shops_w listings_r listings_w profile_r transactions_r",
+    )
+    ETSY_TOKEN_FILE = os.getenv("ETSY_TOKEN_FILE") or os.path.join(BASE_DIR, "Database", ".etsy_oauth_tokens.json")
+    ETSY_STATE_FILE = os.getenv("ETSY_STATE_FILE") or os.path.join(BASE_DIR, "Database", ".etsy_oauth_state.json")
    
 
     @classmethod
@@ -76,7 +99,9 @@ class Config:
             "DISCORD_TOKEN": cls.DISCORD_TOKEN,
             "Product_line_API_KEY": cls.Product_line_API_KEY,
             "GUILD_ID": cls.GUILD_ID,
-            "CHANNEL_ID": cls.CHANNEL_ID
+            "CHANNEL_ID": cls.CHANNEL_ID,
+            "ETSY_KEYSTRING": cls.ETSY_KEYSTRING,
+            "ETSY_SHARED_SECRET": cls.ETSY_SHARED_SECRET
         }
         
         is_safe = True

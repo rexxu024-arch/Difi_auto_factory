@@ -1,0 +1,131 @@
+# Factory Backlog
+
+Generated: 2026-05-06 10:46:31 -0400 America/New_York
+
+## Status Counts
+
+- READY: 5
+- WAIT_COVER_GATE: 2
+- WAIT_USER_OR_API_APPROVAL: 2
+- BLOCKED: 1
+- WAIT_PRINTIFY_LOGIN: 1
+- BLOCKED_BY_COVER_GATE: 1
+- WAIT_SOURCE_REPAIR_RESULT: 1
+- READY_FOR_SCHOLAR_REVIEW: 1
+
+## Lane Counts
+
+- control: 1
+- supervisor:local: 1
+- cover_gate: 1
+- supervisor:cover_gate: 1
+- image_integrity: 1
+- fallback: 1
+- production: 1
+- publish: 1
+- supervisor:production_design_qa: 1
+- market_learning: 1
+- supervisor:etsy: 1
+- etsy: 1
+- supervisor:copy_experiment: 1
+- r_and_d: 1
+
+## Tasks
+
+### P100 control - READY
+- Task: Run local supervisor maintenance cycle
+- Blocker: None
+- Command: `py modules\factory_supervisor.py --execute-local --skip-network`
+- Done when: Factory_Autopilot_State, action queue, QA, traffic diagnosis, morning report, and Gemini queue refresh with 0 failures.
+- Risk/network: low / local
+
+### P100 supervisor:local - READY
+- Task: Refresh local QA, registry, market queue, cover decisions, experiment report, and morning report.
+- Blocker: Safe low-bandwidth maintenance keeps the factory state current while account/image writes are paused.
+- Command: `py modules\factory_supervisor.py --execute-local --skip-network`
+- Done when: Supervisor action remains present until its status is completed or superseded.
+- Risk/network: low / no
+
+### P98 cover_gate - BLOCKED
+- Task: Repair one live eBay cover mismatch from Printify source and audit buyer page
+- Blocker: Printify CDP status: LOGIN_REQUIRED; Printify CDP browser is on auth/login.
+- Command: `py modules\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120`
+- Done when: One SKU becomes LIVE_COVER_FIXED, or the runner records that replacement-listing fallback is required.
+- Risk/network: medium / single online item
+
+### P95 supervisor:cover_gate - WAIT_PRINTIFY_LOGIN
+- Task: Repair one Printify source cover, then live-audit eBay before scaling.
+- Blocker: Live cover queue has 49 rows; 45 require Printify source repair or replacement listings. Printify UI: LOGIN_REQUIRED - Printify CDP browser is on auth/login.
+- Command: `py modules\factory_cover_repair_runner.py --dry-run --post-sync-wait 0`
+- Done when: Supervisor action remains present until its status is completed or superseded.
+- Risk/network: medium / yes
+
+### P92 image_integrity - BLOCKED_BY_COVER_GATE
+- Task: Clear Printify default-image CHECK rows before publish resumes
+- Blocker: 74 products need exactly-one-default validation.
+- Command: `py modules\printify_image_default_audit.py --sleep-seconds 1`
+- Done when: Products that stay CHECK are either repaired or held; publish scheduler sees no unsafe CHECK row.
+- Risk/network: medium / Printify API
+
+### P88 fallback - WAIT_SOURCE_REPAIR_RESULT
+- Task: Prepare replacement-listing path if source re-sync cannot repair Inventory-managed eBay images
+- Blocker: 45 rows waiting for one source repair result.
+- Command: `py modules\ebay_cover_replacement_queue.py`
+- Done when: Replacement queue separates safe replace candidates from non-sticker manual review rows.
+- Risk/network: medium / local
+
+### P72 production - WAIT_COVER_GATE
+- Task: Resume Ready_for_Printify uploads only after cover/default-image gate passes
+- Blocker: 50 local rows are ready but should not upload until the image gate is proven.
+- Command: `py modules\printify_full_pipeline.py --limit 1`
+- Done when: A new single item reaches stable mockup state and passes selected-count/default-count audit.
+- Risk/network: high / Printify UI/API
+
+### P68 publish - WAIT_COVER_GATE
+- Task: Publish small cooled batch after image gate and network guard pass
+- Blocker: 24 stable drafts are candidates, but public publish is blocked by cover/default-image risk.
+- Command: `py modules\printify_publish_scheduler.py --limit 3 --min-delay 180 --max-delay 420`
+- Done when: Published products are live-audited and added to 2% Standard/General ad coverage without PPC.
+- Risk/network: high / Printify API/eBay sync
+
+### P63 supervisor:production_design_qa - READY
+- Task: Run a tiny Printify production-design audit before any larger online batch.
+- Blocker: This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi.
+- Command: `py modules\printify_design_audit.py --limit 2 --sleep-seconds 1`
+- Done when: Supervisor action remains present until its status is completed or superseded.
+- Risk/network: low / yes
+
+### P62 market_learning - READY
+- Task: Keep eBay traffic diagnosis current and avoid ad-only conclusions
+- Blocker: 4 current traffic hypotheses generated.
+- Command: `py modules\ebay_traffic_diagnosis.py`
+- Done when: Traffic report identifies exposure/click/conversion blockers from snapshots and cover queues.
+- Risk/network: low / local
+
+### P55 supervisor:etsy - WAIT_USER_OR_API_APPROVAL
+- Task: Keep Etsy launch packet local until shop/API approval is ready.
+- Blocker: Etsy developer app is pending approval and Rex has not asked to publish Etsy listings yet.
+- Command: `py modules\etsy_digital_listing_export.py`
+- Done when: Supervisor action remains present until its status is completed or superseded.
+- Risk/network: low / no
+
+### P54 etsy - WAIT_USER_OR_API_APPROVAL
+- Task: Hold Etsy digital packet until shop/API readiness, then launch curated low-cost test
+- Blocker: 20 digital listing rows prepared locally; no Etsy fee triggered.
+- Command: `py modules\etsy_digital_listing_export.py`
+- Done when: When Etsy is cleared, first 20-30 curated listings have files, previews, tags, descriptions, and pricing ready.
+- Risk/network: low / local now / Etsy later
+
+### P50 supervisor:copy_experiment - READY
+- Task: Continue low-bandwidth SEO/title/description experiment analysis.
+- Blocker: Ads alone did not move zero-view listings; controlled copy/image experiments are the next learning loop.
+- Command: `py modules\ebay_experiment_report.py`
+- Done when: Supervisor action remains present until its status is completed or superseded.
+- Risk/network: low / no
+
+### P46 r_and_d - READY_FOR_SCHOLAR_REVIEW
+- Task: Validate next product candidates with official Printify blueprint/provider/variant data
+- Blocker: 5 next blueprint candidates are documented.
+- Command: `py modules\product_blueprint_next_plan.py`
+- Done when: Canvas, framed poster, notebook, mug, and metal candidates have enough data for Scholar review before development.
+- Risk/network: low / local

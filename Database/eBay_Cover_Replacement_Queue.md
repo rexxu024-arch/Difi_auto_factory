@@ -1,0 +1,24 @@
+# eBay Cover Replacement Queue
+
+Generated: 2026-05-06 10:46:24 -0400 America/New_York
+
+This is a fallback queue only. It does not create, publish, revise, or end listings.
+
+## Counts
+
+- REVIEW_BEFORE_REPLACE: 4
+- WAIT_SOURCE_REPAIR_RESULT: 45
+
+## Product Types
+
+- Acrylic: 2
+- Poster: 2
+- Sticker: 45
+
+## Rule
+
+- Try Printify source repair and re-sync first.
+- If eBay inventory-managed variation pictures remain unchanged, create a verified replacement listing.
+- Retire the old listing only after the replacement passes live cover and production-design audits.
+
+CSV: `C:\AIprojects\openclaw_difi\Database\eBay_Cover_Replacement_Queue.csv`

@@ -1,4 +1,5 @@
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -72,6 +73,66 @@ PRODUCT_CONFIGS = {
     },
 }
 
+TITLE_TEMPLATE_BANK = {
+    "Sticker": [
+        "{lead} {subject} 4pc 6x6 Kiss-Cut Sticker {scene}",
+        "{subject} {lead} 4pc 6x6 Vinyl Sticker {audience} Gift",
+        "{lead} {subject} 4pc 6x6 Sticker Sheet {emotion} Decor",
+        "{subject} 4pc 6x6 Kiss-Cut Sticker {lead} {scene}",
+        "{lead} {subject} 4pc 6x6 Vinyl Sticker Laptop Journal Gift",
+        "{subject} {lead} 4pc 6x6 Kiss-Cut Vinyl Desk Collector Decor",
+    ],
+    "Poster": [
+        "{lead} {subject} 12x18 Matte Poster Wall Decor",
+        "{subject} {lead} 12x18 Matte Poster Study Room Art",
+        "{lead} {subject} 12x18 Poster Library Print Scholar Gift",
+        "{subject} 12x18 Matte Poster {lead} Gallery Decor",
+        "{lead} {subject} 12x18 Wall Art Study Room Decor",
+    ],
+    "Acrylic": [
+        "{lead} {subject} 5x7 Acrylic Photo Block Shelf Decor",
+        "{subject} {lead} 5x7 Acrylic Photo Block Desk Display",
+        "{lead} {subject} 5x7 Acrylic Block Collector Gift",
+        "{subject} 5x7 Acrylic Photo Block {lead} Gallery Decor",
+        "{lead} {subject} 5x7 Desk Art Acrylic Block Study Decor",
+    ],
+}
+
+DESCRIPTION_TEMPLATE_BANK = [
+    {
+        "heading": "{base_title} {product_phrase}",
+        "intro": "{intro}",
+        "body": (
+            "Designed for {use_cases}, this {product_lower} blends niche aesthetic appeal "
+            "with collectible mentor-grade artwork."
+        ),
+        "close": "Complete the collection with matching Alchemy pieces.",
+    },
+    {
+        "heading": "{base_title} | {product_phrase}",
+        "intro": (
+            "{intro} The artwork is built around a focused visual DNA profile, so each "
+            "piece feels like part of a coherent small-batch collection."
+        ),
+        "body": (
+            "Use it for {use_cases}. The composition favors readable detail, strong mood, "
+            "and giftable niche appeal without generic mass-market styling."
+        ),
+        "close": "Pair it with related OpenClaw pieces for a coordinated collection.",
+    },
+    {
+        "heading": "{base_title} - {product_phrase}",
+        "intro": (
+            "A polished {category} aesthetic piece for {audience}. {intro}"
+        ),
+        "body": (
+            "The design works well across {use_cases}, while the title, material notes, "
+            "and DNA profile stay specific for easy comparison."
+        ),
+        "close": "Saved under the reference SKU below for easy collector matching.",
+    },
+]
+
 
 def _timestamp():
     return time.strftime("%-m/%-d/%Y  %-I:%M:%S %p") if os.name != "nt" else time.strftime("%#m/%#d/%Y  %#I:%M:%S %p")
@@ -134,6 +195,26 @@ def _dedupe_long_words(value):
     return " ".join(result)
 
 
+def _variant_index(metadata, modulo=6):
+    seed = "|".join(
+        _clean_text(metadata.get(key))
+        for key in ("ID", "Title", "Category", "SEO_Hook", "Product_Type")
+    )
+    digest = hashlib.sha1(seed.encode("utf-8", errors="ignore")).hexdigest()
+    return int(digest[:8], 16) % modulo
+
+
+def _variant_pick(metadata, values):
+    return values[_variant_index(metadata, len(values))]
+
+
+def _variant_rotate(metadata, values):
+    if not values:
+        return []
+    index = _variant_index(metadata, len(values))
+    return values[index:] + values[:index]
+
+
 def _parse_metadata(path):
     raw = path.read_text(encoding="utf-8", errors="ignore")
     data = {"Raw_Metadata": raw}
@@ -168,6 +249,8 @@ def _folder_id(folder):
 
 def _fit_ebay_title(title, keywords, product_type="Sticker"):
     title = re.sub(r"[!]+", "", _clean_text(title))
+    title = re.sub(r"\b(skin|person|text|watermark|blurry|edges)\b", " ", title, flags=re.I)
+    title = re.sub(r"\s+", " ", title).strip()
     title = _dedupe_long_words(title)
     cfg = PRODUCT_CONFIGS.get(product_type, PRODUCT_CONFIGS["Sticker"])
     required = cfg["title_required"]
@@ -183,9 +266,12 @@ def _fit_ebay_title(title, keywords, product_type="Sticker"):
         else:
             title = f"{title} {required}"
     used_words = {word.lower() for word in re.findall(r"[A-Za-z0-9]+", title)}
+    banned_title_words = {"skin", "person", "text", "watermark", "blurry", "edges"}
     extras = []
     for word in _split_keywords(keywords):
         parts = {part.lower() for part in re.findall(r"[A-Za-z0-9]+", word)}
+        if parts & banned_title_words:
+            continue
         if parts and (parts & used_words):
             continue
         extras.append(word.strip().title())
@@ -215,13 +301,54 @@ def _fit_ebay_title(title, keywords, product_type="Sticker"):
         if len(title) >= 75:
             break
         parts = {part.lower() for part in re.findall(r"[A-Za-z0-9]+", extra)}
+        if parts & banned_title_words:
+            continue
         if parts & used_words:
             continue
         candidate = f"{title} {extra}"
         if len(candidate) <= 79 and not _title_repeats(candidate):
             title = candidate
             used_words.update(word.lower() for word in re.findall(r"[A-Za-z0-9]+", extra))
-    return title[:79].strip()
+    return _repair_dangling_title(title[:79].strip(), product_type)
+
+
+def _repair_dangling_title(title, product_type="Sticker"):
+    title = _clean_text(title).rstrip(" ,-/")
+    words = title.split()
+    if not words:
+        return title
+    dangling = {"for", "with", "and", "or", "of", "in", "on", "by", "to", "from"}
+    if words[-1].lower().strip(",") not in dangling:
+        return title
+    base_words = words[:-1]
+    replacement_pool = {
+        "Sticker": ["Gift", "Desk", "Laptop"],
+        "Poster": ["Decor", "Gallery", "Study"],
+        "Acrylic": ["Gift", "Shelf", "Display"],
+    }.get(product_type, ["Gift", "Decor"])
+    for replacement in replacement_pool:
+        candidate = " ".join(base_words + [replacement])
+        if len(candidate) <= 79:
+            return candidate
+    return " ".join(base_words).strip()
+
+
+def _retitle_duplicate(title, item_id, keywords, product_type, used_titles):
+    suffix_pool = {
+        "Sticker": ["Journal", "Notebook", "Desk", "Reader", "Gift", "Collector", "Laptop", "Bottle", "Study", "Calm"],
+        "Poster": ["Library", "Study", "Gallery", "Room", "Gift", "Collector", "Wall", "Scholar", "Decor"],
+        "Acrylic": ["Shelf", "Desk", "Gallery", "Gift", "Collector", "Library", "Study", "Display", "Decor"],
+    }.get(product_type, ["Gift", "Collector", "Decor"])
+    seed = int(hashlib.sha1(_clean_text(item_id).encode("utf-8")).hexdigest()[:8], 16)
+    rotated = suffix_pool[seed % len(suffix_pool):] + suffix_pool[:seed % len(suffix_pool)]
+    for suffix in rotated:
+        words = title.split()
+        while len(" ".join(words + [suffix])) > 79 and len(words) > 5:
+            words.pop(-1)
+        candidate = _fit_ebay_title(" ".join(words + [suffix]), keywords, product_type)
+        if 75 <= len(candidate) <= 79 and candidate not in used_titles:
+            return candidate
+    return title
 
 
 def _keyword_pick(metadata, limit=3):
@@ -257,35 +384,40 @@ def _niche_profile(metadata):
     seo = _clean_text(metadata.get("SEO_Hook")).lower()
     title = _clean_text(metadata.get("Title")).lower()
     if "academia" in category or "academia" in seo or "academia" in title:
-        return {
-            "lead": "Dark Academia",
-            "scene": "Laptop Study Journal Decor",
-            "audience": "Book Lover Student",
-            "emotion": "Cozy Vintage Intellectual",
-            "style": "Academia Mentor-Grade",
-        }
-    return {
-        "lead": "Zen Aesthetic",
-        "scene": "Laptop Journal Water Bottle Decor",
-        "audience": "Mindfulness Minimalist",
-        "emotion": "Calm Balance Peaceful",
-        "style": "Zen Mentor-Grade",
-    }
+        variants = [
+            {"lead": "Dark Academia", "scene": "Laptop Study Journal Decor", "audience": "Book Lover Student", "emotion": "Cozy Vintage Intellectual", "style": "Academia Mentor-Grade"},
+            {"lead": "Gothic Academia", "scene": "Study Desk Journal Decor", "audience": "Reader Writer Student", "emotion": "Moody Scholarly Vintage", "style": "Academia Mentor-Grade"},
+            {"lead": "Vintage Academia", "scene": "Library Laptop Notebook Decor", "audience": "Book Lover Introvert", "emotion": "Literary Cozy Study", "style": "Academia Mentor-Grade"},
+        ]
+        return variants[_variant_index(metadata, len(variants))]
+    variants = [
+        {"lead": "Zen Aesthetic", "scene": "Laptop Journal Water Bottle Decor", "audience": "Mindfulness Minimalist", "emotion": "Calm Balance Peaceful", "style": "Zen Mentor-Grade"},
+        {"lead": "Mindful Zen", "scene": "Journal Laptop Meditation Decor", "audience": "Yoga Minimalist Gift", "emotion": "Peaceful Calm Balance", "style": "Zen Mentor-Grade"},
+        {"lead": "Minimal Zen", "scene": "Water Bottle Journal Desk Decor", "audience": "Calm Lifestyle Gift", "emotion": "Serene Mindful Clean", "style": "Zen Mentor-Grade"},
+    ]
+    return variants[_variant_index(metadata, len(variants))]
 
 
 def _build_local_title(metadata):
     product_type = metadata.get("Product_Type", "Sticker")
+    profile = _niche_profile(metadata)
+    subject = _clean_subject(metadata.get("Title") or metadata.get("ID"), metadata.get("Category"))
+    if len(subject) > 34:
+        subject = " ".join(subject.split()[:4])
+    values = {
+        "lead": profile["lead"],
+        "subject": subject,
+        "scene": profile["scene"],
+        "audience": profile["audience"],
+        "emotion": profile["emotion"],
+    }
     if product_type in {"Poster", "Acrylic"}:
-        profile = _niche_profile(metadata)
-        subject = _clean_subject(metadata.get("Title") or metadata.get("ID"), metadata.get("Category"))
-        if len(subject) > 34:
-            subject = " ".join(subject.split()[:4])
-        cfg = PRODUCT_CONFIGS[product_type]
-        candidates = [
-            f"{profile['lead']} {subject} {cfg['title_required']} {cfg['product_phrase']} Wall Decor",
-            f"{profile['lead']} {subject} {cfg['title_required']} {cfg['product_phrase']} Study Decor",
-            f"{profile['lead']} {subject} {cfg['title_required']} {cfg['product_phrase']} Gift",
-        ]
+        product_words = {
+            "Poster": ["Wall Decor", "Study Room Art", "Library Print", "Gallery Decor", "Scholar Gift"],
+            "Acrylic": ["Shelf Decor", "Desk Display", "Gallery Block", "Collector Gift", "Study Decor"],
+        }[product_type]
+        values["scene"] = _variant_pick(metadata, product_words)
+        candidates = [template.format(**values) for template in _variant_rotate(metadata, TITLE_TEMPLATE_BANK[product_type])]
         best = candidates[0]
         for candidate in candidates:
             fitted = _fit_ebay_title(candidate, metadata.get("SEO_Hook"), product_type)
@@ -294,16 +426,16 @@ def _build_local_title(metadata):
             if abs(77 - len(fitted)) < abs(77 - len(best)):
                 best = fitted
         return _fit_ebay_title(best, metadata.get("SEO_Hook"), product_type)
-    profile = _niche_profile(metadata)
-    category = _clean_text(metadata.get("Category"))
-    subject = _clean_subject(metadata.get("Title"), category)
-    if len(subject) > 34:
-        subject = " ".join(subject.split()[:4])
-    candidates = [
-        f"{profile['lead']} {subject} 4pc 6x6 Kiss-Cut Sticker Vinyl {profile['scene']}",
-        f"{profile['lead']} {subject} 4pc 6x6 Sticker Vinyl {profile['audience']} Gift",
-        f"{profile['lead']} {subject} 4pc 6x6 Vinyl Sticker {profile['emotion']} Decor",
+    tails = [
+        profile["scene"],
+        f"{profile['audience']} Gift",
+        f"{profile['emotion']} Decor",
+        "Laptop Journal Desk Decor",
+        "Water Bottle Notebook Gift",
+        "Study Desk Aesthetic Decor",
     ]
+    values["scene"] = _variant_pick(metadata, tails)
+    candidates = [template.format(**values) for template in _variant_rotate(metadata, TITLE_TEMPLATE_BANK["Sticker"])]
     best = candidates[0]
     for candidate in candidates:
         fitted = _fit_ebay_title(candidate, metadata.get("SEO_Hook"), product_type)
@@ -336,22 +468,57 @@ def _build_local_description(metadata):
     category = _clean_text(metadata.get("Category")) or profile["lead"].replace(" Aesthetic", "")
     style = _clean_text(metadata.get("Style")) or profile["style"]
     if category.lower() == "zen":
-        intro = (
-            f"Bring calm and balance into your daily routine with this {base_title} "
-            f"zen aesthetic {cfg['product_phrase'].lower()}."
-        )
-        audience = "mindfulness lovers, minimalists, journal keepers, yoga enthusiasts, and peaceful room setups"
+        intros = [
+            f"Bring calm and balance into your daily routine with this {base_title} zen aesthetic {cfg['product_phrase'].lower()}.",
+            f"Add a quiet mindful accent to your workspace with this {base_title} {cfg['product_phrase'].lower()}.",
+            f"Designed for peaceful desks, journals, and small rituals, this {base_title} {cfg['product_phrase'].lower()} carries a clean Zen mood.",
+        ]
+        intro = _variant_pick(metadata, intros)
+        audiences = [
+            "mindfulness lovers, minimalists, journal keepers, yoga enthusiasts, and peaceful room setups",
+            "meditation fans, calm desk setups, notebook collectors, and gift buyers who like clean aesthetics",
+            "students, remote workers, yoga lovers, and anyone building a serene everyday space",
+        ]
+        audience = _variant_pick(metadata, audiences)
     else:
-        intro = (
-            f"Embrace the dark academia aesthetic with this vintage-inspired {base_title} "
-            f"{cfg['product_phrase'].lower()}."
-        )
-        audience = "students, book lovers, writers, introverts, and dark academia collectors"
+        intros = [
+            f"Embrace the dark academia aesthetic with this vintage-inspired {base_title} {cfg['product_phrase'].lower()}.",
+            f"Give your study space a scholarly, moody accent with this {base_title} {cfg['product_phrase'].lower()}.",
+            f"Built for readers and collectors, this {base_title} {cfg['product_phrase'].lower()} blends literary atmosphere with vintage study-room style.",
+        ]
+        intro = _variant_pick(metadata, intros)
+        audiences = [
+            "students, book lovers, writers, introverts, and dark academia collectors",
+            "readers, literature fans, journal keepers, study desk decorators, and thoughtful gift buyers",
+            "writers, learners, library lovers, and collectors of moody scholarly decor",
+        ]
+        audience = _variant_pick(metadata, audiences)
+    use_case_variants = [
+        "study rooms, creative workspaces, shelves, gallery walls, and collectible aesthetic decor",
+        "laptops, notebooks, reading corners, desk setups, gallery shelves, and gift bundles",
+        "journal spreads, library shelves, dorm rooms, studio desks, and cozy personal collections",
+    ]
+    use_cases = _variant_pick(metadata, use_case_variants)
+    template = _variant_pick(metadata, DESCRIPTION_TEMPLATE_BANK)
+    heading = template["heading"].format(base_title=base_title, product_phrase=cfg["product_phrase"])
+    intro_text = template["intro"].format(
+        intro=intro,
+        category=category,
+        audience=audience,
+        product_phrase=cfg["product_phrase"],
+        product_lower=product_type.lower(),
+    )
+    body_text = template["body"].format(
+        use_cases=use_cases,
+        product_lower=product_type.lower(),
+        category=category,
+        audience=audience,
+    )
+    close_text = template["close"].format(category=category, product_lower=product_type.lower())
     return (
-        f"<h2>{base_title} {cfg['product_phrase']}</h2>"
-        f"<p>{intro}</p>"
-        f"<p>Designed for study rooms, creative workspaces, shelves, gallery walls, and collectible aesthetic decor, "
-        f"this {product_type.lower()} blends niche aesthetic appeal with collectible mentor-grade artwork.</p>"
+        f"<h2>{heading}</h2>"
+        f"<p>{intro_text}</p>"
+        f"<p>{body_text}</p>"
         f"<ul>"
         f"<li><strong>Includes:</strong> {cfg['includes']}</li>"
         f"<li><strong>Material:</strong> {cfg['material']}</li>"
@@ -361,15 +528,38 @@ def _build_local_description(metadata):
         f"<li><strong>Best For:</strong> {audience}.</li>"
         f"</ul>"
         f"<p><strong>SEO Keywords:</strong> {keyword_text}</p>"
-        f"<p>Complete the collection with matching Alchemy Stickers.</p>"
+        f"<p><strong>Image Note:</strong> The main image shows the actual product customers receive. Additional images are bonus concept/detail reference images and do not represent extra products or selectable variations.</p>"
+        f"<p>{close_text}</p>"
         f"<p><small>Reference SKU: {item_id}</small></p>"
     )
+
+
+def _ensure_image_note(description):
+    description = _clean_text(description)
+    note_pattern = re.compile(r"<p><strong>Image Note:</strong>.*?</p>", re.I | re.S)
+    note = (
+        "<p><strong>Image Note:</strong> The main image shows the actual product customers receive. "
+        "Additional images are bonus concept/detail reference images and do not represent extra products "
+        "or selectable variations.</p>"
+    )
+    if note_pattern.search(description):
+        return note_pattern.sub(note, description, count=1)
+    if "main image shows the actual product customers receive" in description.lower():
+        description = re.sub(
+            r"The main image shows the actual product customers receive[^<]*(?:</p>)?",
+            "",
+            description,
+            flags=re.I,
+        )
+    if "</ul>" in description:
+        return description.replace("</ul>", f"</ul>{note}", 1)
+    return f"{description}{note}"
 
 
 def _fallback_listing(metadata):
     title = _build_local_title(metadata)
     dna = _short_dna(metadata)
-    description = _build_local_description(metadata)
+    description = _ensure_image_note(_build_local_description(metadata))
     return {"Title": title, "Description": description, "DNA Profile": dna}
 
 
@@ -397,10 +587,21 @@ def _deepseek_listing(metadata):
                     "Title must be 75-79 ASCII characters, no exclamation marks, no filler. "
                     "For Sticker, title must clearly include 4pc and 6x6. "
                     "For Poster, title must clearly include 12x18. For Acrylic, title must clearly include 5x7. "
+                    "Use one of these title template families, with natural substitutions: "
+                    "1) aesthetic lead + subject + required size + product noun + use case; "
+                    "2) subject + aesthetic lead + required size + product noun + audience gift; "
+                    "3) aesthetic lead + subject + required size + product noun + room/decor placement. "
+                    "Use one of these description structures: "
+                    "A) concise aesthetic intro, practical use paragraph, factual bullets, image note; "
+                    "B) collector-focused intro, visual DNA paragraph, factual bullets, image note; "
+                    "C) gift/use-case intro, mood paragraph, factual bullets, image note. "
                     "Use the item's metadata as the source of truth. "
                     "For Zen, emphasize calm, balance, mindfulness, minimalist, laptop, journal, water bottle. "
                     "For Academia, emphasize dark academia, study, vintage, intellectual, book lover, student, journal, study desk. "
                     "Description must be eBay-ready HTML and include Includes, Material, Size, Style, DNA Profile, and use cases. "
+                    "Description must include an Image Note saying the main image shows the actual product customers receive, while additional images are bonus concept/detail reference images and do not represent extra products or selectable variations. "
+                    "Vary sentence structure and keyword order across items so listings do not look mass-generated. "
+                    "Use tasteful synonyms while preserving the same product facts. "
                     "Do not invent product materials beyond the requested Printify product type."
                 ),
             },
@@ -422,17 +623,26 @@ def _deepseek_listing(metadata):
     data["Description"] = _clean_text(data.get("Description"))
     if "<" not in data["Description"]:
         data["Description"] = _build_local_description({**metadata, "MJ_Prompt": data.get("DNA Profile") or metadata.get("MJ_Prompt")})
+    data["Description"] = _ensure_image_note(data["Description"])
     return data
 
 
-def _gallery_paths(folder, item_id):
+def _gallery_paths(folder, item_id, product_type="Sticker"):
     paths = {}
     for index in range(1, 5):
-        candidates = [
-            folder / f"{item_id}_U{index}_Grid.png",
-            folder / f"{item_id}_U{index}.png",
-            folder / f"Grid{index}.png",
-        ]
+        if product_type != "Sticker":
+            candidates = [
+                folder / f"Gallery_U{index}.png",
+                folder / f"{item_id}_Gallery_U{index}.png",
+                folder / f"{item_id}_U{index}.png",
+                folder / f"{item_id}_U{index}_Grid.png",
+            ]
+        else:
+            candidates = [
+                folder / f"{item_id}_U{index}_Grid.png",
+                folder / f"{item_id}_U{index}.png",
+                folder / f"Grid{index}.png",
+            ]
         found = next((path for path in candidates if path.exists()), None)
         paths[f"Gallery_U{index}_Path"] = str(found.resolve()) if found else ""
     return paths
@@ -515,7 +725,7 @@ def build_listing_assets(limit=0, use_api=True, product_type="Sticker"):
             "DNA Profile": listing.get("DNA Profile") or metadata.get("MJ_Prompt", ""),
             "Production_Path": str(production_path.resolve()),
             "Cover_Path": str(cover_path.resolve()),
-            **_gallery_paths(folder, metadata["ID"]),
+            **_gallery_paths(folder, metadata["ID"], product_type),
             "Status": "Ready_for_Printify",
             "Timestamp": _timestamp(),
         }
@@ -540,6 +750,41 @@ def build_listing_assets(limit=0, use_api=True, product_type="Sticker"):
     print(f"[DONE] Listing assets updated: {completed}")
 
 
+def normalize_existing_listing_rows():
+    if not EBAY_BOOK.exists():
+        print("[NORMALIZE] eBay listing workbook not found")
+        return
+    wb, ws = _open_book(EBAY_BOOK, EBAY_HEADERS)
+    headers = {header: index + 1 for index, header in enumerate(EBAY_HEADERS)}
+    changed = 0
+    used_titles = set()
+    for row in range(2, ws.max_row + 1):
+        item_id = ws.cell(row=row, column=headers["ID"]).value
+        if not item_id:
+            continue
+        product_type = ws.cell(row=row, column=headers["Product_Type"]).value or "Sticker"
+        if product_type not in PRODUCT_CONFIGS:
+            product_type = "Sticker"
+            ws.cell(row=row, column=headers["Product_Type"]).value = product_type
+        title_cell = ws.cell(row=row, column=headers["Title"])
+        desc_cell = ws.cell(row=row, column=headers["Description"])
+        seo = ws.cell(row=row, column=headers["DNA Profile"]).value or ""
+        new_title = _fit_ebay_title(title_cell.value, seo, product_type)
+        if new_title in used_titles:
+            new_title = _retitle_duplicate(new_title, item_id, seo, product_type, used_titles)
+        used_titles.add(new_title)
+        new_desc = _ensure_image_note(desc_cell.value or "")
+        if title_cell.value != new_title:
+            title_cell.value = new_title
+            changed += 1
+        if desc_cell.value != new_desc:
+            desc_cell.value = new_desc
+            changed += 1
+    wb.save(EBAY_BOOK)
+    wb.close()
+    print(f"[NORMALIZE] Existing listing rows updated: {changed}")
+
+
 def run_logic():
     build_listing_assets()
 
@@ -549,5 +794,9 @@ if __name__ == "__main__":
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--no-api", action="store_true")
     parser.add_argument("--product-type", default="Sticker", choices=["Sticker", "Poster", "Acrylic"])
+    parser.add_argument("--normalize-existing", action="store_true")
     args = parser.parse_args()
-    build_listing_assets(limit=args.limit, use_api=not args.no_api, product_type=args.product_type)
+    if args.normalize_existing:
+        normalize_existing_listing_rows()
+    else:
+        build_listing_assets(limit=args.limit, use_api=not args.no_api, product_type=args.product_type)

@@ -1,0 +1,74 @@
+﻿Product_Family,Priority,Blueprint_ID,Printify_Catalog_Title,Recommended_Use,Decision
+Canvas,1,555,Stretched Canvas,Poster/Acrylic full-frame art expansion; premium wall decor,Verify provider/cost
+Canvas,1,937,"Matte Canvas, Stretched, 0.75"" (Multi-Size)",Main canvas candidate; safest rectangular art fit,Priority Test
+Canvas,1,1159,"Matte Canvas, Stretched, 1.25""",Premium canvas test; thicker profile,Secondary Test
+Canvas,1,1226,"Canvas Stretched, 1.5""",Premium canvas test; thicker profile,Secondary Test
+Canvas,1,1238,Classic Stretched Canvas,General canvas candidate,Verify provider/cost
+Canvas,1,1297,"Canvas Stretched, 0.75""",Lower profile canvas candidate,Verify provider/cost
+Canvas,1,1936,"Canvas Art Wraps, 1.6""",Premium art-wrap candidate,Verify provider/cost
+Framed Poster,2,492,Vertical Framed Poster,Direct fit for current vertical poster DNA,Priority Test
+Framed Poster,2,540,Framed Vertical Poster,Direct fit for current vertical poster DNA,Priority Test
+Framed Poster,2,764,Framed Posters,General framed poster candidate,Verify orientation/sizes
+Framed Poster,2,1130,"Framed Posters, Matte",Premium matte framed poster,Priority Test
+Framed Poster,2,1140,"Framed Posters, Black",Dark academia framed poster fit,Secondary Test
+Framed Poster,2,1236,Framed Paper Posters,General framed paper poster,Verify provider/cost
+Framed Poster,2,1275,Posters with Wooden Frame,Zen/wabi-sabi decor fit,Secondary Test
+Framed Poster,2,1502,"Framed Poster, Multi-Color",Variation-rich framed poster,Defer until variants tested
+Metal,3,1206,Metal Art Sign,Premium metal/bioluminescent art test,Priority Test small
+Notebook/Journal,4,74,Spiral Notebook - Ruled Line,Study/student audience; practical product,Priority Test
+Notebook/Journal,4,75,Journal - Ruled Line,Study/writer gift; practical product,Secondary Test
+Notebook/Journal,4,76,Journal - Blank,Sketch/journal audience,Secondary Test
+Notebook/Journal,4,485,Hardcover Journal Matte,Premium journal candidate,Priority Test
+Notebook/Journal,4,486,Spiral Bound Journal,Practical notebook candidate,Secondary Test
+Notebook/Journal,4,514,Hardcover Journal (A5),Premium A5 journal,Priority Test
+Notebook/Journal,4,515,Spiral Notebook,General notebook candidate,Priority Test
+Notebook/Journal,4,1041,Hardcover Notebook with Puffy Covers,Novelty premium notebook,Defer
+Notebook/Journal,4,1193,"Wirobound Softcover Notebook, A5",A5 study notebook,Secondary Test
+Notebook/Journal,4,1194,"Softcover Notebook, A5",A5 softcover journal,Secondary Test
+Notebook/Journal,4,1404,Softcover Journal (with Inside Prints),More complex; inside print QA,Defer
+Notebook/Journal,4,1481,Hard Backed Journal,Premium journal candidate,Secondary Test
+Notebook/Journal,4,5634,Spiral Notebook - Dotted,Bullet journal audience,Priority Test
+Mug,5,68,Mug 11oz,Basic mug test; needs wrap design,Secondary Test
+Mug,5,425,Mug 15oz,Basic larger mug test; needs wrap design,Secondary Test
+Mug,5,478,"Ceramic Mug (11oz, 15oz)",Multi-size mug candidate,Priority Test after wrap QA
+Mug,5,479,"Black Mug (11oz, 15oz)",Dark academia mug fit,Priority Test after wrap QA
+Mug,5,503,"White Ceramic Mug, 11oz",Basic white mug,Verify cost
+Mug,5,535,11oz White Mug,Basic white mug,Verify cost
+Mug,5,583,11oz Accent Mug,Better visual differentiation,Secondary Test
+Mug,5,595,Accent Mugs,Better visual differentiation,Secondary Test
+Mug,5,618,"Ceramic Mugs (11oz, 15oz, 20oz)",Multi-size mug candidate,Priority Test after wrap QA
+Mug,5,628,"Black Coffee Mug, 11oz",Dark mug candidate,Secondary Test
+Mug,5,635,"Accent Coffee Mug (11, 15oz)",Giftable mug variation,Secondary Test
+Mug,5,827,"White Ceramic Mug, 11oz and 15oz",Basic multi-size mug,Verify cost
+Mug,5,985,"Colorful Accent Mugs, 11oz",Color variation candidate,Secondary Test
+Mug,5,1016,"Standard Mug, 11oz",Basic mug,Verify cost
+Mug,5,1017,"Color-Changing Mug, 11oz",Novelty mug; higher expectation risk,Defer
+Mug,5,1018,"Two-Tone Coffee Mug, 11oz",Two-tone mug variation,Secondary Test
+Mug,5,1126,"Jumbo Mug, 20oz",Large mug candidate,Defer
+Mug,5,1151,"Colorful Mugs (11oz, 15oz)",Color variation candidate,Secondary Test
+Mug,5,1152,"Black Mug, 15oz",Dark mug candidate,Secondary Test
+Mug,5,1156,"Color Morphing Mug, 11oz",Novelty mug; expectation risk,Defer
+Mug,5,1244,"White Ceramic Mug, 11oz",Basic mug,Verify cost
+Mug,5,1301,"Accent Mugs, 11oz",Accent mug variation,Secondary Test
+Mug,5,1302,"Two-Tone Coffee Mugs, 11oz",Two-tone mug variation,Secondary Test
+Mug,5,1680,"Clear Glass Mug with Handle, 10oz",Different material; buyer fit uncertain,Defer
+Mug,5,1682,"Glass Mug, 10oz",Different material; buyer fit uncertain,Defer
+Mug,5,2692,"Accent Rim & Handle Mug (11oz, 15oz)",Giftable mug variation,Secondary Test
+Mug,5,2693,"Two-Tone Accent Mug (11oz, 15oz)",Giftable mug variation,Secondary Test
+Phone Case,6,268,Slim Phone Cases,High variation complexity,Defer
+Phone Case,6,269,Tough Phone Cases,High variation complexity,Defer
+Phone Case,6,370,Flexi Cases,High variation complexity,Defer
+Phone Case,6,371,Snap Cases,High variation complexity,Defer
+Phone Case,6,421,Tough Cases,High variation complexity,Defer
+Phone Case,6,477,Biodegradable Cases,High variation complexity,Defer
+Phone Case,6,529,Clear Cases,High variation complexity,Defer
+Phone Case,6,841,Impact-Resistant Cases,High variation complexity,Defer
+Phone Case,6,849,Slim Cases,High variation complexity,Defer
+Phone Case,6,886,Clear Impact-Resistant Cases,High variation complexity,Defer
+Phone Case,6,1022,Phone Case With Card Holder,High variation complexity,Defer
+Phone Case,6,1230,Flip Cases,High variation complexity,Defer
+Phone Case,6,1273,Magnetic Impact-Resistant Cases,High variation complexity,Defer
+Phone Case,6,1487,Magnetic Clear Impact Cases,High variation complexity,Defer
+Phone Case,6,1521,Tough Magnetic Cases,High variation complexity,Defer
+Phone Case,6,1658,Colorful Phone Cases,High variation complexity,Defer
+Phone Case,6,2000,Magnetic Clear Impact-Resistant Cases,High variation complexity,Defer

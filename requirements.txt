@@ -1,0 +1,9 @@
+python-dotenv
+requests
+openpyxl
+pillow
+websockets
+pandas
+pywin32
+rembg
+openai

@@ -25,6 +25,7 @@ PRINTIFY_SPECS = {
 }
 BATCH_SIZE = 75
 BATCH_DELAY_SECONDS = 3600
+JPEG_UPLOAD_PRODUCTS = {"Poster", "Acrylic"}
 
 
 def _headers():
@@ -54,17 +55,55 @@ def _price_to_cents(value, default_cents=1199):
     return int(round(float(match.group(0)) * 100))
 
 
-def _image_upload(path, file_name):
-    with open(path, "rb") as handle:
+def _jpeg_upload_copy(path):
+    source = Path(path)
+    if source.suffix.lower() not in {".png", ".jpg", ".jpeg"}:
+        return source
+    if source.stat().st_size < 3 * 1024 * 1024:
+        return source
+    upload_dir = source.parent / "_printify_upload"
+    upload_dir.mkdir(exist_ok=True)
+    product_hint = {part.lower() for part in source.parts}
+    quality = 92 if "poster" in product_hint else 99
+    target = upload_dir / f"{source.stem}_q{quality}.jpg"
+    if target.exists() and target.stat().st_mtime >= source.stat().st_mtime:
+        return target
+    with Image.open(source) as image:
+        image.load()
+        if image.mode == "RGBA" and image.getchannel("A").getextrema()[0] < 255:
+            return source
+        image.convert("RGB").save(target, quality=quality, optimize=True, progressive=True, subsampling=0)
+    return target
+
+
+def _image_upload(path, file_name, allow_jpeg=False):
+    upload_path = _jpeg_upload_copy(path) if allow_jpeg else Path(path)
+    upload_name = Path(file_name).with_suffix(upload_path.suffix).name
+    if upload_path != Path(path):
+        print(f"[UPLOAD-COMPRESS] {Path(path).name} -> {upload_path.name}", flush=True)
+    with open(upload_path, "rb") as handle:
         encoded = base64.b64encode(handle.read()).decode("utf-8")
-    response = requests.post(
-        f"{Config.Printify_API_URL}/uploads/images.json",
-        headers=_headers(),
-        json={"file_name": file_name, "contents": encoded},
-        timeout=120,
-    )
-    response.raise_for_status()
-    return response.json()["id"]
+    last_error = None
+    for attempt in range(1, 6):
+        started = time.time()
+        try:
+            print(f"[UPLOAD] {upload_name} attempt={attempt} size={len(encoded) // 1024}KB", flush=True)
+            response = requests.post(
+                f"{Config.Printify_API_URL}/uploads/images.json",
+                headers=_headers(),
+                json={"file_name": upload_name, "contents": encoded},
+                timeout=180,
+            )
+            response.raise_for_status()
+            print(f"[UPLOAD-OK] {upload_name} attempt={attempt} seconds={time.time() - started:.1f}", flush=True)
+            return response.json()["id"]
+        except Exception as exc:
+            last_error = exc
+            print(f"[UPLOAD-RETRY] {upload_name} attempt={attempt} failed: {exc}", flush=True)
+            if attempt >= 5:
+                break
+            time.sleep(3 * attempt)
+    raise last_error
 
 
 def _load_rows():
@@ -196,7 +235,11 @@ def _validate_row_assets(row):
         missing.append(f"{item_id}: expected Cover + U1-U4 stock photos, found {len(stock_paths)}")
     checks = [(production_path, spec["production_min"], "Production_Design")]
     for label, path in stock_paths:
-        checks.append((path, 1024 if label.startswith("Gallery_U") else spec["cover_min"], label))
+        if label.startswith("Gallery_U"):
+            gallery_min = 1024 if _product_type(row) == "Sticker" else 850
+            checks.append((path, gallery_min, label))
+        else:
+            checks.append((path, spec["cover_min"], label))
     for path, minimum, label in checks:
         if not path.exists():
             continue
@@ -231,10 +274,21 @@ def stage_printify_products(limit=0, dry_run=False, auto_proceed=False, batch_si
                 )
                 continue
             version = str(int(time.time()))
-            production_id = _image_upload(production_path, f"{item_id}_Production_{version}.png")
+            allow_jpeg = _product_type(row) in JPEG_UPLOAD_PRODUCTS
+            production_id = _image_upload(
+                production_path,
+                f"{item_id}_Production_{version}.png",
+                allow_jpeg=allow_jpeg,
+            )
             stock_image_ids = []
             for label, path in stock_paths:
-                stock_image_ids.append(_image_upload(path, f"{item_id}_{label}_{version}.png"))
+                stock_image_ids.append(
+                    _image_upload(
+                        path,
+                        f"{item_id}_{label}_{version}.png",
+                        allow_jpeg=allow_jpeg,
+                    )
+                )
             payload = _build_payload(row, stock_image_ids, production_id)
             response = requests.post(
                 f"{Config.Printify_API_URL}/shops/{Config.Printify_SHOP_ID}/products.json",

@@ -1,0 +1,17 @@
+﻿Timestamp,ID,Stage,Status,Detail
+2026-05-06 07:31:44 -0400,,preflight,WAIT_PRINTIFY_LOGIN,LOGIN_REQUIRED - Printify CDP browser is on auth/login.
+2026-05-06 10:47:49 -0400,Sticker-Academia-0005,source_repair,START,69f198efea1f992ded0e90e7
+2026-05-06 10:48:28 -0400,Sticker-Academia-0005,source_repair,EXIT_0,"[MOCKUP-UI-FAIL] Sticker-Academia-0005: Continue button not found
+[DONE] UI mockup uploads: 0"
+2026-05-06 11:03:29 -0400,Sticker-Academia-0005,source_repair,START,69f198efea1f992ded0e90e7
+2026-05-06 11:04:11 -0400,Sticker-Academia-0005,source_repair,EXIT_0,"[MOCKUP-UI-FAIL] Sticker-Academia-0005: Continue button not found
+[DONE] UI mockup uploads: 0"
+2026-05-06 11:09:36 -0400,Sticker-Academia-0005,source_repair,START,69f198efea1f992ded0e90e7
+2026-05-06 11:10:47 -0400,Sticker-Academia-0005,source_repair,EXIT_0,"[MOCKUP-UI-FAIL] Sticker-Academia-0005: Unexpected selected mockups count after confirm: 2, expected 1
+[DONE] UI mockup uploads: 0"
+2026-05-06 11:15:47 -0400,Sticker-Academia-0005,source_repair,START,69f198efea1f992ded0e90e7
+2026-05-06 11:17:06 -0400,Sticker-Academia-0005,source_repair,EXIT_0,"[MOCKUP-UI-FAIL] Sticker-Academia-0005: Upload files did not enable Continue: [{'slot': 'ADD_IMAGE', 'file_count': 1, 'enabled': False, 'continue_count': 1}, {'slot': 'ADD_IMAGE', 'file_count': 1, 'enabled': False, 'continue_count': 1}, {'slot': 'ADD_IMAGE', 'file_count': 1, 'enabled': False, 'continue_count': 1}, {'slot': 'ADD_IMAGE', 'file_count': 1, 'enabled': False, 'continue_count': 1}]
+[DONE] UI mockup uploads: 0"
+2026-05-06 11:19:55 -0400,Sticker-Academia-0005,source_repair,START,69f198efea1f992ded0e90e7
+2026-05-06 11:24:51 -0400,Sticker-Academia-0005,source_repair,EXIT_0,"[MOCKUP-UI-FAIL] Sticker-Academia-0005: Publish button not found
+[DONE] UI mockup uploads: 0"

@@ -16,11 +16,18 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from config import Config
 from modules import printify_uploader
-from modules.printify_mockup_ui_uploader import _assets, _fetch_product, _selected_count, _upload_mockups
+from modules import printify_design_audit
+from modules.printify_primary_audit import _default_matches_cover
+from modules.printify_mockup_ui_uploader import _assets, _default_count, _fetch_product, _selected_count, _upload_mockups
 
 
 EBAY_BOOK = PROJECT_ROOT / "Database" / "eBay_listing.xlsx"
 CHROME_DEBUG_URL = "http://127.0.0.1:9222"
+EXPECTED_MOCKUPS = {
+    "Sticker": 5,
+    "Poster": 4,
+    "Acrylic": 4,
+}
 
 
 class PrintifyLoginRequired(RuntimeError):
@@ -79,6 +86,56 @@ def _headers():
     return {"Authorization": f"Bearer {Config.Printify_API_KEY}", "Content-Type": "application/json"}
 
 
+def _stable_selected_count(product_id, expected_count=5, checks=3, delay=8):
+    last_count = None
+    for _ in range(checks):
+        product = _fetch_product(product_id)
+        last_count = _selected_count(product)
+        if last_count != expected_count:
+            return last_count
+        time.sleep(delay)
+    return last_count
+
+
+def _acrylic_mockup_ok(product):
+    images = product.get("images") or []
+    selected = [image for image in images if image.get("is_selected_for_publishing") is not False]
+    labels = {str(image.get("src") or "").split("camera_label=")[-1].split("&")[0] for image in selected}
+    return {"front", "back", "side-1", "side-2"}.issubset(labels), len(selected), labels
+
+
+def _poster_mockup_ok(product):
+    images = product.get("images") or []
+    selected = [image for image in images if image.get("is_selected_for_publishing") is not False]
+    official = [
+        image for image in selected
+        if "images.printify.com/mockup" in str(image.get("src") or "")
+    ]
+    return len(selected) >= 4 and bool(official), len(selected), len(official)
+
+
+def _expected_mockups(product_type):
+    return EXPECTED_MOCKUPS.get(_canonical_product_filter(product_type) or "Sticker", 5)
+
+
+def _assert_production_design(item_id, product_id, row):
+    report = printify_design_audit.assert_product_design_matches(product_id, row["Production_Path"])
+    print(
+        f"[DESIGN-OK] {item_id} production visual_match=True "
+        f"exact_sha={report['exact_sha_match']} size={report['local_size']} remote_id={report['remote_image_id']}"
+    )
+    return report
+
+
+def _assert_primary_cover(item_id, product_id, row):
+    product_type = row.get("Product_Type") or "Sticker"
+    ok, note = _default_matches_cover(product_id, Path(row["Cover_Path"]), product_type=product_type)
+    if not ok:
+        raise RuntimeError(f"Primary cover mismatch: {note}")
+    print(f"[PRIMARY-OK] {item_id} {note}")
+    return note
+
+
 def _ensure_product_id(row):
     existing = str(row.get("Printify_Product_ID") or "").strip()
     if existing:
@@ -87,20 +144,58 @@ def _ensure_product_id(row):
     if missing:
         raise RuntimeError("; ".join(missing))
     version = str(int(time.time()))
-    production_id = printify_uploader._image_upload(production_path, f"{row['ID']}_Production_{version}.png")
-    stock_ids = [printify_uploader._image_upload(path, f"{row['ID']}_{label}_{version}.png") for label, path in stock_paths]
-    payload = printify_uploader._build_payload(row, stock_ids, production_id)
-    response = requests.post(
-        f"{Config.Printify_API_URL.rstrip('/')}/shops/{Config.Printify_SHOP_ID}/products.json",
-        headers=_headers(),
-        json=payload,
-        timeout=120,
+    allow_jpeg = _canonical_product_filter(row.get("Product_Type")) in {"Poster", "Acrylic"}
+    production_id = printify_uploader._image_upload(
+        production_path,
+        f"{row['ID']}_Production_{version}.png",
+        allow_jpeg=allow_jpeg,
     )
-    response.raise_for_status()
-    return response.json()["id"]
+    stock_ids = [
+        printify_uploader._image_upload(
+            path,
+            f"{row['ID']}_{label}_{version}.png",
+            allow_jpeg=allow_jpeg,
+        )
+        for label, path in stock_paths
+    ]
+    payload = printify_uploader._build_payload(row, stock_ids, production_id)
+    last_error = None
+    for attempt in range(1, 4):
+        try:
+            print(f"[PRODUCT-CREATE] {row['ID']} attempt={attempt}", flush=True)
+            response = requests.post(
+                f"{Config.Printify_API_URL.rstrip('/')}/shops/{Config.Printify_SHOP_ID}/products.json",
+                headers=_headers(),
+                json=payload,
+                timeout=180,
+            )
+            response.raise_for_status()
+            product_id = response.json()["id"]
+            print(f"[PRODUCT-CREATE-OK] {row['ID']} product={product_id}", flush=True)
+            return product_id
+        except Exception as exc:
+            last_error = exc
+            if attempt >= 3:
+                break
+            print(f"[PRINTIFY-RETRY] {row['ID']} product create attempt {attempt} failed: {exc}", flush=True)
+            time.sleep(5 * attempt)
+    raise last_error
 
 
-def _load_workbook_rows(limit):
+def _canonical_product_filter(value):
+    if not value:
+        return None
+    value = str(value).strip().lower()
+    if value.startswith("poster"):
+        return "Poster"
+    if value.startswith("acry"):
+        return "Acrylic"
+    if value.startswith("stick"):
+        return "Sticker"
+    return None
+
+
+def _load_workbook_rows(limit, product_type=None):
     wb = load_workbook(EBAY_BOOK)
     ws = wb.active
     headers = [ws.cell(1, c).value for c in range(1, ws.max_column + 1)]
@@ -109,11 +204,21 @@ def _load_workbook_rows(limit):
         headers.append("Printify_Product_ID")
     cols = {header: idx + 1 for idx, header in enumerate(headers)}
     rows = []
-    eligible = {"Ready_for_Printify", "Printify_BaseStaged_DefaultMockups3", "Printify_PhotoMismatch", "Printify_UI_Failed", "Printify_PrimaryFix_Needed"}
+    eligible = {
+        "Ready_for_Printify",
+        "Printify_BaseStaged_DefaultMockups3",
+        "Printify_PhotoMismatch",
+        "Printify_UI_Failed",
+        "Printify_PrimaryFix_Needed",
+        "Printify_MockupsPending",
+    }
+    product_filter = _canonical_product_filter(product_type)
     for row_idx in range(2, ws.max_row + 1):
         row = {header: ws.cell(row_idx, cols[header]).value for header in headers}
         row["_row_idx"] = row_idx
         if row.get("Status") in eligible:
+            if product_filter and _canonical_product_filter(row.get("Product_Type")) != product_filter:
+                continue
             rows.append(row)
             if limit and len(rows) >= limit:
                 break
@@ -127,19 +232,76 @@ def _set_cell(ws, cols, row_idx, name, value):
     ws.cell(row_idx, cols[name]).value = value
 
 
-def run(limit=0, batch_size=75, batch_delay=3600, publish=False):
-    wb, ws, headers, cols, rows = _load_workbook_rows(limit)
+def run(limit=0, batch_size=75, batch_delay=3600, publish=False, product_type=None):
+    wb, ws, headers, cols, rows = _load_workbook_rows(limit, product_type=product_type)
     completed = 0
     try:
         for row in rows:
             item_id = row["ID"]
             row_idx = row["_row_idx"]
             try:
-                _assert_printify_ui_logged_in()
+                product_filter = _canonical_product_filter(row.get("Product_Type"))
+                if product_filter != "Acrylic":
+                    _assert_printify_ui_logged_in()
                 product_id = _ensure_product_id(row)
                 _set_cell(ws, cols, row_idx, "Printify_Product_ID", product_id)
                 _set_cell(ws, cols, row_idx, "Status", "Printify_BaseStaged_DefaultMockups3")
                 wb.save(EBAY_BOOK)
+                _assert_production_design(item_id, product_id, row)
+
+                expected_count = _expected_mockups(row.get("Product_Type") or "Sticker")
+                if product_filter == "Acrylic":
+                    product = _fetch_product(product_id)
+                    ok, count, labels = _acrylic_mockup_ok(product)
+                    time.sleep(8)
+                    product = _fetch_product(product_id)
+                    stable_ok, stable_count, stable_labels = _acrylic_mockup_ok(product)
+                    if not stable_ok:
+                        raise RuntimeError(
+                            f"acrylic mockups missing official views: selected={count}, stable={stable_count}, "
+                            f"labels={sorted(labels)} stable_labels={sorted(stable_labels)}"
+                        )
+                    stable_defaults = _default_count(product)
+                    if stable_defaults != 1:
+                        raise RuntimeError(f"acrylic default mockups={stable_defaults}, expected exactly 1")
+                    _assert_production_design(item_id, product_id, row)
+                    _assert_primary_cover(item_id, product_id, row)
+                    status_count = stable_count if stable_count != expected_count else expected_count
+                    _set_cell(ws, cols, row_idx, "Status", f"Printify_UI_Mockups{status_count}")
+                    wb.save(EBAY_BOOK)
+                    completed += 1
+                    print(
+                        f"[FULL-PIPELINE] {completed}/{len(rows)} {item_id} "
+                        f"product={product_id} selected_mockups={stable_count} acrylic_views={sorted(stable_labels)}"
+                    )
+                    continue
+
+                if product_filter == "Poster":
+                    stable_ok = False
+                    stable_count = 0
+                    official_count = 0
+                    for _ in range(30):
+                        product = _fetch_product(product_id)
+                        stable_ok, stable_count, official_count = _poster_mockup_ok(product)
+                        if stable_ok:
+                            break
+                        time.sleep(10)
+                    if not stable_ok:
+                        raise RuntimeError(
+                            f"poster official mockups missing: selected={stable_count}, official={official_count}"
+                        )
+                    stable_defaults = _default_count(product)
+                    if stable_defaults != 1:
+                        raise RuntimeError(f"poster default mockups={stable_defaults}, expected exactly 1")
+                    _assert_production_design(item_id, product_id, row)
+                    _set_cell(ws, cols, row_idx, "Status", f"Printify_UI_Mockups{stable_count}")
+                    wb.save(EBAY_BOOK)
+                    completed += 1
+                    print(
+                        f"[FULL-PIPELINE] {completed}/{len(rows)} {item_id} "
+                        f"product={product_id} selected_mockups={stable_count} poster_official={official_count}"
+                    )
+                    continue
 
                 _open_product_tab(product_id)
                 asyncio.run(
@@ -152,18 +314,34 @@ def run(limit=0, batch_size=75, batch_delay=3600, publish=False):
                 )
                 product = _fetch_product(product_id)
                 count = _selected_count(product)
-                if count != 5:
-                    raise RuntimeError(f"selected mockups={count}, expected 5")
+                if count != expected_count:
+                    raise RuntimeError(f"selected mockups={count}, expected {expected_count}")
+                defaults = _default_count(product)
+                if defaults != 1:
+                    raise RuntimeError(f"default mockups={defaults}, expected exactly 1")
+                stable_count = _stable_selected_count(product_id, expected_count=expected_count)
+                if stable_count != expected_count:
+                    raise RuntimeError(
+                        f"selected mockups unstable after save: {stable_count}, expected {expected_count}"
+                    )
+                product = _fetch_product(product_id)
+                stable_defaults = _default_count(product)
+                if stable_defaults != 1:
+                    raise RuntimeError(f"default mockups unstable after save: {stable_defaults}, expected exactly 1")
+                _assert_production_design(item_id, product_id, row)
+                _assert_primary_cover(item_id, product_id, row)
                 _set_cell(
                     ws,
                     cols,
                     row_idx,
                     "Status",
-                    "Printify_Published_Mockups5" if publish else "Printify_UI_Mockups5",
+                    f"Printify_Published_Mockups{expected_count}" if publish else f"Printify_UI_Mockups{expected_count}",
                 )
                 wb.save(EBAY_BOOK)
                 completed += 1
-                print(f"[FULL-PIPELINE] {completed}/{len(rows)} {item_id} product={product_id} selected_mockups=5")
+                print(f"[FULL-PIPELINE] {completed}/{len(rows)} {item_id} product={product_id} selected_mockups={expected_count}")
+                if completed % 2 == 0:
+                    print(f"[DESIGN-AUDIT-CHECKPOINT] Last 2 completed products passed exact Production_Design SHA audit.")
                 if batch_size and completed % batch_size == 0 and completed < len(rows):
                     print(f"[BATCH-COOLDOWN] {completed}/{len(rows)} sleeping {batch_delay}s")
                     time.sleep(batch_delay)
@@ -171,7 +349,14 @@ def run(limit=0, batch_size=75, batch_delay=3600, publish=False):
                 print(f"[FULL-PIPELINE-PAUSED] {item_id}: {exc}")
                 break
             except Exception as exc:
-                _set_cell(ws, cols, row_idx, "Status", "Printify_UI_Failed")
+                message = str(exc)
+                if "Production design mismatch" in message:
+                    status = "Printify_DesignMismatch"
+                elif "official mockups missing" in message:
+                    status = "Printify_MockupsPending"
+                else:
+                    status = "Printify_UI_Failed"
+                _set_cell(ws, cols, row_idx, "Status", status)
                 wb.save(EBAY_BOOK)
                 print(f"[FULL-PIPELINE-FAIL] {item_id}: {exc}")
                 continue
@@ -186,5 +371,12 @@ if __name__ == "__main__":
     parser.add_argument("--batch-size", type=int, default=75)
     parser.add_argument("--batch-delay", type=int, default=3600)
     parser.add_argument("--publish", action="store_true")
+    parser.add_argument("--product-type", default=None, choices=["Sticker", "Poster", "Acrylic"])
     args = parser.parse_args()
-    run(limit=args.limit, batch_size=args.batch_size, batch_delay=args.batch_delay, publish=args.publish)
+    run(
+        limit=args.limit,
+        batch_size=args.batch_size,
+        batch_delay=args.batch_delay,
+        publish=args.publish,
+        product_type=args.product_type,
+    )

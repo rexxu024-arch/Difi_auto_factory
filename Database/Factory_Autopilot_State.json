@@ -1,0 +1,108 @@
+{
+  "generated_at": "2026-05-06T10:46:32-04:00",
+  "timezone": "America/New_York",
+  "network_strategy": {
+    "mode": "unknown",
+    "max_parallel": 0,
+    "batch_size": 0,
+    "reason": "network guard skipped"
+  },
+  "workbook_counts": {
+    "rows": 240,
+    "stable": 161,
+    "published": 112,
+    "ready": 50,
+    "by_product": {
+      "Sticker": {
+        "stable": 76,
+        "published": 60,
+        "ready": 46,
+        "rows": 149
+      },
+      "Poster": {
+        "stable": 32,
+        "published": 26,
+        "ready": 4,
+        "rows": 38
+      },
+      "Acrylic": {
+        "stable": 53,
+        "published": 26,
+        "ready": 0,
+        "rows": 53
+      }
+    },
+    "publishable_without_cover_block": 0
+  },
+  "fix_queue_rows": 49,
+  "repair_decisions": {
+    "SOURCE_REPAIR_REQUIRED": 45,
+    "NON_STICKER_REVIEW_REQUIRED": 4
+  },
+  "printify_default_audit": {
+    "OK": 38,
+    "CHECK": 123
+  },
+  "performance_age_hours": 9.383859150833333,
+  "printify_ui_status": {
+    "status": "LOGGED_IN",
+    "reason": "Printify app page is available in CDP browser."
+  },
+  "actions": [
+    {
+      "priority": 100,
+      "lane": "local",
+      "action": "Refresh local QA, registry, market queue, cover decisions, experiment report, and morning report.",
+      "status": "READY",
+      "reason": "Safe low-bandwidth maintenance keeps the factory state current while account/image writes are paused.",
+      "command": "py modules\\factory_supervisor.py --execute-local --skip-network",
+      "requires_network": "no",
+      "requires_login": "no",
+      "risk": "low"
+    },
+    {
+      "priority": 95,
+      "lane": "cover_gate",
+      "action": "Repair one Printify source cover, then live-audit eBay before scaling.",
+      "status": "READY_SINGLE_SKU_REPAIR",
+      "reason": "Live cover queue has 49 rows; 45 require Printify source repair or replacement listings. Printify UI: LOGGED_IN - Printify app page is available in CDP browser.",
+      "command": "py modules\\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120",
+      "requires_network": "yes",
+      "requires_login": "Printify remote-debug profile",
+      "risk": "medium"
+    },
+    {
+      "priority": 63,
+      "lane": "production_design_qa",
+      "action": "Run a tiny Printify production-design audit before any larger online batch.",
+      "status": "READY",
+      "reason": "This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi.",
+      "command": "py modules\\printify_design_audit.py --limit 2 --sleep-seconds 1",
+      "requires_network": "yes",
+      "requires_login": "Printify API",
+      "risk": "low"
+    },
+    {
+      "priority": 55,
+      "lane": "etsy",
+      "action": "Keep Etsy launch packet local until shop/API approval is ready.",
+      "status": "WAIT_USER_OR_API_APPROVAL",
+      "reason": "Etsy developer app is pending approval and Rex has not asked to publish Etsy listings yet.",
+      "command": "py modules\\etsy_digital_listing_export.py",
+      "requires_network": "no",
+      "requires_login": "no",
+      "risk": "low"
+    },
+    {
+      "priority": 50,
+      "lane": "copy_experiment",
+      "action": "Continue low-bandwidth SEO/title/description experiment analysis.",
+      "status": "READY",
+      "reason": "Ads alone did not move zero-view listings; controlled copy/image experiments are the next learning loop.",
+      "command": "py modules\\ebay_experiment_report.py",
+      "requires_network": "no",
+      "requires_login": "no",
+      "risk": "low"
+    }
+  ]
+}

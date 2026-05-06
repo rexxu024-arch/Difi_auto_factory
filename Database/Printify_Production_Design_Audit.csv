@@ -1,0 +1,2 @@
+ID,Product_Type,Status,Printify_Product_ID,exact_sha_match,visual_match,local_size,remote_size,remote_declared_size,ahash_distance,local_sha256,remote_sha256,remote_image_id,error
+Poster-Academia-0001,Poster,Printify_Published_Mockups5,69f28800cd8d04605103e53a,False,True,"(3600, 5400)","(3600, 5400)","(3600, 5400)",0,4eb3393e4f6b8e73a4394d770b6d992e2d0917f9b6cb4522a43e69784eaac5db,2b2d9489b68455bb4320b615ac8fcd437c73bf2b2f05f5626f8145fcfb2a6bee,69f287ee24eaef9b6ce591e4,

@@ -579,7 +579,7 @@ def similarity_score(tokens_a, tokens_b):
     return len(tokens_a & tokens_b) / max(1, len(tokens_a | tokens_b))
 
 
-def too_similar_to_saved(title, prompt, saved_variants, threshold=0.50):
+def too_similar_to_saved(title, prompt, saved_variants, threshold=0.78):
     current = diversity_tokens(title, prompt)
     current_subject = subject_key(title, prompt)
     for saved in saved_variants:
@@ -587,6 +587,9 @@ def too_similar_to_saved(title, prompt, saved_variants, threshold=0.50):
         if current_subject and saved_subject and current_subject == saved_subject:
             return True, 1.0, saved["Title"]
         score = similarity_score(current, saved["_diversity_tokens"])
+        # Product-line batches intentionally share material vocabulary from the same
+        # DNA. Only block text-level similarity when it is extremely high; the
+        # subject_key gate above catches true repeated silhouettes.
         if score >= threshold:
             return True, score, saved["Title"]
     return False, 0.0, ""

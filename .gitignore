@@ -2,3 +2,5 @@
 Output/
 __pycache__/
 .discord_automation_session/
+Database/.etsy_oauth_tokens.json
+Database/.etsy_oauth_state.json

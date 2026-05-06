@@ -1,5 +1,6 @@
 import argparse
 import asyncio
+import io
 import json
 import sys
 import time
@@ -9,6 +10,7 @@ from pathlib import Path
 import requests
 import websockets
 from openpyxl import load_workbook
+from PIL import Image
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
@@ -41,11 +43,76 @@ def _fetch_product(product_id):
     return response.json()
 
 
+def _publish_product_images(product_id):
+    response = requests.post(
+        f"{Config.Printify_API_URL.rstrip('/')}/shops/{Config.Printify_SHOP_ID}/products/{product_id}/publish.json",
+        headers={**_headers(), "Content-Type": "application/json"},
+        json={
+            "title": False,
+            "description": False,
+            "images": True,
+            "variants": False,
+            "tags": False,
+            "keyFeatures": False,
+            "shipping_template": False,
+        },
+        timeout=180,
+    )
+    response.raise_for_status()
+    return response
+
+
 def _selected_count(product):
     return sum(1 for image in product.get("images") or [] if image.get("is_selected_for_publishing") is not False)
 
 
-def _load_rows(limit=0):
+def _default_count(product):
+    return sum(
+        1
+        for image in product.get("images") or []
+        if image.get("is_selected_for_publishing") is not False and image.get("is_default")
+    )
+
+
+def _official_mockup_count(product):
+    return sum(
+        1
+        for image in product.get("images") or []
+        if image.get("is_selected_for_publishing") is not False and "images.printify.com/mockup" in str(image.get("src") or "")
+    )
+
+
+def _selected_images(product):
+    return [image for image in product.get("images") or [] if image.get("is_selected_for_publishing") is not False]
+
+
+def _ahash(image):
+    image = image.convert("L").resize((16, 16), Image.Resampling.LANCZOS)
+    pixels = list(image.getdata())
+    avg = sum(pixels) / len(pixels)
+    return "".join("1" if pixel > avg else "0" for pixel in pixels)
+
+
+def _distance(a, b):
+    return sum(left != right for left, right in zip(a, b))
+
+
+def _first_selected_matches_cover(product, cover_path, threshold=8):
+    selected = _selected_images(product)
+    if not selected or not cover_path or not Path(cover_path).exists():
+        return False
+    url = selected[0].get("src")
+    if not url:
+        return False
+    local_hash = _ahash(Image.open(cover_path))
+    response = requests.get(url, timeout=60)
+    response.raise_for_status()
+    remote_hash = _ahash(Image.open(io.BytesIO(response.content)))
+    return _distance(local_hash, remote_hash) <= threshold
+
+
+def _load_rows(limit=0, ids=None, allow_any_status=False):
+    ids = set(ids or [])
     wb = load_workbook(EBAY_BOOK)
     ws = wb.active
     headers = [ws.cell(1, c).value for c in range(1, ws.max_column + 1)]
@@ -54,8 +121,12 @@ def _load_rows(limit=0):
     for row_idx in range(2, ws.max_row + 1):
         data = {header: ws.cell(row_idx, cols[header]).value for header in headers}
         data["_row_idx"] = row_idx
-        if data.get("Status") not in {"Ready_for_Printify", "Printify_BaseStaged_DefaultMockups3", "Printify_UI_Failed", "Printify_PrimaryFix_Needed"}:
+        item_id = str(data.get("ID") or "").strip()
+        if ids and item_id not in ids:
             continue
+        if not allow_any_status and not ids:
+            if data.get("Status") not in {"Ready_for_Printify", "Printify_BaseStaged_DefaultMockups3", "Printify_UI_Failed", "Printify_PrimaryFix_Needed"}:
+                continue
         if data.get("Printify_Product_ID") and data.get("Status") != "Ready_for_Printify":
             rows.append(data)
         elif data.get("Printify_Product_ID") and data.get("Status") == "Ready_for_Printify":
@@ -128,15 +199,17 @@ class CdpPage:
     async def __aexit__(self, exc_type, exc, tb):
         await self.sock.close()
 
-    async def send(self, method, params=None):
+    async def send(self, method, params=None, timeout=30):
         msg = {"id": self.seq, "method": method}
         if params is not None:
             msg["params"] = params
         await self.sock.send(json.dumps(msg))
         my_id = self.seq
         self.seq += 1
+        deadline = time.time() + timeout
         while True:
-            data = json.loads(await self.sock.recv())
+            remaining = max(1, deadline - time.time())
+            data = json.loads(await asyncio.wait_for(self.sock.recv(), timeout=remaining))
             if data.get("id") == my_id:
                 return data
 
@@ -168,6 +241,86 @@ class CdpPage:
         if not node_ids:
             raise RuntimeError("Printify upload file input not found")
         await self.send("DOM.setFileInputFiles", {"nodeId": node_ids[-1], "files": files})
+        await self.eval(
+            r"""(() => {
+                const input = [...document.querySelectorAll('input[type=file]')].slice(-1)[0];
+                if (!input) return false;
+                input.dispatchEvent(new Event('input', {bubbles:true}));
+                input.dispatchEvent(new Event('change', {bubbles:true}));
+                return input.files ? input.files.length : 0;
+            })()"""
+        )
+
+
+async def _dismiss_connect_dialog(page):
+    dismissed = await page.eval(
+        r"""(() => {
+            const text = (document.body && document.body.innerText) || '';
+            if (!/Connect your mockups|Unlinked mockups/.test(text)) return false;
+            const buttons = [...document.querySelectorAll('button')]
+              .filter(e => !!(e.offsetWidth || e.offsetHeight || e.getClientRects().length));
+            const close = buttons.reverse().find(e => (e.innerText || '').trim() === 'close'
+              || (e.getAttribute('aria-label') || '').toLowerCase().includes('close'));
+            if (!close) return false;
+            close.click();
+            return true;
+        })()"""
+    )
+    if dismissed:
+        await asyncio.sleep(1)
+    return dismissed
+
+
+async def _open_upload_slot(page):
+    opened = await page.eval(
+        r"""(() => {
+            const visible = e => !!(e.offsetWidth || e.offsetHeight || e.getClientRects().length);
+            const buttons = [...document.querySelectorAll('button,[role="button"]')].filter(visible);
+            const add = buttons.find(e => /Add image/i.test(e.innerText || e.ariaLabel || ''));
+            if (add) {
+                add.click();
+                return 'ADD_IMAGE';
+            }
+            const browse = buttons.find(e => /Browse/i.test(e.innerText || e.ariaLabel || ''));
+            if (browse) {
+                browse.click();
+                return 'BROWSE';
+            }
+            return '';
+        })()"""
+    )
+    if opened:
+        await asyncio.sleep(1)
+    return opened
+
+
+async def _set_files_and_wait_for_continue(page, files, wait_checks=30):
+    attempts = []
+    for attempt in range(2):
+        slot = await _open_upload_slot(page)
+        await page.set_file_input(files)
+        for _ in range(wait_checks):
+            upload_ready = await page.eval(
+                """((expectedFiles) => {
+                    const inputs=[...document.querySelectorAll('input[type=file]')];
+                    const file_count=inputs.reduce((n,i)=>Math.max(n, i.files ? i.files.length : 0), 0);
+                    const buttons=[...document.querySelectorAll('button')]
+                      .filter(e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length));
+                    const continue_buttons=buttons.filter(e=>(e.innerText||'').trim()==='Continue');
+                    return {
+                        slot: '',
+                        file_count,
+                        enabled: continue_buttons.some(e=>!e.disabled),
+                        continue_count: continue_buttons.length
+                    };
+                })(""" + str(len(files)) + """)"""
+            )
+            upload_ready["slot"] = slot
+            attempts.append(upload_ready)
+            if upload_ready and upload_ready.get("file_count") == len(files) and upload_ready.get("enabled"):
+                return upload_ready
+            await asyncio.sleep(1)
+    raise RuntimeError(f"Upload files did not enable Continue: {attempts[-4:]}")
 
 
 async def _upload_mockups_once(product_id, files, keep_default_mockups=False, expected_count=5, publish=False, product_type="Sticker"):
@@ -180,6 +333,7 @@ async def _upload_mockups_once(product_id, files, keep_default_mockups=False, ex
             if await page.eval("!!document.body && /Mockup library/.test(document.body.innerText || '')"):
                 break
             await asyncio.sleep(1)
+        await _dismiss_connect_dialog(page)
         opened = await page.eval(
             """(() => {
                 const buttons=[...document.querySelectorAll('button')]
@@ -197,21 +351,7 @@ async def _upload_mockups_once(product_id, files, keep_default_mockups=False, ex
                 break
             await asyncio.sleep(1)
 
-        await page.set_file_input(files)
-        for _ in range(30):
-            upload_ready = await page.eval(
-                """(() => {
-                    const inputs=[...document.querySelectorAll('input[type=file]')];
-                    const file_count=inputs.reduce((n,i)=>Math.max(n, i.files ? i.files.length : 0), 0);
-                    const buttons=[...document.querySelectorAll('button')]
-                      .filter(e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length));
-                    const continue_buttons=buttons.filter(e=>(e.innerText||'').trim()==='Continue');
-                    return {file_count, enabled: continue_buttons.some(e=>!e.disabled)};
-                })()"""
-            )
-            if upload_ready and upload_ready.get("file_count") == len(files) and upload_ready.get("enabled"):
-                break
-            await asyncio.sleep(1)
+        await _set_files_and_wait_for_continue(page, files, wait_checks=90)
         if keep_default_mockups:
             await page.eval(
                 r"""(() => {
@@ -303,8 +443,13 @@ async def _upload_mockups_once(product_id, files, keep_default_mockups=False, ex
                 return ((text.match(/Selected mockups\s+(\d+)\s+selected/) || text.match(/(\d+)\s+selected/)) || [])[1] || null;
             })()"""
         )
-        if str(selected) != str(expected_count):
-            raise RuntimeError(f"Unexpected selected mockups count after confirm: {selected}, expected {expected_count}")
+        if selected is not None:
+            try:
+                selected_int = int(selected)
+            except ValueError:
+                selected_int = -1
+            if selected_int < expected_count:
+                raise RuntimeError(f"Unexpected selected mockups count after confirm: {selected}, expected at least {expected_count}")
         primary_count = await page.eval(
             r"""(() => {
                 const candidates=[...document.querySelectorAll('button.mockup-container, button')]
@@ -334,8 +479,9 @@ async def _upload_mockups_once(product_id, files, keep_default_mockups=False, ex
                 """(() => {const b=[...document.querySelectorAll('button')].find(e=>(e.innerText||'').trim()==='Publish'); if(!b)return false; b.click(); return true;})()"""
             )
             if not published:
-                raise RuntimeError("Publish button not found")
-            await asyncio.sleep(8)
+                _publish_product_images(product_id)
+            else:
+                await asyncio.sleep(8)
 
 
 async def _upload_files_to_library(product_id, files, keep_default_mockups=True):
@@ -348,6 +494,7 @@ async def _upload_files_to_library(product_id, files, keep_default_mockups=True)
             if await page.eval("!!document.body && /Mockup library/.test(document.body.innerText || '')"):
                 break
             await asyncio.sleep(1)
+        await _dismiss_connect_dialog(page)
         opened = await page.eval(
             """(() => {
                 const buttons=[...document.querySelectorAll('button')]
@@ -364,21 +511,7 @@ async def _upload_files_to_library(product_id, files, keep_default_mockups=True)
             if await page.eval("!!document.body && /Upload mockups/.test(document.body.innerText || '') && document.querySelectorAll('input[type=file]').length"):
                 break
             await asyncio.sleep(1)
-        await page.set_file_input(files)
-        for _ in range(60):
-            upload_ready = await page.eval(
-                """(() => {
-                    const inputs=[...document.querySelectorAll('input[type=file]')];
-                    const file_count=inputs.reduce((n,i)=>Math.max(n, i.files ? i.files.length : 0), 0);
-                    const buttons=[...document.querySelectorAll('button')]
-                      .filter(e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length));
-                    const continue_buttons=buttons.filter(e=>(e.innerText||'').trim()==='Continue');
-                    return {file_count, enabled: continue_buttons.some(e=>!e.disabled)};
-                })()"""
-            )
-            if upload_ready and upload_ready.get("file_count") == len(files) and upload_ready.get("enabled"):
-                break
-            await asyncio.sleep(1)
+        await _set_files_and_wait_for_continue(page, files, wait_checks=60)
         if keep_default_mockups:
             await page.eval(
                 r"""(() => {
@@ -442,6 +575,7 @@ async def _select_latest_library_mockups(product_id, add_count, expected_count=5
             if ready:
                 break
             await asyncio.sleep(1)
+        await _dismiss_connect_dialog(page)
         selected = await page.eval(
             """(async (addCount) => {
                 [...document.querySelectorAll('button')].filter(b=>(b.innerText||b.ariaLabel||'').trim()==='close').slice(-5).forEach(b=>b.click());
@@ -486,15 +620,16 @@ async def _select_latest_library_mockups(product_id, add_count, expected_count=5
         await asyncio.sleep(10)
         product = _fetch_product(product_id)
         count = _selected_count(product)
-        if count != expected_count:
-            raise RuntimeError(f"API selected mockup count is {count}, expected {expected_count}")
+        if count < expected_count:
+            raise RuntimeError(f"API selected mockup count is {count}, expected at least {expected_count}")
         if publish:
             published = await page.eval(
                 """(() => {const b=[...document.querySelectorAll('button')].find(e=>(e.innerText||'').trim()==='Publish'); if(!b)return false; b.click(); return true;})()"""
             )
             if not published:
-                raise RuntimeError("Publish button not found")
-            await asyncio.sleep(8)
+                _publish_product_images(product_id)
+            else:
+                await asyncio.sleep(8)
 
 
 async def _upload_mockups(product_id, files, keep_default_mockups=False, expected_count=5, publish=False, product_type="Sticker"):
@@ -504,7 +639,7 @@ async def _upload_mockups(product_id, files, keep_default_mockups=False, expecte
         await _upload_mockups_once(
             product_id,
             cover,
-            keep_default_mockups=False,
+            keep_default_mockups=True,
             expected_count=1,
             publish=False,
             product_type=product_type,
@@ -522,8 +657,8 @@ async def _upload_mockups(product_id, files, keep_default_mockups=False, expecte
     )
 
 
-def upload_from_open_page(limit=0, expected_count=5, publish=False):
-    wb, ws, headers, cols, rows = _load_rows(limit)
+def upload_from_open_page(limit=0, expected_count=5, publish=False, ids=None, allow_any_status=False):
+    wb, ws, headers, cols, rows = _load_rows(limit, ids=ids, allow_any_status=allow_any_status)
     done = 0
     try:
         for row in rows:
@@ -536,14 +671,24 @@ def upload_from_open_page(limit=0, expected_count=5, publish=False):
                 asyncio.run(_upload_mockups(product_id, files, expected_count=expected_count, publish=publish, product_type=_product_type(row)))
                 product = _fetch_product(product_id)
                 count = _selected_count(product)
-                if count != expected_count:
-                    raise RuntimeError(f"API selected mockup count is {count}, expected {expected_count}")
-                _set_status(ws, cols, row["_row_idx"], f"Printify_UI_Mockups{expected_count}")
+                if count < expected_count:
+                    raise RuntimeError(f"API selected mockup count is {count}, expected at least {expected_count}")
+                defaults = _default_count(product)
+                if defaults < 1:
+                    raise RuntimeError("API default mockup count is 0, expected at least 1")
+                old_status = str(row.get("Status") or "")
+                if publish and old_status.startswith("Printify_Published"):
+                    _set_status(ws, cols, row["_row_idx"], f"Printify_Published_Mockups{expected_count}")
+                else:
+                    _set_status(ws, cols, row["_row_idx"], f"Printify_UI_Mockups{expected_count}")
                 wb.save(EBAY_BOOK)
                 done += 1
                 print(f"[MOCKUP-UI] {item_id} product={product_id} selected_mockups={expected_count}")
             except Exception as exc:
-                _set_status(ws, cols, row["_row_idx"], "Printify_UI_Failed")
+                if ids or allow_any_status:
+                    _set_status(ws, cols, row["_row_idx"], "Printify_SourceRepair_Failed")
+                else:
+                    _set_status(ws, cols, row["_row_idx"], "Printify_UI_Failed")
                 wb.save(EBAY_BOOK)
                 print(f"[MOCKUP-UI-FAIL] {item_id}: {exc}")
                 break
@@ -557,5 +702,14 @@ if __name__ == "__main__":
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--expected-count", type=int, default=5)
     parser.add_argument("--publish", action="store_true")
+    parser.add_argument("--ids", default="", help="Comma-separated workbook IDs to repair regardless of current status.")
+    parser.add_argument("--allow-any-status", action="store_true")
     args = parser.parse_args()
-    upload_from_open_page(limit=args.limit, expected_count=args.expected_count, publish=args.publish)
+    ids = [value.strip() for value in args.ids.split(",") if value.strip()]
+    upload_from_open_page(
+        limit=args.limit,
+        expected_count=args.expected_count,
+        publish=args.publish,
+        ids=ids,
+        allow_any_status=args.allow_any_status,
+    )

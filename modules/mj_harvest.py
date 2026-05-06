@@ -20,21 +20,31 @@ POLL_INTERVAL_SECONDS = float(os.getenv("MJ_HARVEST_POLL_SECONDS", "5") or "5")
 GRID_FALLBACK_SECONDS = int(os.getenv("MJ_HARVEST_GRID_FALLBACK_SECONDS", "120") or "120")
 MIN_GRID_DIM = int(os.getenv("MJ_MIN_GRID_DIM", "1024") or "1024")
 MIN_UPSCALE_DIM = int(os.getenv("MJ_MIN_UPSCALE_DIM", "1024") or "1024")
+PRODUCT_MIN_UPSCALE_DIM = {
+    "Sticker": MIN_UPSCALE_DIM,
+    "Poster": int(os.getenv("MJ_POSTER_MIN_UPSCALE_DIM", "850") or "850"),
+    "Acrylic": int(os.getenv("MJ_ACRYLIC_MIN_UPSCALE_DIM", "850") or "850"),
+    "T-Shirt": int(os.getenv("MJ_TSHIRT_MIN_UPSCALE_DIM", "850") or "850"),
+    "Wall Art": int(os.getenv("MJ_WALL_ART_MIN_UPSCALE_DIM", "850") or "850"),
+}
 ALLOW_GRID_FALLBACK = os.getenv("MJ_HARVEST_ALLOW_GRID_FALLBACK", "0").strip() == "1"
 PROMPT_PREFIX = "(subject in center of frame:1.5), (clean white background:1.3), "
-OFFICIAL_SUFFIX = "--ar 1:1 --v 6.0 --style raw --stylize 250"
+OFFICIAL_SUFFIX = "--ar 1:1 --v 6.1 --style raw --stylize 250 --no skin, person, text, watermark"
 PRODUCT_SUFFIXES = {
-    "Sticker": "--ar 1:1 --v 6.0 --style raw --stylize 250",
-    "Poster": "--ar 2:3 --v 6.0 --style raw --stylize 250",
-    "Acrylic": "--ar 5:7 --v 6.0 --style raw --stylize 250",
-    "T-Shirt": "--ar 2:3 --v 6.0 --style raw --stylize 250",
-    "Wall Art": "--ar 2:3 --v 6.0 --style raw --stylize 250",
+    "Sticker": "--ar 1:1 --v 6.1 --style raw --stylize 250 --no skin, person, text, watermark",
+    "Poster": "--ar 2:3 --v 6.1 --style raw --stylize 250 --no skin, person, text, watermark",
+    "Acrylic": "--ar 5:7 --v 6.1 --style raw --stylize 250 --no skin, person, text, watermark",
+    "T-Shirt": "--ar 2:3 --v 6.1 --style raw --stylize 250 --no skin, person, text, watermark",
+    "Wall Art": "--ar 2:3 --v 6.1 --style raw --stylize 250 --no skin, person, text, watermark",
 }
 Config.TOKEN = getattr(Config, "TOKEN", None) or getattr(Config, "DISCORD_TOKEN", None) or os.getenv("DISCORD_TOKEN")
 Config.APP_ID = getattr(Config, "APP_ID", None) or os.getenv("APPLICATION_ID")
 Config.MJ_ID = getattr(Config, "MJ_ID", None) or os.getenv("MJ_ID")
 Config.MJ_VERSION = getattr(Config, "MJ_VERSION", None) or os.getenv("MJ_VERSION")
 Config.SESSION_ID = getattr(Config, "SESSION_ID", None) or os.getenv("SESSION_ID")
+
+def _min_upscale_dim(product_type):
+    return PRODUCT_MIN_UPSCALE_DIM.get(str(product_type or "Sticker").strip(), MIN_UPSCALE_DIM)
 
 def _validate_runtime_config():
     required = {
@@ -199,6 +209,37 @@ def _image_size(path):
     except Exception:
         return None
 
+def _compact_non_sticker_subject(subject, max_chars=760):
+    clauses = [re.sub(r"\s+", " ", part).strip(" ,") for part in str(subject or "").split(",")]
+    generic_markers = (
+        "hyper-detailed mentor-grade",
+        "primary material system",
+        "micro-engraved surface relief",
+        "visible handcrafted edge bevels",
+        "layered translucent depth",
+        "subtle internal bioluminescent glow",
+        "refined kintsugi-like vein logic",
+        "floating accent fragments arranged",
+        "cinematic rim lighting plus",
+        "crisp silhouette readability",
+        "centered premium product composition",
+        "clean contour separation",
+        "high-end collectible artifact",
+    )
+    kept = []
+    for clause in clauses:
+        if not clause:
+            continue
+        low = clause.lower()
+        if any(marker in low for marker in generic_markers):
+            continue
+        kept.append(clause)
+    compact = ", ".join(kept)
+    if len(compact) <= max_chars:
+        return compact
+    trimmed = compact[:max_chars].rsplit(",", 1)[0].strip(" ,")
+    return trimmed or compact[:max_chars].rsplit(" ", 1)[0].strip(" ,")
+
 def _download_asset(asset, save_dir, filename, min_dim=0, label="asset"):
     full_path = os.path.join(save_dir, filename)
     tmp_path = full_path + ".part"
@@ -249,6 +290,7 @@ def _prepare_discord_prompt(raw_prompt, tid, product_type="Sticker"):
         )
         subject = re.sub(r"\s*,\s*,+", ", ", subject)
         subject = re.sub(r"\s+", " ", subject).strip(" ,")
+        subject = _compact_non_sticker_subject(subject)
     suffix = PRODUCT_SUFFIXES.get(str(product_type or "Sticker").strip(), OFFICIAL_SUFFIX)
     return f"{subject} ID_{tid} {suffix}".strip()
 
@@ -429,9 +471,10 @@ def _finalize_single_art(info, tid, sel_cat, sel_spec):
         print(f"[WARN] [{tid}] Missing required U1-U4 assets.")
         return False
     low_res = []
+    min_dim = _min_upscale_dim(sel_cat)
     for path in u_files:
         size = _image_size(path)
-        if not size or min(size) < MIN_UPSCALE_DIM:
+        if not size or min(size) < min_dim:
             low_res.append(f"{os.path.basename(path)}={size}")
     if low_res:
         _purge_asset(info["path"], tid, "Defeated_Quality", "Upscale below quality floor: " + "; ".join(low_res), info.get("task_obj"))
@@ -697,7 +740,7 @@ def run_logic():
                             u_idx = content.split("Image #")[-1][0]
                             if u_idx in {"1", "2", "3", "4"} and u_idx not in info["u_received"]:
                                 u_name = f"{tid}_U{u_idx}_Grid.png" if is_kiss_cut else f"{tid}_U{u_idx}.png"
-                                min_dim = MIN_UPSCALE_DIM
+                                min_dim = MIN_UPSCALE_DIM if is_kiss_cut else _min_upscale_dim(sel_cat)
                                 if _download_asset(m["attachments"][0], info["path"], u_name, min_dim, f"U{u_idx}"):
                                     info["u_received"].add(u_idx)
 

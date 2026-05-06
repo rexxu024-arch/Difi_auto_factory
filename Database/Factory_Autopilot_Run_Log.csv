@@ -1,0 +1,295 @@
+﻿Timestamp,Module,Status,Detail
+2026-05-06T01:04:46-04:00,local_listing_qa.py,OK,"[LOCAL-QA] rows=240 csv=C:\AIprojects\openclaw_difi\Database\Local_Listing_QA.csv
+[LOCAL-QA] issue_rows=34
+[LOCAL-QA] Sticker-Academia-0001 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Academia-0002 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Academia-0003 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Academia-0005 title_length_72
+[LOCAL-QA] Sticker-Academia-0008 title_length_73
+[LOCAL-QA] Sticker-Academia-0010 title_length_73
+[LOCAL-QA] Sticker-Academia-0011 title_length_71
+[LOCAL-QA] Sticker-Academia-0013 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0002 title_length_74
+[LOCAL-QA] Sticker-Zen-0003 title_length_73
+[LOCAL-QA] Sticker-Zen-0005 title_length_74
+[LOCAL-QA] Sticker-Zen-0006 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0021 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0023 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0028 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0030 missing_cover; missing_gallery
+[LOCAL-QA] Sti"
+2026-05-06T01:04:47-04:00,ebay_cover_repair_decision.py,OK,"[COVER-REPAIR-DECISIONS] rows=49 csv=C:\AIprojects\openclaw_difi\Database\eBay_Cover_Repair_Decisions.csv
+  NON_STICKER_REVIEW_REQUIRED: 4
+  SOURCE_REPAIR_REQUIRED: 45"
+2026-05-06T01:04:48-04:00,unified_listing_registry.py,OK,"[REGISTRY] rows=240 csv=C:\AIprojects\openclaw_difi\Database\Unified_Listing_Registry.csv
+[REGISTRY] Etsy_Draft_Prepared=29
+[REGISTRY] Hold=62
+[REGISTRY] Published_Has_View_Monitor=7
+[REGISTRY] Published_Zero_View_Copy_Ad_Review=43
+[REGISTRY] Ready_For_Printify_When_Network_OK=50
+[REGISTRY] Stable_Draft_Publish_When_Scheduled=49"
+2026-05-06T01:04:49-04:00,market_signal_planner.py,OK,"[MARKET-QUEUE] rows=240 csv=C:\AIprojects\openclaw_difi\Database\Market_Signal_Action_Queue.csv
+[MARKET-QUEUE] action UPLOAD_TO_PRINTIFY_SINGLE_ITEM_BATCH=50
+[MARKET-QUEUE] action PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK=49
+[MARKET-QUEUE] action WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST=36
+[MARKET-QUEUE] action HOLD=35
+[MARKET-QUEUE] action QA_HOLD_OR_REBUILD=34
+[MARKET-QUEUE] action KEEP_FOR_ETSY_PHASE1=29
+[MARKET-QUEUE] action MONITOR_FOR_CLICK_OR_FAVORITE_SIGNAL=7
+[MARKET-QUEUE] dependency medium=78
+[MARKET-QUEUE] dependency local=69
+[MARKET-QUEUE] dependency high=50
+[MARKET-QUEUE] dependency low=43"
+2026-05-06T01:04:49-04:00,ebay_experiment_report.py,OK,[EXPERIMENT-REPORT] rows=44 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Experiment_Report.csv
+2026-05-06T01:04:50-04:00,factory_morning_report.py,OK,"[REPORT] C:\AIprojects\openclaw_difi\Reports\morning_report_20260506_0104.md
+[GEMINI] C:\AIprojects\openclaw_difi\Gemini_Advisor\gemini_review_queue_20260506_0104.md"
+2026-05-06T01:53:30-04:00,local_listing_qa.py,OK,"[LOCAL-QA] rows=240 csv=C:\AIprojects\openclaw_difi\Database\Local_Listing_QA.csv
+[LOCAL-QA] issue_rows=27
+[LOCAL-QA] Sticker-Academia-0001 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Academia-0002 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Academia-0003 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Academia-0013 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0006 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0021 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0023 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0028 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0030 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0033 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0039 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0078 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0079 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0080 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0082 missing_cover; miss"
+2026-05-06T01:53:31-04:00,ebay_cover_repair_decision.py,OK,"[COVER-REPAIR-DECISIONS] rows=49 csv=C:\AIprojects\openclaw_difi\Database\eBay_Cover_Repair_Decisions.csv
+  NON_STICKER_REVIEW_REQUIRED: 4
+  SOURCE_REPAIR_REQUIRED: 45"
+2026-05-06T01:53:32-04:00,ebay_cover_replacement_queue.py,OK,"[COVER-REPLACEMENT-QUEUE] rows=49 csv=C:\AIprojects\openclaw_difi\Database\eBay_Cover_Replacement_Queue.csv
+[COVER-REPLACEMENT-QUEUE] REVIEW_BEFORE_REPLACE=4
+[COVER-REPLACEMENT-QUEUE] WAIT_SOURCE_REPAIR_RESULT=45"
+2026-05-06T01:53:33-04:00,ebay_title_repair_queue.py,OK,[TITLE-REPAIR] rows=0 ready=0 changed=0 csv=C:\AIprojects\openclaw_difi\Database\eBay_Title_Repair_Queue.csv
+2026-05-06T01:53:34-04:00,unified_listing_registry.py,OK,"[REGISTRY] rows=240 csv=C:\AIprojects\openclaw_difi\Database\Unified_Listing_Registry.csv
+[REGISTRY] Etsy_Draft_Prepared=29
+[REGISTRY] Hold=62
+[REGISTRY] Published_Has_View_Monitor=8
+[REGISTRY] Published_Zero_View_Copy_Ad_Review=42
+[REGISTRY] Ready_For_Printify_When_Network_OK=50
+[REGISTRY] Stable_Draft_Publish_When_Scheduled=49"
+2026-05-06T01:53:35-04:00,market_signal_planner.py,OK,"[MARKET-QUEUE] rows=240 csv=C:\AIprojects\openclaw_difi\Database\Market_Signal_Action_Queue.csv
+[MARKET-QUEUE] action UPLOAD_TO_PRINTIFY_SINGLE_ITEM_BATCH=50
+[MARKET-QUEUE] action FIX_LIVE_COVER_SOURCE_OR_REPLACE=49
+[MARKET-QUEUE] action PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK=49
+[MARKET-QUEUE] action QA_HOLD_OR_REBUILD=27
+[MARKET-QUEUE] action KEEP_FOR_ETSY_PHASE1=27
+[MARKET-QUEUE] action HOLD=22
+[MARKET-QUEUE] action WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST=11
+[MARKET-QUEUE] action MONITOR_FOR_CLICK_OR_FAVORITE_SIGNAL=5
+[MARKET-QUEUE] dependency medium=125
+[MARKET-QUEUE] dependency high=50
+[MARKET-QUEUE] dependency local=49
+[MARKET-QUEUE] dependency low=16"
+2026-05-06T01:53:35-04:00,ebay_experiment_report.py,OK,[EXPERIMENT-REPORT] rows=44 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Experiment_Report.csv
+2026-05-06T01:53:36-04:00,ebay_traffic_diagnosis.py,OK,"[TRAFFIC-DIAGNOSIS] rows=4 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Diagnosis.csv
+[TRAFFIC-DIAGNOSIS] P100 Sticker live cover/gallery mismatch is a primary blocker.
+[TRAFFIC-DIAGNOSIS] P90 Promoted Listings Standard 2% is active but is not enough alone.
+[TRAFFIC-DIAGNOSIS] P80 Poster/Acrylic currently show more early movement than Sticker.
+[TRAFFIC-DIAGNOSIS] P70 Title rewrite experiment has not produced a clear Sticker lift yet."
+2026-05-06T01:53:36-04:00,factory_morning_report.py,OK,"[REPORT] C:\AIprojects\openclaw_difi\Reports\morning_report_20260506_0153.md
+[GEMINI] C:\AIprojects\openclaw_difi\Gemini_Advisor\gemini_review_queue_20260506_0153.md"
+2026-05-06T07:34:39-04:00,local_listing_qa.py,OK,"[LOCAL-QA] rows=240 csv=C:\AIprojects\openclaw_difi\Database\Local_Listing_QA.csv
+[LOCAL-QA] issue_rows=27
+[LOCAL-QA] Sticker-Academia-0001 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Academia-0002 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Academia-0003 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Academia-0013 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0006 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0021 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0023 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0028 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0030 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0033 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0039 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0078 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0079 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0080 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0082 missing_cover; miss"
+2026-05-06T07:34:41-04:00,ebay_cover_repair_decision.py,OK,"[COVER-REPAIR-DECISIONS] rows=49 csv=C:\AIprojects\openclaw_difi\Database\eBay_Cover_Repair_Decisions.csv
+  NON_STICKER_REVIEW_REQUIRED: 4
+  SOURCE_REPAIR_REQUIRED: 45"
+2026-05-06T07:34:41-04:00,ebay_cover_replacement_queue.py,OK,"[COVER-REPLACEMENT-QUEUE] rows=49 csv=C:\AIprojects\openclaw_difi\Database\eBay_Cover_Replacement_Queue.csv
+[COVER-REPLACEMENT-QUEUE] REVIEW_BEFORE_REPLACE=4
+[COVER-REPLACEMENT-QUEUE] WAIT_SOURCE_REPAIR_RESULT=45"
+2026-05-06T07:34:43-04:00,ebay_title_repair_queue.py,OK,[TITLE-REPAIR] rows=0 ready=0 changed=0 csv=C:\AIprojects\openclaw_difi\Database\eBay_Title_Repair_Queue.csv
+2026-05-06T07:34:44-04:00,unified_listing_registry.py,OK,"[REGISTRY] rows=240 csv=C:\AIprojects\openclaw_difi\Database\Unified_Listing_Registry.csv
+[REGISTRY] Etsy_Draft_Prepared=29
+[REGISTRY] Hold=62
+[REGISTRY] Published_Has_View_Monitor=8
+[REGISTRY] Published_Zero_View_Copy_Ad_Review=42
+[REGISTRY] Ready_For_Printify_When_Network_OK=50
+[REGISTRY] Stable_Draft_Publish_When_Scheduled=49"
+2026-05-06T07:34:45-04:00,market_signal_planner.py,OK,"[MARKET-QUEUE] rows=240 csv=C:\AIprojects\openclaw_difi\Database\Market_Signal_Action_Queue.csv
+[MARKET-QUEUE] action FIX_PRINTIFY_DEFAULT_IMAGE_BEFORE_PUBLISH=74
+[MARKET-QUEUE] action UPLOAD_TO_PRINTIFY_SINGLE_ITEM_BATCH=50
+[MARKET-QUEUE] action FIX_LIVE_COVER_SOURCE_OR_REPLACE=49
+[MARKET-QUEUE] action QA_HOLD_OR_REBUILD=27
+[MARKET-QUEUE] action PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK=24
+[MARKET-QUEUE] action KEEP_FOR_ETSY_PHASE1=8
+[MARKET-QUEUE] action HOLD=6
+[MARKET-QUEUE] action WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST=2
+[MARKET-QUEUE] dependency medium=155
+[MARKET-QUEUE] dependency high=50
+[MARKET-QUEUE] dependency local=33
+[MARKET-QUEUE] dependency low=2"
+2026-05-06T07:34:45-04:00,ebay_experiment_report.py,OK,[EXPERIMENT-REPORT] rows=44 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Experiment_Report.csv
+2026-05-06T07:34:46-04:00,ebay_traffic_diagnosis.py,OK,"[TRAFFIC-DIAGNOSIS] rows=4 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Diagnosis.csv
+[TRAFFIC-DIAGNOSIS] P100 Sticker live cover/gallery mismatch is a primary blocker.
+[TRAFFIC-DIAGNOSIS] P90 Promoted Listings Standard 2% is active but is not enough alone.
+[TRAFFIC-DIAGNOSIS] P80 Poster/Acrylic currently show more early movement than Sticker.
+[TRAFFIC-DIAGNOSIS] P70 Title rewrite experiment has not produced a clear Sticker lift yet."
+2026-05-06T07:34:47-04:00,ebay_profile_packet.py,OK,[EBAY-PROFILE-PACKET] C:\AIprojects\openclaw_difi\Database\eBay_Profile_Update_Packet.md
+2026-05-06T07:34:47-04:00,product_blueprint_next_plan.py,OK,"[BLUEPRINT-NEXT-PLAN] rows=5 csv=C:\AIprojects\openclaw_difi\Database\Product_Blueprint_Next_Test_Plan.csv
+[BLUEPRINT-NEXT-PLAN] P1 Canvas blueprint=1936 variant=119906
+[BLUEPRINT-NEXT-PLAN] P2 Framed Poster blueprint=1236 variant=93818
+[BLUEPRINT-NEXT-PLAN] P3 Notebook/Journal blueprint=5634 variant=252281
+[BLUEPRINT-NEXT-PLAN] P4 Mug blueprint=478 variant=65216
+[BLUEPRINT-NEXT-PLAN] P5 Metal blueprint=1206 variant=91995"
+2026-05-06T07:34:48-04:00,factory_morning_report.py,OK,"[REPORT] C:\AIprojects\openclaw_difi\Reports\morning_report_20260506_0734.md
+[GEMINI] C:\AIprojects\openclaw_difi\Gemini_Advisor\gemini_review_queue_20260506_0734.md"
+2026-05-06T07:40:18-04:00,local_listing_qa.py,OK,"[LOCAL-QA] rows=240 csv=C:\AIprojects\openclaw_difi\Database\Local_Listing_QA.csv
+[LOCAL-QA] issue_rows=27
+[LOCAL-QA] Sticker-Academia-0001 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Academia-0002 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Academia-0003 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Academia-0013 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0006 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0021 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0023 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0028 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0030 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0033 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0039 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0078 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0079 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0080 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0082 missing_cover; miss"
+2026-05-06T07:40:19-04:00,ebay_cover_repair_decision.py,OK,"[COVER-REPAIR-DECISIONS] rows=49 csv=C:\AIprojects\openclaw_difi\Database\eBay_Cover_Repair_Decisions.csv
+  NON_STICKER_REVIEW_REQUIRED: 4
+  SOURCE_REPAIR_REQUIRED: 45"
+2026-05-06T07:40:21-04:00,ebay_cover_replacement_queue.py,OK,"[COVER-REPLACEMENT-QUEUE] rows=49 csv=C:\AIprojects\openclaw_difi\Database\eBay_Cover_Replacement_Queue.csv
+[COVER-REPLACEMENT-QUEUE] REVIEW_BEFORE_REPLACE=4
+[COVER-REPLACEMENT-QUEUE] WAIT_SOURCE_REPAIR_RESULT=45"
+2026-05-06T07:40:22-04:00,ebay_title_repair_queue.py,OK,[TITLE-REPAIR] rows=0 ready=0 changed=0 csv=C:\AIprojects\openclaw_difi\Database\eBay_Title_Repair_Queue.csv
+2026-05-06T07:40:23-04:00,unified_listing_registry.py,OK,"[REGISTRY] rows=240 csv=C:\AIprojects\openclaw_difi\Database\Unified_Listing_Registry.csv
+[REGISTRY] Etsy_Draft_Prepared=29
+[REGISTRY] Hold=62
+[REGISTRY] Published_Has_View_Monitor=8
+[REGISTRY] Published_Zero_View_Copy_Ad_Review=42
+[REGISTRY] Ready_For_Printify_When_Network_OK=50
+[REGISTRY] Stable_Draft_Publish_When_Scheduled=49"
+2026-05-06T07:40:25-04:00,market_signal_planner.py,OK,"[MARKET-QUEUE] rows=240 csv=C:\AIprojects\openclaw_difi\Database\Market_Signal_Action_Queue.csv
+[MARKET-QUEUE] action FIX_PRINTIFY_DEFAULT_IMAGE_BEFORE_PUBLISH=74
+[MARKET-QUEUE] action UPLOAD_TO_PRINTIFY_SINGLE_ITEM_BATCH=50
+[MARKET-QUEUE] action FIX_LIVE_COVER_SOURCE_OR_REPLACE=49
+[MARKET-QUEUE] action QA_HOLD_OR_REBUILD=27
+[MARKET-QUEUE] action PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK=24
+[MARKET-QUEUE] action KEEP_FOR_ETSY_PHASE1=8
+[MARKET-QUEUE] action HOLD=6
+[MARKET-QUEUE] action WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST=2
+[MARKET-QUEUE] dependency medium=155
+[MARKET-QUEUE] dependency high=50
+[MARKET-QUEUE] dependency local=33
+[MARKET-QUEUE] dependency low=2"
+2026-05-06T07:40:25-04:00,ebay_experiment_report.py,OK,[EXPERIMENT-REPORT] rows=44 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Experiment_Report.csv
+2026-05-06T07:40:26-04:00,ebay_traffic_diagnosis.py,OK,"[TRAFFIC-DIAGNOSIS] rows=4 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Diagnosis.csv
+[TRAFFIC-DIAGNOSIS] P100 Sticker live cover/gallery mismatch is a primary blocker.
+[TRAFFIC-DIAGNOSIS] P90 Promoted Listings Standard 2% is active but is not enough alone.
+[TRAFFIC-DIAGNOSIS] P80 Poster/Acrylic currently show more early movement than Sticker.
+[TRAFFIC-DIAGNOSIS] P70 Title rewrite experiment has not produced a clear Sticker lift yet."
+2026-05-06T07:40:26-04:00,ebay_profile_packet.py,OK,[EBAY-PROFILE-PACKET] C:\AIprojects\openclaw_difi\Database\eBay_Profile_Update_Packet.md
+2026-05-06T07:40:27-04:00,product_blueprint_next_plan.py,OK,"[BLUEPRINT-NEXT-PLAN] rows=5 csv=C:\AIprojects\openclaw_difi\Database\Product_Blueprint_Next_Test_Plan.csv
+[BLUEPRINT-NEXT-PLAN] P1 Canvas blueprint=1936 variant=119906
+[BLUEPRINT-NEXT-PLAN] P2 Framed Poster blueprint=1236 variant=93818
+[BLUEPRINT-NEXT-PLAN] P3 Notebook/Journal blueprint=5634 variant=252281
+[BLUEPRINT-NEXT-PLAN] P4 Mug blueprint=478 variant=65216
+[BLUEPRINT-NEXT-PLAN] P5 Metal blueprint=1206 variant=91995"
+2026-05-06T07:40:27-04:00,factory_backlog.py,OK,"[FACTORY-BACKLOG] rows=13 csv=C:\AIprojects\openclaw_difi\Database\Factory_Backlog.csv
+[FACTORY-BACKLOG] READY=4
+[FACTORY-BACKLOG] WAIT_COVER_GATE=2
+[FACTORY-BACKLOG] WAIT_USER_OR_API_APPROVAL=2
+[FACTORY-BACKLOG] BLOCKED=1
+[FACTORY-BACKLOG] WAIT_PRINTIFY_LOGIN=1
+[FACTORY-BACKLOG] BLOCKED_BY_COVER_GATE=1
+[FACTORY-BACKLOG] WAIT_SOURCE_REPAIR_RESULT=1
+[FACTORY-BACKLOG] READY_FOR_SCHOLAR_REVIEW=1"
+2026-05-06T07:40:29-04:00,factory_morning_report.py,OK,"[REPORT] C:\AIprojects\openclaw_difi\Reports\morning_report_20260506_0740.md
+[GEMINI] C:\AIprojects\openclaw_difi\Gemini_Advisor\gemini_review_queue_20260506_0740.md"
+2026-05-06T10:45:09-04:00,printify_login_guard.py,OK,[PRINTIFY-LOGIN] LOGGED_IN Printify dashboard is available.
+2026-05-06T10:46:22-04:00,local_listing_qa.py,OK,"[LOCAL-QA] rows=240 csv=C:\AIprojects\openclaw_difi\Database\Local_Listing_QA.csv
+[LOCAL-QA] issue_rows=27
+[LOCAL-QA] Sticker-Academia-0001 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Academia-0002 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Academia-0003 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Academia-0013 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0006 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0021 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0023 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0028 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0030 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0033 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0039 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0078 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0079 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0080 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0082 missing_cover; miss"
+2026-05-06T10:46:23-04:00,ebay_cover_repair_decision.py,OK,"[COVER-REPAIR-DECISIONS] rows=49 csv=C:\AIprojects\openclaw_difi\Database\eBay_Cover_Repair_Decisions.csv
+  NON_STICKER_REVIEW_REQUIRED: 4
+  SOURCE_REPAIR_REQUIRED: 45"
+2026-05-06T10:46:24-04:00,ebay_cover_replacement_queue.py,OK,"[COVER-REPLACEMENT-QUEUE] rows=49 csv=C:\AIprojects\openclaw_difi\Database\eBay_Cover_Replacement_Queue.csv
+[COVER-REPLACEMENT-QUEUE] REVIEW_BEFORE_REPLACE=4
+[COVER-REPLACEMENT-QUEUE] WAIT_SOURCE_REPAIR_RESULT=45"
+2026-05-06T10:46:25-04:00,ebay_title_repair_queue.py,OK,[TITLE-REPAIR] rows=0 ready=0 changed=0 csv=C:\AIprojects\openclaw_difi\Database\eBay_Title_Repair_Queue.csv
+2026-05-06T10:46:27-04:00,unified_listing_registry.py,OK,"[REGISTRY] rows=240 csv=C:\AIprojects\openclaw_difi\Database\Unified_Listing_Registry.csv
+[REGISTRY] Etsy_Draft_Prepared=29
+[REGISTRY] Hold=62
+[REGISTRY] Published_Has_View_Monitor=8
+[REGISTRY] Published_Zero_View_Copy_Ad_Review=42
+[REGISTRY] Ready_For_Printify_When_Network_OK=50
+[REGISTRY] Stable_Draft_Publish_When_Scheduled=49"
+2026-05-06T10:46:28-04:00,market_signal_planner.py,OK,"[MARKET-QUEUE] rows=240 csv=C:\AIprojects\openclaw_difi\Database\Market_Signal_Action_Queue.csv
+[MARKET-QUEUE] action FIX_PRINTIFY_DEFAULT_IMAGE_BEFORE_PUBLISH=74
+[MARKET-QUEUE] action UPLOAD_TO_PRINTIFY_SINGLE_ITEM_BATCH=50
+[MARKET-QUEUE] action FIX_LIVE_COVER_SOURCE_OR_REPLACE=49
+[MARKET-QUEUE] action QA_HOLD_OR_REBUILD=27
+[MARKET-QUEUE] action PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK=24
+[MARKET-QUEUE] action KEEP_FOR_ETSY_PHASE1=8
+[MARKET-QUEUE] action HOLD=6
+[MARKET-QUEUE] action WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST=2
+[MARKET-QUEUE] dependency medium=155
+[MARKET-QUEUE] dependency high=50
+[MARKET-QUEUE] dependency local=33
+[MARKET-QUEUE] dependency low=2"
+2026-05-06T10:46:28-04:00,ebay_experiment_report.py,OK,[EXPERIMENT-REPORT] rows=44 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Experiment_Report.csv
+2026-05-06T10:46:29-04:00,ebay_traffic_diagnosis.py,OK,"[TRAFFIC-DIAGNOSIS] rows=4 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Diagnosis.csv
+[TRAFFIC-DIAGNOSIS] P100 Sticker live cover/gallery mismatch is a primary blocker.
+[TRAFFIC-DIAGNOSIS] P90 Promoted Listings Standard 2% is active but is not enough alone.
+[TRAFFIC-DIAGNOSIS] P80 Poster/Acrylic currently show more early movement than Sticker.
+[TRAFFIC-DIAGNOSIS] P70 Title rewrite experiment has not produced a clear Sticker lift yet."
+2026-05-06T10:46:29-04:00,ebay_profile_packet.py,OK,[EBAY-PROFILE-PACKET] C:\AIprojects\openclaw_difi\Database\eBay_Profile_Update_Packet.md
+2026-05-06T10:46:29-04:00,product_blueprint_next_plan.py,OK,"[BLUEPRINT-NEXT-PLAN] rows=5 csv=C:\AIprojects\openclaw_difi\Database\Product_Blueprint_Next_Test_Plan.csv
+[BLUEPRINT-NEXT-PLAN] P1 Canvas blueprint=1936 variant=119906
+[BLUEPRINT-NEXT-PLAN] P2 Framed Poster blueprint=1236 variant=93818
+[BLUEPRINT-NEXT-PLAN] P3 Notebook/Journal blueprint=5634 variant=252281
+[BLUEPRINT-NEXT-PLAN] P4 Mug blueprint=478 variant=65216
+[BLUEPRINT-NEXT-PLAN] P5 Metal blueprint=1206 variant=91995"
+2026-05-06T10:46:31-04:00,etsy_app_status_probe.py,OK,"[ETSY-APP] status=PENDING_OR_INACTIVE http=403 next=WAIT_APP_APPROVAL_OR_VERIFY_SECRET
+[ETSY-APP] json=C:\AIprojects\openclaw_difi\Database\Etsy_API_Status.json"
+2026-05-06T10:46:31-04:00,factory_backlog.py,OK,"[FACTORY-BACKLOG] rows=14 csv=C:\AIprojects\openclaw_difi\Database\Factory_Backlog.csv
+[FACTORY-BACKLOG] READY=5
+[FACTORY-BACKLOG] WAIT_COVER_GATE=2
+[FACTORY-BACKLOG] WAIT_USER_OR_API_APPROVAL=2
+[FACTORY-BACKLOG] BLOCKED=1
+[FACTORY-BACKLOG] WAIT_PRINTIFY_LOGIN=1
+[FACTORY-BACKLOG] BLOCKED_BY_COVER_GATE=1
+[FACTORY-BACKLOG] WAIT_SOURCE_REPAIR_RESULT=1
+[FACTORY-BACKLOG] READY_FOR_SCHOLAR_REVIEW=1"
+2026-05-06T10:46:32-04:00,factory_morning_report.py,OK,"[REPORT] C:\AIprojects\openclaw_difi\Reports\morning_report_20260506_1046.md
+[GEMINI] C:\AIprojects\openclaw_difi\Gemini_Advisor\gemini_review_queue_20260506_1046.md"

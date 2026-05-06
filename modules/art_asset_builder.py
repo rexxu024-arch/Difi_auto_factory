@@ -17,13 +17,13 @@ PRODUCT_SPECS = {
         "spec": "Premium-Matte-Vertical",
         "production_size": (3600, 5400),
         "cover_size": (1800, 2700),
-        "min_source_dim": 1024,
+        "min_source_dim": 850,
     },
     "Acrylic": {
         "spec": "Photo-Block",
         "production_size": (1538, 2138),
         "cover_size": (1500, 2100),
-        "min_source_dim": 1024,
+        "min_source_dim": 850,
     },
 }
 
@@ -72,6 +72,35 @@ def _polish_preview(image):
     return image
 
 
+def _detail_crop(image, target_size, center_x=0.5, center_y=0.5, zoom=0.68):
+    src_w, src_h = image.size
+    crop_w = max(1, int(src_w * zoom))
+    crop_h = max(1, int(src_h * zoom))
+    left = int(src_w * center_x - crop_w / 2)
+    top = int(src_h * center_y - crop_h / 2)
+    left = max(0, min(src_w - crop_w, left))
+    top = max(0, min(src_h - crop_h, top))
+    crop = image.crop((left, top, left + crop_w, top + crop_h))
+    return _polish_preview(_fit_cover(crop, target_size))
+
+
+def _write_gallery_set(folder, production, cover, product_type, force=False):
+    # Non-sticker products sell exactly one full image. Gallery shots must be
+    # derived from that same production image, not alternate Midjourney U images.
+    target_size = PRODUCT_SPECS[product_type]["cover_size"]
+    gallery_images = [
+        _polish_preview(_fit_cover(production, target_size)),
+        _detail_crop(production, target_size, center_x=0.5, center_y=0.32, zoom=0.62),
+        _detail_crop(production, target_size, center_x=0.5, center_y=0.52, zoom=0.55),
+        _detail_crop(production, target_size, center_x=0.5, center_y=0.72, zoom=0.62),
+    ]
+    gallery_images[0] = cover
+    for index, image in enumerate(gallery_images, 1):
+        path = folder / f"Gallery_U{index}.png"
+        if force or not path.exists():
+            _write_png(image, path)
+
+
 def _write_png(image, path):
     image.save(path, "PNG", dpi=(300, 300), optimize=True)
 
@@ -97,8 +126,8 @@ def process_folder(folder, product_type, force=False):
         return False, f"{item_id}: low source resolution {'; '.join(low)}"
 
     scores = [(path, _sharpness_score(path)) for path in u_paths]
-    best_path = max(scores, key=lambda item: item[1])[0]
-    with Image.open(best_path) as source:
+    source_path = max(scores, key=lambda item: item[1])[0]
+    with Image.open(source_path) as source:
         source = source.convert("RGB")
         production = _fit_cover(source, spec["production_size"])
         cover = _polish_preview(_fit_cover(source, spec["cover_size"]))
@@ -109,8 +138,9 @@ def process_folder(folder, product_type, force=False):
         _write_png(production, production_path)
     if force or not cover_path.exists():
         _write_png(cover, cover_path)
+    _write_gallery_set(folder, production, cover, product_type, force=force)
     _ensure_metadata(folder, item_id)
-    return True, f"{item_id}: best={best_path.name} score={max(score for _, score in scores):.2f}"
+    return True, f"{item_id}: best={source_path.name} score={max(score for _, score in scores):.2f}"
 
 
 def build_assets(product_type, limit=0, force=False):
