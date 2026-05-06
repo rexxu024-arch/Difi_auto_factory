@@ -82,15 +82,24 @@ def build_rows() -> list[dict[str, str]]:
         source = wb_rows.get(item_id, {})
         product_type = clean(source.get("Product_Type") or decision.get("Product_Type"))
         repair_method = clean(decision.get("Repair_Method"))
+        repair_status = clean(decision.get("Status"))
         if repair_method not in {"SOURCE_REPAIR_REQUIRED", "NON_STICKER_REVIEW_REQUIRED"}:
             continue
         if repair_method == "SOURCE_REPAIR_REQUIRED":
-            status = "WAIT_SOURCE_REPAIR_RESULT"
-            priority = "90"
-            action = (
-                "First attempt Printify source mockup repair and re-sync. If live eBay audit still fails, "
-                "create replacement listing from the same local Production/Cover/Gallery assets using fixed default-image gate."
-            )
+            if repair_status == "SOURCE_REPAIR_DONE_LIVE_STILL_BAD":
+                status = "READY_TO_REPLACE_VERIFIED"
+                priority = "100"
+                action = (
+                    "Source repair plus live eBay audit already failed. Create a replacement listing from the same "
+                    "local Production/Cover/Gallery assets, verify the new live buyer-page image, then retire the old listing."
+                )
+            else:
+                status = "WAIT_SOURCE_REPAIR_RESULT"
+                priority = "90"
+                action = (
+                    "First attempt Printify source mockup repair and re-sync. If live eBay audit still fails, "
+                    "create replacement listing from the same local Production/Cover/Gallery assets using fixed image gate."
+                )
         else:
             status = "REVIEW_BEFORE_REPLACE"
             priority = "60"

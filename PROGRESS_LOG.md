@@ -795,3 +795,12 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Adjusted `printify_mockup_ui_uploader.py`, `factory_cover_repair_runner.py`, `printify_primary_audit.py`, and `printify_publish_scheduler.py` so QA checks for required custom image/design presence and at least one default, instead of enforcing exactly one default.
 - Tested one source-repair path on `Sticker-Academia-0005`; the Printify UI now reaches the save/publish stage and the API shows selected images plus the custom cover present. Next scaling gate is live eBay buyer-page audit, not a bulk repair batch.
 - Kept premium MJ-generated product scene/mockups as R&D only: potentially valuable later, but must pass QA before replacing or supplementing Printify official mockups.
+
+
+## 2026-05-06 12:22:00 -04:00 Live Cover Audit Proves Replacement Path
+- Ran a direct live eBay buyer-page audit for `Sticker-Academia-0005` after Printify source repair reached the save/publish stage.
+- Result remained `LIKELY_SINGLE_U_MISMATCH`: eBay front page matched local `U4` exactly and remained far from the local cover (`cover=194`, `U4=0`).
+- Updated `Database/eBay_Cover_Repair_Decisions.csv`: `Sticker-Academia-0005` is now `SOURCE_REPAIR_DONE_LIVE_STILL_BAD`.
+- Updated `modules/ebay_cover_replacement_queue.py` so source-repaired-but-live-still-bad rows become `READY_TO_REPLACE_VERIFIED` instead of staying in `WAIT_SOURCE_REPAIR_RESULT`.
+- Regenerated `Database/eBay_Cover_Replacement_Queue.csv/md`: 1 row is now `READY_TO_REPLACE_VERIFIED`, 44 remain `WAIT_SOURCE_REPAIR_RESULT`, 4 remain `REVIEW_BEFORE_REPLACE`.
+- Operational conclusion: do not keep burning time on the same old inventory-managed listing when live eBay refuses the source image sync. Build verified replacement listing flow, then retire the old item only after the new live buyer-page audit passes.

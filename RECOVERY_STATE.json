@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-06T11:35:00-04:00",
+  "updated_at": "2026-05-06T12:22:00-04:00",
   "timezone": "America/New_York",
   "source_of_truth": [
     "START_HERE_OPENCLAW.md",
@@ -62,7 +62,8 @@
     "Printify login can expire; use npm run printify:login to verify/recover the CDP profile before UI source repair.",
     "Etsy API app is still pending personal approval; do not publish Etsy listings or trigger listing fees until Rex confirms readiness.",
     "Network may be unstable; run supervisor/network guard before large online batches.",
-    "Printify official/default mockups should be preserved when useful; cover repair now validates custom cover/design presence and live buyer-page result rather than requiring exactly one default image."
+    "Printify official/default mockups should be preserved when useful; cover repair now validates custom cover/design presence and live buyer-page result rather than requiring exactly one default image.",
+    "One verified sample proves some old inventory-managed eBay variation images may not accept source repair; use replacement listing flow for READY_TO_REPLACE_VERIFIED rows."
   ],
   "cover_repair_state": {
     "live_cover_fix_queue_rows": 49,
@@ -71,7 +72,7 @@
     "replacement_queue": "Database/eBay_Cover_Replacement_Queue.csv",
     "repair_decisions": "Database/eBay_Cover_Repair_Decisions.csv",
     "next_action_if_logged_in": "Run one targeted source repair with py modules\\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120, then live audit the same SKU before scaling.",
-    "latest_single_sku_test": "Sticker-Academia-0005: source upload reached Save/Publish stage; API now shows selected>=5 and cover image present, but multiple defaults are allowed under new official-mockup-preservation policy. Next step is live eBay buyer-page audit before scaling."
+    "latest_single_sku_test": "Sticker-Academia-0005: Printify source repair reached save/publish stage and custom cover is present in Printify, but direct live eBay buyer-page audit still matched local U4 exactly. This row is now SOURCE_REPAIR_DONE_LIVE_STILL_BAD and READY_TO_REPLACE_VERIFIED in the replacement queue."
   },
   "printify_login_state": {
     "allowed_google_account": "rexxu024@gmail.com",
