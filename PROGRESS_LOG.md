@@ -804,3 +804,10 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Updated `modules/ebay_cover_replacement_queue.py` so source-repaired-but-live-still-bad rows become `READY_TO_REPLACE_VERIFIED` instead of staying in `WAIT_SOURCE_REPAIR_RESULT`.
 - Regenerated `Database/eBay_Cover_Replacement_Queue.csv/md`: 1 row is now `READY_TO_REPLACE_VERIFIED`, 44 remain `WAIT_SOURCE_REPAIR_RESULT`, 4 remain `REVIEW_BEFORE_REPLACE`.
 - Operational conclusion: do not keep burning time on the same old inventory-managed listing when live eBay refuses the source image sync. Build verified replacement listing flow, then retire the old item only after the new live buyer-page audit passes.
+
+
+## 2026-05-06 12:48:00 -04:00 Default Mockup Policy Propagated To Planner
+- Updated market planner so multiple Printify official/default mockups are no longer treated as a publish blocker by themselves.
+- The new blocker is true image insufficiency: selected image count below expected, zero default image, or audit error.
+- Updated factory backlog and supervisor so a source-repaired live eBay failure can surface as `READY_TO_REPLACE_VERIFIED`.
+- Confirmed local supervisor preserves `Sticker-Academia-0005` as the verified replacement-path sample.

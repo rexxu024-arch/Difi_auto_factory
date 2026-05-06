@@ -1,15 +1,14 @@
 # Factory Backlog
 
-Generated: 2026-05-06 10:46:31 -0400 America/New_York
+Generated: 2026-05-06 12:52:32 -0400 America/New_York
 
 ## Status Counts
 
-- READY: 5
+- READY: 6
 - WAIT_COVER_GATE: 2
 - WAIT_USER_OR_API_APPROVAL: 2
-- BLOCKED: 1
-- WAIT_PRINTIFY_LOGIN: 1
-- BLOCKED_BY_COVER_GATE: 1
+- READY_SINGLE_SKU_REPAIR: 1
+- READY_TO_REPLACE_VERIFIED: 1
 - WAIT_SOURCE_REPAIR_RESULT: 1
 - READY_FOR_SCHOLAR_REVIEW: 1
 
@@ -19,7 +18,7 @@ Generated: 2026-05-06 10:46:31 -0400 America/New_York
 - supervisor:local: 1
 - cover_gate: 1
 - supervisor:cover_gate: 1
-- image_integrity: 1
+- replacement: 1
 - fallback: 1
 - production: 1
 - publish: 1
@@ -46,30 +45,30 @@ Generated: 2026-05-06 10:46:31 -0400 America/New_York
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: low / no
 
-### P98 cover_gate - BLOCKED
+### P98 cover_gate - READY
 - Task: Repair one live eBay cover mismatch from Printify source and audit buyer page
-- Blocker: Printify CDP status: LOGIN_REQUIRED; Printify CDP browser is on auth/login.
+- Blocker: Printify CDP status: LOGGED_IN; Printify app page is available in CDP browser.
 - Command: `py modules\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120`
 - Done when: One SKU becomes LIVE_COVER_FIXED, or the runner records that replacement-listing fallback is required.
 - Risk/network: medium / single online item
 
-### P95 supervisor:cover_gate - WAIT_PRINTIFY_LOGIN
+### P95 supervisor:cover_gate - READY_SINGLE_SKU_REPAIR
 - Task: Repair one Printify source cover, then live-audit eBay before scaling.
-- Blocker: Live cover queue has 49 rows; 45 require Printify source repair or replacement listings. Printify UI: LOGIN_REQUIRED - Printify CDP browser is on auth/login.
-- Command: `py modules\factory_cover_repair_runner.py --dry-run --post-sync-wait 0`
+- Blocker: Live cover queue has 49 rows; 45 require Printify source repair or replacement listings. Printify UI: LOGGED_IN - Printify app page is available in CDP browser.
+- Command: `py modules\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: medium / yes
 
-### P92 image_integrity - BLOCKED_BY_COVER_GATE
-- Task: Clear Printify default-image CHECK rows before publish resumes
-- Blocker: 74 products need exactly-one-default validation.
-- Command: `py modules\printify_image_default_audit.py --sleep-seconds 1`
-- Done when: Products that stay CHECK are either repaired or held; publish scheduler sees no unsafe CHECK row.
-- Risk/network: medium / Printify API
+### P94 replacement - READY_TO_REPLACE_VERIFIED
+- Task: Create verified replacement listing for source-repaired live cover failure
+- Blocker: 1 row already failed source repair plus live eBay audit.
+- Command: `Build one replacement listing from local assets, live-audit it, then retire old item only after pass.`
+- Done when: New listing returns LIKELY_COVER and production-design audit passes.
+- Risk/network: high / single replacement listing
 
 ### P88 fallback - WAIT_SOURCE_REPAIR_RESULT
 - Task: Prepare replacement-listing path if source re-sync cannot repair Inventory-managed eBay images
-- Blocker: 45 rows waiting for one source repair result.
+- Blocker: 44 rows waiting for one source repair result.
 - Command: `py modules\ebay_cover_replacement_queue.py`
 - Done when: Replacement queue separates safe replace candidates from non-sticker manual review rows.
 - Risk/network: medium / local
@@ -83,7 +82,7 @@ Generated: 2026-05-06 10:46:31 -0400 America/New_York
 
 ### P68 publish - WAIT_COVER_GATE
 - Task: Publish small cooled batch after image gate and network guard pass
-- Blocker: 24 stable drafts are candidates, but public publish is blocked by cover/default-image risk.
+- Blocker: 49 stable drafts are candidates, but public publish is blocked by cover/default-image risk.
 - Command: `py modules\printify_publish_scheduler.py --limit 3 --min-delay 180 --max-delay 420`
 - Done when: Published products are live-audited and added to 2% Standard/General ad coverage without PPC.
 - Risk/network: high / Printify API/eBay sync

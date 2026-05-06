@@ -369,7 +369,7 @@ def build():
             "- No Etsy publish until Rex confirms listing-fee spend.",
             "- No paid ads activated without final action-time confirmation.",
             "- Sticker expansion remains paused until the custom cover/gallery issue is fixed.",
-            "- New publish is blocked when Printify exposes multiple default images for a product.",
+            "- Multiple Printify official/default mockups are allowed when they help product context; publish is blocked only by missing custom design/cover, live buyer-page mismatch, or zero default image.",
             "",
             "## Operator Notes",
             "",

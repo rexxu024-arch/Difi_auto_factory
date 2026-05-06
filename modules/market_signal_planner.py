@@ -53,6 +53,23 @@ def _title_only_issue(qa):
     return bool(issues) and all(issue.startswith("title_length_") for issue in issues)
 
 
+def _default_needs_action(default_row):
+    if not default_row:
+        return False
+    error = (default_row.get("Error") or "").strip()
+    if error:
+        return True
+    try:
+        selected = int(default_row.get("Selected_Count") or 0)
+        expected = int(default_row.get("Expected_Count") or 0)
+        defaults = int(default_row.get("Default_Count") or 0)
+    except ValueError:
+        return default_row.get("Result") != "OK"
+    # Multiple Printify official/default mockups are allowed; they help buyers
+    # understand physical context. Gate only true insufficiency.
+    return selected < expected or defaults < 1
+
+
 def _priority(row, qa, cover_fix, default_check):
     if cover_fix:
         return 100
@@ -86,8 +103,8 @@ def _recommend(row, copy, qa, cover_fix, default_check):
         )
     if default_check:
         return (
-            "FIX_PRINTIFY_DEFAULT_IMAGE_BEFORE_PUBLISH",
-            "Printify image-default audit is CHECK for this product. Do not publish until exactly one selected image is default and the local cover/production design audit passes.",
+            "FIX_PRINTIFY_IMAGE_INSUFFICIENCY_BEFORE_PUBLISH",
+            "Printify image audit shows too few selected mockups or no default image. Multiple official/default mockups are allowed when the custom design is present.",
             "medium",
             False,
         )
@@ -164,7 +181,7 @@ def build_rows():
         qa = qa_by_id.get(item.get("ID"))
         cover_fix = cover_fix_by_id.get(item.get("ID"))
         default_row = default_audit_by_id.get(item.get("ID"))
-        default_check = default_row and default_row.get("Result") != "OK"
+        default_check = _default_needs_action(default_row)
         action, reason, dependency, can_do_now = _recommend(item, copy, qa, cover_fix, default_check)
         rows.append(
             {

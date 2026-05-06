@@ -134,18 +134,33 @@ def build_rows() -> list[dict[str, str]]:
             "single online item",
         )
 
-    if market_actions.get("FIX_PRINTIFY_DEFAULT_IMAGE_BEFORE_PUBLISH", 0):
+    image_insufficiency = market_actions.get("FIX_PRINTIFY_IMAGE_INSUFFICIENCY_BEFORE_PUBLISH", 0)
+    if image_insufficiency:
         add(
             rows,
             92,
             "image_integrity",
-            "Clear Printify default-image CHECK rows before publish resumes",
+            "Clear Printify selected/default insufficiency before publish resumes",
             "BLOCKED_BY_COVER_GATE",
-            f"{market_actions['FIX_PRINTIFY_DEFAULT_IMAGE_BEFORE_PUBLISH']} products need exactly-one-default validation.",
+            f"{image_insufficiency} products have too few selected images or no default image.",
             "py modules\\printify_image_default_audit.py --sleep-seconds 1",
-            "Products that stay CHECK are either repaired or held; publish scheduler sees no unsafe CHECK row.",
+            "Products that stay insufficient are either repaired or held; multiple official/default mockups are allowed.",
             "medium",
             "Printify API",
+        )
+
+    if replacement_status.get("READY_TO_REPLACE_VERIFIED", 0):
+        add(
+            rows,
+            94,
+            "replacement",
+            "Create verified replacement listing for source-repaired live cover failure",
+            "READY_TO_REPLACE_VERIFIED",
+            f"{replacement_status['READY_TO_REPLACE_VERIFIED']} row already failed source repair plus live eBay audit.",
+            "Build one replacement listing from local assets, live-audit it, then retire old item only after pass.",
+            "New listing returns LIKELY_COVER and production-design audit passes.",
+            "high",
+            "single replacement listing",
         )
 
     if replacement_status.get("WAIT_SOURCE_REPAIR_RESULT", 0):

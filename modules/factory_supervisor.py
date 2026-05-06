@@ -31,6 +31,7 @@ EBAY_BOOK = DATABASE_DIR / "eBay_listing.xlsx"
 PERFORMANCE_LOG = DATABASE_DIR / "Performance_Log.csv"
 FIX_QUEUE = DATABASE_DIR / "eBay_Online_Cover_Fix_Queue.csv"
 REPAIR_DECISIONS = DATABASE_DIR / "eBay_Cover_Repair_Decisions.csv"
+REPLACEMENT_QUEUE = DATABASE_DIR / "eBay_Cover_Replacement_Queue.csv"
 DEFAULT_AUDIT = DATABASE_DIR / "Printify_Image_Default_Audit.csv"
 ACTION_QUEUE = DATABASE_DIR / "Factory_Autopilot_Action_Queue.csv"
 ACTION_SUMMARY = DATABASE_DIR / "Factory_Autopilot_Action_Queue.md"
@@ -94,6 +95,22 @@ def count_by(path: Path, column: str) -> dict[str, int]:
         key = clean(row.get(column)) or "Unknown"
         counts[key] = counts.get(key, 0) + 1
     return counts
+
+
+def default_insufficiency_count() -> int:
+    count = 0
+    for row in read_csv(DEFAULT_AUDIT):
+        try:
+            selected = int(row.get("Selected_Count") or 0)
+            expected = int(row.get("Expected_Count") or 0)
+            defaults = int(row.get("Default_Count") or 0)
+        except ValueError:
+            if clean(row.get("Result")) == "CHECK":
+                count += 1
+            continue
+        if clean(row.get("Error")) or selected < expected or defaults < 1:
+            count += 1
+    return count
 
 
 def latest_performance_age_hours() -> float | None:
@@ -187,7 +204,8 @@ def printify_ui_status(cdp_port: int = 9222) -> dict[str, str]:
 def build_actions(strategy: dict[str, object]) -> list[FactoryAction]:
     fix_rows = csv_count(FIX_QUEUE)
     source_repairs = count_by(REPAIR_DECISIONS, "Repair_Method").get("SOURCE_REPAIR_REQUIRED", 0)
-    default_checks = count_by(DEFAULT_AUDIT, "Result").get("CHECK", 0)
+    replacement_ready = count_by(REPLACEMENT_QUEUE, "Replacement_Status").get("READY_TO_REPLACE_VERIFIED", 0)
+    default_checks = default_insufficiency_count()
     perf_age = latest_performance_age_hours()
     workbook = workbook_counts()
     network_mode = clean(strategy.get("mode"))
@@ -206,6 +224,21 @@ def build_actions(strategy: dict[str, object]) -> list[FactoryAction]:
             "low",
         )
     ]
+
+    if replacement_ready:
+        actions.append(
+            FactoryAction(
+                97,
+                "replacement",
+                "Create one verified replacement listing for a live cover failure that survived source repair.",
+                "READY_TO_REPLACE_VERIFIED",
+                f"{replacement_ready} listing already failed source repair plus live eBay buyer-page audit.",
+                "Build one replacement from local assets, publish only after image/design QA, then retire old item after live audit passes.",
+                "yes",
+                "Printify API/UI and eBay live audit",
+                "high",
+            )
+        )
 
     if fix_rows or source_repairs:
         status = "READY_SINGLE_SKU_REPAIR"
@@ -231,9 +264,9 @@ def build_actions(strategy: dict[str, object]) -> list[FactoryAction]:
             FactoryAction(
                 92,
                 "cover_gate",
-                "Resolve duplicate Printify default image flags before public publishing.",
+                "Resolve true Printify image insufficiency before public publishing.",
                 "BLOCKING_PUBLISH",
-                f"Printify default audit has {default_checks} CHECK rows.",
+                f"{default_checks} rows have too few selected images, no default image, or an image audit error. Multiple official/default mockups are allowed.",
                 "py modules\\printify_image_default_audit.py --sleep-seconds 1",
                 "yes",
                 "Printify API",

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-06T10:46:32-04:00",
+  "generated_at": "2026-05-06T12:52:34-04:00",
   "timezone": "America/New_York",
   "network_strategy": {
     "mode": "unknown",
@@ -9,13 +9,13 @@
   },
   "workbook_counts": {
     "rows": 240,
-    "stable": 161,
-    "published": 112,
+    "stable": 160,
+    "published": 111,
     "ready": 50,
     "by_product": {
       "Sticker": {
-        "stable": 76,
-        "published": 60,
+        "stable": 75,
+        "published": 59,
         "ready": 46,
         "rows": 149
       },
@@ -43,7 +43,7 @@
     "OK": 38,
     "CHECK": 123
   },
-  "performance_age_hours": 9.383859150833333,
+  "performance_age_hours": 11.484220004166668,
   "printify_ui_status": {
     "status": "LOGGED_IN",
     "reason": "Printify app page is available in CDP browser."
@@ -59,6 +59,17 @@
       "requires_network": "no",
       "requires_login": "no",
       "risk": "low"
+    },
+    {
+      "priority": 97,
+      "lane": "replacement",
+      "action": "Create one verified replacement listing for a live cover failure that survived source repair.",
+      "status": "READY_TO_REPLACE_VERIFIED",
+      "reason": "1 listing already failed source repair plus live eBay buyer-page audit.",
+      "command": "Build one replacement from local assets, publish only after image/design QA, then retire old item after live audit passes.",
+      "requires_network": "yes",
+      "requires_login": "Printify API/UI and eBay live audit",
+      "risk": "high"
     },
     {
       "priority": 95,

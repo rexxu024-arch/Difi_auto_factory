@@ -1,11 +1,11 @@
 # Factory Autopilot Action Queue
 
-Generated: 2026-05-06T10:46:32-04:00 America/New_York
+Generated: 2026-05-06T12:52:34-04:00 America/New_York
 
 - Network mode: unknown (network guard skipped)
 - eBay workbook rows: 240
-- Stable: 161
-- Published: 112
+- Stable: 160
+- Published: 111
 - Ready for Printify: 50
 - Live cover fix queue rows: 49
 - Repair decisions: {'SOURCE_REPAIR_REQUIRED': 45, 'NON_STICKER_REVIEW_REQUIRED': 4}
@@ -19,6 +19,12 @@ Generated: 2026-05-06T10:46:32-04:00 America/New_York
 - Reason: Safe low-bandwidth maintenance keeps the factory state current while account/image writes are paused.
 - Command: `py modules\factory_supervisor.py --execute-local --skip-network`
 - Network: no; login: no; risk: low
+
+### P97 replacement: READY_TO_REPLACE_VERIFIED
+- Action: Create one verified replacement listing for a live cover failure that survived source repair.
+- Reason: 1 listing already failed source repair plus live eBay buyer-page audit.
+- Command: `Build one replacement from local assets, publish only after image/design QA, then retire old item after live audit passes.`
+- Network: yes; login: Printify API/UI and eBay live audit; risk: high
 
 ### P95 cover_gate: READY_SINGLE_SKU_REPAIR
 - Action: Repair one Printify source cover, then live-audit eBay before scaling.

@@ -52,6 +52,13 @@ def _read_fix_queue() -> list[dict[str, str]]:
         return list(csv.DictReader(handle))
 
 
+def _read_existing_decisions() -> dict[str, dict[str, str]]:
+    if not OUT_CSV.exists():
+        return {}
+    with OUT_CSV.open("r", encoding="utf-8-sig", newline="") as handle:
+        return {str(row.get("ID") or ""): row for row in csv.DictReader(handle) if row.get("ID")}
+
+
 def _exists(value: object) -> bool:
     return bool(value) and Path(str(value)).exists()
 
@@ -84,11 +91,16 @@ def classify(row: dict[str, str], workbook_row: dict[str, object]) -> tuple[str,
 
 def build_decisions() -> list[dict[str, str]]:
     workbook = _workbook_rows()
+    existing = _read_existing_decisions()
     decisions: list[dict[str, str]] = []
     for row in _read_fix_queue():
         item_id = row["ID"]
         wb_row = workbook.get(item_id, {})
         method, note = classify(row, wb_row)
+        prior = existing.get(item_id, {})
+        preserved_status = prior.get("Status") or "PENDING"
+        preserved_note = prior.get("Repair_Note") or note
+        last_attempt = prior.get("Last_Repair_Attempt", "")
         decisions.append(
             {
                 "ID": item_id,
@@ -98,9 +110,10 @@ def build_decisions() -> list[dict[str, str]]:
                 "Online_Result": row.get("Result", ""),
                 "Best_U_Label": row.get("Best_U_Label", ""),
                 "Repair_Method": method,
-                "Repair_Note": note,
+                "Repair_Note": preserved_note,
                 "Cover_Path": str(wb_row.get("Cover_Path") or ""),
-                "Status": "PENDING",
+                "Status": preserved_status,
+                "Last_Repair_Attempt": last_attempt,
             }
         )
     return decisions
@@ -118,6 +131,7 @@ def write_outputs(decisions: list[dict[str, str]]) -> None:
         "Repair_Note",
         "Cover_Path",
         "Status",
+        "Last_Repair_Attempt",
     ]
     with OUT_CSV.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=fields)
