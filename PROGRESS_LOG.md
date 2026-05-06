@@ -819,3 +819,24 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - The replacement row is `Ready_for_Printify`, with old Printify/eBay external IDs cleared.
 - Ran network guard before online upload: Printify avg 474ms, max 2780ms, Discord loss 16%; strategy returned `pause`.
 - Therefore no Printify upload and no eBay publish were attempted. Next online action when network improves: `py modules\printify_full_pipeline.py --ids Sticker-Academia-0005-FIX1 --limit 1` without `--publish`.
+## 2026-05-06 14:58 -04:00
+
+- Wired LAN test passed: Ethernet 1Gbps active, Wi-Fi disconnected, 0% loss to Printify/eBay/Etsy/Discord/OpenAI, roughly 5-8ms average latency, 50MB download around 214 Mbps.
+- Published and audited replacement experiments for the Sticker eBay cover bug:
+  - `Sticker-Academia-0005-FIX1` proved the old custom U-gallery route still fails live audit.
+  - `Sticker-Academia-0005-FIX2` proved Cover-only + Printify official mockups fixes the live main image.
+  - `Sticker-Academia-0006-FIX1`, `0007-FIX1`, `0008-FIX1` passed live buyer-page cover audit.
+  - Expanded batch: `Sticker-Academia-0009/0010/0011/0014/0015/0016-FIX1` and `Sticker-Zen-0001/0002/0003/0004-FIX1` created, published, and audited; official-only cases are now classified as `LIKELY_COVER_OFFICIAL`.
+- Updated code:
+  - Sticker full pipeline now uploads only Cover as the custom listing image and relies on Printify official mockups for marketplace gallery context.
+  - Publish scheduler blocks Sticker products that still have custom U/gallery images selected.
+  - Live eBay cover audit recognizes Printify official-only mockups as pass states instead of false-failing against local U hashes.
+- Published 8 additional Poster/Acrylic listings after production-design QA: `Poster-Academia-0023..0026` and `Acrylic-Grimdark-0012..0015`; all 8 passed production-design audit and live buyer-page official-mockup audit.
+- Created/updated `Database/eBay_Retire_Queue.csv` with 15 listings that should be safely ended after eBay API or Seller Hub end-listing flow is confirmed.
+
+## 2026-05-06 15:20 -04:00
+
+- Rex cleared the network constraint after LAN/asset validation; resumed full-throughput online work.
+- Recompiled the changed Printify/eBay cover-gate modules successfully.
+- Regenerated the eBay replacement queue: 31 ready-to-replace verified rows, 14 replacement-published-live-pass rows, 4 review-before-replace rows.
+- Rechecked Printify/eBay connectivity: 0% packet loss, about 5-6ms average latency.

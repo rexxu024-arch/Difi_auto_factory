@@ -35,7 +35,9 @@ The execution rule is not "more listings at any cost." The rule is stable produc
 For Sticker:
 
 - The buyer-facing cover should show the actual 4-piece 6x6 sticker set when possible.
-- Gallery detail images can remain, but the listing description must say the main image shows the product received and additional images are concept/detail references.
+- First-pass Printify/eBay publishing should use the Cover image only as custom marketplace art, plus Printify official product mockups. Do not push U1-U4 as initial marketplace gallery images; live eBay audits showed eBay can choose a single U/detail image as the main cover.
+- U1-U4 should remain local QA/detail/reference assets. Add them later only through a separate, audited gallery path.
+- Listing descriptions must say the main/product mockup image shows the product received and any supplemental detail/concept images are visual references.
 
 For Poster and Acrylic:
 

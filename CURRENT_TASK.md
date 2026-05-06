@@ -105,3 +105,16 @@ Guardrails:
 - eBay API, once available, should be added narrowly: performance reads, Promoted Listings Standard 2% state, item health checks, lightweight metadata experiments, and reconciliation.
 - Product creation, production design upload, mockup generation, and platform push remain Printify-owned by default.
 - Any eBay/Etsy API result must write back into the existing database/supervisor files instead of creating a separate source of truth.
+
+## 2026-05-06 14:55:00 -04:00 Wired Network Restored + Sticker Cover Gate Resolution
+- Ethernet is active through `Ethernet 3` at 1Gbps; Wi-Fi is disconnected. Multi-endpoint checks showed 0% packet loss and about 5-8ms latency; 50MB download test was about 214 Mbps.
+- Low-bandwidth mode is lifted for online batches, but account-risk throttles still apply.
+- Sticker main-image bug root cause: sending U1-U4 as Printify/eBay listing gallery images lets eBay pick a single U/detail image as the buyer-facing cover.
+- New Sticker rule: publish/replace with Cover-only custom art plus Printify official mockups. Keep U1-U4 locally for QA/detail/reference; do not push them as first-pass eBay gallery images.
+- Verified live eBay results: `Sticker-Academia-0005-FIX2`, `0006-FIX1`, `0007-FIX1`, `0008-FIX1`, and the next 10 replacement listings use official cover mockups and pass live buyer-page cover audit.
+- Old bad listings are queued in `Database/eBay_Retire_Queue.csv`; do not create many more duplicates until a safe end-listing path is confirmed.
+
+## 2026-05-06 15:20:00 -04:00 Full Throughput Mode Restored
+- Rex confirmed the wired asset/network setup is good enough to stop worrying about Wi-Fi instability.
+- Default execution mode returns to high-throughput online work: Printify publishing, live buyer-page audits, and API reads may run without low-bandwidth deferral.
+- Account-risk gates remain active: do not use PPC/Priority ads, do not touch payment/order/buyer-message settings, and do not create many duplicate Sticker replacements before old bad listings have a verified retirement path.

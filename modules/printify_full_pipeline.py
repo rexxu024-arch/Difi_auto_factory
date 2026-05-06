@@ -114,6 +114,20 @@ def _poster_mockup_ok(product):
     return len(selected) >= 4 and bool(official), len(selected), len(official)
 
 
+def _sticker_mockup_ok(product):
+    images = product.get("images") or []
+    selected = [image for image in images if image.get("is_selected_for_publishing") is not False]
+    official = [
+        image for image in selected
+        if "images.printify.com/mockup" in str(image.get("src") or "")
+    ]
+    custom_gallery = [
+        image for image in selected
+        if "pfy-prod-products-mockup-media" in str(image.get("src") or "")
+    ]
+    return len(selected) >= 3 and len(official) >= 3 and not custom_gallery, len(selected), len(official), len(custom_gallery)
+
+
 def _expected_mockups(product_type):
     return EXPECTED_MOCKUPS.get(_canonical_product_filter(product_type) or "Sticker", 5)
 
@@ -156,7 +170,11 @@ def _ensure_product_id(row):
             f"{row['ID']}_{label}_{version}.png",
             allow_jpeg=allow_jpeg,
         )
-        for label, path in stock_paths
+        for label, path in (
+            [item for item in stock_paths if item[0] == "Cover"]
+            if _canonical_product_filter(row.get("Product_Type")) == "Sticker"
+            else stock_paths
+        )
     ]
     payload = printify_uploader._build_payload(row, stock_ids, production_id)
     last_error = None
@@ -303,6 +321,35 @@ def run(limit=0, batch_size=75, batch_delay=3600, publish=False, product_type=No
                     print(
                         f"[FULL-PIPELINE] {completed}/{len(rows)} {item_id} "
                         f"product={product_id} selected_mockups={stable_count} poster_official={official_count}"
+                    )
+                    continue
+
+                if product_filter == "Sticker":
+                    stable_ok = False
+                    stable_count = 0
+                    official_count = 0
+                    custom_count = 0
+                    for _ in range(30):
+                        product = _fetch_product(product_id)
+                        stable_ok, stable_count, official_count, custom_count = _sticker_mockup_ok(product)
+                        if stable_ok:
+                            break
+                        time.sleep(10)
+                    if not stable_ok:
+                        raise RuntimeError(
+                            f"sticker official cover mockups missing or custom U images selected: "
+                            f"selected={stable_count}, official={official_count}, custom_gallery={custom_count}"
+                        )
+                    stable_defaults = _default_count(product)
+                    if stable_defaults < 1:
+                        raise RuntimeError("sticker default mockups=0, expected at least 1")
+                    _assert_production_design(item_id, product_id, row)
+                    _set_cell(ws, cols, row_idx, "Status", f"Printify_UI_Mockups{stable_count}")
+                    wb.save(EBAY_BOOK)
+                    completed += 1
+                    print(
+                        f"[FULL-PIPELINE] {completed}/{len(rows)} {item_id} "
+                        f"product={product_id} selected_mockups={stable_count} sticker_official={official_count}"
                     )
                     continue
 

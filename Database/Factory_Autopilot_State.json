@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-06T12:52:34-04:00",
+  "generated_at": "2026-05-06T15:11:27-04:00",
   "timezone": "America/New_York",
   "network_strategy": {
     "mode": "unknown",
@@ -8,26 +8,26 @@
     "reason": "network guard skipped"
   },
   "workbook_counts": {
-    "rows": 240,
-    "stable": 160,
-    "published": 111,
+    "rows": 255,
+    "stable": 175,
+    "published": 134,
     "ready": 50,
     "by_product": {
       "Sticker": {
-        "stable": 75,
-        "published": 59,
+        "stable": 90,
+        "published": 74,
         "ready": 46,
-        "rows": 149
+        "rows": 164
       },
       "Poster": {
         "stable": 32,
-        "published": 26,
+        "published": 30,
         "ready": 4,
         "rows": 38
       },
       "Acrylic": {
         "stable": 53,
-        "published": 26,
+        "published": 30,
         "ready": 0,
         "rows": 53
       }
@@ -43,7 +43,7 @@
     "OK": 38,
     "CHECK": 123
   },
-  "performance_age_hours": 11.484220004166668,
+  "performance_age_hours": 13.799156568888888,
   "printify_ui_status": {
     "status": "LOGGED_IN",
     "reason": "Printify app page is available in CDP browser."
@@ -66,7 +66,7 @@
       "action": "Create one verified replacement listing for a live cover failure that survived source repair.",
       "status": "READY_TO_REPLACE_VERIFIED",
       "reason": "1 listing already failed source repair plus live eBay buyer-page audit.",
-      "command": "Build one replacement from local assets, publish only after image/design QA, then retire old item after live audit passes.",
+      "command": "py modules\\ebay_replacement_draft_builder.py --limit 1",
       "requires_network": "yes",
       "requires_login": "Printify API/UI and eBay live audit",
       "risk": "high"
@@ -81,6 +81,17 @@
       "requires_network": "yes",
       "requires_login": "Printify remote-debug profile",
       "risk": "medium"
+    },
+    {
+      "priority": 65,
+      "lane": "read_only_market",
+      "action": "Refresh eBay Seller Hub performance snapshot.",
+      "status": "READY",
+      "reason": "Performance data is stale or absent; this is read-only but browser/network dependent.",
+      "command": "py modules\\ebay_sellerhub_snapshot.py",
+      "requires_network": "yes",
+      "requires_login": "eBay Seller Hub",
+      "risk": "low"
     },
     {
       "priority": 63,

@@ -634,18 +634,12 @@ async def _select_latest_library_mockups(product_id, add_count, expected_count=5
 
 async def _upload_mockups(product_id, files, keep_default_mockups=False, expected_count=5, publish=False, product_type="Sticker"):
     if len(files) == 5:
-        cover = [files[0]]
-        gallery = files[1:]
-        await _upload_mockups_once(
-            product_id,
-            cover,
-            keep_default_mockups=True,
-            expected_count=1,
-            publish=False,
-            product_type=product_type,
-        )
-        await _upload_files_to_library(product_id, gallery, keep_default_mockups=True)
-        await _select_latest_library_mockups(product_id, add_count=len(gallery), expected_count=expected_count, publish=publish)
+        # Printify periodically changes the "link uploaded mockups to variants"
+        # side-panel flow. The most stable path is: upload every custom gallery
+        # image into My Uploads, then select the newest uploaded items while
+        # preserving Printify's official context mockups.
+        await _upload_files_to_library(product_id, files, keep_default_mockups=True)
+        await _select_latest_library_mockups(product_id, add_count=len(files), expected_count=expected_count, publish=publish)
         return
     await _upload_mockups_once(
         product_id,

@@ -118,8 +118,15 @@ def _preflight(row):
     selected = len(selected_images)
     defaults = [image for image in selected_images if image.get("is_default")]
     product_type = _product_type(row.get("Product_Type"))
-    if product_type == "Sticker" and selected < 5:
-        return False, f"selected mockups={selected}, expected >=5"
+    if product_type == "Sticker" and selected < 3:
+        return False, f"selected mockups={selected}, expected >=3 official cover mockups"
+    if product_type == "Sticker":
+        custom_gallery = [
+            image for image in selected_images
+            if "pfy-prod-products-mockup-media" in str(image.get("src") or "")
+        ]
+        if custom_gallery:
+            return False, f"sticker custom gallery images selected={len(custom_gallery)}; use cover-only official mockups before publish"
     if product_type == "Poster" and selected < 4:
         return False, f"selected mockups={selected}, expected >=4"
     if product_type == "Acrylic" and selected < 4:
@@ -149,7 +156,8 @@ def _publish(product_id):
     raise last_error
 
 
-def _load_publishable(limit, product_cycle):
+def _load_publishable(limit, product_cycle, ids=None):
+    wanted_ids = {str(item).strip() for item in (ids or []) if str(item).strip()}
     wb = load_workbook(EBAY_BOOK)
     ws = wb.active
     headers = [cell.value for cell in ws[1]]
@@ -159,6 +167,9 @@ def _load_publishable(limit, product_cycle):
         cols["Publish_Timestamp"] = ws.max_column
     buckets = {product_type: [] for product_type in product_cycle}
     for row_idx in range(2, ws.max_row + 1):
+        row_id = str(ws.cell(row_idx, cols["ID"]).value or "").strip()
+        if wanted_ids and row_id not in wanted_ids:
+            continue
         status = str(ws.cell(row_idx, cols["Status"]).value or "")
         if status.startswith(PUBLISHED_PREFIXES) or not status.startswith(PUBLISHABLE_PREFIXES):
             continue
@@ -177,9 +188,9 @@ def _load_publishable(limit, product_cycle):
     return wb, ws, cols, selected
 
 
-def run(limit=8, min_delay=90, max_delay=240, product_cycle=None, dry_run=False):
+def run(limit=8, min_delay=90, max_delay=240, product_cycle=None, dry_run=False, ids=None):
     product_cycle = product_cycle or ["Poster", "Acrylic", "Sticker"]
-    wb, ws, cols, rows = _load_publishable(limit, product_cycle)
+    wb, ws, cols, rows = _load_publishable(limit, product_cycle, ids=ids)
     done = 0
     try:
         for row in rows:
@@ -230,9 +241,11 @@ def main():
     parser.add_argument("--max-delay", type=int, default=240)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--cycle", default="Poster,Acrylic,Sticker")
+    parser.add_argument("--ids", default="", help="Comma-separated listing IDs to publish exactly.")
     args = parser.parse_args()
     cycle = [part.strip() for part in args.cycle.split(",") if part.strip()]
-    run(limit=args.limit, min_delay=args.min_delay, max_delay=args.max_delay, product_cycle=cycle, dry_run=args.dry_run)
+    ids = [part.strip() for part in args.ids.split(",") if part.strip()]
+    run(limit=args.limit, min_delay=args.min_delay, max_delay=args.max_delay, product_cycle=cycle, dry_run=args.dry_run, ids=ids)
 
 
 if __name__ == "__main__":

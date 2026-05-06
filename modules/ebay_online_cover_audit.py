@@ -30,6 +30,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
+from config import Config
+
 
 DATABASE_DIR = PROJECT_ROOT / "Database"
 EBAY_BOOK = DATABASE_DIR / "eBay_listing.xlsx"
@@ -248,6 +250,39 @@ def classify(distance_cover: int | None, best_u_label: str, best_u_distance: int
     return "AMBIGUOUS", f"close distances cover={distance_cover} {best_u_label}={best_u_distance}"
 
 
+def printify_official_only(product_id: str) -> tuple[bool, str]:
+    if not product_id:
+        return False, "missing Printify product id"
+    try:
+        response = requests.get(
+            f"{Config.Printify_API_URL.rstrip('/')}/shops/{Config.Printify_SHOP_ID}/products/{product_id}.json",
+            headers={"Authorization": f"Bearer {Config.Printify_API_KEY}"},
+            timeout=60,
+        )
+        response.raise_for_status()
+        product = response.json()
+        selected = [
+            image
+            for image in product.get("images") or []
+            if image.get("is_selected_for_publishing") is not False
+        ]
+        custom = [
+            image
+            for image in selected
+            if "pfy-prod-products-mockup-media" in str(image.get("src") or "")
+        ]
+        official = [
+            image
+            for image in selected
+            if "images.printify.com/mockup" in str(image.get("src") or "")
+        ]
+        if selected and official and not custom:
+            return True, f"Printify selected official-only mockups ({len(official)}/{len(selected)})"
+        return False, f"Printify selected official={len(official)} custom={len(custom)} total={len(selected)}"
+    except Exception as exc:  # noqa: BLE001
+        return False, f"Printify official-only check failed: {str(exc)[:160]}"
+
+
 def make_contact_sheet(records: list[dict[str, Any]]) -> Path:
     if not records:
         return OUT_DIR / "Online_Cover_Audit_Contact_Sheet.jpg"
@@ -354,7 +389,11 @@ async def audit_async(targets: list[dict[str, str]], cdp_port: int, wait_seconds
             if u_distances:
                 best_u_label, best_u_path_obj, best_u_distance = sorted(u_distances, key=lambda item: item[2])[0]
                 best_u_path = str(best_u_path_obj)
-            result, note = classify(distance_cover, best_u_label, best_u_distance)
+            official_only, official_note = printify_official_only(str(target.get("Printify_Product_ID", "")))
+            if official_only:
+                result, note = "LIKELY_COVER_OFFICIAL", official_note
+            else:
+                result, note = classify(distance_cover, best_u_label, best_u_distance)
             record["Distance_To_Cover"] = distance_cover if distance_cover is not None else ""
             record["Best_U_Label"] = best_u_label
             record["Best_U_Path"] = best_u_path

@@ -20,6 +20,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATABASE_DIR = PROJECT_ROOT / "Database"
 EBAY_BOOK = DATABASE_DIR / "eBay_listing.xlsx"
 DECISIONS = DATABASE_DIR / "eBay_Cover_Repair_Decisions.csv"
+RETIRE_QUEUE = DATABASE_DIR / "eBay_Retire_Queue.csv"
 OUT_CSV = DATABASE_DIR / "eBay_Cover_Replacement_Queue.csv"
 OUT_MD = DATABASE_DIR / "eBay_Cover_Replacement_Queue.md"
 
@@ -76,6 +77,8 @@ def workbook_rows() -> dict[str, dict[str, object]]:
 
 def build_rows() -> list[dict[str, str]]:
     wb_rows = workbook_rows()
+    retire_rows = {clean(row.get("Old_ID")): row for row in read_csv(RETIRE_QUEUE)}
+    cover_only_proven = sum(1 for row in retire_rows.values() if clean(row.get("Replacement_eBay_Item_ID"))) >= 3
     output = []
     for decision in read_csv(DECISIONS):
         item_id = clean(decision.get("ID"))
@@ -85,7 +88,24 @@ def build_rows() -> list[dict[str, str]]:
         repair_status = clean(decision.get("Status"))
         if repair_method not in {"SOURCE_REPAIR_REQUIRED", "NON_STICKER_REVIEW_REQUIRED"}:
             continue
-        if repair_method == "SOURCE_REPAIR_REQUIRED":
+        replacement_sku = f"{item_id}-FIX1"
+        if item_id in retire_rows:
+            retire_row = retire_rows[item_id]
+            status = "REPLACEMENT_PUBLISHED_LIVE_PASS"
+            priority = "110"
+            replacement_sku = clean(retire_row.get("Replacement_ID")) or replacement_sku
+            action = (
+                "Replacement listing has passed live buyer-page audit. Keep in retire queue until a safe eBay "
+                "end-listing path is confirmed, then retire the old item."
+            )
+        elif repair_method == "SOURCE_REPAIR_REQUIRED" and product_type == "Sticker" and cover_only_proven:
+            status = "READY_TO_REPLACE_VERIFIED"
+            priority = "100"
+            action = (
+                "Cover-only replacement path is proven by multiple live audits. Create a replacement listing using "
+                "Cover-only custom art plus Printify official mockups, verify live buyer-page image, then retire the old listing."
+            )
+        elif repair_method == "SOURCE_REPAIR_REQUIRED":
             if repair_status == "SOURCE_REPAIR_DONE_LIVE_STILL_BAD":
                 status = "READY_TO_REPLACE_VERIFIED"
                 priority = "100"
@@ -111,7 +131,7 @@ def build_rows() -> list[dict[str, str]]:
             {
                 "Priority": priority,
                 "ID": item_id,
-                "Replacement_SKU": f"{item_id}-FIX1",
+                "Replacement_SKU": replacement_sku,
                 "Product_Type": product_type,
                 "Category": clean(source.get("Category")),
                 "Old_eBay_Item_ID": clean(source.get("eBay_Item_ID") or decision.get("eBay_Item_ID")),
