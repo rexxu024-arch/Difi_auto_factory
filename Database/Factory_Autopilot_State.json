@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-06T22:30:37-04:00",
+  "generated_at": "2026-05-06T23:11:32-04:00",
   "timezone": "America/New_York",
   "network_strategy": {
     "mode": "unknown",
@@ -36,15 +36,15 @@
   },
   "fix_queue_rows": 49,
   "repair_decisions": {
-    "RETIRED_REPLACED_DONE": 24,
-    "SOURCE_REPAIR_REQUIRED": 21,
+    "RETIRED_REPLACED_DONE": 25,
+    "SOURCE_REPAIR_REQUIRED": 20,
     "NON_STICKER_REVIEW_REQUIRED": 4
   },
   "printify_default_audit": {
     "OK": 38,
     "CHECK": 123
   },
-  "performance_age_hours": 1.9714200180555557,
+  "performance_age_hours": 2.6534580938888888,
   "printify_ui_status": {
     "status": "LOGGED_IN",
     "reason": "Printify app page is available in CDP browser."
@@ -66,7 +66,7 @@
       "lane": "replacement",
       "action": "Create one verified replacement listing for a live cover failure that survived source repair.",
       "status": "READY_TO_REPLACE_VERIFIED",
-      "reason": "21 listing already failed source repair plus live eBay buyer-page audit.",
+      "reason": "20 listing already failed source repair plus live eBay buyer-page audit.",
       "command": "py modules\\ebay_replacement_draft_builder.py --limit 1",
       "requires_network": "yes",
       "requires_login": "Printify API/UI and eBay live audit",
@@ -77,7 +77,7 @@
       "lane": "cover_gate",
       "action": "Repair one Printify source cover, then live-audit eBay before scaling.",
       "status": "READY_SINGLE_SKU_REPAIR",
-      "reason": "Live cover queue has 49 rows; 21 require Printify source repair or replacement listings. Printify UI: LOGGED_IN - Printify app page is available in CDP browser.",
+      "reason": "Live cover queue has 49 rows; 20 require Printify source repair or replacement listings. Printify UI: LOGGED_IN - Printify app page is available in CDP browser.",
       "command": "py modules\\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120",
       "requires_network": "yes",
       "requires_login": "Printify remote-debug profile",

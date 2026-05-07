@@ -103,3 +103,4 @@
 - git status shows the repo on main and aligned with origin/main, but the local .git ACLs deny write access needed to create the lock file.
 - No commit, rebase, or push was performed.
 [2026-05-06T21:14:26-04:00] Git checkpoint blocked: staging failed with .git/index.lock permission denied. Repo was on main; selected durable code/data files were identified, but no commit, rebase, or push was performed. Untracked transient artifacts were left untouched.
+[2026-05-06T23:14:53-04:00] Git checkpoint blocked again: `git add` could not create `.git/index.lock` due to permission denied. Repo is on `main`, no stale lock file was present, and I did not commit, rebase, or push. Safe retry requires fixing `.git` write permissions or repo metadata ACLs first.

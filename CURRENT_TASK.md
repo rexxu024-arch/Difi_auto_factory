@@ -151,17 +151,10 @@ Guardrails:
 - eBay browser scripts now accept `OPENCLAW_EBAY_CDP_PORT` / `OPENCLAW_CDP_PORT`; use port 9223 for Seller Hub/audit work when the dedicated Edge profile is ready.
 - Close automation tabs after each task and keep at most 1-2 automation tabs alive.
 
-## 2026-05-06 18:10:00 -04:00 Etsy Login Block
-- Dedicated automation Edge Etsy site data was cleared for `etsy.com` / `www.etsy.com` / `accounts.etsy.com`, but Etsy still returns the red "An error has occurred, please try again!" login banner.
-- Treat this as Etsy account/session/IP/risk verification issue, not a normal password typo.
-- Do not keep retrying password/Google login repeatedly; avoid stacking Etsy risk flags.
-- Etsy publishing/storefront edits are paused until login is stable. Printify-side Etsy drafts/local launch prep may continue, but do not trigger Etsy publish/listing fees until account access is reliable.
-
-## 2026-05-06 18:25:00 -04:00 Etsy Login Escalation
-- Rex confirmed Chrome + Google-account sign-in also returns the same Etsy red error.
-- This makes a single-browser cache/profile problem unlikely.
-- Stop repeated Etsy login attempts for now; next diagnostic should be account-safe: check Etsy/security email, use Etsy `Trouble signing in?`, or test once from phone/mobile data to distinguish account-side lock from local network/profile.
-- Continue non-Etsy-dependent monthly tasks while Etsy access cools down.
+## 2026-05-06 18:10:00 -04:00 Etsy Login Block (Resolved Later)
+- Historical blocker: Etsy temporarily returned the red "An error has occurred, please try again!" login banner across browsers.
+- Current state supersedes this: by 2026-05-06 late evening, the dedicated Edge automation profile is logged into Etsy Shop Manager and the first 10 Etsy Digital gray-test listings are live.
+- Do not resurrect the old blocker unless a fresh Edge login check fails.
 
 ## 2026-05-06 18:35:00 -04:00 Resume Full-Throughput Non-Etsy Monthly Tasks
 - Etsy login/publish remains paused.
@@ -206,7 +199,13 @@ Guardrails:
 
 ## 2026-05-06 20:19:29 -04:00 Active Mainline After Interruption
 - Interruption return rule is active: after answering side questions or pressure tests, resume the monthly-task mainline automatically.
-- Etsy Digital first 10 are QA-passed and fee-reserved but not published; Etsy auth/API remains the hard blocker. Do not spend listing fees until account access is clean.
+- Etsy Digital first 10 are QA-passed, published through Edge UI, publicly readable, and logged with confirmed spend $2.00. Hold further Etsy paid scale until the first-10 traffic/indexing readout unless Rex deliberately opens the next gray cell.
 - Printify/eBay external sync issue is open for Poster-Academia-0038..0042. They are Printify-ready but not confirmed eBay live listings.
 - Default publish scheduler must not retry external-pending rows unless explicitly run with `--retry-pending` after route diagnosis.
 - Continue mainline: resolve publish route (eBay API or small UI proof), then top up Poster toward target and continue controlled marketplace experiments.
+
+## 2026-05-06 23:03:00 -04:00 Edge-Only Browser State
+- All marketplace/account browser operations should use the dedicated Edge automation profile on CDP port 9223.
+- Do not use Rex's daily Chrome for OpenClaw account work.
+- Current login check: Printify `LOGGED_IN`, Etsy Shop Manager `LOGGED_IN`, eBay Seller Hub `LOGGED_IN`.
+- Only current account gap: eBay Developer Program still redirects to sign-in/pending program access; not a blocker for immediate Printify/Etsy/Seller Hub UI work.

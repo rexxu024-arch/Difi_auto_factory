@@ -16,3 +16,8 @@
 2026-05-06 11:24:51 -0400,Sticker-Academia-0005,source_repair,EXIT_0,"[MOCKUP-UI-FAIL] Sticker-Academia-0005: Publish button not found
 [DONE] UI mockup uploads: 0"
 2026-05-06 20:39:27 -0400,Sticker-Zen-0044,dry_run,READY,69f2396ccaeb1241880b692d
+2026-05-06 22:34:05 -0400,Sticker-Zen-0044,source_repair,START,69f2396ccaeb1241880b692d
+2026-05-06 22:34:47 -0400,Sticker-Zen-0044,source_repair,EXIT_0,"[MOCKUP-UI] Sticker-Zen-0044 product=69f2396ccaeb1241880b692d selected_mockups=5
+[DONE] UI mockup uploads: 1"
+2026-05-06 22:34:48 -0400,Sticker-Zen-0044,printify_verify,OK,selected=6 expected_at_least=5 defaults=2
+2026-05-06 22:36:55 -0400,Sticker-Zen-0044,live_audit,ERROR,"{'Timestamp': '2026-05-06T22:36:48-04:00', 'ID': 'Sticker-Zen-0044', 'eBay_Item_ID': '406902622710', 'Printify_Product_ID': '69f2396ccaeb1241880b692d', 'Title': 'Zen Aesthetic Dragon Coil 4pc 6x6 Kiss-Cut Sticker Laptop Journal Water Bottle', 'Cover_Path': 'C:\\AIprojects\\openclaw_difi\\Output\\Sticker\\Kiss-Cut\\MASTER_Sticker-Zen-0044_Ready_for_Steaming\\Cover_Mockup.png', 'Gallery_U1_Path': 'C:\\AIprojects\\openclaw_difi\\Output\\Sticker\\Kiss-Cut\\MASTER_Sticker-Zen-0044_Ready_for_Steaming\\Sticker-Zen-0044_U1_Grid.png', 'Online_URL': 'https://www.ebay.com/itm/406902622710', 'Error': 'no close frame received or sent', 'Result': 'ERROR'}"

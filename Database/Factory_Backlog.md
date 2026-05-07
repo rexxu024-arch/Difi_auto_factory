@@ -1,15 +1,14 @@
 # Factory Backlog
 
-Generated: 2026-05-06 22:30:36 -0400 America/New_York
+Generated: 2026-05-06 23:11:30 -0400 America/New_York
 
 ## Status Counts
 
-- READY: 7
+- READY: 6
 - READY_TO_REPLACE_VERIFIED: 2
 - WAIT_COVER_GATE: 2
+- READY_MONITOR: 2
 - READY_SINGLE_SKU_REPAIR: 1
-- READY_MONITOR: 1
-- WAIT_USER_OR_API_APPROVAL: 1
 - READY_FOR_SCHOLAR_REVIEW: 1
 
 ## Lane Counts
@@ -22,7 +21,6 @@ Generated: 2026-05-06 22:30:36 -0400 America/New_York
 - replacement: 1
 - production: 1
 - publish: 1
-- supervisor:read_only_market: 1
 - supervisor:production_design_qa: 1
 - market_learning: 1
 - etsy: 1
@@ -69,7 +67,7 @@ Generated: 2026-05-06 22:30:36 -0400 America/New_York
 
 ### P94 replacement - READY_TO_REPLACE_VERIFIED
 - Task: Create verified replacement listing for source-repaired live cover failure
-- Blocker: 21 row already failed source repair plus live eBay audit.
+- Blocker: 20 row already failed source repair plus live eBay audit.
 - Command: `py modules\ebay_replacement_draft_builder.py --limit 1`
 - Done when: Replacement row is created as Ready_for_Printify; public publish still waits for QA and retire sequencing.
 - Risk/network: high / single replacement listing
@@ -87,13 +85,6 @@ Generated: 2026-05-06 22:30:36 -0400 America/New_York
 - Command: `py modules\printify_publish_scheduler.py --limit 3 --min-delay 180 --max-delay 420`
 - Done when: Published products are live-audited and added to 2% Standard/General ad coverage without PPC.
 - Risk/network: high / Printify API/eBay sync
-
-### P65 supervisor:read_only_market - READY
-- Task: Refresh eBay Seller Hub performance snapshot.
-- Blocker: Performance data is stale or absent; this is read-only but browser/network dependent.
-- Command: `py modules\ebay_sellerhub_snapshot.py`
-- Done when: Supervisor action remains present until its status is completed or superseded.
-- Risk/network: low / yes
 
 ### P63 supervisor:production_design_qa - READY
 - Task: Run a tiny Printify production-design audit before any larger online batch.
@@ -116,12 +107,12 @@ Generated: 2026-05-06 22:30:36 -0400 America/New_York
 - Done when: Morning readout has active/readable status plus views/favorites when available; do not scale until signal or Rex resumes.
 - Risk/network: low / Etsy public/UI read
 
-### P55 supervisor:etsy - WAIT_USER_OR_API_APPROVAL
-- Task: Keep Etsy launch packet local until shop/API approval is ready.
-- Blocker: Etsy developer app is pending approval and Rex has not asked to publish Etsy listings yet.
-- Command: `py modules\etsy_digital_listing_export.py`
+### P55 supervisor:etsy - READY_MONITOR
+- Task: Monitor Etsy Digital first gray batch before spending more listing fees.
+- Blocker: Live=10 ready=20 confirmed_spend=$2.00; hold scale until first traffic readout.
+- Command: `py modules\etsy_live_audit.py --limit 10`
 - Done when: Supervisor action remains present until its status is completed or superseded.
-- Risk/network: low / no
+- Risk/network: low / yes
 
 ### P50 supervisor:copy_experiment - READY
 - Task: Continue low-bandwidth SEO/title/description experiment analysis.

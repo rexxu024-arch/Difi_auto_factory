@@ -1,6 +1,6 @@
 # eBay Cover Repair Decisions
 
-Generated: 2026-05-06 22:30:30 America/New_York
+Generated: 2026-05-06 23:20:35 America/New_York
 
 ## Learned Rule
 
@@ -11,8 +11,8 @@ Generated: 2026-05-06 22:30:30 America/New_York
 ## Counts
 
 - NON_STICKER_REVIEW_REQUIRED: 4
-- RETIRED_REPLACED_DONE: 24
-- SOURCE_REPAIR_REQUIRED: 21
+- RETIRED_REPLACED_DONE: 28
+- SOURCE_REPAIR_REQUIRED: 17
 
 ## Product Types
 

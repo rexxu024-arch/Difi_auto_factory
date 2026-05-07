@@ -27,3 +27,5 @@
 "
 2026-05-06 22:30:35 -0400,PENDING_OR_INACTIVE,403,WAIT_APP_APPROVAL_OR_VERIFY_SECRET,True,ehm7...jc9l,"{""error"":""API key not found or not active, or incorrect shared secret for API key.""}
 "
+2026-05-06 23:11:30 -0400,PENDING_OR_INACTIVE,403,WAIT_APP_APPROVAL_OR_VERIFY_SECRET,True,ehm7...jc9l,"{""error"":""API key not found or not active, or incorrect shared secret for API key.""}
+"

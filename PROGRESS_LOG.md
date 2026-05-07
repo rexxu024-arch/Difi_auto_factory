@@ -1017,3 +1017,42 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Backlog now shows one Etsy monitor task instead of stale "hold until readiness" as the active Etsy path.
 - Latest generated report: `Reports/morning_report_20260506_2230.md`.
 - Latest Gemini queue: `Gemini_Advisor/gemini_review_queue_20260506_2230.md`.
+
+## 2026-05-06 22:45:00 -04:00 Edge-Only Login Check
+- Rex re-confirmed: all marketplace/account UI operations should use Edge, not Chrome.
+- Dedicated Edge CDP 9223 is running.
+- Printify login guard: `LOGGED_IN`.
+- Etsy Shop Manager: `LOGGED_IN`.
+- eBay Seller Hub active listings: `LOGGED_IN`.
+- eBay Developer page timed out; not required for the immediate Etsy/Printify/Seller Hub workflow and still treated as pending/unstable until accessible.
+
+## 2026-05-06 23:03:00 -04:00 Edge-Only Login Recheck + Network Guard
+- Rex asked that all account/browser operations be handled in Edge and asked what logins are still needed.
+- Dedicated Edge CDP 9223 is online.
+- `py modules\network_guard.py`: `full_throughput`, 0% loss, average 5-8ms across Printify/Etsy/Discord.
+- Printify guard through Edge: `LOGGED_IN`.
+- Etsy Shop Manager through Edge: readable and logged in; dashboard shows DriveFuel with 10 active listings after legacy cleanup.
+- eBay Seller Hub through Edge: readable; dry-run snapshot read 50 rows, 43 zero-view, 50 promoted.
+- eBay Developer Program through Edge still redirects to sign-in/pending program access. This is the only current login/program-access gap and is not required for the immediate Printify/Etsy/Seller Hub UI work.
+
+## 2026-05-06 23:11:00 -04:00 Printify-eBay Token Renewed + One Cover Replacement Closed
+- Root cause for new Printify products not receiving eBay external ids: Printify showed `Your connection token is expired`.
+- Renewed Printify's eBay authorization through Edge/eBay consent; Printify My Products no longer shows the expired-token banner.
+- Re-published `Sticker-Zen-0044-FIX1`; Printify synced eBay item id `406909884756`.
+- Live buyer-page cover audit: `LIKELY_COVER_OFFICIAL`, 3/3 selected images are Printify official mockups, no custom U gallery.
+- Retired old bad-cover listing `Sticker-Zen-0044` / eBay `406902622710` through Edge Seller Hub; result `ENDED_CONFIRMED_SELLER_HUB`.
+- Detached the old Printify external connection and marked old workbook row `Retired_Replaced`.
+- Refreshed supervisor/local reports; failures=0. New report: `Reports/morning_report_20260506_2311.md`.
+
+## 2026-05-06 23:20:00 -04:00 Cover Replacement Batch +3
+- Created and published three additional cover-only replacement listings:
+  - `Sticker-Zen-0045-FIX1` -> eBay `406909890800`
+  - `Sticker-Zen-0046-FIX1` -> eBay `406909891985`
+  - `Sticker-Zen-0049-FIX1` -> eBay `406909893702`
+- All three passed buyer-page live cover audit as `LIKELY_COVER_OFFICIAL`; selected images are official-only mockups.
+- Retired old bad-cover listings through Edge Seller Hub:
+  - `Sticker-Zen-0045` / `406902640998`
+  - `Sticker-Zen-0046` / `406902663232`
+  - `Sticker-Zen-0049` / `406902713267`
+- All three old listings returned `ENDED_CONFIRMED_SELLER_HUB` and old Printify external connections were detached.
+- Cover repair decision count improved to `RETIRED_REPLACED_DONE=28`, `SOURCE_REPAIR_REQUIRED=17`, `NON_STICKER_REVIEW_REQUIRED=4`.
