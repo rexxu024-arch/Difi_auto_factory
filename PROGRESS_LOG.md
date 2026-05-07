@@ -1483,3 +1483,8 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Ran Seller Hub snapshot through Edge CDP 9223 without editing listings.
 - Snapshot result: 50 visible active rows, 44 zero-view, 6 one-plus-view, 50 promoted. This confirms 2% General ads are present on the visible batch but are not sufficient by themselves.
 - Multi-track monitor shows one nonzero signal (`Acrylic-Zen-0006` with 2 views); continue SEO/category experiments instead of raising ad spend.
+
+## 2026-05-07 18:08:00 -04:00 Track A Low-Competition Copy Sync Batch
+- Prepared 10 Track A low-competition niche copy rows locally, then dry-ran Printify sync successfully.
+- Executed 5-row online sync with jitter: `Acrylic-Zen-0006`, `Acrylic-Zen-0007`, `Acrylic-Grimdark-0085`, `Acrylic-Grimdark-0014`, `Acrylic-Grimdark-0019`; each returned Printify get/update/publish `200`.
+- Refreshed multi-track monitor. This is a no-PPC SEO/category variable test; next readback should compare views after 24-48 hours.
