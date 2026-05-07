@@ -1,6 +1,6 @@
 # OpenClaw Morning Report
 
-Generated: 2026-05-07 12:49 -0400 America/New_York
+Generated: 2026-05-07 16:20 -0400 America/New_York
 
 ## Current Factory State
 
@@ -32,7 +32,7 @@ Generated: 2026-05-07 12:49 -0400 America/New_York
 
 - Listing copy optimization candidates: 161
 - Pricing matrix scenarios: 6
-- Unified registry rows bucketed: 282
+- Unified registry rows bucketed: 287
 - Etsy digital printable upload queue: 20 listings, max file 3.42MB, under 20MB limit: True
 - Etsy digital previews: 20 listings x 3 preview images
 - Etsy digital final upload packet: 20 listings, QA bad=0, missing=0
@@ -46,11 +46,10 @@ Generated: 2026-05-07 12:49 -0400 America/New_York
 
 ## Unified Registry Buckets
 
-- Etsy_Draft_Prepared: 4
+- Etsy_Draft_Prepared: 15
 - Fix_Gallery_First: 1
-- Hold: 165
-- Published_Has_View_Monitor: 7
-- Published_Zero_View_Copy_Ad_Review: 43
+- Hold: 188
+- Published_Zero_View_Copy_Ad_Review: 21
 - Ready_For_Printify_When_Network_OK: 46
 - Stable_Draft_Publish_When_Scheduled: 16
 
@@ -72,11 +71,12 @@ Generated: 2026-05-07 12:49 -0400 America/New_York
 - Live eBay cover audit AMBIGUOUS: 48
 - Live eBay cover audit ERROR: 1
 - Live eBay cover audit LIKELY_COVER: 13
-- Live eBay cover audit LIKELY_COVER_OFFICIAL: 64
+- Live eBay cover audit LIKELY_COVER_OFFICIAL: 65
 - Live eBay cover audit LIKELY_SINGLE_U_MISMATCH: 50
 - Live cover fix queue rows: 49
 - Cover replacement queue OLD_RETIRED_REPLACED_DONE: 38
-- Cover replacement queue READY_TO_REPLACE_VERIFIED: 7
+- Cover replacement queue READY_TO_REPLACE_VERIFIED: 6
+- Cover replacement queue REPLACEMENT_PUBLISHED_LIVE_PASS: 1
 - Cover replacement queue REVIEW_BEFORE_REPLACE: 4
 - Printify image-default audit rows: 161
 - Printify image-default audit CHECK: 123

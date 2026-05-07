@@ -1415,3 +1415,16 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Rex confirmed the long-term interaction model: Rex/Gemini may provide many evolving and sometimes conflicting ideas; Codex should synthesize them under the business goal rather than mechanically follow stale instructions.
 - Durable rule added to `CURRENT_TASK.md`: newest instruction usually wins, unless an older rule better protects account safety, spend caps, privacy, or the money-printer objective.
 - Grey output remains advisory only. It must be parsed into local review/task queues first and cannot directly mutate live listings, spend money, or change account settings.
+
+## 2026-05-07 16:20:00 -04:00 Gemini Chat Sync Scaffold + Cover Gate 0061 Closed
+- Added `modules/gemini_chat_sync.py` for low-frequency Gemini web chat synchronization into the `Codex automation matrix upgrade plan` thread.
+- Safety mode:
+  - default is dry-run only;
+  - uses Edge CDP 9223, not Chrome;
+  - detects user idle time before executing;
+  - writes via OS clipboard and OS-level Ctrl+V/Enter instead of DOM value injection;
+  - saves the outbound packet to `Review_Packets/Gemini_Bridge/DAILY_SITREP_FOR_GEMINI_CHAT_latest.md`.
+- Dry-run passed. A first execute attempt failed before sending because the Gemini thread did not open through `/json/new`; patched the opener to use browser-level `Target.createTarget`.
+- Printify Edge login is currently `LOGGED_IN`.
+- `Sticker-Zen-0061` source repair was attempted but live eBay still selected U2 (`LIKELY_SINGLE_U_MISMATCH`) and Printify UI displayed a publish failure banner. This confirmed it belongs on the replacement path.
+- Created `Sticker-Zen-0061-FIX1`, uploaded to Printify, passed production design audit, passed official mockup primary audit, published to eBay item `406911452547`, passed live buyer-page cover audit (`LIKELY_COVER_OFFICIAL`), then old item `406903249987` was ended in Seller Hub and old Printify external detached.

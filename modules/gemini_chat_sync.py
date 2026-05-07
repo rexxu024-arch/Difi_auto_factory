@@ -49,6 +49,7 @@ except Exception:  # pragma: no cover - Windows-only runtime dependency
 
 BRIDGE_DIR = PROJECT_ROOT / "Review_Packets" / "Gemini_Bridge"
 CHAT_PAYLOAD = BRIDGE_DIR / "DAILY_SITREP_FOR_GEMINI_CHAT_latest.md"
+CHAT_REPLY = BRIDGE_DIR / "FROM_GEMINI_CHAT_latest.md"
 STATE_JSON = PROJECT_ROOT / "Database" / "Gemini_Chat_Sync_State.json"
 RUN_LOG = PROJECT_ROOT / "Database" / "Gemini_Chat_Sync_Log.csv"
 
@@ -185,8 +186,19 @@ def get_or_open_thread(port: int, url: str, thread_name: str) -> CdpPage:
             websocket_url=str(payload.get("webSocketDebuggerUrl", "")),
         )
     except Exception:
+        status = automation_browser.cdp_status(port)
+        browser_ws = status.get("webSocketDebuggerUrl", "")
+        if browser_ws:
+            import asyncio
+
+            asyncio.run(browser_cdp_call(browser_ws, "Target.createTarget", {"url": url}))
+            time.sleep(4)
+            pages = list_pages(port)
+            for page in pages:
+                if url in page.url or "gemini.google.com" in page.url:
+                    return page
         automation_browser.launch("edge", port, automation_browser.DEFAULT_PROFILE, url, minimized=False)
-        time.sleep(3)
+        time.sleep(4)
         pages = list_pages(port)
         for page in pages:
             if url in page.url or "gemini.google.com" in page.url:
@@ -212,6 +224,18 @@ async def cdp_call(page: CdpPage, method: str, params: dict | None = None) -> di
                     return reply
 
         return await send(method, params)
+
+
+async def browser_cdp_call(browser_ws: str, method: str, params: dict | None = None) -> dict:
+    async with websockets.connect(browser_ws, max_size=20_000_000) as websocket:
+        message = {"id": 1, "method": method}
+        if params is not None:
+            message["params"] = params
+        await websocket.send(json.dumps(message))
+        while True:
+            reply = json.loads(await websocket.recv())
+            if reply.get("id") == 1:
+                return reply
 
 
 async def focus_gemini_input(page: CdpPage) -> dict:
@@ -250,6 +274,61 @@ async def focus_gemini_input(page: CdpPage) -> dict:
     if not value.get("ok"):
         raise RuntimeError(f"Gemini input not found: {value}")
     return value
+
+
+async def capture_latest_response(page: CdpPage, wait_seconds: int = 180) -> dict:
+    expression = r"""
+(() => {
+  const selectors = [
+    'message-content',
+    'div[class*="model-response"]',
+    'div[data-test-id*="response"]',
+    'div.markdown',
+    'div[class*="markdown"]'
+  ];
+  const candidates = [];
+  for (const selector of selectors) {
+    for (const el of document.querySelectorAll(selector)) {
+      const text = (el.innerText || '').trim();
+      const rect = el.getBoundingClientRect();
+      if (text.length > 40 && rect.width > 50 && rect.height > 10) {
+        candidates.push({selector, text, length: text.length});
+      }
+    }
+  }
+  candidates.sort((a, b) => a.length - b.length);
+  const last = candidates[candidates.length - 1];
+  const body = (document.body.innerText || '').trim();
+  return {
+    ok: !!last,
+    title: document.title,
+    url: location.href,
+    selector: last ? last.selector : '',
+    text: last ? last.text.slice(0, 12000) : body.slice(Math.max(0, body.length - 12000)),
+    length: last ? last.length : body.length
+  };
+})()
+"""
+    deadline = time.time() + max(5, wait_seconds)
+    last_value: dict = {}
+    while time.time() < deadline:
+        reply = await cdp_call(
+            page,
+            "Runtime.evaluate",
+            {"expression": expression, "returnByValue": True, "awaitPromise": False},
+        )
+        value = ((reply.get("result") or {}).get("result") or {}).get("value") or {}
+        last_value = value
+        text = str(value.get("text") or "").strip()
+        if value.get("ok") and len(text) > 80:
+            CHAT_REPLY.write_text(text, encoding="utf-8")
+            return {**value, "saved_to": str(CHAT_REPLY)}
+        time.sleep(3)
+    text = str(last_value.get("text") or "").strip()
+    if text:
+        CHAT_REPLY.write_text(text, encoding="utf-8")
+        return {**last_value, "saved_to": str(CHAT_REPLY), "timed_out": True}
+    return {"ok": False, "timed_out": True, "saved_to": ""}
 
 
 def set_clipboard_text(text: str) -> None:
@@ -317,6 +396,7 @@ def run(
     url: str = DEFAULT_CHAT_URL,
     thread_name: str = DEFAULT_THREAD_NAME,
     min_idle_seconds: int = DEFAULT_MIN_IDLE_SECONDS,
+    wait_response_seconds: int = 180,
 ) -> dict:
     payload = build_payload()
     idle_seconds = get_idle_seconds()
@@ -350,6 +430,9 @@ def run(
     foreground = activate_edge_window("Gemini")
     time.sleep(random.uniform(0.4, 1.2))
     os_hotkey_ctrl_v_then_enter(len(payload))
+    response_result: dict = {}
+    if wait_response_seconds > 0:
+        response_result = asyncio.run(capture_latest_response(page, wait_seconds=wait_response_seconds))
     result.update(
         {
             "status": "SUBMITTED",
@@ -357,6 +440,9 @@ def run(
             "page_title": page.title,
             "focus_selector": focus_result.get("selector"),
             "foreground_activated": foreground,
+            "response_saved_to": response_result.get("saved_to", ""),
+            "response_ok": response_result.get("ok"),
+            "response_selector": response_result.get("selector", ""),
         }
     )
     write_state(result)
@@ -374,6 +460,7 @@ def main() -> None:
     parser.add_argument("--url", default=DEFAULT_CHAT_URL)
     parser.add_argument("--thread-name", default=DEFAULT_THREAD_NAME)
     parser.add_argument("--min-idle-seconds", type=int, default=DEFAULT_MIN_IDLE_SECONDS)
+    parser.add_argument("--wait-response-seconds", type=int, default=180)
     args = parser.parse_args()
     print(
         json.dumps(
@@ -384,6 +471,7 @@ def main() -> None:
                 url=args.url,
                 thread_name=args.thread_name,
                 min_idle_seconds=args.min_idle_seconds,
+                wait_response_seconds=args.wait_response_seconds,
             ),
             indent=2,
             ensure_ascii=False,
