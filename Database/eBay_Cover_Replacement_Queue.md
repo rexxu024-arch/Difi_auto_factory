@@ -1,14 +1,14 @@
 # eBay Cover Replacement Queue
 
-Generated: 2026-05-07 16:54:57 -0400 America/New_York
+Generated: 2026-05-07 17:01:57 -0400 America/New_York
 
 This is a fallback queue only. It does not create, publish, revise, or end listings.
 
 ## Counts
 
 - OLD_RETIRED_REPLACED_DONE: 38
-- READY_TO_REPLACE_VERIFIED: 4
-- REPLACEMENT_PUBLISHED_LIVE_PASS: 3
+- READY_TO_REPLACE_VERIFIED: 3
+- REPLACEMENT_PUBLISHED_LIVE_PASS: 4
 - REVIEW_BEFORE_REPLACE: 4
 
 ## Product Types
