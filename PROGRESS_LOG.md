@@ -1501,3 +1501,9 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
   - `printify_primary_audit.py` rejects duplicate selected gallery URLs.
   - `printify_publish_scheduler.py` refuses to publish products with duplicate selected images or Poster/Acrylic custom galleries.
 - Updated market queue, traffic diagnosis, factory backlog, and morning report so Grey/Codex state now shows duplicate gallery risk as the current image-quality blocker after Cover Gate closure.
+
+## 2026-05-07 19:04:00 -04:00 Live eBay Gallery Duplicate Confirmed
+- Added `modules/ebay_live_gallery_duplicate_audit.py`, a read-only Edge CDP buyer-page audit for repeated public gallery image sources.
+- Sampled 5 high-priority gallery-risk listings from eBay live pages. Result: 5/5 showed public duplicate galleries, each with 10 visible picture slots but only 5 unique image sources.
+- This confirms the Printify-side duplicate audit is not only an internal API artifact; buyers can actually see repeated thumbnails.
+- Publish expansion remains blocked. Next repair priority is the 23 non-sticker `CHECK_CUSTOM_GALLERY_REPEATS_RISK` rows, then the 51 exact duplicate selected-gallery rows.

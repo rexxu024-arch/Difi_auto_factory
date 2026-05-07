@@ -35,6 +35,7 @@ EBAY_ONLINE_COVER_FIX_QUEUE = DATABASE_DIR / "eBay_Online_Cover_Fix_Queue.csv"
 EBAY_COVER_REPLACEMENT_QUEUE = DATABASE_DIR / "eBay_Cover_Replacement_Queue.csv"
 PRINTIFY_IMAGE_DEFAULT_AUDIT = DATABASE_DIR / "Printify_Image_Default_Audit.csv"
 PRINTIFY_GALLERY_DUPLICATE_AUDIT = DATABASE_DIR / "Printify_Gallery_Duplicate_Audit.csv"
+EBAY_LIVE_GALLERY_DUPLICATE_AUDIT = DATABASE_DIR / "eBay_Live_Gallery_Duplicate_Audit.csv"
 FACTORY_BACKLOG = DATABASE_DIR / "Factory_Backlog.csv"
 
 
@@ -247,6 +248,8 @@ def _online_cover_summary():
     default_rows = _csv_count(PRINTIFY_IMAGE_DEFAULT_AUDIT)
     gallery_duplicate_counts = _count_by(PRINTIFY_GALLERY_DUPLICATE_AUDIT, "Result")
     gallery_duplicate_rows = _csv_count(PRINTIFY_GALLERY_DUPLICATE_AUDIT)
+    live_gallery_duplicate_counts = _count_by(EBAY_LIVE_GALLERY_DUPLICATE_AUDIT, "Result")
+    live_gallery_duplicate_rows = _csv_count(EBAY_LIVE_GALLERY_DUPLICATE_AUDIT)
     return {
         "audit_counts": audit_counts,
         "fix_rows": fix_rows,
@@ -255,6 +258,8 @@ def _online_cover_summary():
         "default_rows": default_rows,
         "gallery_duplicate_counts": gallery_duplicate_counts,
         "gallery_duplicate_rows": gallery_duplicate_rows,
+        "live_gallery_duplicate_counts": live_gallery_duplicate_counts,
+        "live_gallery_duplicate_rows": live_gallery_duplicate_rows,
     }
 
 
@@ -338,6 +343,10 @@ def build():
         f"- Printify gallery duplicate audit {result}: {count}"
         for result, count in sorted(online_cover["gallery_duplicate_counts"].items())
     ] or ["- Printify gallery duplicate audit not run yet."]
+    ebay_live_gallery_lines = [
+        f"- eBay live gallery duplicate audit {result}: {count}"
+        for result, count in sorted(online_cover["live_gallery_duplicate_counts"].items())
+    ] or ["- eBay live gallery duplicate audit not run yet."]
     backlog_status_lines = [
         f"- Backlog {status}: {count}"
         for status, count in sorted(backlog_status.items())
@@ -408,6 +417,8 @@ def build():
             *printify_default_lines,
             f"- Printify gallery duplicate audit rows: {online_cover['gallery_duplicate_rows']}",
             *printify_gallery_lines,
+            f"- eBay live gallery duplicate audit rows: {online_cover['live_gallery_duplicate_rows']}",
+            *ebay_live_gallery_lines,
             "",
             "## Factory Backlog",
             "",

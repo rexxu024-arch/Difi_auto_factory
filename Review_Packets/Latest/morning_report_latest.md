@@ -1,6 +1,6 @@
 # OpenClaw Morning Report
 
-Generated: 2026-05-07 18:50 -0400 America/New_York
+Generated: 2026-05-07 18:57 -0400 America/New_York
 
 ## Current Factory State
 
@@ -83,6 +83,8 @@ Generated: 2026-05-07 18:50 -0400 America/New_York
 - Printify gallery duplicate audit CHECK_CUSTOM_GALLERY_REPEATS_RISK: 23
 - Printify gallery duplicate audit CHECK_EXACT_DUPLICATE: 51
 - Printify gallery duplicate audit OK: 71
+- eBay live gallery duplicate audit rows: 5
+- eBay live gallery duplicate audit CHECK_LIVE_DUPLICATE: 5
 
 ## Factory Backlog
 
