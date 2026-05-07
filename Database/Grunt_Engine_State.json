@@ -1,43 +1,43 @@
 {
-  "updated_at": "2026-05-07T09:57:51-04:00",
+  "updated_at": "2026-05-07T10:37:21-04:00",
   "last_run": {
-    "Timestamp": "2026-05-07T09:57:51-04:00",
-    "Task_ID": "grunt-hardware_heartbeat-412d82e0",
-    "Action": "hardware_heartbeat",
+    "Timestamp": "2026-05-07T10:37:21-04:00",
+    "Task_ID": "grunt-market_signal_refresh-c30ca064",
+    "Action": "market_signal_refresh",
     "Status": "DONE",
     "Decision": "RUN_CONSERVATIVE",
-    "Resource_Window": "morning_reports",
-    "Resource_Reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.1%; hardware cooldown active 16m: temperature DENIED_OR_UNAVAILABLE; memory elevated 85.3%; sustained warm streak=3",
+    "Resource_Window": "peak_rex_online",
+    "Resource_Reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 97.0%; memory elevated 82.1%",
     "ReturnCode": 0,
-    "Detail": "{\"timestamp\": \"2026-05-07T09:57:51-04:00\", \"cpu_load_pct\": 33.0, \"memory_used_pct\": 82.1, \"temperature_c\": null, \"temperature_status\": \"DENIED_OR_UNAVAILABLE\", \"fan_rpm\": 0.0, \"fan_status\": \"OK_WIN32_FAN\", \"gpu_util_pct\": 2.6, \"battery_percent\": 100.0, \"power_status\": \"AC_CHARGING\", \"health_state\": \"WARM\", \"reason\": \"temperature DENIED_OR_UNAVAILABLE; memory elevated 82.1%\"}"
+    "Detail": "[MARKET-QUEUE] rows=282 csv=C:\\AIprojects\\openclaw_difi\\Database\\Market_Signal_Action_Queue.csv\n[MARKET-QUEUE] action HOLD=92\n[MARKET-QUEUE] action QA_HOLD_OR_REBUILD=69\n[MARKET-QUEUE] action FIX_LIVE_COVER_SOURCE_OR_REPLACE=49\n[MARKET-QUEUE] action UPLOAD_TO_PRINTIFY_SINGLE_ITEM_BATCH=46\n[MARKET-QUEUE] action PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK=16\n[MARKET-QUEUE] action MONITOR_FOR_CLICK_OR_FAVORITE_SIGNAL=5\n[MARKET-QUEUE] action KEEP_FOR_ETSY_PHASE1=3\n[MARKET-QUEUE] action WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST=2\n[MARKET-QUEUE] dependency local=161\n[MARKET-QUEUE] dependency medium=68\n[MARKET-QUEUE] dependency high=46\n[MARKET-QUEUE] dependency low=7\n"
   },
   "allocation": {
-    "timestamp": "2026-05-07T09:57:42-04:00",
-    "window": "morning_reports",
-    "task_class": "report_batch",
+    "timestamp": "2026-05-07T10:37:12-04:00",
+    "window": "peak_rex_online",
+    "task_class": "single_browser_task",
     "priority": 50,
     "decision": "RUN_CONSERVATIVE",
-    "reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.1%; hardware cooldown active 16m: temperature DENIED_OR_UNAVAILABLE; memory elevated 85.3%; sustained warm streak=3",
+    "reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 97.0%; memory elevated 82.1%",
     "max_parallel": 1,
-    "batch_size": 2,
+    "batch_size": 1,
     "cooldown_minutes": 0,
-    "cpu_load_pct": 9.0,
+    "cpu_load_pct": 97.0,
     "memory_used_pct": 82.1,
     "temperature_c": null,
     "power_status": "AC_CHARGING"
   },
   "heartbeat": {
-    "timestamp": "2026-05-07T09:57:46-04:00",
-    "cpu_load_pct": 16.0,
-    "memory_used_pct": 82.0,
+    "timestamp": "2026-05-07T10:37:18-04:00",
+    "cpu_load_pct": 85.0,
+    "memory_used_pct": 81.9,
     "temperature_c": null,
     "temperature_status": "DENIED_OR_UNAVAILABLE",
     "fan_rpm": 0.0,
     "fan_status": "OK_WIN32_FAN",
-    "gpu_util_pct": 2.8,
+    "gpu_util_pct": 18.5,
     "battery_percent": 100.0,
     "power_status": "AC_CHARGING",
     "health_state": "WARM",
-    "reason": "temperature DENIED_OR_UNAVAILABLE; memory elevated 82.0%"
+    "reason": "temperature DENIED_OR_UNAVAILABLE; cpu elevated 85.0%"
   }
 }

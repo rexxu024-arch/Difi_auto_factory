@@ -1,62 +1,67 @@
 {
-  "timestamp": "2026-05-07 09:54:17 -0400",
-  "mode": "NOOP_BELOW_THRESHOLD",
-  "execute": false,
+  "timestamp": "2026-05-07 10:10:51 -0400",
+  "mode": "EXECUTE_CLEANUP",
+  "execute": true,
   "cdp_port": 9223,
   "memory_soft_pct": 86.0,
   "memory_hard_pct": 92.0,
-  "memory_before": 84.9,
-  "memory_after": 84.9,
-  "cpu_before": 68.0,
-  "cpu_after": 68.0,
-  "closed_tabs": [],
+  "memory_before": 86.6,
+  "memory_after": 81.5,
+  "cpu_before": 39.0,
+  "cpu_after": 85.0,
+  "closed_tabs": [
+    {
+      "action": "EDGE_CDP_UNAVAILABLE",
+      "error": "URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>"
+    }
+  ],
   "top_processes": [
     {
       "ProcessName": "chrome",
       "Id": 3280,
-      "WorkingSetMB": 2434.5,
-      "CPU": 7788.03125
+      "WorkingSetMB": 2944.3,
+      "CPU": 8303.375
     },
     {
       "ProcessName": "Memory Compression",
       "Id": 2944,
-      "WorkingSetMB": 625.9,
+      "WorkingSetMB": 947,
       "CPU": null
-    },
-    {
-      "ProcessName": "Codex",
-      "Id": 27652,
-      "WorkingSetMB": 556.3,
-      "CPU": 16345.515625
     },
     {
       "ProcessName": "chrome",
       "Id": 9740,
-      "WorkingSetMB": 442.4,
-      "CPU": 50653.640625
+      "WorkingSetMB": 455,
+      "CPU": 50805.5625
+    },
+    {
+      "ProcessName": "Codex",
+      "Id": 27652,
+      "WorkingSetMB": 355.8,
+      "CPU": 16384.6875
+    },
+    {
+      "ProcessName": "Codex",
+      "Id": 26676,
+      "WorkingSetMB": 205.2,
+      "CPU": 6882.703125
     },
     {
       "ProcessName": "chrome",
       "Id": 21384,
-      "WorkingSetMB": 250.8,
-      "CPU": 432.796875
-    },
-    {
-      "ProcessName": "explorer",
-      "Id": 10468,
-      "WorkingSetMB": 221.7,
-      "CPU": 3348.484375
+      "WorkingSetMB": 204.1,
+      "CPU": 435.25
     },
     {
       "ProcessName": "Code",
       "Id": 19100,
-      "WorkingSetMB": 204,
-      "CPU": 1326.265625
+      "WorkingSetMB": 195.7,
+      "CPU": 1327.265625
     },
     {
       "ProcessName": "MsMpEng",
       "Id": 4564,
-      "WorkingSetMB": 190.3,
+      "WorkingSetMB": 185.7,
       "CPU": null
     }
   ],

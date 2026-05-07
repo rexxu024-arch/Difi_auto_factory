@@ -1,6 +1,6 @@
 # Multi-Track Experiment Plan
 
-Generated: 2026-05-07 07:35:13 -0400
+Generated: 2026-05-07 10:39:32 -0400
 
 ## Guardrails Now Active
 - 165 experiment slots are split equally: 55 low-competition niche, 55 high-volume value, 55 digital pure-profit.
@@ -56,7 +56,7 @@ Objective: Use zero-production-cost Etsy digital downloads to test SEO templates
 - HOLD count in this run: 60.
 
 ## Executed Experiment Batches
-- Synced `A_LOW_COMPETITION_NICHE` copy rows: 10
+- Synced `B_HIGH_VOLUME_VALUE` copy rows: 10
 
 Latest copy-monitor report, when present: `Review_Packets/MULTI_TRACK_COPY_MONITOR_20260507.md`.
 

@@ -92,3 +92,6 @@
 2026-05-07T07:35:14-04:00,C:\AIprojects\openclaw_difi\Database\Multi_Track_Experiment_Plan.csv,log,PASS,0,50,,ALLOW_REVIEW_QUEUE,
 2026-05-07T07:35:14-04:00,C:\AIprojects\openclaw_difi\Database\Multi_Track_Experiment_State.json,log,PASS,0,50,,ALLOW_REVIEW_QUEUE,
 2026-05-07T09:53:50-04:00,C:\AIprojects\openclaw_difi\Database\Hardware_Cooldown_State.json,log,PASS,0,50,,ALLOW_REVIEW_QUEUE,
+2026-05-07T10:10:59-04:00,C:\AIprojects\openclaw_difi\Database\Hardware_Cooldown_State.json,log,PASS,0,50,,ALLOW_REVIEW_QUEUE,
+2026-05-07T10:36:49-04:00,C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Experiment_Report.csv,log,PASS,0,50,,ALLOW_REVIEW_QUEUE,
+2026-05-07T10:37:21-04:00,C:\AIprojects\openclaw_difi\Database\Market_Signal_Action_Queue.csv,log,PASS,0,50,,ALLOW_REVIEW_QUEUE,

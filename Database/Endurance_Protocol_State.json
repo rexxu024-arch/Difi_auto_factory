@@ -1,69 +1,69 @@
 {
   "ui_session_running": false,
-  "updated_at": "2026-05-07T09:57:33-04:00",
-  "timestamp": "2026-05-07 09:57:37 -0400",
+  "updated_at": "2026-05-07T10:10:06-04:00",
+  "timestamp": "2026-05-07 10:10:13 -0400",
   "decision": "CONTINUE",
   "execute": true,
   "ui_session_seconds": 0,
   "snapshot": {
-    "timestamp": "2026-05-07T09:57:37-04:00",
-    "cpu_load_pct": 20.0,
-    "memory_used_pct": 82.0,
+    "timestamp": "2026-05-07T10:10:13-04:00",
+    "cpu_load_pct": 40.0,
+    "memory_used_pct": 83.8,
     "memory_total_gb": 11.75,
-    "memory_free_gb": 2.11,
+    "memory_free_gb": 1.9,
     "temperature_c": null,
     "temperature_status": "DENIED_OR_UNAVAILABLE",
-    "gpu_util_pct": 2.2,
+    "gpu_util_pct": 0.0,
     "battery_percent": 100.0,
     "power_status": "AC_CHARGING",
     "top_processes": [
       {
         "ProcessName": "chrome",
         "Id": 3280,
-        "WorkingSetMB": 2448,
-        "CPU": 7870.546875
+        "WorkingSetMB": 2520.5,
+        "CPU": 8289
       },
       {
         "ProcessName": "Memory Compression",
         "Id": 2944,
-        "WorkingSetMB": 817.1,
+        "WorkingSetMB": 947.4,
         "CPU": null
       },
       {
         "ProcessName": "chrome",
         "Id": 9740,
-        "WorkingSetMB": 434.5,
-        "CPU": 50684.671875
+        "WorkingSetMB": 454.7,
+        "CPU": 50803.359375
       },
       {
         "ProcessName": "Codex",
         "Id": 27652,
-        "WorkingSetMB": 427.3,
-        "CPU": 16359.03125
+        "WorkingSetMB": 353.3,
+        "CPU": 16384.65625
       },
       {
-        "ProcessName": "Code",
-        "Id": 19100,
-        "WorkingSetMB": 200.5,
-        "CPU": 1326.390625
-      },
-      {
-        "ProcessName": "explorer",
-        "Id": 10468,
-        "WorkingSetMB": 195.8,
-        "CPU": 3351.03125
-      },
-      {
-        "ProcessName": "MsMpEng",
-        "Id": 4564,
-        "WorkingSetMB": 183.2,
-        "CPU": null
+        "ProcessName": "Codex",
+        "Id": 26676,
+        "WorkingSetMB": 204.8,
+        "CPU": 6882.28125
       },
       {
         "ProcessName": "chrome",
         "Id": 21384,
-        "WorkingSetMB": 172.6,
-        "CPU": 433.1875
+        "WorkingSetMB": 204,
+        "CPU": 435.25
+      },
+      {
+        "ProcessName": "Code",
+        "Id": 19100,
+        "WorkingSetMB": 193.1,
+        "CPU": 1327.21875
+      },
+      {
+        "ProcessName": "MsMpEng",
+        "Id": 4564,
+        "WorkingSetMB": 182.5,
+        "CPU": null
       }
     ]
   },

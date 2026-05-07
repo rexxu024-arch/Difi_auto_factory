@@ -1290,3 +1290,9 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Added `scripts\openclaw_cruise_once.bat` for a Windows-local 30-minute cruise loop while the laptop is awake/logged in.
 - The cruise task runs endurance preflight, seeds default low-risk tasks, then runs one Grunt task under the existing resource/risk gates.
 - This is not a substitute for Codex reasoning; it is the low-level background worker that keeps basic queues moving.
+
+## 2026-05-07 10:06:47 -0400 4h Cruise Heartbeat
+- Refreshed heartbeat, cooldown, resource, and memory guard state/log files with local Windows counters because the sandbox could not launch the repo Python venv.
+- Current proxy state: CPU 17.1%, memory 80.9%, GPU 4.4%, temperature sensor denied/unavailable; cooldown cleared.
+- Attempted low-risk `grunt:queue` and `grunt:dry`; both stopped at the Python launcher access-denied blocker before any Grunt work executed.
+- No payment, billing, order, customer-message, paid publish, image, or listing-spend settings were touched.
