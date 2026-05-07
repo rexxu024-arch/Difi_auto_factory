@@ -21,6 +21,7 @@ DATABASE_DIR = PROJECT_ROOT / "Database"
 EBAY_BOOK = DATABASE_DIR / "eBay_listing.xlsx"
 DECISIONS = DATABASE_DIR / "eBay_Cover_Repair_Decisions.csv"
 RETIRE_QUEUE = DATABASE_DIR / "eBay_Retire_Queue.csv"
+NON_STICKER_REVIEW = DATABASE_DIR / "eBay_Non_Sticker_Cover_Review.csv"
 OUT_CSV = DATABASE_DIR / "eBay_Cover_Replacement_Queue.csv"
 OUT_MD = DATABASE_DIR / "eBay_Cover_Replacement_Queue.md"
 
@@ -78,6 +79,7 @@ def workbook_rows() -> dict[str, dict[str, object]]:
 def build_rows() -> list[dict[str, str]]:
     wb_rows = workbook_rows()
     retire_rows = {clean(row.get("Old_ID")): row for row in read_csv(RETIRE_QUEUE)}
+    non_sticker_reviews = {clean(row.get("ID")): row for row in read_csv(NON_STICKER_REVIEW)}
     cover_only_proven = sum(1 for row in retire_rows.values() if clean(row.get("Replacement_eBay_Item_ID"))) >= 3
     output = []
     for decision in read_csv(DECISIONS):
@@ -142,12 +144,22 @@ def build_rows() -> list[dict[str, str]]:
                     "create replacement listing from the same local Production/Cover/Gallery assets using fixed image gate."
                 )
         else:
-            status = "REVIEW_BEFORE_REPLACE"
-            priority = "60"
-            action = (
-                "Review because Poster/Acrylic cover can be visually similar to the main artwork. Replace only after "
-                "a human or vision gate confirms buyer-facing image is materially wrong."
-            )
+            review = non_sticker_reviews.get(item_id, {})
+            if clean(review.get("Review_Status")) == "REPLACE_CONFIRMED":
+                status = "READY_TO_REPLACE_VERIFIED"
+                priority = "100"
+                action = (
+                    "Non-sticker cover review confirmed the buyer-facing first image is materially different from the "
+                    "actual local Production_Design/Cover_Mockup. Create a replacement, verify the live buyer-page image, "
+                    "then retire the old listing."
+                )
+            else:
+                status = "REVIEW_BEFORE_REPLACE"
+                priority = "60"
+                action = (
+                    "Review because Poster/Acrylic cover can be visually similar to the main artwork. Replace only after "
+                    "a human or vision gate confirms buyer-facing image is materially wrong."
+                )
         output.append(
             {
                 "Priority": priority,
