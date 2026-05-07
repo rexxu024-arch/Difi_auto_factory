@@ -1,6 +1,6 @@
 """Compare live eBay listing main images against local Cover_Mockup and U1-U4 files.
 
-This is intentionally read-only. It opens one Chrome CDP tab, navigates item
+This is intentionally read-only. It opens one dedicated Edge CDP tab, navigates item
 pages one by one, extracts the visible main gallery image, downloads that image,
 and compares it to local cover/U1-U4 assets.
 """
@@ -40,7 +40,7 @@ COVER_QA_CSV = DATABASE_DIR / "eBay_Cover_QA.csv"
 OUT_CSV = DATABASE_DIR / "eBay_Online_Cover_Audit.csv"
 OUT_DIR = DATABASE_DIR / "eBay_Online_Cover_Audit"
 IMAGE_DIR = OUT_DIR / "images"
-DEFAULT_CDP_PORT = int(os.getenv("OPENCLAW_EBAY_CDP_PORT") or os.getenv("OPENCLAW_CDP_PORT") or "9222")
+DEFAULT_CDP_PORT = int(os.getenv("OPENCLAW_EBAY_CDP_PORT") or os.getenv("OPENCLAW_CDP_PORT") or "9223")
 
 
 def now_text() -> str:

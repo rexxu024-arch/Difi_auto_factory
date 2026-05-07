@@ -17,6 +17,7 @@ Browser/resource hygiene:
 - Do not close unrelated/private user tabs unless Rex explicitly asks.
 - Prefer API/local scripts over repeated browser refresh loops when possible.
 - Do not interfere with Rex's daily Chrome. Use the dedicated Edge automation profile on CDP port 9223 for marketplace/account UI work unless there is a specific reason not to.
+- Hard browser rule: Etsy, Printify, eBay login, Seller Hub checks, and marketplace data gathering must use Edge automation profile on CDP 9223 only. Do not use Chrome for these accounts.
 
 Memory ownership protocol:
 - Rex authorizes Codex to reduce memory pressure without asking when it affects OpenClaw work.
@@ -41,8 +42,10 @@ Default authorization policy:
 - Rex has repeatedly granted full OpenClaw project access. Do not stop to ask for routine project account navigation, local file edits, API debugging, browser automation, QA checks, report writing, or script changes.
 - Ask only for true red lines: spending beyond the approved cap, touching payment/billing settings, placing/canceling orders, sending buyer/customer messages, exposing or changing private credentials, or destructive actions outside the project scope.
 - When blocked by a tool/runtime/login failure, record the blocker, choose the safest authorized workaround, and continue the mainline instead of waiting by default.
+- Interruption recovery rule: after any Rex/Gemini insert, urgent fix, or side quest, return to `Factory_Backlog.csv`, `CURRENT_TASK.md`, `PROGRESS_LOG.md`, and Grunt queue before idling; never rely on chat memory alone.
 
 Current execution order:
+0. Mainline priority correction: Printify/eBay/Etsy POD factory remains the active project. Fall-back projects are strategy/R&D only and must not consume execution bandwidth until Printify pipeline is stable and Rex explicitly activates the next project.
 1. Pause rapid public eBay publishing after Akamai/zero-size-object instability.
 2. Build Phase 1 data foundation: eBay read-only performance log, unified listing records, and DNA signal fields.
 3. Etsy Digital gray test is now active through the dedicated Edge UI profile: first 10 digital printable listings are live, with confirmed spend $2.00. Do not scale beyond the gray caps without signal.

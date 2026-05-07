@@ -1305,3 +1305,21 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 ## 2026-05-07 10:52:07 -04:00 Hardware Autonomy Rule Clarified
 - Rex granted Codex discretion to distinguish real sustained hardware risk from virtual/sampling spikes.
 - Default response: optimize, lower batch size, continue safer monthly tasks; pause only when pressure is sustained and cleanup cannot reduce it.
+
+## 2026-05-07 11:08:45 -04:00 Interruption Recovery Rule Added
+- Rex noted frequent side-task interruptions can leave older tasks stranded.
+- Added durable rule: after every interruption, return to backlog/current task/progress log/Grunt queue and resume the mainline.
+
+## 2026-05-07 11:12:15 -04:00 Priority Correction - Printify Mainline First
+- Rex clarified fall-back projects are future targets, not current execution focus.
+- Current active focus returns to Printify/POD factory stability: source-design QA, Cover Gate, marketplace traffic experiments, and production pipeline reliability.
+
+## 2026-05-07 11:26:24 -04:00 Cover Gate Replacement Verified
+- Created and published `Sticker-Zen-0055-FIX1` as controlled replacement.
+- Printify production design audit passed: local Production_Design visually matches remote front print image.
+- Printify/eBay live buyer-page cover audit passed: `LIKELY_COVER_OFFICIAL`, selected official-only mockups 3/3.
+- Old `Sticker-Zen-0055` queued for safe retirement once eBay end-listing path is available/confirmed.
+
+## 2026-05-07 11:27:03 -04:00 Edge-Only Marketplace Account Rule Reconfirmed
+- Rex reconfirmed Etsy/Printify/eBay login, Seller Hub checks, and marketplace data gathering must be handled in Edge, not Chrome.
+- Chrome remains Rex private/daily browser; automation should use Edge CDP 9223 and API paths.

@@ -16,7 +16,7 @@ from config import Config
 EBAY_BOOK = PROJECT_ROOT / "Database" / "eBay_listing.xlsx"
 FIX_STATUS = "Printify_PrimaryFix_Needed"
 EXPECTED_MOCKUPS = {
-    "Sticker": 5,
+    "Sticker": 3,
     "Poster": 4,
     "Acrylic": 4,
 }
@@ -86,26 +86,24 @@ def _default_matches_cover(product_id, cover_path, threshold=8, product_type="St
         if len(selected) < expected or not official:
             return False, f"poster official mockups missing: selected={len(selected)}, official={len(official)}"
         return True, f"official poster mockups present; selected image count is {len(selected)}"
-    if len(selected) < expected:
-        return False, f"selected image count is {len(selected)}, expected at least {expected}"
-    defaults = [image for image in selected if image.get("is_default")]
-    if not defaults:
-        return False, "default image count is 0, expected at least 1"
-    cover_hash = _ahash(Image.open(cover_path))
-    distances = []
-    for image in selected:
-        src = image.get("src")
-        if not src:
-            continue
-        try:
-            distances.append(_distance(cover_hash, _remote_hash(src)))
-        except Exception:
-            continue
-    best = min(distances) if distances else 9999
-    return best <= threshold, f"cover-present distance={best}; selected={len(selected)} defaults={len(defaults)}"
+    official = [
+        image for image in selected
+        if "images.printify.com/mockup" in str(image.get("src") or "")
+    ]
+    custom_gallery = [
+        image for image in selected
+        if "pfy-prod-products-mockup-media" in str(image.get("src") or "")
+    ]
+    if len(official) >= expected and not custom_gallery:
+        defaults = [image for image in selected if image.get("is_default")]
+        if not defaults:
+            return False, "default image count is 0, expected at least 1"
+        return True, f"official sticker mockups present; selected={len(selected)} official={len(official)} defaults={len(defaults)}"
+    return False, f"sticker gallery unsafe: selected={len(selected)}, official={len(official)}, custom_gallery={len(custom_gallery)}"
 
 
-def audit_and_mark(limit=0):
+def audit_and_mark(limit=0, ids=None):
+    ids = {str(item).strip() for item in (ids or []) if str(item).strip()}
     wb = load_workbook(EBAY_BOOK)
     ws = wb.active
     headers = [cell.value for cell in ws[1]]
@@ -115,11 +113,13 @@ def audit_and_mark(limit=0):
     try:
         for row in range(2, ws.max_row + 1):
             status = ws.cell(row, cols["Status"]).value
-            if status not in {"Printify_UI_Mockups5", "Printify_UI_Mockups4", "Printify_UI_Mockups8", "Printify_Published_Mockups5", "Printify_Published_Mockups4", "Printify_Published_Mockups8", FIX_STATUS}:
+            if status not in {"Printify_UI_Mockups3", "Printify_UI_Mockups5", "Printify_UI_Mockups4", "Printify_UI_Mockups8", "Printify_Published_Mockups3", "Printify_Published_Mockups5", "Printify_Published_Mockups4", "Printify_Published_Mockups8", FIX_STATUS}:
                 continue
             product_id = ws.cell(row, cols["Printify_Product_ID"]).value
             cover_path = ws.cell(row, cols["Cover_Path"]).value
             item_id = ws.cell(row, cols["ID"]).value
+            if ids and str(item_id) not in ids:
+                continue
             if not product_id or not cover_path or not Path(cover_path).exists():
                 continue
             checked += 1
@@ -145,5 +145,7 @@ def audit_and_mark(limit=0):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--limit", type=int, default=0)
+    parser.add_argument("--ids", default="", help="Comma-separated listing IDs to audit.")
     args = parser.parse_args()
-    audit_and_mark(limit=args.limit)
+    ids = [part.strip() for part in args.ids.split(",") if part.strip()] or None
+    audit_and_mark(limit=args.limit, ids=ids)

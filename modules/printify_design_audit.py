@@ -22,9 +22,11 @@ DATABASE_DIR = PROJECT_ROOT / "Database"
 DESIGN_MISMATCH_STATUS = "Printify_DesignMismatch"
 STABLE_AUDIT_CSV = DATABASE_DIR / "Printify_Production_Design_Audit.csv"
 AUDIT_STATUSES = {
+    "Printify_UI_Mockups3",
     "Printify_UI_Mockups5",
     "Printify_UI_Mockups4",
     "Printify_UI_Mockups8",
+    "Printify_Published_Mockups3",
     "Printify_Published_Mockups5",
     "Printify_Published_Mockups4",
     "Printify_Published_Mockups8",

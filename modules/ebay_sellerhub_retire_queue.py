@@ -22,7 +22,7 @@ from config import Config
 RETIRE_QUEUE = PROJECT_ROOT / "Database" / "eBay_Retire_Queue.csv"
 EBAY_BOOK = PROJECT_ROOT / "Database" / "eBay_listing.xlsx"
 LOG_FILE = PROJECT_ROOT / "Database" / "eBay_Retire_Run_Log.csv"
-CDP_PORT = int(os.getenv("OPENCLAW_EBAY_CDP_PORT") or os.getenv("OPENCLAW_CDP_PORT") or "9222")
+CDP_PORT = int(os.getenv("OPENCLAW_EBAY_CDP_PORT") or os.getenv("OPENCLAW_CDP_PORT") or "9223")
 CDP_BASE = f"http://127.0.0.1:{CDP_PORT}"
 
 
@@ -59,7 +59,7 @@ def _log(row_id, ebay_id, result, note):
         writer.writerow([_now(), row_id, ebay_id, result, note])
 
 
-def _chrome_targets():
+def _edge_targets():
     return requests.get(f"{CDP_BASE}/json/list", timeout=5).json()
 
 

@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-05-07 11:12:15 -0400",
+  "recommendations": [
+    "B:Pinterest visual traffic engine",
+    "A:Microstock metadata/export matrix"
+  ],
+  "deferred": [
+    "C:B2B cold email crawler"
+  ],
+  "pinterest_queue_rows": 30,
+  "microstock_queue_rows": 40,
+  "evaluation_csv": "C:\\AIprojects\\openclaw_difi\\Database\\Fallback_Project_Evaluation.csv",
+  "pinterest_queue": "C:\\AIprojects\\openclaw_difi\\Database\\Pinterest_Pin_Queue.csv",
+  "microstock_queue": "C:\\AIprojects\\openclaw_difi\\Database\\Microstock_Export_Queue.csv",
+  "report": "C:\\AIprojects\\openclaw_difi\\Review_Packets\\FALLBACK_PROJECTS_ENGINEERING_EVAL_20260507_1112.md",
+  "spend_now": 0.0,
+  "public_actions": 0
+}
