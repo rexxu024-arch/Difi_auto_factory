@@ -1478,3 +1478,8 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Refreshed factory report and backlog after Cover Gate closure.
 - Sent daily sitrep to Gemini Chat URL `https://gemini.google.com/u/1/app/d2ab3afa2778aa9e` using Edge CDP 9223, OS clipboard, and OS-level Ctrl+V/Enter.
 - Saved reply to `Review_Packets/Gemini_Bridge/FROM_GEMINI_CHAT_latest.md`. Treat response as advisory only; local guard queues remain authoritative.
+
+## 2026-05-07 18:03:00 -04:00 Seller Hub Read-Only Traffic Snapshot
+- Ran Seller Hub snapshot through Edge CDP 9223 without editing listings.
+- Snapshot result: 50 visible active rows, 44 zero-view, 6 one-plus-view, 50 promoted. This confirms 2% General ads are present on the visible batch but are not sufficient by themselves.
+- Multi-track monitor shows one nonzero signal (`Acrylic-Zen-0006` with 2 views); continue SEO/category experiments instead of raising ad spend.
