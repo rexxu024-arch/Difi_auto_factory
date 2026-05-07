@@ -2,3 +2,4 @@
 2026-05-07T02:05:39-04:00,True,2026-05-07T02:25:39-04:00,20,WARM,76.0,83.0,,temperature DENIED_OR_UNAVAILABLE; cpu elevated 76.0%; sustained warm streak=6,6
 2026-05-07T02:17:14-04:00,True,2026-05-07T02:37:14-04:00,20,WARM,51.0,88.5,,temperature DENIED_OR_UNAVAILABLE; memory elevated 88.5%; sustained warm streak=6,6
 2026-05-07T02:30:47-04:00,True,2026-05-07T02:50:47-04:00,20,WARM,62.0,90.5,,temperature DENIED_OR_UNAVAILABLE; memory elevated 90.5%; sustained warm streak=6,6
+2026-05-07T02:40:05-04:00,True,2026-05-07T03:00:05-04:00,20,WARM,23.0,86.0,,temperature DENIED_OR_UNAVAILABLE; memory elevated 86.0%; sustained warm streak=6,6

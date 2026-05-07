@@ -1,15 +1,15 @@
 {
-  "timestamp": "2026-05-07T02:30:47-04:00",
+  "timestamp": "2026-05-07T02:40:05-04:00",
   "active": true,
-  "cooldown_until": "2026-05-07T02:50:47-04:00",
+  "cooldown_until": "2026-05-07T03:00:05-04:00",
   "cooldown_minutes": 20,
   "health_state": "WARM",
-  "reason": "temperature DENIED_OR_UNAVAILABLE; memory elevated 90.5%; sustained warm streak=6",
+  "reason": "temperature DENIED_OR_UNAVAILABLE; memory elevated 86.0%; sustained warm streak=6",
   "hot_streak": 6,
   "heartbeat": {
-    "timestamp": "2026-05-07T02:30:47-04:00",
-    "cpu_load_pct": 62.0,
-    "memory_used_pct": 90.5,
+    "timestamp": "2026-05-07T02:40:05-04:00",
+    "cpu_load_pct": 23.0,
+    "memory_used_pct": 86.0,
     "temperature_c": null,
     "temperature_status": "DENIED_OR_UNAVAILABLE",
     "fan_rpm": 0.0,
@@ -18,7 +18,7 @@
     "battery_percent": 100.0,
     "power_status": "AC_CHARGING",
     "health_state": "WARM",
-    "reason": "temperature DENIED_OR_UNAVAILABLE; memory elevated 90.5%"
+    "reason": "temperature DENIED_OR_UNAVAILABLE; memory elevated 86.0%"
   },
   "allowed_during_cooldown": [
     "hardware_heartbeat",
