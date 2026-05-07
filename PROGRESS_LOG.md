@@ -1467,3 +1467,9 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - `Poster-Academia-0001-FIX1` created and uploaded. First Printify pass hit delayed official poster mockup generation (`selected=0`), then retry passed production-design audit (`visual_match=True`, `ahash_distance=0`) and official poster mockup audit.
 - Publish returned `missing_external_id`; `self_healing_daemon.py` found Printify external id `406911589289`, safely force-associated the local row, then live buyer-page cover audit passed (`LIKELY_COVER_OFFICIAL`).
 - Old eBay item `406902584620` was ended in Seller Hub and old Printify external detached.
+
+## 2026-05-07 17:58:00 -04:00 Poster 0003 Closed + Cover Queue Cleared
+- `Poster-Academia-0003-FIX1` created, uploaded to Printify, passed production-design audit (`visual_match=True`, `ahash_distance=0`) and official poster mockup audit.
+- Publish returned `missing_external_id`; `self_healing_daemon.py` found Printify external id `406911598735`, safely force-associated the local row, then live buyer-page cover audit passed (`LIKELY_COVER_OFFICIAL`).
+- Old eBay item `406902616799` was ended in Seller Hub and old Printify external detached.
+- Updated `ebay_cover_replacement_queue.py` so rows with retire queue status `RETIRED_CONFIRMED` are summarized as `OLD_RETIRED_REPLACED_DONE`; refreshed queue now reports `OLD_RETIRED_REPLACED_DONE=49`.

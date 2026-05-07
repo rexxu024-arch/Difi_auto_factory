@@ -114,13 +114,18 @@ def build_rows() -> list[dict[str, str]]:
         replacement_sku = f"{item_id}-FIX1"
         if item_id in retire_rows:
             retire_row = retire_rows[item_id]
-            status = "REPLACEMENT_PUBLISHED_LIVE_PASS"
-            priority = "110"
             replacement_sku = clean(retire_row.get("Replacement_ID")) or replacement_sku
-            action = (
-                "Replacement listing has passed live buyer-page audit. Keep in retire queue until a safe eBay "
-                "end-listing path is confirmed, then retire the old item."
-            )
+            if clean(retire_row.get("Status")) == "RETIRED_CONFIRMED":
+                status = "OLD_RETIRED_REPLACED_DONE"
+                priority = "10"
+                action = "No further cover action. Old listing was ended after replacement verification."
+            else:
+                status = "REPLACEMENT_PUBLISHED_LIVE_PASS"
+                priority = "110"
+                action = (
+                    "Replacement listing has passed live buyer-page audit. Keep in retire queue until a safe eBay "
+                    "end-listing path is confirmed, then retire the old item."
+                )
         elif repair_method == "SOURCE_REPAIR_REQUIRED" and product_type == "Sticker" and cover_only_proven:
             status = "READY_TO_REPLACE_VERIFIED"
             priority = "100"

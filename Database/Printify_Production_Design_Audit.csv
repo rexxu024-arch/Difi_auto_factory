@@ -1,2 +1,2 @@
 ID,Product_Type,Status,Printify_Product_ID,exact_sha_match,visual_match,local_size,remote_size,remote_declared_size,ahash_distance,local_sha256,remote_sha256,remote_image_id,error
-Poster-Academia-0001-FIX1,Poster,Printify_UI_Mockups4,69fd05fcd70cf705c50f4ef9,False,True,"(3600, 5400)","(3600, 5400)","(3600, 5400)",0,4eb3393e4f6b8e73a4394d770b6d992e2d0917f9b6cb4522a43e69784eaac5db,f6a2eadcd7e278e1a4d4b1e925ca717c8363b0e9d056ffabcfb65332ff36fd09,69fd05f378d57b4789b095c6,
+Poster-Academia-0003-FIX1,Poster,Printify_UI_Mockups4,69fd095c9f77031382026de2,False,True,"(3600, 5400)","(3600, 5400)","(3600, 5400)",0,dce1ce0dd6b8507de5e605154cab3fc5bd29bd17aa8d8a71bf6ee67447c4b3ec,6a14803830e6fd948ac70d8b8691b83786c244e1915ea8fc5a3d548f36dd2247,69fd09534329a0f1a27c52a3,
