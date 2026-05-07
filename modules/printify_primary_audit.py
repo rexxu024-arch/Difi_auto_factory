@@ -70,6 +70,12 @@ def _default_matches_cover(product_id, cover_path, threshold=8, product_type="St
     expected = _expected_count(product_type)
     product_text = str(product_type or "").strip().lower()
     if product_text.startswith("acry"):
+        selected = [image for image in images if image.get("is_selected_for_publishing") is not False]
+        selected_srcs = [str(image.get("src") or "") for image in selected]
+        if len(set(selected_srcs)) != len(selected_srcs):
+            return False, "official acrylic mockups contain duplicate selected image URLs"
+        if any("pfy-prod-products-mockup-media" in src for src in selected_srcs):
+            return False, "acrylic custom gallery images are selected; use official product mockups only"
         labels = {
             str(image.get("src") or "").split("camera_label=")[-1].split("&")[0]
             for image in images
@@ -81,6 +87,11 @@ def _default_matches_cover(product_id, cover_path, threshold=8, product_type="St
         return True, f"official acrylic front/back/side mockups present; selected image count is {len(images)}"
     selected = [image for image in images if image.get("is_selected_for_publishing") is not False]
     if product_text.startswith("poster"):
+        selected_srcs = [str(image.get("src") or "") for image in selected]
+        if len(set(selected_srcs)) != len(selected_srcs):
+            return False, "official poster mockups contain duplicate selected image URLs"
+        if any("pfy-prod-products-mockup-media" in src for src in selected_srcs):
+            return False, "poster custom gallery images are selected; use official product mockups only"
         official = [
             image for image in selected
             if "images.printify.com/mockup" in str(image.get("src") or "")
@@ -92,6 +103,9 @@ def _default_matches_cover(product_id, cover_path, threshold=8, product_type="St
         image for image in selected
         if "images.printify.com/mockup" in str(image.get("src") or "")
     ]
+    selected_srcs = [str(image.get("src") or "") for image in selected]
+    if len(set(selected_srcs)) != len(selected_srcs):
+        return False, "sticker official mockups contain duplicate selected image URLs"
     custom_gallery = [
         image for image in selected
         if "pfy-prod-products-mockup-media" in str(image.get("src") or "")

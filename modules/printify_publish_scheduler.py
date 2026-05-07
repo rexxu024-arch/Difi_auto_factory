@@ -117,6 +117,9 @@ def _preflight(row):
         return False, "missing print_areas"
     selected_images = _selected_images(product)
     selected = len(selected_images)
+    selected_srcs = [str(image.get("src") or "") for image in selected_images]
+    if len(set(selected_srcs)) != len(selected_srcs):
+        return False, f"selected gallery contains duplicate image URLs: selected={selected}, unique={len(set(selected_srcs))}"
     defaults = [image for image in selected_images if image.get("is_default")]
     product_type = _product_type(row.get("Product_Type"))
     if product_type == "Sticker" and selected < 3:
@@ -130,8 +133,12 @@ def _preflight(row):
             return False, f"sticker custom gallery images selected={len(custom_gallery)}; use cover-only official mockups before publish"
     if product_type == "Poster" and selected < 4:
         return False, f"selected mockups={selected}, expected >=4"
+    if product_type == "Poster" and any("pfy-prod-products-mockup-media" in src for src in selected_srcs):
+        return False, "poster custom gallery images selected; use official product mockups only"
     if product_type == "Acrylic" and selected < 4:
         return False, f"selected mockups={selected}, expected >=4"
+    if product_type == "Acrylic" and any("pfy-prod-products-mockup-media" in src for src in selected_srcs):
+        return False, "acrylic custom gallery images selected; use official product mockups only"
     if len(defaults) < 1:
         return False, "default image count=0, expected at least 1 before publish"
     return True, f"selected mockups={selected}, defaults={len(defaults)}"

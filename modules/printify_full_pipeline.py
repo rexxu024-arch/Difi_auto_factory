@@ -103,6 +103,11 @@ def _stable_selected_count(product_id, expected_count=5, checks=3, delay=8):
 def _acrylic_mockup_ok(product):
     images = product.get("images") or []
     selected = [image for image in images if image.get("is_selected_for_publishing") is not False]
+    selected_srcs = [str(image.get("src") or "") for image in selected]
+    if len(set(selected_srcs)) != len(selected_srcs):
+        return False, len(selected), {"duplicate-src"}
+    if any("pfy-prod-products-mockup-media" in src for src in selected_srcs):
+        return False, len(selected), {"custom-gallery-selected"}
     labels = {str(image.get("src") or "").split("camera_label=")[-1].split("&")[0] for image in selected}
     return {"front", "back", "side-1", "side-2"}.issubset(labels), len(selected), labels
 
@@ -110,6 +115,11 @@ def _acrylic_mockup_ok(product):
 def _poster_mockup_ok(product):
     images = product.get("images") or []
     selected = [image for image in images if image.get("is_selected_for_publishing") is not False]
+    selected_srcs = [str(image.get("src") or "") for image in selected]
+    if len(set(selected_srcs)) != len(selected_srcs):
+        return False, len(selected), 0
+    if any("pfy-prod-products-mockup-media" in src for src in selected_srcs):
+        return False, len(selected), 0
     official = [
         image for image in selected
         if "images.printify.com/mockup" in str(image.get("src") or "")
@@ -120,6 +130,9 @@ def _poster_mockup_ok(product):
 def _sticker_mockup_ok(product):
     images = product.get("images") or []
     selected = [image for image in images if image.get("is_selected_for_publishing") is not False]
+    selected_srcs = [str(image.get("src") or "") for image in selected]
+    if len(set(selected_srcs)) != len(selected_srcs):
+        return False, len(selected), 0, 0
     official = [
         image for image in selected
         if "images.printify.com/mockup" in str(image.get("src") or "")

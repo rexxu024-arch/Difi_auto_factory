@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-07T07:31:46-04:00",
+  "generated_at": "2026-05-07T18:50:32-04:00",
   "timezone": "America/New_York",
   "network_strategy": {
     "mode": "unknown",
@@ -9,121 +9,119 @@
   },
   "resource_strategy": {
     "allocation": {
-      "timestamp": "2026-05-07T07:29:55-04:00",
-      "window": "morning_reports",
-      "task_class": "report_batch",
+      "timestamp": "2026-05-07T18:45:48-04:00",
+      "window": "peak_rex_online",
+      "task_class": "single_browser_task",
       "priority": 50,
-      "decision": "RUN",
-      "reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy",
-      "max_parallel": 2,
-      "batch_size": 5,
+      "decision": "RUN_CONSERVATIVE",
+      "reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.3%",
+      "max_parallel": 1,
+      "batch_size": 1,
       "cooldown_minutes": 0,
-      "cpu_load_pct": 43.0,
-      "memory_used_pct": 80.5,
+      "cpu_load_pct": 15.0,
+      "memory_used_pct": 82.3,
       "temperature_c": null,
       "power_status": "AC_CHARGING"
     },
     "snapshot": {
-      "timestamp": "2026-05-07T07:29:55-04:00",
-      "cpu_load_pct": 43.0,
-      "memory_used_pct": 80.5,
+      "timestamp": "2026-05-07T18:45:48-04:00",
+      "cpu_load_pct": 15.0,
+      "memory_used_pct": 82.3,
       "memory_total_gb": 11.75,
-      "memory_free_gb": 2.29,
+      "memory_free_gb": 2.08,
       "temperature_c": null,
       "temperature_status": "DENIED_OR_UNAVAILABLE",
-      "gpu_util_pct": 9.5,
+      "gpu_util_pct": 1.1,
       "battery_percent": 100.0,
       "power_status": "AC_CHARGING",
       "top_processes": [
         {
           "ProcessName": "chrome",
-          "Id": 3280,
-          "WorkingSetMB": 1926.6,
-          "CPU": 5526.765625
-        },
-        {
-          "ProcessName": "Codex",
-          "Id": 27652,
-          "WorkingSetMB": 523.4,
-          "CPU": 15089.765625
+          "Id": 28132,
+          "WorkingSetMB": 1393,
+          "CPU": 1392.8125
         },
         {
           "ProcessName": "Memory Compression",
           "Id": 2944,
-          "WorkingSetMB": 495.9,
+          "WorkingSetMB": 620.6,
           "CPU": null
         },
         {
           "ProcessName": "Code",
           "Id": 17544,
-          "WorkingSetMB": 493.8,
-          "CPU": 1086.734375
+          "WorkingSetMB": 444.4,
+          "CPU": 1186.0625
         },
         {
           "ProcessName": "chrome",
           "Id": 9740,
-          "WorkingSetMB": 295.4,
-          "CPU": 50268.6875
+          "WorkingSetMB": 440,
+          "CPU": 53132.34375
         },
         {
-          "ProcessName": "MsMpEng",
-          "Id": 4564,
-          "WorkingSetMB": 210.3,
-          "CPU": null
+          "ProcessName": "Codex",
+          "Id": 27652,
+          "WorkingSetMB": 437.5,
+          "CPU": 22541.28125
         },
         {
           "ProcessName": "chrome",
-          "Id": 21384,
-          "WorkingSetMB": 208.2,
-          "CPU": 347.046875
+          "Id": 26308,
+          "WorkingSetMB": 253,
+          "CPU": 95.609375
         },
         {
-          "ProcessName": "Code",
-          "Id": 19100,
-          "WorkingSetMB": 187.1,
-          "CPU": 1312.953125
+          "ProcessName": "chrome",
+          "Id": 26452,
+          "WorkingSetMB": 250,
+          "CPU": 21.546875
+        },
+        {
+          "ProcessName": "chrome",
+          "Id": 21820,
+          "WorkingSetMB": 222.7,
+          "CPU": 381.890625
         }
       ]
     }
   },
   "workbook_counts": {
-    "rows": 282,
-    "stable": 161,
-    "published": 145,
+    "rows": 298,
+    "stable": 139,
+    "published": 123,
     "ready": 46,
     "by_product": {
       "Sticker": {
-        "stable": 63,
-        "published": 47,
+        "stable": 62,
+        "published": 46,
         "ready": 46,
-        "rows": 183
+        "rows": 195
       },
       "Poster": {
-        "stable": 45,
-        "published": 45,
+        "stable": 35,
+        "published": 35,
         "ready": 0,
-        "rows": 46
+        "rows": 48
       },
       "Acrylic": {
-        "stable": 53,
-        "published": 53,
+        "stable": 42,
+        "published": 42,
         "ready": 0,
-        "rows": 53
+        "rows": 55
       }
     },
     "publishable_without_cover_block": 0
   },
   "fix_queue_rows": 49,
   "repair_decisions": {
-    "RETIRED_REPLACED_DONE": 33,
-    "SOURCE_REPAIR_REQUIRED": 12,
-    "NON_STICKER_REVIEW_REQUIRED": 4
+    "RETIRED_REPLACED_DONE": 49
   },
   "printify_default_audit": {
     "OK": 38,
     "CHECK": 123
   },
-  "performance_age_hours": 5.3078089125000005,
+  "performance_age_hours": 0.7982009319444444,
   "printify_ui_status": {
     "status": "LOGGED_IN",
     "reason": "Printify app page is available in CDP browser."
@@ -141,25 +139,14 @@
       "risk": "low"
     },
     {
-      "priority": 97,
-      "lane": "replacement",
-      "action": "Create one verified replacement listing for a live cover failure that survived source repair.",
-      "status": "READY_TO_REPLACE_VERIFIED",
-      "reason": "12 listing already failed source repair plus live eBay buyer-page audit.",
-      "command": "py modules\\ebay_replacement_draft_builder.py --limit 1",
+      "priority": 93,
+      "lane": "gallery_integrity",
+      "action": "Resolve repeated/risky Printify gallery images before public publishing resumes.",
+      "status": "BLOCKING_PUBLISH",
+      "reason": "74 live or staged products have exact duplicate selected images or custom gallery repeat risk.",
+      "command": "py modules\\printify_gallery_duplicate_audit.py --sleep-seconds 0.1",
       "requires_network": "yes",
-      "requires_login": "Printify API/UI and eBay live audit",
-      "risk": "high"
-    },
-    {
-      "priority": 95,
-      "lane": "cover_gate",
-      "action": "Repair one Printify source cover, then live-audit eBay before scaling.",
-      "status": "READY_SINGLE_SKU_REPAIR",
-      "reason": "Live cover queue has 49 rows; 12 require Printify source repair or replacement listings. Printify UI: LOGGED_IN - Printify app page is available in CDP browser.",
-      "command": "py modules\\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120",
-      "requires_network": "yes",
-      "requires_login": "Printify remote-debug profile",
+      "requires_login": "Printify API",
       "risk": "medium"
     },
     {
@@ -167,7 +154,7 @@
       "lane": "production_design_qa",
       "action": "Run a tiny Printify production-design audit before any larger online batch.",
       "status": "READY",
-      "reason": "This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi.",
+      "reason": "This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.3%",
       "command": "py modules\\printify_design_audit.py --limit 2 --sleep-seconds 1",
       "requires_network": "yes",
       "requires_login": "Printify API",
@@ -178,7 +165,7 @@
       "lane": "etsy",
       "action": "Monitor Etsy Digital first gray batch before spending more listing fees.",
       "status": "READY_MONITOR",
-      "reason": "Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout.",
+      "reason": "Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.3%",
       "command": "py modules\\etsy_live_audit.py --limit 10",
       "requires_network": "yes",
       "requires_login": "Etsy UI/public",

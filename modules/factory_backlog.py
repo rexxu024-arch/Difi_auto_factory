@@ -163,6 +163,21 @@ def build_rows() -> list[dict[str, str]]:
         )
 
     image_insufficiency = market_actions.get("FIX_PRINTIFY_IMAGE_INSUFFICIENCY_BEFORE_PUBLISH", 0)
+    gallery_duplicates = market_actions.get("FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC", 0)
+    if gallery_duplicates:
+        add(
+            rows,
+            94,
+            "gallery_integrity",
+            "Repair repeated/risky Printify gallery images before more public publish",
+            "BLOCKING_PUBLISH",
+            f"{gallery_duplicates} products have exact duplicate selected images or custom gallery repeat risk.",
+            "py modules\\printify_gallery_duplicate_audit.py --sleep-seconds 0.1",
+            "All live/staged products in duplicate audit are OK, or risky rows are queued for source repair/replacement.",
+            "medium",
+            "Printify API",
+        )
+
     if image_insufficiency:
         add(
             rows,
@@ -210,9 +225,9 @@ def build_rows() -> list[dict[str, str]]:
             rows,
             72,
             "production",
-            "Resume Ready_for_Printify uploads only after cover/default-image gate passes",
-            "WAIT_COVER_GATE",
-            f"{market_actions['UPLOAD_TO_PRINTIFY_SINGLE_ITEM_BATCH']} local rows are ready but should not upload until the image gate is proven.",
+            "Resume Ready_for_Printify uploads in audited single-item batches",
+            "READY_AFTER_IMAGE_QA",
+            f"{market_actions['UPLOAD_TO_PRINTIFY_SINGLE_ITEM_BATCH']} local rows are ready; Cover Gate is cleared, so proceed only through single-item upload plus production-design/default-image audit.",
             "py modules\\printify_full_pipeline.py --limit 1",
             "A new single item reaches stable mockup state and passes selected-count/default-count audit.",
             "high",
@@ -224,9 +239,9 @@ def build_rows() -> list[dict[str, str]]:
             rows,
             68,
             "publish",
-            "Publish small cooled batch after image gate and network guard pass",
-            "WAIT_COVER_GATE",
-            f"{market_actions['PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK']} stable drafts are candidates, but public publish is blocked by cover/default-image risk.",
+            "Publish small cooled batch after default-image and live-cover spot audit",
+            "READY_AFTER_IMAGE_QA",
+            f"{market_actions['PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK']} stable drafts are candidates. Cover Gate is cleared; continue with cooled scheduler and post-publish live-cover spot checks.",
             "py modules\\printify_publish_scheduler.py --limit 3 --min-delay 180 --max-delay 420",
             "Published products are live-audited and added to 2% Standard/General ad coverage without PPC.",
             "high",

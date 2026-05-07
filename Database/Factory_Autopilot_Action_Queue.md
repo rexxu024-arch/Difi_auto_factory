@@ -1,16 +1,16 @@
 # Factory Autopilot Action Queue
 
-Generated: 2026-05-07T07:31:46-04:00 America/New_York
+Generated: 2026-05-07T18:50:32-04:00 America/New_York
 
 - Network mode: unknown (network guard skipped)
-- Resource mode: RUN (temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy)
-- Resource max parallel/batch: 2/5
-- eBay workbook rows: 282
-- Stable: 161
-- Published: 145
+- Resource mode: RUN_CONSERVATIVE (temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.3%)
+- Resource max parallel/batch: 1/1
+- eBay workbook rows: 298
+- Stable: 139
+- Published: 123
 - Ready for Printify: 46
 - Live cover fix queue rows: 49
-- Repair decisions: {'RETIRED_REPLACED_DONE': 33, 'SOURCE_REPAIR_REQUIRED': 12, 'NON_STICKER_REVIEW_REQUIRED': 4}
+- Repair decisions: {'RETIRED_REPLACED_DONE': 49}
 - Printify default audit: {'OK': 38, 'CHECK': 123}
 - Printify UI status: {'status': 'LOGGED_IN', 'reason': 'Printify app page is available in CDP browser.'}
 
@@ -22,27 +22,21 @@ Generated: 2026-05-07T07:31:46-04:00 America/New_York
 - Command: `py modules\factory_supervisor.py --execute-local --skip-network`
 - Network: no; login: no; risk: low
 
-### P97 replacement: READY_TO_REPLACE_VERIFIED
-- Action: Create one verified replacement listing for a live cover failure that survived source repair.
-- Reason: 12 listing already failed source repair plus live eBay buyer-page audit.
-- Command: `py modules\ebay_replacement_draft_builder.py --limit 1`
-- Network: yes; login: Printify API/UI and eBay live audit; risk: high
-
-### P95 cover_gate: READY_SINGLE_SKU_REPAIR
-- Action: Repair one Printify source cover, then live-audit eBay before scaling.
-- Reason: Live cover queue has 49 rows; 12 require Printify source repair or replacement listings. Printify UI: LOGGED_IN - Printify app page is available in CDP browser.
-- Command: `py modules\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120`
-- Network: yes; login: Printify remote-debug profile; risk: medium
+### P93 gallery_integrity: BLOCKING_PUBLISH
+- Action: Resolve repeated/risky Printify gallery images before public publishing resumes.
+- Reason: 74 live or staged products have exact duplicate selected images or custom gallery repeat risk.
+- Command: `py modules\printify_gallery_duplicate_audit.py --sleep-seconds 0.1`
+- Network: yes; login: Printify API; risk: medium
 
 ### P63 production_design_qa: READY
 - Action: Run a tiny Printify production-design audit before any larger online batch.
-- Reason: This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi.
+- Reason: This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.3%
 - Command: `py modules\printify_design_audit.py --limit 2 --sleep-seconds 1`
 - Network: yes; login: Printify API; risk: low
 
 ### P55 etsy: READY_MONITOR
 - Action: Monitor Etsy Digital first gray batch before spending more listing fees.
-- Reason: Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout.
+- Reason: Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.3%
 - Command: `py modules\etsy_live_audit.py --limit 10`
 - Network: yes; login: Etsy UI/public; risk: low
 

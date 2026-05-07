@@ -11,7 +11,9 @@ REGISTRY = DATABASE_DIR / "Unified_Listing_Registry.csv"
 COPY_PLAN = DATABASE_DIR / "Listing_Copy_Optimization.csv"
 QA_PLAN = DATABASE_DIR / "Local_Listing_QA.csv"
 COVER_FIX_QUEUE = DATABASE_DIR / "eBay_Online_Cover_Fix_Queue.csv"
+RETIRE_QUEUE = DATABASE_DIR / "eBay_Retire_Queue.csv"
 PRINTIFY_DEFAULT_AUDIT = DATABASE_DIR / "Printify_Image_Default_Audit.csv"
+GALLERY_DUPLICATE_AUDIT = DATABASE_DIR / "Printify_Gallery_Duplicate_Audit.csv"
 OUTPUT_CSV = DATABASE_DIR / "Market_Signal_Action_Queue.csv"
 OUTPUT_XLSX = DATABASE_DIR / "Market_Signal_Action_Queue.xlsx"
 
@@ -42,6 +44,16 @@ def _by_id(rows):
     return {row.get("ID"): row for row in rows if row.get("ID")}
 
 
+def _retired_old_ids():
+    retired = set()
+    for row in _read_csv(RETIRE_QUEUE):
+        if (row.get("Status") or "").strip() == "RETIRED_CONFIRMED":
+            old_id = (row.get("Old_ID") or "").strip()
+            if old_id:
+                retired.add(old_id)
+    return retired
+
+
 def _title_only_issue(qa):
     if not qa:
         return False
@@ -70,9 +82,17 @@ def _default_needs_action(default_row):
     return selected < expected or defaults < 1
 
 
-def _priority(row, qa, cover_fix, default_check):
+def _gallery_duplicate_needs_action(gallery_row):
+    if not gallery_row:
+        return False
+    return (gallery_row.get("Result") or "").strip() not in {"", "OK"}
+
+
+def _priority(row, qa, cover_fix, default_check, gallery_duplicate):
     if cover_fix:
         return 100
+    if gallery_duplicate:
+        return 91
     if default_check:
         return 88
     bucket = row.get("Action_Bucket")
@@ -93,11 +113,18 @@ def _priority(row, qa, cover_fix, default_check):
     return 20
 
 
-def _recommend(row, copy, qa, cover_fix, default_check):
+def _recommend(row, copy, qa, cover_fix, default_check, gallery_duplicate):
     if cover_fix:
         return (
             "FIX_LIVE_COVER_SOURCE_OR_REPLACE",
             "Live eBay buyer page uses a single U/detail image instead of the local cover. Repair Printify source defaults and re-sync; if eBay Inventory-managed variation images still reject the repair, create a verified replacement listing and retire the bad one.",
+            "medium",
+            False,
+        )
+    if gallery_duplicate:
+        return (
+            "FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC",
+            f"Printify selected gallery has repeated or risky buyer-facing images: {gallery_duplicate.get('Result')} selected={gallery_duplicate.get('Selected_Count')} unique={gallery_duplicate.get('Unique_Visual_Count')} notes={gallery_duplicate.get('Notes')}",
             "medium",
             False,
         )
@@ -173,19 +200,27 @@ def build_rows():
     registry = _read_csv(REGISTRY)
     copy_by_id = _by_id(_read_csv(COPY_PLAN))
     qa_by_id = _by_id(_read_csv(QA_PLAN))
-    cover_fix_by_id = _by_id(_read_csv(COVER_FIX_QUEUE))
+    retired_old_ids = _retired_old_ids()
+    cover_fix_by_id = {
+        item_id: row
+        for item_id, row in _by_id(_read_csv(COVER_FIX_QUEUE)).items()
+        if item_id not in retired_old_ids
+    }
     default_audit_by_id = _by_id(_read_csv(PRINTIFY_DEFAULT_AUDIT))
+    gallery_duplicate_by_id = _by_id(_read_csv(GALLERY_DUPLICATE_AUDIT))
     rows = []
     for item in registry:
         copy = copy_by_id.get(item.get("ID"))
         qa = qa_by_id.get(item.get("ID"))
         cover_fix = cover_fix_by_id.get(item.get("ID"))
         default_row = default_audit_by_id.get(item.get("ID"))
+        gallery_duplicate = gallery_duplicate_by_id.get(item.get("ID"))
         default_check = _default_needs_action(default_row)
-        action, reason, dependency, can_do_now = _recommend(item, copy, qa, cover_fix, default_check)
+        gallery_check = gallery_duplicate if _gallery_duplicate_needs_action(gallery_duplicate) else None
+        action, reason, dependency, can_do_now = _recommend(item, copy, qa, cover_fix, default_check, gallery_check)
         rows.append(
             {
-                "Priority": _priority(item, qa, cover_fix, default_check),
+                "Priority": _priority(item, qa, cover_fix, default_check, gallery_check),
                 "ID": item.get("ID"),
                 "Product_Type": item.get("Product_Type"),
                 "Category": item.get("Category"),

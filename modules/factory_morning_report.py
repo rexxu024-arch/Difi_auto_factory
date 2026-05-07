@@ -34,6 +34,7 @@ EBAY_ONLINE_COVER_AUDIT = DATABASE_DIR / "eBay_Online_Cover_Audit.csv"
 EBAY_ONLINE_COVER_FIX_QUEUE = DATABASE_DIR / "eBay_Online_Cover_Fix_Queue.csv"
 EBAY_COVER_REPLACEMENT_QUEUE = DATABASE_DIR / "eBay_Cover_Replacement_Queue.csv"
 PRINTIFY_IMAGE_DEFAULT_AUDIT = DATABASE_DIR / "Printify_Image_Default_Audit.csv"
+PRINTIFY_GALLERY_DUPLICATE_AUDIT = DATABASE_DIR / "Printify_Gallery_Duplicate_Audit.csv"
 FACTORY_BACKLOG = DATABASE_DIR / "Factory_Backlog.csv"
 
 
@@ -244,12 +245,16 @@ def _online_cover_summary():
     replacement_counts = _count_by(EBAY_COVER_REPLACEMENT_QUEUE, "Replacement_Status")
     default_counts = _count_by(PRINTIFY_IMAGE_DEFAULT_AUDIT, "Result")
     default_rows = _csv_count(PRINTIFY_IMAGE_DEFAULT_AUDIT)
+    gallery_duplicate_counts = _count_by(PRINTIFY_GALLERY_DUPLICATE_AUDIT, "Result")
+    gallery_duplicate_rows = _csv_count(PRINTIFY_GALLERY_DUPLICATE_AUDIT)
     return {
         "audit_counts": audit_counts,
         "fix_rows": fix_rows,
         "replacement_counts": replacement_counts,
         "default_counts": default_counts,
         "default_rows": default_rows,
+        "gallery_duplicate_counts": gallery_duplicate_counts,
+        "gallery_duplicate_rows": gallery_duplicate_rows,
     }
 
 
@@ -329,6 +334,10 @@ def build():
         f"- Printify image-default audit {result}: {count}"
         for result, count in sorted(online_cover["default_counts"].items())
     ] or ["- Printify image-default audit not run yet."]
+    printify_gallery_lines = [
+        f"- Printify gallery duplicate audit {result}: {count}"
+        for result, count in sorted(online_cover["gallery_duplicate_counts"].items())
+    ] or ["- Printify gallery duplicate audit not run yet."]
     backlog_status_lines = [
         f"- Backlog {status}: {count}"
         for status, count in sorted(backlog_status.items())
@@ -397,6 +406,8 @@ def build():
             *replacement_lines,
             f"- Printify image-default audit rows: {online_cover['default_rows']}",
             *printify_default_lines,
+            f"- Printify gallery duplicate audit rows: {online_cover['gallery_duplicate_rows']}",
+            *printify_gallery_lines,
             "",
             "## Factory Backlog",
             "",
@@ -414,8 +425,8 @@ def build():
             "- Wired LAN is fixed; online work may run normally, but marketplace/account-risk throttles still apply.",
             "- Etsy Digital first gray batch is live; do not spend beyond the next approved gray cell without traffic/signal logic.",
             "- eBay Promoted Listings Standard / General 2% is the only approved active ad mode; do not use Priority/PPC or suggested ad rates.",
-            "- Sticker expansion remains paused until the custom cover/gallery issue is fixed.",
-            "- Multiple Printify official/default mockups are allowed when they help product context; publish is blocked only by missing custom design/cover, live buyer-page mismatch, or zero default image.",
+            "- Sticker and non-sticker expansion remain paused until gallery duplicate risk is repaired or isolated.",
+            "- Multiple Printify official/default mockups are allowed only when they are visually distinct; publish is blocked by missing custom design/cover, live buyer-page mismatch, zero default image, or repeated selected gallery images.",
             "",
             "## Operator Notes",
             "",

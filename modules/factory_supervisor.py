@@ -31,9 +31,11 @@ REPORTS_DIR = PROJECT_ROOT / "Reports"
 EBAY_BOOK = DATABASE_DIR / "eBay_listing.xlsx"
 PERFORMANCE_LOG = DATABASE_DIR / "Performance_Log.csv"
 FIX_QUEUE = DATABASE_DIR / "eBay_Online_Cover_Fix_Queue.csv"
+RETIRE_QUEUE = DATABASE_DIR / "eBay_Retire_Queue.csv"
 REPAIR_DECISIONS = DATABASE_DIR / "eBay_Cover_Repair_Decisions.csv"
 REPLACEMENT_QUEUE = DATABASE_DIR / "eBay_Cover_Replacement_Queue.csv"
 DEFAULT_AUDIT = DATABASE_DIR / "Printify_Image_Default_Audit.csv"
+GALLERY_DUPLICATE_AUDIT = DATABASE_DIR / "Printify_Gallery_Duplicate_Audit.csv"
 ACTION_QUEUE = DATABASE_DIR / "Factory_Autopilot_Action_Queue.csv"
 ACTION_SUMMARY = DATABASE_DIR / "Factory_Autopilot_Action_Queue.md"
 STATE_JSON = DATABASE_DIR / "Factory_Autopilot_State.json"
@@ -49,6 +51,8 @@ LOCAL_MODULES = [
     ("ebay_cover_replacement_queue.py", 120),
     ("ebay_title_repair_queue.py", 120),
     ("unified_listing_registry.py", 180),
+    ("printify_gallery_duplicate_audit.py", 240),
+    ("printify_gallery_repair_queue.py", 120),
     ("market_signal_planner.py", 180),
     ("ebay_experiment_report.py", 120),
     ("ebay_traffic_diagnosis.py", 120),
@@ -88,6 +92,25 @@ def read_csv(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(handle))
 
 
+def retired_old_ids() -> set[str]:
+    retired = set()
+    for row in read_csv(RETIRE_QUEUE):
+        if clean(row.get("Status")) == "RETIRED_CONFIRMED":
+            old_id = clean(row.get("Old_ID"))
+            if old_id:
+                retired.add(old_id)
+    return retired
+
+
+def active_cover_fix_count() -> int:
+    retired = retired_old_ids()
+    return sum(
+        1
+        for row in read_csv(FIX_QUEUE)
+        if clean(row.get("ID")) and clean(row.get("ID")) not in retired
+    )
+
+
 def csv_count(path: Path) -> int:
     return len(read_csv(path))
 
@@ -112,6 +135,14 @@ def default_insufficiency_count() -> int:
                 count += 1
             continue
         if clean(row.get("Error")) or selected < expected or defaults < 1:
+            count += 1
+    return count
+
+
+def gallery_duplicate_count() -> int:
+    count = 0
+    for row in read_csv(GALLERY_DUPLICATE_AUDIT):
+        if clean(row.get("Result")) not in {"", "OK"}:
             count += 1
     return count
 
@@ -270,10 +301,11 @@ def _apply_resource_gate(actions: list[FactoryAction], resource: dict[str, objec
 
 
 def build_actions(strategy: dict[str, object], resource: dict[str, object] | None = None) -> list[FactoryAction]:
-    fix_rows = csv_count(FIX_QUEUE)
+    fix_rows = active_cover_fix_count()
     source_repairs = count_by(REPAIR_DECISIONS, "Repair_Method").get("SOURCE_REPAIR_REQUIRED", 0)
     replacement_ready = count_by(REPLACEMENT_QUEUE, "Replacement_Status").get("READY_TO_REPLACE_VERIFIED", 0)
     default_checks = default_insufficiency_count()
+    gallery_duplicates = gallery_duplicate_count()
     perf_age = latest_performance_age_hours()
     workbook = workbook_counts()
     network_mode = clean(strategy.get("mode"))
@@ -324,6 +356,20 @@ def build_actions(strategy: dict[str, object], resource: dict[str, object] | Non
                 command,
                 "yes",
                 "Printify remote-debug profile",
+                "medium",
+            )
+        )
+    elif gallery_duplicates:
+        actions.append(
+            FactoryAction(
+                93,
+                "gallery_integrity",
+                "Resolve repeated/risky Printify gallery images before public publishing resumes.",
+                "BLOCKING_PUBLISH",
+                f"{gallery_duplicates} live or staged products have exact duplicate selected images or custom gallery repeat risk.",
+                "py modules\\printify_gallery_duplicate_audit.py --sleep-seconds 0.1",
+                "yes",
+                "Printify API",
                 "medium",
             )
         )

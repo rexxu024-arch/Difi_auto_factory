@@ -1,24 +1,21 @@
 # Factory Backlog
 
-Generated: 2026-05-07 17:58:24 -0400 America/New_York
+Generated: 2026-05-07 18:50:30 -0400 America/New_York
 
 ## Status Counts
 
 - READY: 5
-- WAIT_COVER_GATE: 2
+- BLOCKING_PUBLISH: 2
+- READY_AFTER_IMAGE_QA: 2
 - READY_MONITOR: 2
-- BLOCKED: 1
-- READY_TO_REPLACE_VERIFIED: 1
-- WAIT_PRINTIFY_LOGIN: 1
 - READY_FOR_SCHOLAR_REVIEW: 1
 
 ## Lane Counts
 
 - control: 1
 - supervisor:local: 1
-- cover_gate: 1
-- supervisor:replacement: 1
-- supervisor:cover_gate: 1
+- gallery_integrity: 1
+- supervisor:gallery_integrity: 1
 - production: 1
 - publish: 1
 - supervisor:production_design_qa: 1
@@ -44,51 +41,44 @@ Generated: 2026-05-07 17:58:24 -0400 America/New_York
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: low / no
 
-### P98 cover_gate - BLOCKED
-- Task: Repair one live eBay cover mismatch from Printify source and audit buyer page
-- Blocker: Printify CDP status: UNAVAILABLE; <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
-- Command: `py modules\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120`
-- Done when: One SKU becomes LIVE_COVER_FIXED, or the runner records that replacement-listing fallback is required.
-- Risk/network: medium / single online item
+### P94 gallery_integrity - BLOCKING_PUBLISH
+- Task: Repair repeated/risky Printify gallery images before more public publish
+- Blocker: 74 products have exact duplicate selected images or custom gallery repeat risk.
+- Command: `py modules\printify_gallery_duplicate_audit.py --sleep-seconds 0.1`
+- Done when: All live/staged products in duplicate audit are OK, or risky rows are queued for source repair/replacement.
+- Risk/network: medium / Printify API
 
-### P97 supervisor:replacement - READY_TO_REPLACE_VERIFIED
-- Task: Create one verified replacement listing for a live cover failure that survived source repair.
-- Blocker: 7 listing already failed source repair plus live eBay buyer-page audit. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 88.0%; memory elevated 85.4%
-- Command: `py modules\ebay_replacement_draft_builder.py --limit 1`
-- Done when: Supervisor action remains present until its status is completed or superseded.
-- Risk/network: high / yes
-
-### P95 supervisor:cover_gate - WAIT_PRINTIFY_LOGIN
-- Task: Repair one Printify source cover, then live-audit eBay before scaling.
-- Blocker: Live cover queue has 49 rows; 7 require Printify source repair or replacement listings. Printify UI: UNAVAILABLE - <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
-- Command: `py modules\factory_cover_repair_runner.py --dry-run --post-sync-wait 0`
+### P93 supervisor:gallery_integrity - BLOCKING_PUBLISH
+- Task: Resolve repeated/risky Printify gallery images before public publishing resumes.
+- Blocker: 74 live or staged products have exact duplicate selected images or custom gallery repeat risk.
+- Command: `py modules\printify_gallery_duplicate_audit.py --sleep-seconds 0.1`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: medium / yes
 
-### P72 production - WAIT_COVER_GATE
-- Task: Resume Ready_for_Printify uploads only after cover/default-image gate passes
-- Blocker: 46 local rows are ready but should not upload until the image gate is proven.
+### P72 production - READY_AFTER_IMAGE_QA
+- Task: Resume Ready_for_Printify uploads in audited single-item batches
+- Blocker: 46 local rows are ready; Cover Gate is cleared, so proceed only through single-item upload plus production-design/default-image audit.
 - Command: `py modules\printify_full_pipeline.py --limit 1`
 - Done when: A new single item reaches stable mockup state and passes selected-count/default-count audit.
 - Risk/network: high / Printify UI/API
 
-### P68 publish - WAIT_COVER_GATE
-- Task: Publish small cooled batch after image gate and network guard pass
-- Blocker: 16 stable drafts are candidates, but public publish is blocked by cover/default-image risk.
+### P68 publish - READY_AFTER_IMAGE_QA
+- Task: Publish small cooled batch after default-image and live-cover spot audit
+- Blocker: 16 stable drafts are candidates. Cover Gate is cleared; continue with cooled scheduler and post-publish live-cover spot checks.
 - Command: `py modules\printify_publish_scheduler.py --limit 3 --min-delay 180 --max-delay 420`
 - Done when: Published products are live-audited and added to 2% Standard/General ad coverage without PPC.
 - Risk/network: high / Printify API/eBay sync
 
 ### P63 supervisor:production_design_qa - READY
 - Task: Run a tiny Printify production-design audit before any larger online batch.
-- Blocker: This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 88.0%; memory elevated 85.4%
+- Blocker: This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 88.0%
 - Command: `py modules\printify_design_audit.py --limit 2 --sleep-seconds 1`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: low / yes
 
 ### P62 market_learning - READY
 - Task: Keep eBay traffic diagnosis current and avoid ad-only conclusions
-- Blocker: 4 current traffic hypotheses generated.
+- Blocker: 5 current traffic hypotheses generated.
 - Command: `py modules\ebay_traffic_diagnosis.py`
 - Done when: Traffic report identifies exposure/click/conversion blockers from snapshots and cover queues.
 - Risk/network: low / local
@@ -102,7 +92,7 @@ Generated: 2026-05-07 17:58:24 -0400 America/New_York
 
 ### P55 supervisor:etsy - READY_MONITOR
 - Task: Monitor Etsy Digital first gray batch before spending more listing fees.
-- Blocker: Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 88.0%; memory elevated 85.4%
+- Blocker: Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 88.0%
 - Command: `py modules\etsy_live_audit.py --limit 10`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: low / yes

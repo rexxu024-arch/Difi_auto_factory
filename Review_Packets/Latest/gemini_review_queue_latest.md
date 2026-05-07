@@ -1,6 +1,6 @@
 # Gemini Advisor Review Queue
 
-Generated: 2026-05-07 17:58 -0400 America/New_York
+Generated: 2026-05-07 18:50 -0400 America/New_York
 
 Rex is Commander, Gemini is Strategy Advisor, Codex is Executive Operator.
 
@@ -10,7 +10,7 @@ Please review the current OpenClaw plan as a strategy advisor. Do not request AP
 
 # OpenClaw Morning Report
 
-Generated: 2026-05-07 17:58 -0400 America/New_York
+Generated: 2026-05-07 18:50 -0400 America/New_York
 
 ## Current Factory State
 
@@ -32,17 +32,17 @@ Generated: 2026-05-07 17:58 -0400 America/New_York
 
 ## Performance Snapshot
 
-- Latest eBay snapshot: 2026-05-07 12:24:11 -0400
-- Rows read: 50
-- 0-view rows in snapshot: 43
-- Rows with at least 1 view: 7
-- General promoted rows in snapshot: 50
+- Latest eBay snapshot: 2026-05-07 18:02:39 -0400
+- Rows read: 44
+- 0-view rows in snapshot: 40
+- Rows with at least 1 view: 4
+- General promoted rows in snapshot: 44
 
 ## Local Low-Bandwidth Work Completed
 
 - Listing copy optimization candidates: 161
 - Pricing matrix scenarios: 6
-- Unified registry rows bucketed: 287
+- Unified registry rows bucketed: 298
 - Etsy digital printable upload queue: 20 listings, max file 3.42MB, under 20MB limit: True
 - Etsy digital previews: 20 listings x 3 preview images
 - Etsy digital final upload packet: 20 listings, QA bad=0, missing=0
@@ -56,10 +56,10 @@ Generated: 2026-05-07 17:58 -0400 America/New_York
 
 ## Unified Registry Buckets
 
-- Etsy_Draft_Prepared: 15
+- Etsy_Draft_Prepared: 14
 - Fix_Gallery_First: 1
-- Hold: 188
-- Published_Zero_View_Copy_Ad_Review: 21
+- Hold: 193
+- Published_Zero_View_Copy_Ad_Review: 28
 - Ready_For_Printify_When_Network_OK: 46
 - Stable_Draft_Publish_When_Scheduled: 16
 
@@ -71,9 +71,10 @@ Generated: 2026-05-07 17:58 -0400 America/New_York
 
 ## eBay Traffic Diagnosis
 
+- Cover Gate is cleared; the current blocker is traffic/product-market fit.: 1
 - Poster/Acrylic currently show more early movement than Sticker.: 1
 - Promoted Listings Standard 2% is active but is not enough alone.: 1
-- Sticker live cover/gallery mismatch is a primary blocker.: 1
+- Repeated or risky gallery images can suppress buyer trust and marketplace quality scoring.: 1
 - Title rewrite experiment has not produced a clear Sticker lift yet.: 1
 
 ## Live Cover Integrity
@@ -88,38 +89,39 @@ Generated: 2026-05-07 17:58 -0400 America/New_York
 - Printify image-default audit rows: 161
 - Printify image-default audit CHECK: 123
 - Printify image-default audit OK: 38
+- Printify gallery duplicate audit rows: 145
+- Printify gallery duplicate audit CHECK_CUSTOM_GALLERY_REPEATS_RISK: 23
+- Printify gallery duplicate audit CHECK_EXACT_DUPLICATE: 51
+- Printify gallery duplicate audit OK: 71
 
 ## Factory Backlog
 
-- Backlog BLOCKED: 1
+- Backlog BLOCKING_PUBLISH: 2
 - Backlog READY: 5
+- Backlog READY_AFTER_IMAGE_QA: 2
 - Backlog READY_FOR_SCHOLAR_REVIEW: 1
 - Backlog READY_MONITOR: 2
-- Backlog READY_TO_REPLACE_VERIFIED: 1
-- Backlog WAIT_COVER_GATE: 2
-- Backlog WAIT_PRINTIFY_LOGIN: 1
 
 Top tasks:
 - P100 control / READY: Run local supervisor maintenance cycle
 - P100 supervisor:local / READY: Refresh local QA, registry, market queue, cover decisions, experiment report, and morning report.
-- P98 cover_gate / BLOCKED: Repair one live eBay cover mismatch from Printify source and audit buyer page
-- P97 supervisor:replacement / READY_TO_REPLACE_VERIFIED: Create one verified replacement listing for a live cover failure that survived source repair.
-- P95 supervisor:cover_gate / WAIT_PRINTIFY_LOGIN: Repair one Printify source cover, then live-audit eBay before scaling.
+- P94 gallery_integrity / BLOCKING_PUBLISH: Repair repeated/risky Printify gallery images before more public publish
+- P93 supervisor:gallery_integrity / BLOCKING_PUBLISH: Resolve repeated/risky Printify gallery images before public publishing resumes.
+- P72 production / READY_AFTER_IMAGE_QA: Resume Ready_for_Printify uploads in audited single-item batches
 
 Lane counts:
 - control: 1
-- cover_gate: 1
 - etsy: 1
+- gallery_integrity: 1
 - market_learning: 1
 - production: 1
 - publish: 1
 - r_and_d: 1
 - supervisor:copy_experiment: 1
-- supervisor:cover_gate: 1
 - supervisor:etsy: 1
+- supervisor:gallery_integrity: 1
 - supervisor:local: 1
 - supervisor:production_design_qa: 1
-- supervisor:replacement: 1
 
 ## Current Guardrails
 
@@ -127,8 +129,8 @@ Lane counts:
 - Wired LAN is fixed; online work may run normally, but marketplace/account-risk throttles still apply.
 - Etsy Digital first gray batch is live; do not spend beyond the next approved gray cell without traffic/signal logic.
 - eBay Promoted Listings Standard / General 2% is the only approved active ad mode; do not use Priority/PPC or suggested ad rates.
-- Sticker expansion remains paused until the custom cover/gallery issue is fixed.
-- Multiple Printify official/default mockups are allowed when they help product context; publish is blocked only by missing custom design/cover, live buyer-page mismatch, or zero default image.
+- Sticker and non-sticker expansion remain paused until gallery duplicate risk is repaired or isolated.
+- Multiple Printify official/default mockups are allowed only when they are visually distinct; publish is blocked by missing custom design/cover, live buyer-page mismatch, zero default image, or repeated selected gallery images.
 
 ## Operator Notes
 

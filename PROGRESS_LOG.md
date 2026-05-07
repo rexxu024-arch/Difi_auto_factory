@@ -1488,3 +1488,16 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Prepared 10 Track A low-competition niche copy rows locally, then dry-ran Printify sync successfully.
 - Executed 5-row online sync with jitter: `Acrylic-Zen-0006`, `Acrylic-Zen-0007`, `Acrylic-Grimdark-0085`, `Acrylic-Grimdark-0014`, `Acrylic-Grimdark-0019`; each returned Printify get/update/publish `200`.
 - Refreshed multi-track monitor. This is a no-PPC SEO/category variable test; next readback should compare views after 24-48 hours.
+
+## 2026-05-07 18:55:00 -04:00 Gallery Duplicate Gate Added
+- Rex spotted repeated eBay gallery thumbnails. Treated it as a new buyer-trust and marketplace-quality QA rule, not a one-off visual complaint.
+- Added `modules/printify_gallery_duplicate_audit.py` and `modules/printify_gallery_repair_queue.py`.
+- Full Printify-side gallery audit found 145 live/staged rows checked, 74 non-OK:
+  - 23 `CHECK_CUSTOM_GALLERY_REPEATS_RISK` rows, mostly early Poster/Acrylic products where custom/detail images were selected instead of clean official product-context mockups.
+  - 51 `CHECK_EXACT_DUPLICATE` rows where selected Printify gallery URLs repeat exactly.
+- Publish expansion is now blocked by `gallery_integrity` until repeated/risky selected images are repaired or isolated.
+- Hardened future gates:
+  - `printify_full_pipeline.py` rejects duplicate selected image URLs and non-sticker custom gallery selection.
+  - `printify_primary_audit.py` rejects duplicate selected gallery URLs.
+  - `printify_publish_scheduler.py` refuses to publish products with duplicate selected images or Poster/Acrylic custom galleries.
+- Updated market queue, traffic diagnosis, factory backlog, and morning report so Grey/Codex state now shows duplicate gallery risk as the current image-quality blocker after Cover Gate closure.

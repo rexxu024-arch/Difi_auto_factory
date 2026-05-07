@@ -16,7 +16,9 @@ DATABASE_DIR = PROJECT_ROOT / "Database"
 EBAY_BOOK = DATABASE_DIR / "eBay_listing.xlsx"
 PERFORMANCE_LOG = DATABASE_DIR / "Performance_Log.csv"
 COVER_FIX_QUEUE = DATABASE_DIR / "eBay_Online_Cover_Fix_Queue.csv"
+RETIRE_QUEUE = DATABASE_DIR / "eBay_Retire_Queue.csv"
 EXPERIMENT_REPORT = DATABASE_DIR / "eBay_Traffic_Experiment_Report.csv"
+GALLERY_DUPLICATE_AUDIT = DATABASE_DIR / "Printify_Gallery_Duplicate_Audit.csv"
 OUT_CSV = DATABASE_DIR / "eBay_Traffic_Diagnosis.csv"
 OUT_MD = DATABASE_DIR / "eBay_Traffic_Diagnosis.md"
 
@@ -42,6 +44,16 @@ def read_csv(path: Path) -> list[dict[str, str]]:
         return []
     with path.open("r", encoding="utf-8-sig", newline="") as handle:
         return list(csv.DictReader(handle))
+
+
+def retired_old_ids() -> set[str]:
+    retired = set()
+    for row in read_csv(RETIRE_QUEUE):
+        if clean(row.get("Status")) == "RETIRED_CONFIRMED":
+            old_id = clean(row.get("Old_ID"))
+            if old_id:
+                retired.add(old_id)
+    return retired
 
 
 def workbook_by_ebay_id() -> dict[str, dict[str, object]]:
@@ -76,7 +88,12 @@ def int_value(value: object) -> int:
 def build_rows() -> list[dict[str, str]]:
     latest, perf_rows = latest_performance()
     workbook = workbook_by_ebay_id()
-    cover_fix_ids = {clean(row.get("ID")) for row in read_csv(COVER_FIX_QUEUE)}
+    retired_ids = retired_old_ids()
+    cover_fix_ids = {
+        clean(row.get("ID"))
+        for row in read_csv(COVER_FIX_QUEUE)
+        if clean(row.get("ID")) and clean(row.get("ID")) not in retired_ids
+    }
     product_stats = defaultdict(lambda: {"rows": 0, "views": 0, "moved": 0})
     promoted = 0
     zero = 0
@@ -95,6 +112,10 @@ def build_rows() -> list[dict[str, str]]:
             zero += 1
 
     experiment_rows = read_csv(EXPERIMENT_REPORT)
+    gallery_duplicate_rows = [
+        row for row in read_csv(GALLERY_DUPLICATE_AUDIT)
+        if clean(row.get("Result")) not in {"", "OK"}
+    ]
     experiment_moved = Counter()
     experiment_counts = Counter()
     for row in experiment_rows:
@@ -104,15 +125,26 @@ def build_rows() -> list[dict[str, str]]:
             experiment_moved[group] += 1
 
     rows = []
-    rows.append(
-        {
-            "Priority": "100",
-            "Diagnosis": "Sticker live cover/gallery mismatch is a primary blocker.",
-            "Evidence": f"Cover fix queue contains {len(cover_fix_ids)} rows; latest snapshot has {zero}/{len(perf_rows)} zero-view rows despite {promoted} promoted rows.",
-            "Recommended_Action": "Do not expand Sticker count. Repair Printify source defaults and re-audit live eBay covers before more Sticker publish.",
-            "Network_Dependency": "medium",
-        }
-    )
+    if cover_fix_ids:
+        rows.append(
+            {
+                "Priority": "100",
+                "Diagnosis": "Live cover/gallery mismatch is still a primary blocker.",
+                "Evidence": f"Active cover fix queue contains {len(cover_fix_ids)} rows after excluding {len(retired_ids)} retired old eBay IDs; latest snapshot has {zero}/{len(perf_rows)} zero-view rows despite {promoted} promoted rows.",
+                "Recommended_Action": "Do not expand the affected SKU family. Repair Printify source defaults or create verified replacement listings, then retire the bad public IDs.",
+                "Network_Dependency": "medium",
+            }
+        )
+    else:
+        rows.append(
+            {
+                "Priority": "100",
+                "Diagnosis": "Cover Gate is cleared; the current blocker is traffic/product-market fit.",
+                "Evidence": f"Active cover fix queue is 0 after excluding {len(retired_ids)} retired old eBay IDs; latest snapshot has {zero}/{len(perf_rows)} zero-view rows despite {promoted} promoted rows.",
+                "Recommended_Action": "Keep image-order audits in the QA gate, but shift growth effort to Track A/B/C experiments: buyer-intent SEO, product mix, price/room-use positioning, and Etsy digital gray launch.",
+                "Network_Dependency": "low",
+            }
+        )
     if perf_rows:
         rows.append(
             {
@@ -121,6 +153,16 @@ def build_rows() -> list[dict[str, str]]:
                 "Evidence": f"Latest snapshot {latest}: promoted={promoted}, zero_views={zero}, rows={len(perf_rows)}.",
                 "Recommended_Action": "Keep 2% Standard as baseline, but treat image/search-intent repair as the growth lever. Do not raise to suggested ad rates yet.",
                 "Network_Dependency": "low",
+            }
+        )
+    if gallery_duplicate_rows:
+        rows.append(
+            {
+                "Priority": "85",
+                "Diagnosis": "Repeated or risky gallery images can suppress buyer trust and marketplace quality scoring.",
+                "Evidence": f"Printify gallery duplicate audit has {len(gallery_duplicate_rows)} non-OK rows. This includes exact repeated selected image URLs and non-sticker custom gallery sets that can look like duplicate spam on eBay.",
+                "Recommended_Action": "Pause expansion, repair selected galleries to unique official product mockups, and only resume small-batch publish after duplicate audit is OK.",
+                "Network_Dependency": "medium",
             }
         )
     product_evidence = "; ".join(
