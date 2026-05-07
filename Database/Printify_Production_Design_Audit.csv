@@ -1,2 +1,2 @@
 ID,Product_Type,Status,Printify_Product_ID,exact_sha_match,visual_match,local_size,remote_size,remote_declared_size,ahash_distance,local_sha256,remote_sha256,remote_image_id,error
-Sticker-Zen-0069-FIX1,Sticker,Printify_UI_Mockups3,69fcff15cd220b844e0f655c,False,True,"(1664, 1664)","(1664, 1664)","(1664, 1664)",0,ea335aa90f60a6ffbb1aeec587c486a819103d5fe0d98c8f13cee463133b0ded,3ded08b2af5b5e2a20778b92e221361877f4d420395fca3456029c7e72667ca2,69f1e7b8c225313c5241a1a2,
+Sticker-Zen-0071-FIX1,Sticker,Printify_UI_Mockups6,69fd00ca9f7703138202688c,False,True,"(1664, 1664)","(1664, 1664)","(1664, 1664)",0,9d73560602b80a76d07fd5bd0cc334b7ed790ac43c9cb03bd00773d4feaec669,2479376a1e96855bb4c37d0cbaee6b964479753f611c69a36297371f5626a6a2,69f261c3a8d8953f56b71b0a,

@@ -1448,3 +1448,8 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 
 ## 2026-05-07 17:11:00 -04:00 Cover Gate 0069 Closed
 - `Sticker-Zen-0069-FIX1` created, uploaded to Printify, passed production-design audit (`visual_match=True`, `ahash_distance=0`), passed official mockup primary audit, published to eBay item `406911531255`, passed live buyer-page cover audit (`LIKELY_COVER_OFFICIAL`), and old item `406903753067` was ended in Seller Hub with Printify external detached.
+
+## 2026-05-07 17:20:00 -04:00 Cover Gate 0070-0071 Closed
+- `Sticker-Zen-0070-FIX1` created, uploaded to Printify, passed production-design audit (`visual_match=True`, `ahash_distance=0`), passed official mockup primary audit, published to eBay item `406911541926`, passed live buyer-page cover audit (`LIKELY_COVER_OFFICIAL`), and old item `406903757240` was ended in Seller Hub with Printify external detached.
+- `Sticker-Zen-0071-FIX1` created, uploaded to Printify, passed production-design audit (`visual_match=True`, `ahash_distance=0`), passed official mockup primary audit, published to eBay item `406911551031`, passed live buyer-page cover audit (`LIKELY_COVER_OFFICIAL`), and old item `406903762328` was ended in Seller Hub with Printify external detached.
+- Cover replacement queue now has no `READY_TO_REPLACE_VERIFIED` rows; remaining 4 are `REVIEW_BEFORE_REPLACE` and should be manually or vision-reviewed before replacement.
