@@ -61,6 +61,13 @@ Objective: Use zero-production-cost Etsy digital downloads to test SEO templates
 3. Use Track B only after the cover/product image is clean, because broad-volume terms punish weak thumbnails faster.
 4. If Track C first paid cells remain 0 views, stop fee spend and rewrite SEO using the Buyer Persona vs Room Use result split.
 
+## Execution Update - 2026-05-07 02:55 -04:00
+- Track A Batch 1 executed: 10 existing physical listings were rewritten locally and synced through Printify metadata.
+- Product mix: 8 Acrylic, 2 Poster.
+- Sync result: 10/10 OK; each item returned Printify GET 200, PUT 200, and publish-metadata 200.
+- No images were changed; no new listings were created; no Etsy listing fee was spent.
+- This batch is the first 48h low-competition traffic probe. The next readout should compare these IDs against the prior zero/low-view baseline before expanding.
+
 ## References
 - Etsy fees: https://www.etsy.com/legal/fees/
 - Etsy Seller Handbook / marketplace insight workflow: https://www.etsy.com/seller-handbook

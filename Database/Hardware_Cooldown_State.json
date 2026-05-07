@@ -1,15 +1,15 @@
 {
-  "timestamp": "2026-05-07T02:40:05-04:00",
+  "timestamp": "2026-05-07T02:43:14-04:00",
   "active": true,
-  "cooldown_until": "2026-05-07T03:00:05-04:00",
-  "cooldown_minutes": 20,
-  "health_state": "WARM",
-  "reason": "temperature DENIED_OR_UNAVAILABLE; memory elevated 86.0%; sustained warm streak=6",
+  "cooldown_until": "2026-05-07T03:13:14-04:00",
+  "cooldown_minutes": 30,
+  "health_state": "COOLDOWN",
+  "reason": "temperature DENIED_OR_UNAVAILABLE; cpu 100.0%; cooldown heartbeat",
   "hot_streak": 6,
   "heartbeat": {
-    "timestamp": "2026-05-07T02:40:05-04:00",
-    "cpu_load_pct": 23.0,
-    "memory_used_pct": 86.0,
+    "timestamp": "2026-05-07T02:43:14-04:00",
+    "cpu_load_pct": 100.0,
+    "memory_used_pct": 90.1,
     "temperature_c": null,
     "temperature_status": "DENIED_OR_UNAVAILABLE",
     "fan_rpm": 0.0,
@@ -17,8 +17,8 @@
     "gpu_util_pct": 0.0,
     "battery_percent": 100.0,
     "power_status": "AC_CHARGING",
-    "health_state": "WARM",
-    "reason": "temperature DENIED_OR_UNAVAILABLE; memory elevated 86.0%"
+    "health_state": "COOLDOWN",
+    "reason": "temperature DENIED_OR_UNAVAILABLE; cpu 100.0%"
   },
   "allowed_during_cooldown": [
     "hardware_heartbeat",
