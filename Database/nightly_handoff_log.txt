@@ -105,3 +105,9 @@
 [2026-05-06T21:14:26-04:00] Git checkpoint blocked: staging failed with .git/index.lock permission denied. Repo was on main; selected durable code/data files were identified, but no commit, rebase, or push was performed. Untracked transient artifacts were left untouched.
 [2026-05-06T23:14:53-04:00] Git checkpoint blocked again: `git add` could not create `.git/index.lock` due to permission denied. Repo is on `main`, no stale lock file was present, and I did not commit, rebase, or push. Safe retry requires fixing `.git` write permissions or repo metadata ACLs first.
 2026-05-07T03:13:55-04:00 checkpoint blocked: `git add` could not create `.git/index.lock` because of permission denied, and `git pull --rebase origin main` was also blocked while the tree was dirty. `main` was already aligned with `origin/main` before the staging attempt (`git rev-list --left-right --count main...origin/main` returned `0 0`). No force operations were used.
+[2026-05-07 03:17:20 -04:00] Checkpoint blocked: git staging failed because .git/index.lock could not be created (Permission denied).
+Current branch: main; remote: origin/main.
+Pending untracked Database items remained unstaged, including durable audit/data files and a few likely-transient artifacts.
+No commit or push was performed.
+[2026-05-07 05:17:37 -04:00] Git checkpoint blocked: git add Database failed because .git/index.lock could not be created (permission denied). Repo was on main and origin/main was in sync, but no staging, commit, or push was possible.
+[2026-05-07 07:19:38 -04:00] Git checkpoint blocked: git add failed because .git/index.lock could not be created (Permission denied). Repo is on main tracking origin/main; no commit, pull/rebase, or push was performed. Safe staging remains blocked by repo metadata permissions.

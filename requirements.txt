@@ -7,3 +7,4 @@ pandas
 pywin32
 rembg
 openai
+tzdata

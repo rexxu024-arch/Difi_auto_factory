@@ -13,6 +13,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATABASE_DIR = PROJECT_ROOT / "Database"
 QUEUE_PATH = DATABASE_DIR / "Grunt_Task_Queue.jsonl"
 NY = ZoneInfo("America/New_York")
+PY_ENTRY = "scripts\\openclaw-python.cmd"
 
 
 @dataclass
@@ -51,6 +52,10 @@ def _task_from_dict(data):
     allowed = set(ModularTask.__dataclass_fields__.keys())
     clean = {key: value for key, value in data.items() if key in allowed}
     return ModularTask(**clean)
+
+
+def script_command(module_args: str) -> str:
+    return f"{PY_ENTRY} {module_args}"
 
 
 def load_tasks(path=QUEUE_PATH) -> list[ModularTask]:
@@ -99,7 +104,7 @@ def seed_default_tasks(force=False) -> list[ModularTask]:
             "action": "hardware_heartbeat",
             "priority": 100,
             "resource_class": "local_light",
-            "command": "py modules\\hardware_heartbeat_monitor.py --once",
+            "command": script_command("modules\\hardware_heartbeat_monitor.py --once"),
             "timeout_seconds": 90,
             "qa_profile": "log",
             "expected_outputs": ["Database/Hardware_Heartbeat_State.json"],
@@ -109,7 +114,7 @@ def seed_default_tasks(force=False) -> list[ModularTask]:
             "action": "hardware_cooldown_guard",
             "priority": 98,
             "resource_class": "local_light",
-            "command": "py modules\\hardware_cooldown_guard.py --json",
+            "command": script_command("modules\\hardware_cooldown_guard.py --json"),
             "timeout_seconds": 120,
             "qa_profile": "log",
             "expected_outputs": ["Database/Hardware_Cooldown_State.json"],
@@ -119,7 +124,7 @@ def seed_default_tasks(force=False) -> list[ModularTask]:
             "action": "local_supervisor_refresh",
             "priority": 90,
             "resource_class": "report_batch",
-            "command": "py modules\\factory_supervisor.py --execute-local --skip-network",
+            "command": script_command("modules\\factory_supervisor.py --execute-local --skip-network"),
             "timeout_seconds": 240,
             "qa_profile": "log",
             "expected_outputs": ["Database/Factory_Autopilot_State.json"],
@@ -129,7 +134,7 @@ def seed_default_tasks(force=False) -> list[ModularTask]:
             "action": "quality_floor_scan",
             "priority": 82,
             "resource_class": "qa_batch",
-            "command": "py modules\\quality_floor_guard.py --paths Database --limit 80",
+            "command": script_command("modules\\quality_floor_guard.py --paths Database --limit 80"),
             "timeout_seconds": 180,
             "qa_profile": "log",
             "expected_outputs": ["Database/Quality_Floor_Guard.csv"],
@@ -139,7 +144,7 @@ def seed_default_tasks(force=False) -> list[ModularTask]:
             "action": "copy_signal_refresh",
             "priority": 70,
             "resource_class": "local_light",
-            "command": "py modules\\ebay_experiment_report.py",
+            "command": script_command("modules\\ebay_experiment_report.py"),
             "timeout_seconds": 120,
             "qa_profile": "log",
             "expected_outputs": ["Database/eBay_Traffic_Experiment_Report.csv"],
@@ -149,7 +154,7 @@ def seed_default_tasks(force=False) -> list[ModularTask]:
             "action": "market_signal_refresh",
             "priority": 68,
             "resource_class": "local_light",
-            "command": "py modules\\market_signal_planner.py",
+            "command": script_command("modules\\market_signal_planner.py"),
             "timeout_seconds": 180,
             "qa_profile": "log",
             "expected_outputs": ["Database/Market_Signal_Action_Queue.csv"],
@@ -159,7 +164,7 @@ def seed_default_tasks(force=False) -> list[ModularTask]:
             "action": "multi_track_experiment_plan",
             "priority": 72,
             "resource_class": "queue_planning",
-            "command": "py modules\\multi_track_experiment_planner.py --json",
+            "command": script_command("modules\\multi_track_experiment_planner.py --json"),
             "timeout_seconds": 420,
             "qa_profile": "log",
             "expected_outputs": ["Database/Multi_Track_Experiment_Plan.csv", "Database/Multi_Track_Experiment_State.json"],
@@ -169,7 +174,7 @@ def seed_default_tasks(force=False) -> list[ModularTask]:
             "action": "rest_log_compression_plan",
             "priority": 60,
             "resource_class": "rest_maintenance",
-            "command": "py modules\\grunt_engine.py --maintenance-plan",
+            "command": script_command("modules\\grunt_engine.py --maintenance-plan"),
             "timeout_seconds": 120,
             "qa_profile": "log",
             "expected_outputs": ["Database/Grunt_Maintenance_Plan.json"],

@@ -66,7 +66,7 @@ DEFAULT_POLICY = {
             "name": "morning_reports",
             "start": "06:00",
             "end": "10:00",
-            "preferred_classes": ["report_batch", "api_read", "market_research", "local_light"],
+            "preferred_classes": ["report_batch", "api_read", "market_research", "local_light", "queue_planning"],
             "max_parallel": 2,
             "batch_size": 5,
         },

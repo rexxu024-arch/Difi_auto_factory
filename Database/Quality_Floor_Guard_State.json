@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-05-07T02:35:53-04:00",
-  "count": 80,
-  "pass": 80,
+  "generated_at": "2026-05-07T07:35:14-04:00",
+  "count": 2,
+  "pass": 2,
   "quarantine": 0,
   "execute_quarantine": false,
   "report": "C:\\AIprojects\\openclaw_difi\\Database\\Quality_Floor_Guard.csv"

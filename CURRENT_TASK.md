@@ -30,6 +30,11 @@ Current execution order:
 4. Keep Printify production available but avoid shop-front design changes until Rex updates the Printify storefront.
 5. Continue QA-first production, eBay read-only monitoring, performance logging, and report automation.
 6. Save morning/Gemini advisor report templates so Gemini can act as strategy advisor and Codex can filter recommendations.
+7. Continue multi-track marketplace testing:
+   - Track A: low-competition niche copy experiments.
+   - Track B: high-volume value copy experiments.
+   - Track C: Etsy Digital pure-profit tests under strict fee caps.
+   - Do not expand a track blindly when fresh Seller Hub/Etsy signal is missing.
 
 Guardrails:
 - Do not rapid-publish new eBay listings while external sync and Sticker cover trust remain unresolved.
@@ -118,6 +123,12 @@ Guardrails:
 - eBay API, once available, should be added narrowly: performance reads, Promoted Listings Standard 2% state, item health checks, lightweight metadata experiments, and reconciliation.
 - Product creation, production design upload, mockup generation, and platform push remain Printify-owned by default.
 - Any eBay/Etsy API result must write back into the existing database/supervisor files instead of creating a separate source of truth.
+
+## 2026-05-07 07:45:00 -04:00 Cruise Runtime Restored
+- Project automation now uses `scripts/openclaw-python.cmd` to bypass Windows PyManager launcher failures.
+- `tzdata` is installed/pinned for New York timestamps on Windows.
+- Grunt Engine now has a global lock to prevent duplicate task claims when manual and scheduled runs overlap.
+- Track B high-volume value metadata experiment synced 10 existing live Printify/eBay-linked listings; no images touched and no paid listings created.
 
 ## 2026-05-06 14:55:00 -04:00 Wired Network Restored + Sticker Cover Gate Resolution
 - Ethernet is active through `Ethernet 3` at 1Gbps; Wi-Fi is disconnected. Multi-endpoint checks showed 0% packet loss and about 5-8ms latency; 50MB download test was about 214 Mbps.

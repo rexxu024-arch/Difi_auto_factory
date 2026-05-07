@@ -63,7 +63,8 @@
         "report_batch",
         "api_read",
         "market_research",
-        "local_light"
+        "local_light",
+        "queue_planning"
       ],
       "max_parallel": 2,
       "batch_size": 5

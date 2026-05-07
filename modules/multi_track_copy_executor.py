@@ -124,6 +124,12 @@ def _lead(product_type: str, primary: str, category: str) -> str:
             return "Dark Study Smoky Jade"
         return "Quiet Luxury Jade Relic"
     if product_type == "Poster":
+        if category == "Zen":
+            if "Reading" in primary or "Book" in primary:
+                return "Reading Nook Quiet Luxury Art"
+            if "Meditation" in primary:
+                return "Meditation Room Smoky Jade Wall Art"
+            return "Quiet Luxury Jade Wall Art"
         if "Reading" in primary or "Book" in primary:
             return "Reading Nook Smoky Jade Wall Art"
         if "Dorm" in primary:
@@ -154,6 +160,8 @@ def _subject(old_title: str, product_type: str, category: str, lead: str) -> str
         "acrylic",
         "shelf",
         "desk",
+        "apartment",
+        "room",
         "gift",
     }
     lead_words = {word.lower() for word in clean(lead).split()}

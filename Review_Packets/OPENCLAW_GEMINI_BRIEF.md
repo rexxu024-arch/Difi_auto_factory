@@ -307,6 +307,29 @@ Strategic meaning for Gemini:
 - Etsy Digital becomes the lowest-cost learning lane; paid expansion should wait for traffic/favorite/indexing evidence.
 - The next strategic question is not "make more listings" but "which track gets non-zero search entry first, and which visual/SEO lane can be scaled without damaging account trust?"
 
+## Update - 2026-05-07 07:45:00 America/New_York
+
+Codex restored the cruise automation runtime:
+
+- The Windows `py`/`python` launcher was blocked by PyManager before repo code could start.
+- npm and automation now use `scripts/openclaw-python.cmd`, which calls the repo `.venv` Python directly.
+- `tzdata` was added so `America/New_York` timestamps work on Windows.
+- Grunt Engine now has a lock file to prevent two automation runs from claiming the same task.
+- Morning resource policy now permits queue planning, so useful non-spend planning can run while Rex is away.
+
+Marketplace work completed after the fix:
+
+- Track A monitor refreshed. One first-batch listing has a nonzero view signal; most still need fresh Seller Hub readback.
+- Track B high-volume value copy experiment launched on 10 existing live Printify/eBay-linked products.
+- Track B sync result: 10/10 Printify GET/PUT/publish metadata calls succeeded.
+- No images were touched, no new listing was created, and no Etsy fee was spent.
+
+Current tactical read:
+
+- Sticker expansion is still blocked by Cover Gate / missing gallery issues.
+- Existing Poster/Acrylic metadata experiments are safer than adding more Sticker volume right now.
+- Next decision should be based on fresh Seller Hub/Etsy readback: expand Track A/B if either gets nonzero entry, otherwise push Track C Etsy Digital under the strict $2/batch cap.
+
 
 ## Update - 2026-05-06 20:48:25 America/New_York
 

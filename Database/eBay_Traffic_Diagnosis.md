@@ -1,6 +1,6 @@
 # eBay Traffic Diagnosis
 
-Generated: 2026-05-07 01:32:32 -0400 America/New_York
+Generated: 2026-05-07 07:31:40 -0400 America/New_York
 
 ## P100 Sticker live cover/gallery mismatch is a primary blocker.
 - Evidence: Cover fix queue contains 49 rows; latest snapshot has 43/50 zero-view rows despite 50 promoted rows.
@@ -8,7 +8,7 @@ Generated: 2026-05-07 01:32:32 -0400 America/New_York
 - Network dependency: medium
 
 ## P90 Promoted Listings Standard 2% is active but is not enough alone.
-- Evidence: Latest snapshot 2026-05-06 23:44:26 -0400: promoted=50, zero_views=43, rows=50.
+- Evidence: Latest snapshot 2026-05-07 02:13:19 -0400: promoted=50, zero_views=43, rows=50.
 - Action: Keep 2% Standard as baseline, but treat image/search-intent repair as the growth lever. Do not raise to suggested ad rates yet.
 - Network dependency: low
 

@@ -3,9 +3,11 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import os
 import subprocess
 import sys
 import time
+from contextlib import contextmanager
 from dataclasses import asdict
 from datetime import datetime
 from pathlib import Path
@@ -25,6 +27,7 @@ DATABASE_DIR = PROJECT_ROOT / "Database"
 RUN_LOG = DATABASE_DIR / "Grunt_Engine_Run_Log.csv"
 STATE_PATH = DATABASE_DIR / "Grunt_Engine_State.json"
 MAINTENANCE_PLAN = DATABASE_DIR / "Grunt_Maintenance_Plan.json"
+LOCK_PATH = DATABASE_DIR / "Grunt_Engine.lock"
 NY = ZoneInfo("America/New_York")
 
 ALLOWED_ACTIONS = {
@@ -43,6 +46,45 @@ REST_ALLOWED = {"hardware_heartbeat", "hardware_cooldown_guard", "rest_log_compr
 
 def now():
     return datetime.now(NY)
+
+
+@contextmanager
+def engine_lock(stale_seconds: int = 900):
+    DATABASE_DIR.mkdir(exist_ok=True)
+    payload = {
+        "pid": os.getpid(),
+        "created_at": now().isoformat(timespec="seconds"),
+    }
+    handle = None
+    try:
+        try:
+            handle = os.open(str(LOCK_PATH), os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+        except FileExistsError:
+            try:
+                age = time.time() - LOCK_PATH.stat().st_mtime
+            except OSError:
+                age = 0
+            if age > stale_seconds:
+                try:
+                    LOCK_PATH.unlink()
+                except OSError:
+                    pass
+                handle = os.open(str(LOCK_PATH), os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+            else:
+                yield False
+                return
+        os.write(handle, json.dumps(payload).encode("utf-8"))
+        yield True
+    finally:
+        if handle is not None:
+            try:
+                os.close(handle)
+            except OSError:
+                pass
+            try:
+                LOCK_PATH.unlink()
+            except OSError:
+                pass
 
 
 def append_log(row):
@@ -76,10 +118,26 @@ def write_state(row, allocation, heartbeat):
     STATE_PATH.write_text(json.dumps(state, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
+def _normalize_command(command: str) -> str:
+    command = (command or "").strip()
+    if command.startswith("py modules\\"):
+        return "cmd /c scripts\\openclaw-python.cmd " + command[len("py ") :]
+    if command.startswith("python modules\\"):
+        return "cmd /c scripts\\openclaw-python.cmd " + command[len("python ") :]
+    if command.startswith("scripts\\openclaw-python.cmd "):
+        return "cmd /c " + command
+    return command
+
+
 def _powershell_safe_command(command: str) -> bool:
     if not command or any(token in command.lower() for token in [" rm ", " del ", " remove-item ", "shutdown", "restart-computer"]):
         return False
-    return command.startswith("py modules\\") or command.startswith("python modules\\")
+    normalized = _normalize_command(command)
+    return (
+        command.startswith("py modules\\")
+        or command.startswith("python modules\\")
+        or normalized.startswith("cmd /c scripts\\openclaw-python.cmd modules\\")
+    )
 
 
 def maintenance_plan():
@@ -109,6 +167,7 @@ def maintenance_plan():
 def _run_command(command: str, timeout: int):
     if not _powershell_safe_command(command):
         return 126, "", f"blocked unsafe or unknown command: {command}"
+    command = _normalize_command(command)
     completed = subprocess.run(
         ["powershell", "-NoProfile", "-Command", command],
         cwd=PROJECT_ROOT,
@@ -168,6 +227,25 @@ def allowed_classes_for_window(window_name, policy):
 
 
 def run_once(dry_run=False):
+    with engine_lock() as acquired:
+        if not acquired:
+            row = {
+                "Timestamp": now().isoformat(timespec="seconds"),
+                "Task_ID": "",
+                "Action": "",
+                "Status": "LOCKED",
+                "Decision": "SKIP",
+                "Resource_Window": "",
+                "Resource_Reason": "another grunt engine instance is already running",
+                "ReturnCode": 0,
+                "Detail": str(LOCK_PATH),
+            }
+            append_log(row)
+            return row
+        return _run_once_unlocked(dry_run=dry_run)
+
+
+def _run_once_unlocked(dry_run=False):
     policy = system_resource_allocator.ensure_policy()
     allocation, snapshot = system_resource_allocator.choose_allocation(task_class="auto", priority=50)
     heartbeat = sample_heartbeat()

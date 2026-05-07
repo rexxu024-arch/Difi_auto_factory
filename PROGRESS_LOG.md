@@ -1218,3 +1218,26 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
   - `Database/Digital_Etsy_Metadata.csv`: released products returned to `READY_FOR_ETSY_DRAFT`.
   - `Database/Etsy_Fee_Reconciliation_Log.csv`: release audit log.
 - Reran `npm run market:multi-track`; Track C now has 28 rows eligible as `NEXT_ETSY_GRAY_BATCH_UNDER_FEE_CAP` and no stale `RECONCILE_RESERVED_BEFORE_ANY_NEW_FEE` action remains.
+
+## 2026-05-07 06:06 -04:00 OpenClaw 4h Cruise Heartbeat
+- Git/worktree checked before automation work; existing Database artifacts were left intact.
+- `npm.cmd` was used because PowerShell blocks `npm.ps1`.
+- Python entrypoints are currently blocked by PyManager before repo code starts: `PermissionError: [WinError 5] Access is denied: 'C:\\Users\\Rex\\AppData\\Local\\Python'`.
+- Refreshed heartbeat/cooldown/resource state files with Windows fallback counters:
+  - CPU: 2%.
+  - Memory: 77.7%.
+  - GPU: 0%.
+  - Temperature sensor: denied/unavailable.
+  - Fan sensor: unavailable.
+  - Power: AC/no battery.
+- Cooldown guard state is inactive; CPU/memory proxy is healthy.
+- Attempted low-risk `npm.cmd run grunt:dry`; it failed at the same Python launcher blocker, so no Grunt Engine work ran.
+- No payment, billing, order, customer-message, image, publish, or listing-spend settings were touched.
+
+## 2026-05-07 07:41:25 -0400 Monthly Task Continuation
+- Fixed Python runtime entrypoint: npm scripts now use `scripts/openclaw-python.cmd` instead of PyManager `py` so cruise tasks can run on this machine.
+- Installed and pinned `tzdata` for stable America/New_York timestamps on Windows.
+- Added Grunt Engine global lock to prevent duplicate queue claims when automation/manual runs overlap.
+- Ran real Grunt tasks: hardware heartbeat, cooldown guard, local supervisor, eBay traffic experiment report, market signal queue, and multi-track planner.
+- Track A monitor refreshed: first batch still needs more Seller Hub readback; one row already has nonzero signal.
+- Track B high-volume copy experiment executed on 10 existing live Printify/eBay-linked products; 10/10 metadata sync succeeded via Printify API, no images touched, no paid listing created.
