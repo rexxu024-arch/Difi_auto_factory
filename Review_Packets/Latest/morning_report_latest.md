@@ -1,6 +1,6 @@
 # OpenClaw Morning Report
 
-Generated: 2026-05-07 12:10 -0400 America/New_York
+Generated: 2026-05-07 12:49 -0400 America/New_York
 
 ## Current Factory State
 
@@ -22,7 +22,7 @@ Generated: 2026-05-07 12:10 -0400 America/New_York
 
 ## Performance Snapshot
 
-- Latest eBay snapshot: 2026-05-07 02:13:19 -0400
+- Latest eBay snapshot: 2026-05-07 12:24:11 -0400
 - Rows read: 50
 - 0-view rows in snapshot: 43
 - Rows with at least 1 view: 7
@@ -72,11 +72,11 @@ Generated: 2026-05-07 12:10 -0400 America/New_York
 - Live eBay cover audit AMBIGUOUS: 48
 - Live eBay cover audit ERROR: 1
 - Live eBay cover audit LIKELY_COVER: 13
-- Live eBay cover audit LIKELY_COVER_OFFICIAL: 61
+- Live eBay cover audit LIKELY_COVER_OFFICIAL: 64
 - Live eBay cover audit LIKELY_SINGLE_U_MISMATCH: 50
 - Live cover fix queue rows: 49
-- Cover replacement queue OLD_RETIRED_REPLACED_DONE: 35
-- Cover replacement queue READY_TO_REPLACE_VERIFIED: 10
+- Cover replacement queue OLD_RETIRED_REPLACED_DONE: 38
+- Cover replacement queue READY_TO_REPLACE_VERIFIED: 7
 - Cover replacement queue REVIEW_BEFORE_REPLACE: 4
 - Printify image-default audit rows: 161
 - Printify image-default audit CHECK: 123

@@ -1,6 +1,6 @@
 # Factory Backlog
 
-Generated: 2026-05-07 12:10:16 -0400 America/New_York
+Generated: 2026-05-07 12:49:07 -0400 America/New_York
 
 ## Status Counts
 
@@ -67,7 +67,7 @@ Generated: 2026-05-07 12:10:16 -0400 America/New_York
 
 ### P94 replacement - READY_TO_REPLACE_VERIFIED
 - Task: Create verified replacement listing for source-repaired live cover failure
-- Blocker: 10 row already failed source repair plus live eBay audit.
+- Blocker: 7 row already failed source repair plus live eBay audit.
 - Command: `py modules\ebay_replacement_draft_builder.py --limit 1`
 - Done when: Replacement row is created as Ready_for_Printify; public publish still waits for QA and retire sequencing.
 - Risk/network: high / single replacement listing
