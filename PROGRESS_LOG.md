@@ -1248,3 +1248,11 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - QA result: 10/10 ready, 0 hold.
 - Projected fee if later published: $2.00. Actual spend now: $0.00.
 - Report: `Review_Packets/ETSY_DIGITAL_NEXT_BATCH_CANDIDATES.md`.
+
+## 2026-05-07 08:02:20 -0400 Etsy Digital Morning Penetration Heartbeat
+- Generated `Review_Packets/ETSY_DIGITAL_TRAFFIC_PENETRATION_REPORT_20260507.md`.
+- Confirmed locally: 10 Etsy Digital listings published/live-readable, total confirmed listing-fee spend $2.00.
+- Confirmed today: $0.00 / $6.00 daily cap.
+- Etsy API remains unavailable: status ERROR / next step WAIT_APP_APPROVAL.
+- Hardware cooldown was active, so no Edge UI traffic readback was attempted. Views/favorites/orders are unread, not assumed zero.
+- Next 10 Etsy Digital candidates remain QA-ready with $0 spent and projected $2 only if later published.
