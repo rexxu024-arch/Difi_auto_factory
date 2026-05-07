@@ -195,3 +195,41 @@
   }
 }
 "
+2026-05-07T09:52:25-04:00,,,NO_TASK,RUN,morning_reports,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy,0,"allowed_classes=api_read,local_light,market_research,memory_cleanup,queue_planning,report_batch"
+2026-05-07T09:53:10-04:00,grunt-hardware_heartbeat-6a9348a0,hardware_heartbeat,DONE,RUN,morning_reports,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 100.0%,0,"{""timestamp"": ""2026-05-07T09:53:10-04:00"", ""cpu_load_pct"": 19.0, ""memory_used_pct"": 79.3, ""temperature_c"": null, ""temperature_status"": ""DENIED_OR_UNAVAILABLE"", ""fan_rpm"": 0.0, ""fan_status"": ""OK_WIN32_FAN"", ""gpu_util_pct"": 1.5, ""battery_percent"": 100.0, ""power_status"": ""AC_CHARGING"", ""health_state"": ""OK"", ""reason"": ""temperature DENIED_OR_UNAVAILABLE""}"
+2026-05-07T09:53:50-04:00,grunt-hardware_cooldown_guard-f768ffa0,hardware_cooldown_guard,DONE,RUN_CONSERVATIVE,morning_reports,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 100.0%; memory elevated 84.6%,0,"{
+  ""timestamp"": ""2026-05-07T09:53:50-04:00"",
+  ""active"": true,
+  ""cooldown_until"": ""2026-05-07T10:13:50-04:00"",
+  ""cooldown_minutes"": 20,
+  ""health_state"": ""WARM"",
+  ""reason"": ""temperature DENIED_OR_UNAVAILABLE; memory elevated 85.3%; sustained warm streak=3"",
+  ""hot_streak"": 3,
+  ""heartbeat"": {
+    ""timestamp"": ""2026-05-07T09:53:50-04:00"",
+    ""cpu_load_pct"": 54.0,
+    ""memory_used_pct"": 85.3,
+    ""temperature_c"": null,
+    ""temperature_status"": ""DENIED_OR_UNAVAILABLE"",
+    ""fan_rpm"": 0.0,
+    ""fan_status"": ""OK_WIN32_FAN"",
+    ""gpu_util_pct"": 1.9,
+    ""battery_percent"": 100.0,
+    ""power_status"": ""AC_CHARGING"",
+    ""health_state"": ""WARM"",
+    ""reason"": ""temperature DENIED_OR_UNAVAILABLE; memory elevated 85.3%""
+  },
+  ""memory_guard"": null,
+  ""allowed_during_cooldown"": [
+    ""hardware_heartbeat"",
+    ""memory_cleanup"",
+    ""report_batch"",
+    ""local_light"",
+    ""queue_planning"",
+    ""api_read"",
+    ""online_publish_safe""
+  ],
+  ""blocked_during_cooldown"": [
+    ""image_batch"",
+    ""asset_b"
+2026-05-07T09:57:51-04:00,grunt-hardware_heartbeat-412d82e0,hardware_heartbeat,DONE,RUN_CONSERVATIVE,morning_reports,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.1%; hardware cooldown active 16m: temperature DENIED_OR_UNAVAILABLE; memory elevated 85.3%; sustained warm streak=3,0,"{""timestamp"": ""2026-05-07T09:57:51-04:00"", ""cpu_load_pct"": 33.0, ""memory_used_pct"": 82.1, ""temperature_c"": null, ""temperature_status"": ""DENIED_OR_UNAVAILABLE"", ""fan_rpm"": 0.0, ""fan_status"": ""OK_WIN32_FAN"", ""gpu_util_pct"": 2.6, ""battery_percent"": 100.0, ""power_status"": ""AC_CHARGING"", ""health_state"": ""WARM"", ""reason"": ""temperature DENIED_OR_UNAVAILABLE; memory elevated 82.1%""}"

@@ -1,14 +1,14 @@
 {
-  "timestamp": "2026-05-07T09:31:12-04:00",
-  "cpu_load_pct": 91.0,
-  "memory_used_pct": 83.9,
+  "timestamp": "2026-05-07T09:57:51-04:00",
+  "cpu_load_pct": 33.0,
+  "memory_used_pct": 82.1,
   "temperature_c": null,
   "temperature_status": "DENIED_OR_UNAVAILABLE",
   "fan_rpm": 0.0,
   "fan_status": "OK_WIN32_FAN",
-  "gpu_util_pct": 2.2,
+  "gpu_util_pct": 2.6,
   "battery_percent": 100.0,
   "power_status": "AC_CHARGING",
-  "health_state": "COOLDOWN",
-  "reason": "temperature DENIED_OR_UNAVAILABLE; cpu 91.0%"
+  "health_state": "WARM",
+  "reason": "temperature DENIED_OR_UNAVAILABLE; memory elevated 82.1%"
 }

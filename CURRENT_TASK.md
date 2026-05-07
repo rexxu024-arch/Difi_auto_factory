@@ -33,6 +33,7 @@ Endurance protocol:
 - Default daily reboot script is dry-run/check mode until Rex explicitly arms actual `shutdown /r`.
 - Updated compromise: daily hardware rest is now shutdown, not reboot. Windows Task Scheduler runs `scripts\openclaw_daily_shutdown.bat` at 06:00 Eastern time. Rex powers on manually after waking; after Windows login, Startup resumes OpenClaw.
 - Workday model: treat 05:30-06:00 ET as packing-up time. At 05:30 stop starting long jobs and do only optimization/report/checkpoint work. At 05:50 force-stop project automation browser/driver/write processes. At 06:00 shut down.
+- Local cruise layer: Windows Task Scheduler may run `scripts\openclaw_cruise_once.bat` every 30 minutes while the machine is awake/logged in. It must obey `system_resource_allocator`, risk guards, fee caps, and the 05:30 winddown window.
 
 Default authorization policy:
 - Rex has repeatedly granted full OpenClaw project access. Do not stop to ask for routine project account navigation, local file edits, API debugging, browser automation, QA checks, report writing, or script changes.

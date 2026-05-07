@@ -91,8 +91,13 @@ def enqueue_task(**kwargs) -> ModularTask:
     return task
 
 
-def seed_default_tasks(force=False) -> list[ModularTask]:
+def seed_default_tasks(force=False, only_if_empty=False) -> list[ModularTask]:
     tasks = load_tasks()
+    if only_if_empty and any(
+        task.status in {"PENDING", "RUNNING", "DEFERRED"} and task.attempts < task.max_attempts
+        for task in tasks
+    ):
+        return []
     active_keys = {
         (task.action, task.command)
         for task in tasks
@@ -252,12 +257,13 @@ def main():
     parser = argparse.ArgumentParser(description="Portable JSONL task queue for the OpenClaw Grunt Engine.")
     parser.add_argument("--seed-default", action="store_true")
     parser.add_argument("--force", action="store_true")
+    parser.add_argument("--only-if-empty", action="store_true")
     parser.add_argument("--list", action="store_true")
     parser.add_argument("--summary", action="store_true")
     parser.add_argument("--enqueue-json", default="")
     args = parser.parse_args()
     if args.seed_default:
-        added = seed_default_tasks(force=args.force)
+        added = seed_default_tasks(force=args.force, only_if_empty=args.only_if_empty)
         print(json.dumps({"added": [asdict(task) for task in added], "summary": summarize()}, indent=2))
         return
     if args.enqueue_json:

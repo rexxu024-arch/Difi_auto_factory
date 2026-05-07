@@ -1285,3 +1285,8 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
   - 05:50: `scripts\openclaw_shutdown_force_stop_0550.bat`
   - 06:00: `scripts\openclaw_daily_shutdown.bat`
 - During the winddown window, start no new long marketplace/browser/image tasks; only reports, queue planning, optimization, memory cleanup, and checkpointing are allowed.
+
+## 2026-05-07 10:02:00 -0400 Local Cruise Task Layer
+- Added `scripts\openclaw_cruise_once.bat` for a Windows-local 30-minute cruise loop while the laptop is awake/logged in.
+- The cruise task runs endurance preflight, seeds default low-risk tasks, then runs one Grunt task under the existing resource/risk gates.
+- This is not a substitute for Codex reasoning; it is the low-level background worker that keeps basic queues moving.

@@ -38,6 +38,7 @@
     "grunt:once": "scripts\\openclaw-python.cmd modules\\grunt_engine.py --once",
     "grunt:dry": "scripts\\openclaw-python.cmd modules\\grunt_engine.py --once --dry-run",
     "grunt:cruise": "scripts\\openclaw-python.cmd modules\\grunt_engine.py --loop --interval-seconds 300",
+    "grunt:cruise:once": "cmd /c scripts\\openclaw_cruise_once.bat",
     "ebay:quiet-jade:prepare": "scripts\\openclaw-python.cmd modules\\ebay_quiet_jade_pivot.py --prepare --apply-local --limit 42",
     "ebay:quiet-jade:sync": "scripts\\openclaw-python.cmd modules\\ebay_quiet_jade_pivot.py --sync-printify --limit 42",
     "ebay:seo-strike:prepare": "scripts\\openclaw-python.cmd modules\\ebay_seo_strike_batch.py --prepare --apply-local --limit 10",

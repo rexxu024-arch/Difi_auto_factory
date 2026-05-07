@@ -4,6 +4,12 @@
   "startup_recovery": "Startup shortcut: OpenClaw Resume After Login.lnk -> scripts/run_codex.bat",
   "tasks": [
     {
+      "TaskName": "OpenClaw Cruise Every 30 Min",
+      "State": 3,
+      "NextRunTime": "/Date(1778163000000)/",
+      "LastTaskResult": 267011
+    },
+    {
       "TaskName": "OpenClaw 0530 Winddown",
       "State": 3,
       "NextRunTime": "/Date(1778232600000)/",

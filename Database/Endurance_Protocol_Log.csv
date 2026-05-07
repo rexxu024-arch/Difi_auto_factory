@@ -5,3 +5,4 @@
 2026-05-07 09:44:24 -0400,daily_shutdown_check,SHUTDOWN_READY_DRY_RUN,82.7,77.0,0,False,queues clear; daily hardware rest
 2026-05-07 09:44:24 -0400,daily_shutdown_check,SKIP_NOT_DUE,82.7,49.0,0,False,outside 06:00-06:20 America/New_York
 2026-05-07 09:49:56 -0400,shutdown_winddown,PRE_SHUTDOWN_WINDDOWN_DRY_RUN,82.8,49.0,0,False,"Only local optimization, reports, queue planning, memory cleanup, and checkpointing. No new marketplace writes or browser UI tasks."
+2026-05-07 09:57:37 -0400,preflight,CONTINUE,82.0,20.0,0,,
