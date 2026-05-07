@@ -1410,3 +1410,8 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - `npm run grey:send` successfully generated a Grey response and parsed 5 recommended tasks into `Database/Grey_Bridge_Tasks.csv`.
 - Operating rule: use Gemini free model for compact strategic review and task critique; avoid per-listing high-volume generation through Gemini free tier. Keep bulk text work on DeepSeek/local scripts.
 - Added `Review_Packets/Gemini_Bridge/GEMINI_FREE_TIER_EVALUATION.md` as the human/Gemini Chat handoff packet for deciding whether paid Gemini API is needed later.
+
+## 2026-05-07 16:03:00 -04:00 Grey Firebreak Principle
+- Rex confirmed the long-term interaction model: Rex/Gemini may provide many evolving and sometimes conflicting ideas; Codex should synthesize them under the business goal rather than mechanically follow stale instructions.
+- Durable rule added to `CURRENT_TASK.md`: newest instruction usually wins, unless an older rule better protects account safety, spend caps, privacy, or the money-printer objective.
+- Grey output remains advisory only. It must be parsed into local review/task queues first and cannot directly mutate live listings, spend money, or change account settings.
