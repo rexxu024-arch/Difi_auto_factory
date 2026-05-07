@@ -1,11 +1,11 @@
 # Factory Autopilot Action Queue
 
-Generated: 2026-05-06T20:31:26-04:00 America/New_York
+Generated: 2026-05-06T22:30:37-04:00 America/New_York
 
 - Network mode: unknown (network guard skipped)
-- eBay workbook rows: 273
-- Stable: 169
-- Published: 150
+- eBay workbook rows: 274
+- Stable: 156
+- Published: 137
 - Ready for Printify: 46
 - Live cover fix queue rows: 49
 - Repair decisions: {'RETIRED_REPLACED_DONE': 24, 'SOURCE_REPAIR_REQUIRED': 21, 'NON_STICKER_REVIEW_REQUIRED': 4}
@@ -32,23 +32,17 @@ Generated: 2026-05-06T20:31:26-04:00 America/New_York
 - Command: `py modules\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120`
 - Network: yes; login: Printify remote-debug profile; risk: medium
 
-### P65 read_only_market: READY
-- Action: Refresh eBay Seller Hub performance snapshot.
-- Reason: Performance data is stale or absent; this is read-only but browser/network dependent.
-- Command: `py modules\ebay_sellerhub_snapshot.py`
-- Network: yes; login: eBay Seller Hub; risk: low
-
 ### P63 production_design_qa: READY
 - Action: Run a tiny Printify production-design audit before any larger online batch.
 - Reason: This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi.
 - Command: `py modules\printify_design_audit.py --limit 2 --sleep-seconds 1`
 - Network: yes; login: Printify API; risk: low
 
-### P55 etsy: WAIT_USER_OR_API_APPROVAL
-- Action: Keep Etsy launch packet local until shop/API approval is ready.
-- Reason: Etsy developer app is pending approval and Rex has not asked to publish Etsy listings yet.
-- Command: `py modules\etsy_digital_listing_export.py`
-- Network: no; login: no; risk: low
+### P55 etsy: READY_MONITOR
+- Action: Monitor Etsy Digital first gray batch before spending more listing fees.
+- Reason: Live=10 ready=20 confirmed_spend=$2.00; hold scale until first traffic readout.
+- Command: `py modules\etsy_live_audit.py --limit 10`
+- Network: yes; login: Etsy UI/public; risk: low
 
 ### P50 copy_experiment: READY
 - Action: Continue low-bandwidth SEO/title/description experiment analysis.

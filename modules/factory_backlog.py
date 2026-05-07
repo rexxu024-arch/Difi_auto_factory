@@ -26,6 +26,8 @@ COVER_REPLACEMENT_QUEUE = DATABASE_DIR / "eBay_Cover_Replacement_Queue.csv"
 TRAFFIC_DIAGNOSIS = DATABASE_DIR / "eBay_Traffic_Diagnosis.csv"
 BLUEPRINT_PLAN = DATABASE_DIR / "Product_Blueprint_Next_Test_Plan.csv"
 ETSY_DIGITAL_PACKET = DATABASE_DIR / "Etsy_Digital_Final_Upload_Packet.csv"
+ETSY_GRAY_QUEUE = DATABASE_DIR / "Etsy_Digital_Gray_Launch_Queue.csv"
+ETSY_FEE_LEDGER = DATABASE_DIR / "Etsy_Fee_Ledger.csv"
 SUPERVISOR_STATE = DATABASE_DIR / "Factory_Autopilot_State.json"
 
 BACKLOG_CSV = DATABASE_DIR / "Factory_Backlog.csv"
@@ -71,6 +73,31 @@ def csv_count(path: Path) -> int:
     return len(read_csv(path))
 
 
+def etsy_gray_summary() -> dict[str, object]:
+    queue_rows = read_csv(ETSY_GRAY_QUEUE)
+    ledger_rows = read_csv(ETSY_FEE_LEDGER)
+    published = [row for row in queue_rows if clean(row.get("Launch_Status")) == "PUBLISHED_UI_CONFIRMED"]
+    ready = [
+        row
+        for row in queue_rows
+        if clean(row.get("Launch_Status")) in {"READY_BLOCKED_ETSY_AUTH", "READY_TO_PUBLISH", "READY_UI_PUBLISH"}
+        and not clean(row.get("Etsy_Listing_ID"))
+    ]
+    confirmed_spend = 0.0
+    for row in ledger_rows:
+        if clean(row.get("Status")).startswith("CONFIRMED"):
+            try:
+                confirmed_spend += float(row.get("Confirmed_Spent_USD") or 0)
+            except ValueError:
+                pass
+    return {
+        "queue_rows": len(queue_rows),
+        "published": len(published),
+        "ready": len(ready),
+        "confirmed_spend": confirmed_spend,
+    }
+
+
 def state() -> dict:
     if not SUPERVISOR_STATE.exists():
         return {}
@@ -107,6 +134,7 @@ def build_rows() -> list[dict[str, str]]:
     diagnosis_count = csv_count(TRAFFIC_DIAGNOSIS)
     blueprint_count = csv_count(BLUEPRINT_PLAN)
     etsy_digital_count = csv_count(ETSY_DIGITAL_PACKET)
+    etsy_gray = etsy_gray_summary()
 
     add(
         rows,
@@ -217,18 +245,31 @@ def build_rows() -> list[dict[str, str]]:
             "Traffic report identifies exposure/click/conversion blockers from snapshots and cover queues.",
         )
 
-    if etsy_digital_count:
+    if etsy_gray["published"]:
+        add(
+            rows,
+            56,
+            "etsy",
+            "Monitor first 10 Etsy Digital listings before spending more",
+            "READY_MONITOR",
+            f"Live={etsy_gray['published']} ready={etsy_gray['ready']} confirmed_spend=${etsy_gray['confirmed_spend']:.2f}.",
+            "py modules\\etsy_live_audit.py --limit 10",
+            "Morning readout has active/readable status plus views/favorites when available; do not scale until signal or Rex resumes.",
+            "low",
+            "Etsy public/UI read",
+        )
+    elif etsy_digital_count:
         add(
             rows,
             54,
             "etsy",
-            "Hold Etsy digital packet until shop/API readiness, then launch curated low-cost test",
-            "WAIT_USER_OR_API_APPROVAL",
-            f"{etsy_digital_count} digital listing rows prepared locally; no Etsy fee triggered.",
-            "py modules\\etsy_digital_listing_export.py",
-            "When Etsy is cleared, first 20-30 curated listings have files, previews, tags, descriptions, and pricing ready.",
+            "Publish first Etsy Digital gray cell only under fee guard",
+            "READY" if etsy_gray["ready"] else "WAIT_USER_OR_API_APPROVAL",
+            f"{etsy_digital_count} legacy packet rows and {etsy_gray['ready']} gray queue rows prepared; confirmed_spend=${etsy_gray['confirmed_spend']:.2f}.",
+            "py modules\\etsy_digital_ui_publisher.py --limit 1",
+            "One listing is published and confirmed before the next; no blind retries or duplicate fee spend.",
             "low",
-            "local now / Etsy later",
+            "Etsy UI",
         )
 
     if blueprint_count:

@@ -1009,3 +1009,11 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Public verification: both pages now show "This item is unavailable."
 - Shop Manager active listing page no longer contains either legacy listing id/title.
 - Clean confirmation saved to `Database/Etsy_Legacy_Retirement_Status.csv`.
+
+## 2026-05-06 22:30:00 -04:00 Supervisor Etsy State Corrected
+- Patched `factory_supervisor.py`, `factory_backlog.py`, and `factory_morning_report.py` so Etsy is no longer reported as merely waiting for user/API approval.
+- New supervisor Etsy status: `READY_MONITOR` for first live Etsy Digital gray batch.
+- Ran `npm run local`; result failures=0.
+- Backlog now shows one Etsy monitor task instead of stale "hold until readiness" as the active Etsy path.
+- Latest generated report: `Reports/morning_report_20260506_2230.md`.
+- Latest Gemini queue: `Gemini_Advisor/gemini_review_queue_20260506_2230.md`.

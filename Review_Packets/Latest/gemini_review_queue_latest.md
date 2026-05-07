@@ -1,6 +1,6 @@
 # Gemini Advisor Review Queue
 
-Generated: 2026-05-06 17:07 -0400 America/New_York
+Generated: 2026-05-06 22:30 -0400 America/New_York
 
 Rex is Commander, Gemini is Strategy Advisor, Codex is Executive Operator.
 
@@ -10,54 +10,58 @@ Please review the current OpenClaw plan as a strategy advisor. Do not request AP
 
 # OpenClaw Morning Report
 
-Generated: 2026-05-06 17:07 -0400 America/New_York
+Generated: 2026-05-06 22:30 -0400 America/New_York
 
 ## Current Factory State
 
-- Stable Printify-tracked products: 165
-- Published through Printify/eBay tracking: 146
-- Ready for Printify: 47
+- Stable Printify-tracked products: 156
+- Published through Printify/eBay tracking: 137
+- Ready for Printify: 46
 
 ## Product Counts
 
 - Acrylic: stable 53, published 50, ready 0
-- Poster: stable 36, published 36, ready 1
-- Sticker: stable 76, published 60, ready 46
+- Poster: stable 40, published 40, ready 0
+- Sticker: stable 63, published 47, ready 46
 
 ## Etsy Phase 1 Prep
 
-- Draft-prepared Etsy launch candidates: 50
-- Acrylic: 16
-- Poster: 28
-- Sticker: 6
+- Draft-prepared Etsy launch candidates: 20
+- Acrylic: 6
+- Poster: 14
 
 ## Performance Snapshot
 
-- Latest eBay snapshot: 2026-05-06 01:23:31 -0400
+- Latest eBay snapshot: 2026-05-06 20:32:20 -0400
 - Rows read: 50
-- 0-view rows in snapshot: 42
-- Rows with at least 1 view: 8
+- 0-view rows in snapshot: 43
+- Rows with at least 1 view: 7
 - General promoted rows in snapshot: 50
 
 ## Local Low-Bandwidth Work Completed
 
 - Listing copy optimization candidates: 161
-- Pricing matrix scenarios: 96
-- Unified registry rows bucketed: 255
+- Pricing matrix scenarios: 6
+- Unified registry rows bucketed: 274
 - Etsy digital printable upload queue: 20 listings, max file 3.42MB, under 20MB limit: True
 - Etsy digital previews: 20 listings x 3 preview images
 - Etsy digital final upload packet: 20 listings, QA bad=0, missing=0
 - Etsy digital bundle concepts: 3
+- Etsy Digital gray queue rows: 30
+- Etsy Digital live listings: 10
+- Etsy Digital confirmed listing-fee spend: $2.00
+- Etsy Digital public audit active/readable: 10
+- Etsy legacy listings retired/deleted: 2
 - eBay cover QA rows: 14
 
 ## Unified Registry Buckets
 
-- Etsy_Draft_Prepared: 32
+- Etsy_Draft_Prepared: 6
 - Fix_Gallery_First: 1
-- Hold: 120
-- Published_Has_View_Monitor: 8
-- Published_Zero_View_Copy_Ad_Review: 28
-- Ready_For_Printify_When_Network_OK: 47
+- Hold: 152
+- Published_Has_View_Monitor: 7
+- Published_Zero_View_Copy_Ad_Review: 43
+- Ready_For_Printify_When_Network_OK: 46
 - Stable_Draft_Publish_When_Scheduled: 19
 
 ## eBay Traffic Experiment
@@ -78,11 +82,11 @@ Generated: 2026-05-06 17:07 -0400 America/New_York
 - Live eBay cover audit AMBIGUOUS: 48
 - Live eBay cover audit ERROR: 1
 - Live eBay cover audit LIKELY_COVER: 13
-- Live eBay cover audit LIKELY_COVER_OFFICIAL: 36
+- Live eBay cover audit LIKELY_COVER_OFFICIAL: 50
 - Live eBay cover audit LIKELY_SINGLE_U_MISMATCH: 50
 - Live cover fix queue rows: 49
-- Cover replacement queue READY_TO_REPLACE_VERIFIED: 31
-- Cover replacement queue REPLACEMENT_PUBLISHED_LIVE_PASS: 14
+- Cover replacement queue OLD_RETIRED_REPLACED_DONE: 24
+- Cover replacement queue READY_TO_REPLACE_VERIFIED: 21
 - Cover replacement queue REVIEW_BEFORE_REPLACE: 4
 - Printify image-default audit rows: 161
 - Printify image-default audit CHECK: 123
@@ -92,10 +96,11 @@ Generated: 2026-05-06 17:07 -0400 America/New_York
 
 - Backlog READY: 7
 - Backlog READY_FOR_SCHOLAR_REVIEW: 1
+- Backlog READY_MONITOR: 1
 - Backlog READY_SINGLE_SKU_REPAIR: 1
 - Backlog READY_TO_REPLACE_VERIFIED: 2
 - Backlog WAIT_COVER_GATE: 2
-- Backlog WAIT_USER_OR_API_APPROVAL: 2
+- Backlog WAIT_USER_OR_API_APPROVAL: 1
 
 Top tasks:
 - P100 control / READY: Run local supervisor maintenance cycle
@@ -124,8 +129,8 @@ Lane counts:
 ## Current Guardrails
 
 - eBay rapid publish remains paused after Akamai/zero-size-object instability.
-- Until wired/low-latency network is confirmed, prefer local low-bandwidth tasks and single-item network probes.
-- No Etsy publish until Rex confirms listing-fee spend.
+- Wired LAN is fixed; online work may run normally, but marketplace/account-risk throttles still apply.
+- Etsy Digital first gray batch is live; do not spend beyond the next approved gray cell without traffic/signal logic.
 - No paid ads activated without final action-time confirmation.
 - Sticker expansion remains paused until the custom cover/gallery issue is fixed.
 - Multiple Printify official/default mockups are allowed when they help product context; publish is blocked only by missing custom design/cover, live buyer-page mismatch, or zero default image.
@@ -138,8 +143,8 @@ Lane counts:
 
 ## Questions for Gemini
 
-1. Given the current low-view eBay signal, which buyer persona should the first Etsy launch prioritize?
-2. For a 30-listing Etsy relaunch, is the Poster/Acrylic-heavy mix commercially sensible, or should Sticker/digital printable be emphasized sooner?
+1. Given the first 10 Etsy Digital listings are live, what early signal should decide whether to spend the next $2 gray cell?
+2. If the first 10 get 0 views after indexing, which search-intent variable should be changed first: title/category angle, product format, or visual theme?
 3. Which three visual DNA themes should be expanded first if Etsy impressions appear but clicks remain low?
 4. What ad test would you run first with a $3-5/day Etsy Ads budget after 48-72 hours of organic data?
 5. Which product language sounds too mass-generated and should be softened before launch?

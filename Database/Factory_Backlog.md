@@ -1,14 +1,15 @@
 # Factory Backlog
 
-Generated: 2026-05-06 20:31:25 -0400 America/New_York
+Generated: 2026-05-06 22:30:36 -0400 America/New_York
 
 ## Status Counts
 
 - READY: 7
 - READY_TO_REPLACE_VERIFIED: 2
 - WAIT_COVER_GATE: 2
-- WAIT_USER_OR_API_APPROVAL: 2
 - READY_SINGLE_SKU_REPAIR: 1
+- READY_MONITOR: 1
+- WAIT_USER_OR_API_APPROVAL: 1
 - READY_FOR_SCHOLAR_REVIEW: 1
 
 ## Lane Counts
@@ -24,8 +25,8 @@ Generated: 2026-05-06 20:31:25 -0400 America/New_York
 - supervisor:read_only_market: 1
 - supervisor:production_design_qa: 1
 - market_learning: 1
-- supervisor:etsy: 1
 - etsy: 1
+- supervisor:etsy: 1
 - supervisor:copy_experiment: 1
 - r_and_d: 1
 
@@ -108,19 +109,19 @@ Generated: 2026-05-06 20:31:25 -0400 America/New_York
 - Done when: Traffic report identifies exposure/click/conversion blockers from snapshots and cover queues.
 - Risk/network: low / local
 
+### P56 etsy - READY_MONITOR
+- Task: Monitor first 10 Etsy Digital listings before spending more
+- Blocker: Live=10 ready=20 confirmed_spend=$2.00.
+- Command: `py modules\etsy_live_audit.py --limit 10`
+- Done when: Morning readout has active/readable status plus views/favorites when available; do not scale until signal or Rex resumes.
+- Risk/network: low / Etsy public/UI read
+
 ### P55 supervisor:etsy - WAIT_USER_OR_API_APPROVAL
 - Task: Keep Etsy launch packet local until shop/API approval is ready.
 - Blocker: Etsy developer app is pending approval and Rex has not asked to publish Etsy listings yet.
 - Command: `py modules\etsy_digital_listing_export.py`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: low / no
-
-### P54 etsy - WAIT_USER_OR_API_APPROVAL
-- Task: Hold Etsy digital packet until shop/API readiness, then launch curated low-cost test
-- Blocker: 20 digital listing rows prepared locally; no Etsy fee triggered.
-- Command: `py modules\etsy_digital_listing_export.py`
-- Done when: When Etsy is cleared, first 20-30 curated listings have files, previews, tags, descriptions, and pricing ready.
-- Risk/network: low / local now / Etsy later
 
 ### P50 supervisor:copy_experiment - READY
 - Task: Continue low-bandwidth SEO/title/description experiment analysis.

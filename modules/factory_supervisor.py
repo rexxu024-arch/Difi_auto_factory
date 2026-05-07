@@ -38,6 +38,8 @@ ACTION_QUEUE = DATABASE_DIR / "Factory_Autopilot_Action_Queue.csv"
 ACTION_SUMMARY = DATABASE_DIR / "Factory_Autopilot_Action_Queue.md"
 STATE_JSON = DATABASE_DIR / "Factory_Autopilot_State.json"
 RUN_LOG = DATABASE_DIR / "Factory_Autopilot_Run_Log.csv"
+ETSY_GRAY_QUEUE = DATABASE_DIR / "Etsy_Digital_Gray_Launch_Queue.csv"
+ETSY_FEE_LEDGER = DATABASE_DIR / "Etsy_Fee_Ledger.csv"
 
 
 LOCAL_MODULES = [
@@ -112,6 +114,31 @@ def default_insufficiency_count() -> int:
         if clean(row.get("Error")) or selected < expected or defaults < 1:
             count += 1
     return count
+
+
+def etsy_gray_summary() -> dict[str, object]:
+    queue_rows = read_csv(ETSY_GRAY_QUEUE)
+    ledger_rows = read_csv(ETSY_FEE_LEDGER)
+    published = [row for row in queue_rows if clean(row.get("Launch_Status")) == "PUBLISHED_UI_CONFIRMED"]
+    ready = [
+        row
+        for row in queue_rows
+        if clean(row.get("Launch_Status")) in {"READY_BLOCKED_ETSY_AUTH", "READY_TO_PUBLISH", "READY_UI_PUBLISH"}
+        and not clean(row.get("Etsy_Listing_ID"))
+    ]
+    confirmed_spend = 0.0
+    for row in ledger_rows:
+        if clean(row.get("Status")).startswith("CONFIRMED"):
+            try:
+                confirmed_spend += float(row.get("Confirmed_Spent_USD") or 0)
+            except ValueError:
+                pass
+    return {
+        "queue_rows": len(queue_rows),
+        "published": len(published),
+        "ready": len(ready),
+        "confirmed_spend": confirmed_spend,
+    }
 
 
 def latest_performance_age_hours() -> float | None:
@@ -319,19 +346,35 @@ def build_actions(strategy: dict[str, object]) -> list[FactoryAction]:
         )
     )
 
-    actions.append(
-        FactoryAction(
-            55,
-            "etsy",
-            "Keep Etsy launch packet local until shop/API approval is ready.",
-            "WAIT_USER_OR_API_APPROVAL",
-            "Etsy developer app is pending approval and Rex has not asked to publish Etsy listings yet.",
-            "py modules\\etsy_digital_listing_export.py",
-            "no",
-            "no",
-            "low",
+    etsy_gray = etsy_gray_summary()
+    if etsy_gray["published"]:
+        actions.append(
+            FactoryAction(
+                55,
+                "etsy",
+                "Monitor Etsy Digital first gray batch before spending more listing fees.",
+                "READY_MONITOR",
+                f"Live={etsy_gray['published']} ready={etsy_gray['ready']} confirmed_spend=${etsy_gray['confirmed_spend']:.2f}; hold scale until first traffic readout.",
+                "py modules\\etsy_live_audit.py --limit 10",
+                "yes",
+                "Etsy UI/public",
+                "low",
+            )
         )
-    )
+    else:
+        actions.append(
+            FactoryAction(
+                55,
+                "etsy",
+                "Publish first Etsy Digital gray batch only if account and fee guards allow it.",
+                "READY" if etsy_gray["ready"] else "WAIT_USER_OR_API_APPROVAL",
+                f"Queue={etsy_gray['queue_rows']} ready={etsy_gray['ready']} confirmed_spend=${etsy_gray['confirmed_spend']:.2f}.",
+                "py modules\\etsy_digital_ui_publisher.py --limit 1",
+                "yes",
+                "Etsy UI",
+                "medium",
+            )
+        )
 
     actions.append(
         FactoryAction(

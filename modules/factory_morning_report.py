@@ -21,6 +21,10 @@ ETSY_DIGITAL_BUNDLES = DATABASE_DIR / "Etsy_Digital_Bundle_Queue.csv"
 ETSY_DIGITAL_PREVIEWS = DATABASE_DIR / "Etsy_Digital_Preview_Assets.csv"
 ETSY_DIGITAL_QA = DATABASE_DIR / "Etsy_Digital_QA.csv"
 ETSY_DIGITAL_FINAL_PACKET = DATABASE_DIR / "Etsy_Digital_Final_Upload_Packet.csv"
+ETSY_GRAY_QUEUE = DATABASE_DIR / "Etsy_Digital_Gray_Launch_Queue.csv"
+ETSY_FEE_LEDGER = DATABASE_DIR / "Etsy_Fee_Ledger.csv"
+ETSY_LIVE_AUDIT = DATABASE_DIR / "Etsy_Digital_Live_Audit.csv"
+ETSY_LEGACY_STATUS = DATABASE_DIR / "Etsy_Legacy_Retirement_Status.csv"
 EBAY_EXPERIMENT = DATABASE_DIR / "eBay_Traffic_Experiment.csv"
 EBAY_EXPERIMENT_REPORT = DATABASE_DIR / "eBay_Traffic_Experiment_Report.csv"
 EBAY_TRAFFIC_DIAGNOSIS = DATABASE_DIR / "eBay_Traffic_Diagnosis.csv"
@@ -185,6 +189,36 @@ def _digital_summary():
                 except ValueError:
                     pass
                 all_ok = all_ok and str(row.get("All_Under_20MB")).lower() == "true"
+    gray_rows = []
+    if ETSY_GRAY_QUEUE.exists():
+        with ETSY_GRAY_QUEUE.open("r", encoding="utf-8-sig", newline="") as handle:
+            gray_rows = list(csv.DictReader(handle))
+    gray_status = Counter(row.get("Launch_Status") or "Unknown" for row in gray_rows)
+    gray_fee = Counter(row.get("Fee_Status") or "Unknown" for row in gray_rows)
+    confirmed_spend = 0.0
+    if ETSY_FEE_LEDGER.exists():
+        with ETSY_FEE_LEDGER.open("r", encoding="utf-8-sig", newline="") as handle:
+            for row in csv.DictReader(handle):
+                if str(row.get("Status") or "").startswith("CONFIRMED"):
+                    try:
+                        confirmed_spend += float(row.get("Confirmed_Spent_USD") or 0)
+                    except ValueError:
+                        pass
+    live_counts = Counter()
+    if ETSY_LIVE_AUDIT.exists():
+        latest = {}
+        with ETSY_LIVE_AUDIT.open("r", encoding="utf-8-sig", newline="") as handle:
+            for row in csv.DictReader(handle):
+                if row.get("Etsy_Listing_ID"):
+                    latest[row["Etsy_Listing_ID"]] = row
+        for row in latest.values():
+            live_counts[row.get("Status") or "Unknown"] += 1
+    legacy_retired = 0
+    if ETSY_LEGACY_STATUS.exists():
+        with ETSY_LEGACY_STATUS.open("r", encoding="utf-8-sig", newline="") as handle:
+            for row in csv.DictReader(handle):
+                if str(row.get("Status") or "").startswith("DELETED"):
+                    legacy_retired += 1
     return {
         "queue_rows": queue_rows,
         "bundle_rows": bundle_rows,
@@ -194,6 +228,12 @@ def _digital_summary():
         "qa_missing": qa_missing,
         "max_mb": max_mb,
         "all_ok": all_ok,
+        "gray_rows": len(gray_rows),
+        "gray_status": gray_status,
+        "gray_fee": gray_fee,
+        "confirmed_spend": confirmed_spend,
+        "live_counts": live_counts,
+        "legacy_retired": legacy_retired,
     }
 
 
@@ -330,6 +370,11 @@ def build():
             f"- Etsy digital previews: {digital['preview_rows']} listings x 3 preview images",
             f"- Etsy digital final upload packet: {digital['final_packet_rows']} listings, QA bad={digital['qa_bad']}, missing={digital['qa_missing']}",
             f"- Etsy digital bundle concepts: {digital['bundle_rows']}",
+            f"- Etsy Digital gray queue rows: {digital['gray_rows']}",
+            f"- Etsy Digital live listings: {digital['gray_status'].get('PUBLISHED_UI_CONFIRMED', 0)}",
+            f"- Etsy Digital confirmed listing-fee spend: ${digital['confirmed_spend']:.2f}",
+            f"- Etsy Digital public audit active/readable: {digital['live_counts'].get('ACTIVE_READABLE', 0)}",
+            f"- Etsy legacy listings retired/deleted: {digital['legacy_retired']}",
             f"- eBay cover QA rows: {cover_qa_rows}",
             "",
             "## Unified Registry Buckets",
@@ -365,8 +410,8 @@ def build():
             "## Current Guardrails",
             "",
             "- eBay rapid publish remains paused after Akamai/zero-size-object instability.",
-            "- Until wired/low-latency network is confirmed, prefer local low-bandwidth tasks and single-item network probes.",
-            "- No Etsy publish until Rex confirms listing-fee spend.",
+            "- Wired LAN is fixed; online work may run normally, but marketplace/account-risk throttles still apply.",
+            "- Etsy Digital first gray batch is live; do not spend beyond the next approved gray cell without traffic/signal logic.",
             "- No paid ads activated without final action-time confirmation.",
             "- Sticker expansion remains paused until the custom cover/gallery issue is fixed.",
             "- Multiple Printify official/default mockups are allowed when they help product context; publish is blocked only by missing custom design/cover, live buyer-page mismatch, or zero default image.",
@@ -396,8 +441,8 @@ def build():
                 "",
                 "## Questions for Gemini",
                 "",
-                "1. Given the current low-view eBay signal, which buyer persona should the first Etsy launch prioritize?",
-                "2. For a 30-listing Etsy relaunch, is the Poster/Acrylic-heavy mix commercially sensible, or should Sticker/digital printable be emphasized sooner?",
+                "1. Given the first 10 Etsy Digital listings are live, what early signal should decide whether to spend the next $2 gray cell?",
+                "2. If the first 10 get 0 views after indexing, which search-intent variable should be changed first: title/category angle, product format, or visual theme?",
                 "3. Which three visual DNA themes should be expanded first if Etsy impressions appear but clicks remain low?",
                 "4. What ad test would you run first with a $3-5/day Etsy Ads budget after 48-72 hours of organic data?",
                 "5. Which product language sounds too mass-generated and should be softened before launch?",

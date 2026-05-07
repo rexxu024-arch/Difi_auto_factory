@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-06T20:31:26-04:00",
+  "generated_at": "2026-05-06T22:30:37-04:00",
   "timezone": "America/New_York",
   "network_strategy": {
     "mode": "unknown",
@@ -8,16 +8,16 @@
     "reason": "network guard skipped"
   },
   "workbook_counts": {
-    "rows": 273,
-    "stable": 169,
-    "published": 150,
+    "rows": 274,
+    "stable": 156,
+    "published": 137,
     "ready": 46,
     "by_product": {
       "Sticker": {
-        "stable": 76,
-        "published": 60,
+        "stable": 63,
+        "published": 47,
         "ready": 46,
-        "rows": 174
+        "rows": 175
       },
       "Poster": {
         "stable": 40,
@@ -44,7 +44,7 @@
     "OK": 38,
     "CHECK": 123
   },
-  "performance_age_hours": 19.13210069666667,
+  "performance_age_hours": 1.9714200180555557,
   "printify_ui_status": {
     "status": "LOGGED_IN",
     "reason": "Printify app page is available in CDP browser."
@@ -84,17 +84,6 @@
       "risk": "medium"
     },
     {
-      "priority": 65,
-      "lane": "read_only_market",
-      "action": "Refresh eBay Seller Hub performance snapshot.",
-      "status": "READY",
-      "reason": "Performance data is stale or absent; this is read-only but browser/network dependent.",
-      "command": "py modules\\ebay_sellerhub_snapshot.py",
-      "requires_network": "yes",
-      "requires_login": "eBay Seller Hub",
-      "risk": "low"
-    },
-    {
       "priority": 63,
       "lane": "production_design_qa",
       "action": "Run a tiny Printify production-design audit before any larger online batch.",
@@ -108,12 +97,12 @@
     {
       "priority": 55,
       "lane": "etsy",
-      "action": "Keep Etsy launch packet local until shop/API approval is ready.",
-      "status": "WAIT_USER_OR_API_APPROVAL",
-      "reason": "Etsy developer app is pending approval and Rex has not asked to publish Etsy listings yet.",
-      "command": "py modules\\etsy_digital_listing_export.py",
-      "requires_network": "no",
-      "requires_login": "no",
+      "action": "Monitor Etsy Digital first gray batch before spending more listing fees.",
+      "status": "READY_MONITOR",
+      "reason": "Live=10 ready=20 confirmed_spend=$2.00; hold scale until first traffic readout.",
+      "command": "py modules\\etsy_live_audit.py --limit 10",
+      "requires_network": "yes",
+      "requires_login": "Etsy UI/public",
       "risk": "low"
     },
     {

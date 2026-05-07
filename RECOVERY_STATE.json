@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-06T21:58:00-04:00",
+  "updated_at": "2026-05-06T22:30:00-04:00",
   "timezone": "America/New_York",
   "source_of_truth": [
     "START_HERE_OPENCLAW.md",
@@ -207,6 +207,13 @@
       "Poster-Zen-0001 -> 4500669878"
     ],
     "rule": "First batch is live; hold further paid publishing until initial traffic/indexing readout unless Rex explicitly asks or the fee guard admits the next gray cell."
+  },
+  "latest_supervisor_state": {
+    "last_local_run": "2026-05-06 22:30 -04:00",
+    "result": "npm run local completed with failures=0.",
+    "etsy_status": "READY_MONITOR: first 10 Etsy Digital listings are live; monitor traffic before spending more.",
+    "latest_report": "Reports/morning_report_20260506_2230.md",
+    "latest_gemini_queue": "Gemini_Advisor/gemini_review_queue_20260506_2230.md"
   },
   "printify_external_pending": {
     "ids": [
