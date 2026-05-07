@@ -1056,3 +1056,23 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
   - `Sticker-Zen-0049` / `406902713267`
 - All three old listings returned `ENDED_CONFIRMED_SELLER_HUB` and old Printify external connections were detached.
 - Cover repair decision count improved to `RETIRED_REPLACED_DONE=28`, `SOURCE_REPAIR_REQUIRED=17`, `NON_STICKER_REVIEW_REQUIRED=4`.
+
+## 2026-05-06 23:39:00 -04:00 Cover Replacement Batch +5
+- Created, published, audited, and retired another five Sticker cover replacements:
+  - `Sticker-Zen-0050-FIX1` -> eBay `406909904704`
+  - `Sticker-Zen-0051-FIX1` -> eBay `406909905683`
+  - `Sticker-Zen-0052-FIX1` -> eBay `406909906686`
+  - `Sticker-Zen-0053-FIX1` -> eBay `406909907111`
+  - `Sticker-Zen-0054-FIX1` -> eBay `406909907742`
+- All five passed live eBay buyer-page cover audit as `LIKELY_COVER_OFFICIAL`.
+- Retired the five old bad-cover listings through Edge Seller Hub and detached old Printify external connections.
+- Refreshed supervisor/local reports; failures=0. Latest report: `Reports/morning_report_20260506_2339.md`.
+- Current cover-gate decision count: `RETIRED_REPLACED_DONE=33`, `SOURCE_REPAIR_REQUIRED=12`, `NON_STICKER_REVIEW_REQUIRED=4`.
+
+## 2026-05-06 23:48:00 -04:00 Grey Full Logic Asset Export
+- Created `Review_Packets/GREY_FULL_LOGIC_ASSET_EXPORT_20260506_2348.md`.
+- Created compressed packet `Review_Packets/GREY_FULL_LOGIC_ASSET_EXPORT_20260506_2348.zip`.
+- Packet includes full core source for listing SEO/title/description generation, Etsy digital metadata, Product_Line batching, Risk_Guard, Etsy fee kill switch use, Printify publish jitter, and eBay 2% ads queue logic.
+- Included raw 24h logs and status files: factory supervisor logs, Performance_Log, Printify login guard, eBay replacement/retire logs, external sync logs, Etsy publish/fee/audit logs, unified registry, market queue, and latest reports.
+- Structured extracts generated for Grey/Gemini: 42 project-scoped zero-view rows and 111 Draft/Pending rows.
+- Hardware/env snapshot captured: Intel N95 CPU sampled at 100%, memory 84.3% used, WMI temperature probe denied, Edge automation browser running on port 9223, npm package tree empty, Docker CLI installed but daemon not running.

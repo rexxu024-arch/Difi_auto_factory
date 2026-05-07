@@ -102,12 +102,12 @@
   ],
   "cover_repair_state": {
     "live_cover_fix_queue_rows": 49,
-    "source_repair_required": 17,
+    "source_repair_required": 12,
     "non_sticker_review_required": 4,
     "replacement_queue": "Database/eBay_Cover_Replacement_Queue.csv",
     "repair_decisions": "Database/eBay_Cover_Repair_Decisions.csv",
     "next_action_if_logged_in": "Run one targeted source repair with py modules\\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120, then live audit the same SKU before scaling.",
-    "latest_single_sku_test": "Sticker-Zen-0044-FIX1, 0045-FIX1, 0046-FIX1, and 0049-FIX1 passed live buyer-page cover audit as official-only cover replacements; the old bad-cover listings were retired through Edge Seller Hub and detached from Printify.",
+    "latest_single_sku_test": "Cover-only official replacement path is now proven at scale: Sticker-Zen-0044-FIX1 through 0046-FIX1 and 0049-FIX1 through 0054-FIX1 passed live buyer-page cover audit; all corresponding old bad-cover listings were retired through Edge Seller Hub and detached from Printify.",
     "replacement_draft_latest": "Cover-only replacement path is now production policy for Sticker: upload Cover only as custom marketplace image, keep Printify official mockups, retain U1-U4 only as local reference unless a separate audited gallery path is added."
   },
   "printify_login_state": {

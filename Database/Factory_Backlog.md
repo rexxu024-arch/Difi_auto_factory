@@ -1,6 +1,6 @@
 # Factory Backlog
 
-Generated: 2026-05-06 23:11:30 -0400 America/New_York
+Generated: 2026-05-06 23:46:44 -0400 America/New_York
 
 ## Status Counts
 
@@ -53,21 +53,21 @@ Generated: 2026-05-06 23:11:30 -0400 America/New_York
 
 ### P97 supervisor:replacement - READY_TO_REPLACE_VERIFIED
 - Task: Create one verified replacement listing for a live cover failure that survived source repair.
-- Blocker: 21 listing already failed source repair plus live eBay buyer-page audit.
+- Blocker: 12 listing already failed source repair plus live eBay buyer-page audit.
 - Command: `py modules\ebay_replacement_draft_builder.py --limit 1`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: high / yes
 
 ### P95 supervisor:cover_gate - READY_SINGLE_SKU_REPAIR
 - Task: Repair one Printify source cover, then live-audit eBay before scaling.
-- Blocker: Live cover queue has 49 rows; 21 require Printify source repair or replacement listings. Printify UI: LOGGED_IN - Printify app page is available in CDP browser.
+- Blocker: Live cover queue has 49 rows; 12 require Printify source repair or replacement listings. Printify UI: LOGGED_IN - Printify app page is available in CDP browser.
 - Command: `py modules\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: medium / yes
 
 ### P94 replacement - READY_TO_REPLACE_VERIFIED
 - Task: Create verified replacement listing for source-repaired live cover failure
-- Blocker: 20 row already failed source repair plus live eBay audit.
+- Blocker: 12 row already failed source repair plus live eBay audit.
 - Command: `py modules\ebay_replacement_draft_builder.py --limit 1`
 - Done when: Replacement row is created as Ready_for_Printify; public publish still waits for QA and retire sequencing.
 - Risk/network: high / single replacement listing
