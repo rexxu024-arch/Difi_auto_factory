@@ -1,8 +1,8 @@
-"""Launch or check a dedicated browser profile for OpenClaw automation.
+"""Launch or check a dedicated Edge profile for OpenClaw automation.
 
-This keeps marketplace/account automation out of Rex's daily Chrome/Edge
-windows. The browser is still visible if a login challenge needs human action,
-but normal script work should use this isolated remote-debugging profile and
+Marketplace/account automation must stay out of Rex's daily Chrome window.
+The browser is still visible if a login challenge needs human action, but
+normal script work should use this isolated Edge remote-debugging profile and
 close tabs after each task.
 """
 
@@ -49,6 +49,12 @@ def cdp_status(port: int) -> dict:
 
 
 def launch(browser: str, port: int, profile: Path, url: str, minimized: bool = True) -> dict:
+    if browser == "chrome" and os.getenv("OPENCLAW_ALLOW_CHROME_AUTOMATION") != "1":
+        raise RuntimeError(
+            "Chrome automation is disabled by default. Use Edge CDP 9223 for "
+            "marketplace/account work, or set OPENCLAW_ALLOW_CHROME_AUTOMATION=1 "
+            "for a non-marketplace exception."
+        )
     current = cdp_status(port)
     if current["status"] == "RUNNING":
         return current

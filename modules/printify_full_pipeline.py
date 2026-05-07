@@ -23,7 +23,7 @@ from modules.printify_mockup_ui_uploader import _assets, _default_count, _fetch_
 
 
 EBAY_BOOK = PROJECT_ROOT / "Database" / "eBay_listing.xlsx"
-CHROME_DEBUG_URL = (
+CDP_BASE = (
     f"http://127.0.0.1:{os.getenv('OPENCLAW_PRINTIFY_CDP_PORT') or os.getenv('OPENCLAW_CDP_PORT') or '9223'}"
 )
 EXPECTED_MOCKUPS = {
@@ -39,7 +39,7 @@ class PrintifyLoginRequired(RuntimeError):
 
 def _assert_printify_ui_logged_in():
     try:
-        with urllib.request.urlopen(f"{CHROME_DEBUG_URL}/json/list", timeout=10) as response:
+        with urllib.request.urlopen(f"{CDP_BASE}/json/list", timeout=10) as response:
             pages = json.load(response)
     except Exception as exc:
         raise PrintifyLoginRequired(f"Printify browser control is unavailable: {exc}") from exc
@@ -52,7 +52,7 @@ def _assert_printify_ui_logged_in():
 
 def _open_product_tab(product_id):
     url = f"https://printify.com/app/mockup-library/shops/{Config.Printify_SHOP_ID}/products/{product_id}?revealUploads=true"
-    with urllib.request.urlopen(f"{CHROME_DEBUG_URL}/json/list", timeout=10) as response:
+    with urllib.request.urlopen(f"{CDP_BASE}/json/list", timeout=10) as response:
         pages = json.load(response)
     tab = next((page for page in pages if product_id in page.get("url", "") and page.get("webSocketDebuggerUrl")), None)
     if not tab:
@@ -61,7 +61,7 @@ def _open_product_tab(product_id):
             None,
         )
     if not tab:
-        req = urllib.request.Request(f"{CHROME_DEBUG_URL}/json/new", data=url.encode("utf-8"), method="PUT")
+        req = urllib.request.Request(f"{CDP_BASE}/json/new", data=url.encode("utf-8"), method="PUT")
         tab = json.loads(urllib.request.urlopen(req, timeout=10).read().decode("utf-8", "ignore"))
     if tab.get("webSocketDebuggerUrl"):
         async def navigate():

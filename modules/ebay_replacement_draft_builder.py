@@ -67,8 +67,6 @@ def append_log(row: dict[str, str]) -> None:
 
 def build(limit: int = 1, dry_run: bool = False) -> list[str]:
     ready = [row for row in read_queue() if row.get("Replacement_Status") == "READY_TO_REPLACE_VERIFIED"]
-    if limit:
-        ready = ready[:limit]
     if not ready:
         print("[REPLACEMENT-DRAFT] no READY_TO_REPLACE_VERIFIED rows")
         return []
@@ -98,6 +96,9 @@ def build(limit: int = 1, dry_run: bool = False) -> list[str]:
                 continue
             if dry_run:
                 print(f"[REPLACEMENT-DRAFT-DRY] {old_id} -> {replacement_id}")
+                created.append(replacement_id)
+                if limit and len(created) >= limit:
+                    break
                 continue
             new_idx = ws.max_row + 1
             for header in headers:
@@ -125,6 +126,8 @@ def build(limit: int = 1, dry_run: bool = False) -> list[str]:
                 }
             )
             print(f"[REPLACEMENT-DRAFT] {old_id} -> {replacement_id}")
+            if limit and len(created) >= limit:
+                break
         if created:
             wb.save(EBAY_BOOK)
     finally:

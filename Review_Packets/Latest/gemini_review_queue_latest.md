@@ -1,6 +1,6 @@
 # Gemini Advisor Review Queue
 
-Generated: 2026-05-07 10:51 -0400 America/New_York
+Generated: 2026-05-07 12:10 -0400 America/New_York
 
 Rex is Commander, Gemini is Strategy Advisor, Codex is Executive Operator.
 
@@ -10,19 +10,19 @@ Please review the current OpenClaw plan as a strategy advisor. Do not request AP
 
 # OpenClaw Morning Report
 
-Generated: 2026-05-07 10:51 -0400 America/New_York
+Generated: 2026-05-07 12:10 -0400 America/New_York
 
 ## Current Factory State
 
-- Stable Printify-tracked products: 161
-- Published through Printify/eBay tracking: 145
+- Stable Printify-tracked products: 135
+- Published through Printify/eBay tracking: 119
 - Ready for Printify: 46
 
 ## Product Counts
 
-- Acrylic: stable 53, published 53, ready 0
-- Poster: stable 45, published 45, ready 0
-- Sticker: stable 63, published 47, ready 46
+- Acrylic: stable 40, published 40, ready 0
+- Poster: stable 33, published 33, ready 0
+- Sticker: stable 62, published 46, ready 46
 
 ## Etsy Phase 1 Prep
 
@@ -82,11 +82,11 @@ Generated: 2026-05-07 10:51 -0400 America/New_York
 - Live eBay cover audit AMBIGUOUS: 48
 - Live eBay cover audit ERROR: 1
 - Live eBay cover audit LIKELY_COVER: 13
-- Live eBay cover audit LIKELY_COVER_OFFICIAL: 59
+- Live eBay cover audit LIKELY_COVER_OFFICIAL: 61
 - Live eBay cover audit LIKELY_SINGLE_U_MISMATCH: 50
 - Live cover fix queue rows: 49
-- Cover replacement queue OLD_RETIRED_REPLACED_DONE: 33
-- Cover replacement queue READY_TO_REPLACE_VERIFIED: 12
+- Cover replacement queue OLD_RETIRED_REPLACED_DONE: 35
+- Cover replacement queue READY_TO_REPLACE_VERIFIED: 10
 - Cover replacement queue REVIEW_BEFORE_REPLACE: 4
 - Printify image-default audit rows: 161
 - Printify image-default audit CHECK: 123

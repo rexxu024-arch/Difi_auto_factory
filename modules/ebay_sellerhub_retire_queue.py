@@ -24,6 +24,11 @@ EBAY_BOOK = PROJECT_ROOT / "Database" / "eBay_listing.xlsx"
 LOG_FILE = PROJECT_ROOT / "Database" / "eBay_Retire_Run_Log.csv"
 CDP_PORT = int(os.getenv("OPENCLAW_EBAY_CDP_PORT") or os.getenv("OPENCLAW_CDP_PORT") or "9223")
 CDP_BASE = f"http://127.0.0.1:{CDP_PORT}"
+RETIRE_READY_STATUSES = {
+    "WAIT_SAFE_END_LISTING_PATH",
+    "READY_RETIRE_AFTER_REX_OR_SAFE_EBAY_API",
+    "RETIRE_FAILED_RETRY",
+}
 
 
 def _now():
@@ -240,7 +245,7 @@ async def run(limit=1, delay=15, dry_run=False, detach_printify=True):
     pending = [
         (idx, row)
         for idx, row in enumerate(rows)
-        if str(row.get("Status") or "").strip() in {"WAIT_SAFE_END_LISTING_PATH", "RETIRE_FAILED_RETRY"}
+        if str(row.get("Status") or "").strip() in RETIRE_READY_STATUSES
     ]
     processed = 0
     for idx, row in pending[:limit]:
@@ -249,6 +254,7 @@ async def run(limit=1, delay=15, dry_run=False, detach_printify=True):
         product_id = str(row.get("Old_Printify_Product_ID") or "").strip()
         if dry_run:
             print(f"[RETIRE-DRY] {old_id} ebay={ebay_id} product={product_id}")
+            processed += 1
             continue
         try:
             result, note = await _retire_one_via_sellerhub(ebay_id)

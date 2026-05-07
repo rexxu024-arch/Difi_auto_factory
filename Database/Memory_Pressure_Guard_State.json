@@ -1,73 +1,68 @@
 {
-  "timestamp": "2026-05-07 10:49:37 -0400",
-  "mode": "EXECUTE_CLEANUP",
+  "timestamp": "2026-05-07 12:22:47 -0400",
+  "mode": "NOOP_BELOW_THRESHOLD",
   "execute": true,
   "cdp_port": 9223,
-  "memory_soft_pct": 82,
+  "memory_soft_pct": 82.0,
   "memory_hard_pct": 92.0,
-  "cpu_soft_pct": 85,
-  "memory_before": 85.4,
-  "memory_after": 85.4,
-  "cpu_before": 72.0,
-  "cpu_after": 52.0,
-  "closed_tabs": [
-    {
-      "action": "EDGE_CDP_UNAVAILABLE",
-      "error": "URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>"
-    }
-  ],
+  "cpu_soft_pct": 85.0,
+  "memory_before": 81.3,
+  "memory_after": 80.9,
+  "cpu_before": 50.0,
+  "cpu_after": 22.0,
+  "closed_tabs": [],
   "top_processes": [
     {
-      "ProcessName": "chrome",
-      "Id": 3280,
-      "WorkingSetMB": 2713.9,
-      "CPU": 9739.796875
-    },
-    {
-      "ProcessName": "chrome",
-      "Id": 9740,
-      "WorkingSetMB": 507,
-      "CPU": 51174.328125
+      "ProcessName": "Memory Compression",
+      "Id": 2944,
+      "WorkingSetMB": 609.6,
+      "CPU": null
     },
     {
       "ProcessName": "Codex",
       "Id": 27652,
-      "WorkingSetMB": 426.6,
-      "CPU": 16662.734375
+      "WorkingSetMB": 565.9,
+      "CPU": 18420.703125
+    },
+    {
+      "ProcessName": "chrome",
+      "Id": 28132,
+      "WorkingSetMB": 476.2,
+      "CPU": 550.0625
     },
     {
       "ProcessName": "chrome",
       "Id": 18944,
-      "WorkingSetMB": 268.1,
-      "CPU": 17.03125
+      "WorkingSetMB": 380.3,
+      "CPU": 210.734375
+    },
+    {
+      "ProcessName": "chrome",
+      "Id": 9740,
+      "WorkingSetMB": 379.9,
+      "CPU": 51803.609375
+    },
+    {
+      "ProcessName": "chrome",
+      "Id": 21820,
+      "WorkingSetMB": 311.7,
+      "CPU": 44.359375
     },
     {
       "ProcessName": "chrome",
       "Id": 21384,
-      "WorkingSetMB": 246.7,
-      "CPU": 473.125
+      "WorkingSetMB": 306.2,
+      "CPU": 547.828125
     },
     {
-      "ProcessName": "chrome",
-      "Id": 24452,
-      "WorkingSetMB": 214.4,
-      "CPU": 6888.234375
-    },
-    {
-      "ProcessName": "MsMpEng",
-      "Id": 4564,
-      "WorkingSetMB": 200.8,
-      "CPU": null
-    },
-    {
-      "ProcessName": "Code",
-      "Id": 19100,
-      "WorkingSetMB": 194.4,
-      "CPU": 1331.796875
+      "ProcessName": "msedge",
+      "Id": 20016,
+      "WorkingSetMB": 255.8,
+      "CPU": 18.609375
     }
   ],
-  "decision": "MEMORY_STILL_WARM_BUT_WORKABLE",
-  "reason": "continue light work; avoid browser/image-heavy tasks",
+  "decision": "MEMORY_OK_CONTINUE",
+  "reason": "normal work may continue under marketplace risk guards",
   "privacy_rule": "Only closes project automation Edge tabs through CDP 9223. Does not inspect or close Rex's daily Chrome tabs.",
   "optimization_rule": "Cleanup first, then resample. Pause only if pressure remains high after closing safe idle project tabs and reducing concurrency.",
   "rest_rule": "Do not shutdown/restart by default; if pressure stays high after cleanup, write rest-cycle recommendation unless Rex explicitly requests immediate power action."

@@ -1323,3 +1323,24 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 ## 2026-05-07 11:27:03 -04:00 Edge-Only Marketplace Account Rule Reconfirmed
 - Rex reconfirmed Etsy/Printify/eBay login, Seller Hub checks, and marketplace data gathering must be handled in Edge, not Chrome.
 - Chrome remains Rex private/daily browser; automation should use Edge CDP 9223 and API paths.
+
+## 2026-05-07 11:55:20 -04:00 Cover Gate Replacement 0055 Closed
+- `Sticker-Zen-0055-FIX1` was already published and buyer-page cover verified as official-only.
+- Old `Sticker-Zen-0055` was safely ended through Edge Seller Hub and detached from Printify.
+- Retire queue now records the old item as `RETIRED_CONFIRMED`.
+
+## 2026-05-07 12:04:19 -04:00 Cover Gate Replacement 0056 Closed
+- Created replacement draft `Sticker-Zen-0056-FIX1`.
+- Printify design audit passed with visual match and `ahash_distance=0`.
+- Printify primary audit passed with official sticker mockups selected: `selected=3`, `official=3`, `defaults=1`.
+- Published replacement to eBay item `406911030956`; live buyer-page audit returned `LIKELY_COVER_OFFICIAL`.
+- Old `Sticker-Zen-0056` was safely ended through Edge Seller Hub and detached from Printify.
+- Remaining Cover Gate replacement queue: `10 READY_TO_REPLACE_VERIFIED`, `4 REVIEW_BEFORE_REPLACE`.
+
+## 2026-05-07 12:27:36 -04:00 Cover Gate Replacement 0057 Closed; 0058 Held
+- Created and QA-published `Sticker-Zen-0057-FIX1`; initial Printify publish had missing external id.
+- Fixed self-healing age calculation to use `Publish_Timestamp` before `External_Missing_First_Seen`, preventing false age=0 loops.
+- Self-healing daemon later found Printify `external.id=406911046712` and force-associated the local workbook row.
+- Live buyer-page cover audit passed `LIKELY_COVER_OFFICIAL`; old `Sticker-Zen-0057` was ended through Edge Seller Hub and detached from Printify.
+- `Sticker-Zen-0058-FIX1` was created but held: Printify product exists, production design passed, but official mockup selection returned `selected=0`; old listing remains live until recovery succeeds.
+- Replacement queue now: `36 OLD_RETIRED_REPLACED_DONE`, `8 READY_TO_REPLACE_VERIFIED`, `1 REPLACEMENT_STAGED_MOCKUP_SELECTION_FAILED`, `4 REVIEW_BEFORE_REPLACE`.

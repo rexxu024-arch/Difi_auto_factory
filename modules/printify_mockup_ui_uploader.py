@@ -21,7 +21,7 @@ from config import Config
 
 
 EBAY_BOOK = PROJECT_ROOT / "Database" / "eBay_listing.xlsx"
-CHROME_DEBUG_URL = (
+CDP_BASE = (
     f"http://127.0.0.1:{os.getenv('OPENCLAW_PRINTIFY_CDP_PORT') or os.getenv('OPENCLAW_CDP_PORT') or '9223'}"
 )
 TARGET_VARIANT_ID = 45754
@@ -165,7 +165,7 @@ def _product_type(row):
 
 
 def _target_ws(product_id):
-    with urllib.request.urlopen(f"{CHROME_DEBUG_URL}/json/list", timeout=10) as response:
+    with urllib.request.urlopen(f"{CDP_BASE}/json/list", timeout=10) as response:
         pages = json.load(response)
     target_urls = (f"product-details/{product_id}", f"products/{product_id}")
     for page in pages:
@@ -179,7 +179,7 @@ def _target_ws(product_id):
     )
     if tab and tab.get("webSocketDebuggerUrl"):
         return tab["webSocketDebuggerUrl"]
-    request = urllib.request.Request(f"{CHROME_DEBUG_URL}/json/new", data=url.encode("utf-8"), method="PUT")
+    request = urllib.request.Request(f"{CDP_BASE}/json/new", data=url.encode("utf-8"), method="PUT")
     tab = json.loads(urllib.request.urlopen(request, timeout=10).read().decode("utf-8", "ignore"))
     if tab.get("webSocketDebuggerUrl"):
         return tab["webSocketDebuggerUrl"]

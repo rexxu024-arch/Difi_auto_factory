@@ -1,7 +1,7 @@
 """Recover or verify the Printify CDP browser login.
 
 The guard never stores passwords and never chooses an unknown Google account.
-It relies on the existing Chrome remote-debug profile and the saved Google
+It relies on the dedicated Edge remote-debug profile and the saved Google
 session. If Printify asks for a password or a different Google account, it
 stops and records a manual-login requirement.
 """
@@ -28,7 +28,7 @@ from modules.printify_mockup_ui_uploader import CdpPage
 
 
 CDP_PORT = int(os.getenv("OPENCLAW_PRINTIFY_CDP_PORT") or os.getenv("OPENCLAW_CDP_PORT") or "9223")
-CHROME_DEBUG_URL = f"http://127.0.0.1:{CDP_PORT}"
+CDP_BASE = f"http://127.0.0.1:{CDP_PORT}"
 DATABASE_DIR = PROJECT_ROOT / "Database"
 STATUS_JSON = DATABASE_DIR / "Printify_Login_Status.json"
 RUN_LOG = DATABASE_DIR / "Printify_Login_Guard.log"
@@ -62,12 +62,12 @@ def write_status(status: str, detail: str, url: str = "") -> dict[str, str]:
 
 
 def list_pages() -> list[dict]:
-    with urllib.request.urlopen(f"{CHROME_DEBUG_URL}/json/list", timeout=10) as response:
+    with urllib.request.urlopen(f"{CDP_BASE}/json/list", timeout=10) as response:
         return json.load(response)
 
 
 def new_tab(url: str) -> dict:
-    request = urllib.request.Request(f"{CHROME_DEBUG_URL}/json/new", data=url.encode("utf-8"), method="PUT")
+    request = urllib.request.Request(f"{CDP_BASE}/json/new", data=url.encode("utf-8"), method="PUT")
     return json.loads(urllib.request.urlopen(request, timeout=10).read().decode("utf-8", "ignore"))
 
 
@@ -193,7 +193,7 @@ async def recover_login(timeout: int = 90, dry_run: bool = False) -> dict[str, s
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Verify or recover Printify login in Chrome CDP profile.")
+    parser = argparse.ArgumentParser(description="Verify or recover Printify login in the dedicated Edge CDP profile.")
     parser.add_argument("--timeout", type=int, default=90)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()

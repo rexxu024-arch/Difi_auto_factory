@@ -222,6 +222,8 @@ def _candidate_rows(sheet, headers, limit=0, ids=None, missing_history=None):
             if "External_Missing_First_Seen" in cols
             else None
         )
+        if not first_seen and "Publish_Timestamp" in cols:
+            first_seen = _parse_datetime(sheet.cell(row_idx, cols["Publish_Timestamp"]).value)
         hist = missing_history.get(item_id) or {}
         if not first_seen:
             first_seen = hist.get("first_seen")

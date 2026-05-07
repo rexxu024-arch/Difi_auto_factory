@@ -9,3 +9,8 @@
 2026-05-07T09:17:59,0,False,full_throughput,wired/healthy; avg=16ms,steady,status_page_steady_marker,0.067
 2026-05-07T10:40:49,0,False,full_throughput,wired/healthy; avg=6ms,steady,status_page_steady_marker,0.067
 2026-05-07T10:51:11,0,False,full_throughput,wired/healthy; avg=8ms,steady,status_page_steady_marker,0.067
+2026-05-07T12:09:59,1,False,full_throughput,wired/healthy; avg=12ms,steady,status_page_steady_marker,0.067
+2026-05-07T12:12:06,1,True,full_throughput,wired/healthy; avg=5ms,steady,status_page_steady_marker,0.067
+2026-05-07T12:13:39,1,False,full_throughput,wired/healthy; avg=8ms,steady,status_page_steady_marker,0.067
+2026-05-07T12:24:41,1,False,full_throughput,wired/healthy; avg=9ms,steady,status_page_steady_marker,0.067
+2026-05-07T12:25:10,1,True,full_throughput,wired/healthy; avg=10ms,steady,status_page_steady_marker,0.067

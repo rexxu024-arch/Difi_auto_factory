@@ -1,69 +1,69 @@
 {
-  "ui_session_running": false,
-  "updated_at": "2026-05-07T10:40:11-04:00",
-  "timestamp": "2026-05-07 10:40:18 -0400",
+  "ui_session_running": true,
+  "updated_at": "2026-05-07T12:10:04-04:00",
+  "timestamp": "2026-05-07 12:10:10 -0400",
   "decision": "CONTINUE",
   "execute": true,
-  "ui_session_seconds": 0,
+  "ui_session_seconds": 1807,
   "snapshot": {
-    "timestamp": "2026-05-07T10:40:18-04:00",
-    "cpu_load_pct": 57.0,
-    "memory_used_pct": 82.6,
+    "timestamp": "2026-05-07T12:10:10-04:00",
+    "cpu_load_pct": 43.0,
+    "memory_used_pct": 80.8,
     "memory_total_gb": 11.75,
-    "memory_free_gb": 2.04,
+    "memory_free_gb": 2.26,
     "temperature_c": null,
     "temperature_status": "DENIED_OR_UNAVAILABLE",
-    "gpu_util_pct": 18.4,
+    "gpu_util_pct": 4.6,
     "battery_percent": 100.0,
     "power_status": "AC_CHARGING",
     "top_processes": [
       {
-        "ProcessName": "chrome",
-        "Id": 3280,
-        "WorkingSetMB": 2707.5,
-        "CPU": 9452.5625
-      },
-      {
         "ProcessName": "Codex",
         "Id": 27652,
-        "WorkingSetMB": 562.7,
-        "CPU": 16509.90625
+        "WorkingSetMB": 530.9,
+        "CPU": 18187
+      },
+      {
+        "ProcessName": "Memory Compression",
+        "Id": 2944,
+        "WorkingSetMB": 507.6,
+        "CPU": null
+      },
+      {
+        "ProcessName": "chrome",
+        "Id": 28132,
+        "WorkingSetMB": 445.6,
+        "CPU": 547.515625
       },
       {
         "ProcessName": "chrome",
         "Id": 9740,
-        "WorkingSetMB": 491.2,
-        "CPU": 51097.15625
+        "WorkingSetMB": 378.3,
+        "CPU": 51772.25
       },
       {
         "ProcessName": "chrome",
-        "Id": 21384,
-        "WorkingSetMB": 234.3,
-        "CPU": 471.265625
+        "Id": 18944,
+        "WorkingSetMB": 348.8,
+        "CPU": 202.03125
       },
       {
-        "ProcessName": "MsMpEng",
-        "Id": 4564,
-        "WorkingSetMB": 202.6,
-        "CPU": null
+        "ProcessName": "chrome",
+        "Id": 21820,
+        "WorkingSetMB": 283.5,
+        "CPU": 37.125
       },
       {
-        "ProcessName": "Weixin",
-        "Id": 4708,
-        "WorkingSetMB": 198.5,
-        "CPU": 11306.96875
+        "ProcessName": "chrome",
+        "Id": 15484,
+        "WorkingSetMB": 242.4,
+        "CPU": 58.703125
       },
       {
         "ProcessName": "Code",
         "Id": 19100,
-        "WorkingSetMB": 187.7,
-        "CPU": 1330.34375
-      },
-      {
-        "ProcessName": "Codex",
-        "Id": 26676,
-        "WorkingSetMB": 171.3,
-        "CPU": 6949.5
+        "WorkingSetMB": 237.6,
+        "CPU": 1353.375
       }
     ]
   },
@@ -147,5 +147,6 @@
     "rest_rule": "Do not shutdown/restart by default; if pressure stays high after cleanup, write rest-cycle recommendation unless Rex explicitly requests immediate power action."
   },
   "stopped_ui_processes": [],
-  "stopped_write_processes": []
+  "stopped_write_processes": [],
+  "ui_session_started_at": "2026-05-07T11:40:03-04:00"
 }
