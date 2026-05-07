@@ -155,6 +155,16 @@ def seed_default_tasks(force=False) -> list[ModularTask]:
             "expected_outputs": ["Database/Market_Signal_Action_Queue.csv"],
         },
         {
+            "title": "Multi-track marketplace experiment plan",
+            "action": "multi_track_experiment_plan",
+            "priority": 72,
+            "resource_class": "queue_planning",
+            "command": "py modules\\multi_track_experiment_planner.py --json",
+            "timeout_seconds": 420,
+            "qa_profile": "log",
+            "expected_outputs": ["Database/Multi_Track_Experiment_Plan.csv", "Database/Multi_Track_Experiment_State.json"],
+        },
+        {
             "title": "Rest-window log compression plan",
             "action": "rest_log_compression_plan",
             "priority": 60,

@@ -247,6 +247,30 @@ Guardrails:
   - deepen Seller Hub readback pagination for newly published item ids;
   - continue 24-48h performance monitoring for Quiet Jade and SEO Strike cohorts.
 
+## 2026-05-07 02:35 -04:00 Multi-Track Experimentation Rule
+- New strategy is active: stop treating Zen/Dark Academia as the only axis. Split the marketplace experiment pool into three tracks:
+  - Track A `A_LOW_COMPETITION_NICHE`: Reading Nook, Meditation Room, Dorm Decor, study/room-use long-tail terms; target non-zero traffic within 48h.
+  - Track B `B_HIGH_VOLUME_VALUE`: broad high-volume buyer terms with Rex-grade visuals and safe pricing; use it to test channel throughput.
+  - Track C `C_DIGITAL_PURE_PROFIT`: Etsy digital downloads with near-zero production cost; test Buyer Persona vs Room Use SEO templates under strict listing-fee caps.
+- `modules/multi_track_experiment_planner.py` is now the durable planner. It writes:
+  - `Database/Multi_Track_Experiment_Plan.csv`
+  - `Database/Multi_Track_Experiment_State.json`
+  - `Review_Packets/MULTI_TRACK_EXPERIMENT_PLAN_20260507.md`
+- Hard gates:
+  - `SHADOW_CLIPPING`, `LOW_RESOLUTION`, or `HIGHLIGHT_CLIPPING` means HOLD.
+  - Sticker Cover Gate mismatch means HOLD.
+  - Etsy paid listing spend remains capped at `$2/batch` and `$6/day`; never retry ambiguous paid publishes blindly.
+  - eBay ads remain General / Promoted Listings Standard fixed 2%; never Priority/PPC and never suggested-rate chasing.
+- De-patterning:
+  - Publish plans use deterministic random jitter, not fixed intervals.
+  - Mockup/background mood rotates every 5 slots.
+  - Descriptions must keep Rex's premium brand tone: quiet luxury, smoky jade, room-use scenes, no dry AI-fluff.
+- Current planner result:
+  - 165 experiment slots planned: 55 A / 55 B / 55 C.
+  - Extra QA hold pool: 60 rows outside the experiment capacity.
+  - Ready rows: 116; HOLD rows: 60; backlog/not-ready rows: 49.
+  - Because current ready physical inventory is limited after QA and Cover Gate, some Track B/C slots are intentionally backlog/build slots rather than unsafe publish candidates.
+
 ## 2026-05-07 01:36 -04:00 Grunt Engine Validation
 - `Task_Queue_Modular`, `Hardware_Heartbeat_Monitor`, `Quality_Floor_Guard`, and `Grunt_Engine` are implemented.
 - Fixed script import paths for direct module execution.

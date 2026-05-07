@@ -21,6 +21,7 @@ This is the best current summary. It is written so Gemini can understand the pro
 - `OPENCLAW_GRUNT_ENGINE_DESIGN.md` - 24/7 background task layer design: modular queue, heartbeat monitor, quality floor, and duty cycle.
 - `OPERATION_QUIET_JADE_REPORT_20260507.md` - eBay zero-view pivot: 42 live listings retitled/repositioned, Printify sync verified, Seller Hub title/price readback verified.
 - `HIGH_EFFICIENCY_BREAKTHROUGH_REPORT_20260507.md` - external=None recovery, SEO Strike batch, 4h cruise automation, and hardware cooldown state.
+- `MULTI_TRACK_EXPERIMENT_PLAN_20260507.md` - current 165-slot marketplace experiment split across low-competition niche, high-volume value, and Etsy digital pure-profit tracks, with fee/QA/Cover Gate rules.
 - `ETSY_DIGITAL_TRAFFIC_PENETRATION_REPORT_20260506.md` - live first batch: 10 Etsy Digital listings published, $2.00 confirmed spend, UI route working through dedicated Edge.
 - `PRINTIFY_EXTERNAL_SYNC_DIAGNOSIS_20260506.md`
 - `EBAY_API_MINIMAL_APPLICATION_PACKET.md`

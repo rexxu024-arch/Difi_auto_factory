@@ -34,6 +34,7 @@ ALLOWED_ACTIONS = {
     "quality_floor_scan",
     "copy_signal_refresh",
     "market_signal_refresh",
+    "multi_track_experiment_plan",
     "rest_log_compression_plan",
 }
 

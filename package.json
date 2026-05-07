@@ -31,6 +31,7 @@
     "ebay:quiet-jade:sync": "py modules\\ebay_quiet_jade_pivot.py --sync-printify --limit 42",
     "ebay:seo-strike:prepare": "py modules\\ebay_seo_strike_batch.py --prepare --apply-local --limit 10",
     "ebay:seo-strike:sync": "py modules\\ebay_seo_strike_batch.py --sync-printify --limit 10",
+    "market:multi-track": "py modules\\multi_track_experiment_planner.py --json",
     "browser:edge": "py modules\\automation_browser.py --browser edge --port 9223",
     "browser:edge:check": "py modules\\automation_browser.py --check --port 9223",
     "report": "py modules\\factory_morning_report.py",

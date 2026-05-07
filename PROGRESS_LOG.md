@@ -1146,3 +1146,26 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
     - `Acrylic-Grimdark-0040` -> `406910076542`
   - Blocked 7 Stickers from publishing because Cover Gate detected custom gallery images selected for publishing; these need cover-safe repair before release.
 - Report added: `Review_Packets/HIGH_EFFICIENCY_BREAKTHROUGH_REPORT_20260507.md`.
+
+## 2026-05-07 02:35 -04:00 Multi-Track Experiment Planner
+- Implemented `modules/multi_track_experiment_planner.py`.
+- Added npm shortcut: `npm run market:multi-track`.
+- Added Grunt queue task: `multi_track_experiment_plan`; it is a no-spend queue-planning task.
+- Ran planner successfully:
+  - `Database/Multi_Track_Experiment_Plan.csv`: 225 rows total.
+  - 165 active experiment slots: 55 low-competition niche, 55 high-volume value, 55 Etsy digital pure-profit.
+  - 60 additional `QA_HOLD_POOL` rows are listed outside the experiment capacity so bad assets do not consume launch slots.
+  - Current QA/action counts:
+    - `READY`: 116
+    - `HOLD`: 60
+    - `NOT_READY`: 49
+    - `COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING`: 80
+    - `NEXT_ETSY_GRAY_BATCH_UNDER_FEE_CAP`: 9
+    - `RECONCILE_RESERVED_BEFORE_ANY_NEW_FEE`: 19
+    - `MONITOR_LIVE_DIGITAL_TRAFFIC`: 8
+    - `BUILD_ASSET_OR_METADATA_ONLY`: 49
+- Fixed two planner defects during validation:
+  - Digital products reuse Poster IDs, so physical Cover Gate / Image_Quality_Gate rows must not bleed into Etsy ZIP planning.
+  - Track A and Track B physical slots now avoid duplicate products; insufficient ready inventory is represented as backlog instead of assigning one listing to two simultaneous experiments.
+  - HOLD rows are now excluded from all 165 active experiment slots and moved into `QA_HOLD_POOL`.
+- Hardware cooldown guard triggered during this work because memory was about 90%; planner is allowed during cooldown, but browser/image-heavy tasks should wait for resource recovery.
