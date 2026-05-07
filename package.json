@@ -25,7 +25,7 @@
     "hardware:heartbeat": "scripts\\openclaw-python.cmd modules\\hardware_heartbeat_monitor.py --once --json",
     "hardware:cooldown": "scripts\\openclaw-python.cmd modules\\hardware_cooldown_guard.py --json",
     "memory:guard": "scripts\\openclaw-python.cmd modules\\memory_pressure_guard.py --json",
-    "memory:guard:execute": "scripts\\openclaw-python.cmd modules\\memory_pressure_guard.py --execute --json",
+    "memory:guard:execute": "scripts\\openclaw-python.cmd modules\\memory_pressure_guard.py --execute --memory-soft-pct 82 --cpu-soft-pct 85 --close-all-project-idle --json",
     "endurance:preflight": "scripts\\openclaw-python.cmd modules\\endurance_protocol.py --preflight --json",
     "endurance:cooldown": "scripts\\openclaw-python.cmd modules\\endurance_protocol.py --cooldown --execute --json",
     "endurance:reboot-check": "scripts\\openclaw-python.cmd modules\\endurance_protocol.py --daily-reboot-check --json",

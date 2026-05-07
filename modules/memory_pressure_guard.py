@@ -130,12 +130,13 @@ def run(
     *,
     execute: bool = False,
     cdp_port: int = 9223,
-    memory_soft_pct: float = 86.0,
+    memory_soft_pct: float = 82.0,
     memory_hard_pct: float = 92.0,
+    cpu_soft_pct: float = 85.0,
     close_all_project_idle: bool = False,
 ) -> dict:
     before = sample_resources()
-    should_clean = (before.memory_used_pct or 0) >= memory_soft_pct
+    should_clean = (before.memory_used_pct or 0) >= memory_soft_pct or (before.cpu_load_pct or 0) >= cpu_soft_pct
     closed_tabs: list[dict[str, str]] = []
     mode = "NOOP_BELOW_THRESHOLD"
     if should_clean:
@@ -162,6 +163,7 @@ def run(
         "cdp_port": cdp_port,
         "memory_soft_pct": memory_soft_pct,
         "memory_hard_pct": memory_hard_pct,
+        "cpu_soft_pct": cpu_soft_pct,
         "memory_before": before.memory_used_pct,
         "memory_after": memory_after,
         "cpu_before": before.cpu_load_pct,
@@ -171,6 +173,7 @@ def run(
         "decision": decision,
         "reason": reason,
         "privacy_rule": "Only closes project automation Edge tabs through CDP 9223. Does not inspect or close Rex's daily Chrome tabs.",
+        "optimization_rule": "Cleanup first, then resample. Pause only if pressure remains high after closing safe idle project tabs and reducing concurrency.",
         "rest_rule": "Do not shutdown/restart by default; if pressure stays high after cleanup, write rest-cycle recommendation unless Rex explicitly requests immediate power action.",
     }
     STATE_PATH.write_text(json.dumps(state, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -182,8 +185,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Close safe idle project tabs before pausing work for memory pressure.")
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--cdp-port", type=int, default=9223)
-    parser.add_argument("--memory-soft-pct", type=float, default=86.0)
+    parser.add_argument("--memory-soft-pct", type=float, default=82.0)
     parser.add_argument("--memory-hard-pct", type=float, default=92.0)
+    parser.add_argument("--cpu-soft-pct", type=float, default=85.0)
     parser.add_argument("--close-all-project-idle", action="store_true")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args()
@@ -192,6 +196,7 @@ def main() -> None:
         cdp_port=args.cdp_port,
         memory_soft_pct=args.memory_soft_pct,
         memory_hard_pct=args.memory_hard_pct,
+        cpu_soft_pct=args.cpu_soft_pct,
         close_all_project_idle=args.close_all_project_idle,
     )
     if args.json:

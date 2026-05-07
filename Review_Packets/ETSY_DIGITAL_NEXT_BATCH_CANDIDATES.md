@@ -1,6 +1,6 @@
 # Etsy Digital Next Batch Candidates
 
-Generated: 2026-05-07 10:37:44 -0400
+Generated: 2026-05-07 10:49:59 -0400
 
 This is a no-spend selector. It does not reserve or publish Etsy listings.
 

@@ -1296,3 +1296,12 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Current proxy state: CPU 17.1%, memory 80.9%, GPU 4.4%, temperature sensor denied/unavailable; cooldown cleared.
 - Attempted low-risk `grunt:queue` and `grunt:dry`; both stopped at the Python launcher access-denied blocker before any Grunt work executed.
 - No payment, billing, order, customer-message, paid publish, image, or listing-spend settings were touched.
+
+## 2026-05-07 10:47:05 -04:00 Resource Optimization Rule Updated
+- Rex clarified that high CPU/memory should trigger active cleanup before any pause.
+- Updated memory and cooldown guards: close safe idle Edge/OpenClaw project tabs first, resample, then only pause if pressure remains high.
+- Chrome remains protected as Rex daily workspace; Edge CDP 9223 remains Codex automation workspace.
+
+## 2026-05-07 10:52:07 -04:00 Hardware Autonomy Rule Clarified
+- Rex granted Codex discretion to distinguish real sustained hardware risk from virtual/sampling spikes.
+- Default response: optimize, lower batch size, continue safer monthly tasks; pause only when pressure is sustained and cleanup cannot reduce it.

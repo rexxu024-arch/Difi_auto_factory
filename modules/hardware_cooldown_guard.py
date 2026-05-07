@@ -48,7 +48,11 @@ def _hot_streak(rows):
         except ValueError:
             cpu = mem = 0
         hot = state in {"COOLDOWN", "CRITICAL"} or cpu >= 90 or mem >= 92
-        warm = hot or state == "WARM" or cpu >= 80 or mem >= 88
+        # Plain WARM can be caused by moderate memory pressure on this laptop.
+        # Treat it as a reason to optimize/reduce concurrency, not as proof that
+        # the machine must pause. Only sustained high CPU or near-hard memory
+        # pressure contributes to the cooling streak.
+        warm = hot or cpu >= 80 or mem >= 88
         if warm:
             streak += 1
         else:
@@ -70,10 +74,35 @@ def evaluate(cooldown_minutes=20, sustained_warm_streak=3):
     heartbeat = sample_heartbeat()
     memory_guard_state = None
     try:
-        if heartbeat.memory_used_pct is not None and heartbeat.memory_used_pct >= 86:
-            memory_guard_state = run_memory_guard(execute=True)
+        should_optimize = (
+            heartbeat.memory_used_pct is not None
+            and heartbeat.memory_used_pct >= 82
+        ) or (
+            heartbeat.cpu_load_pct is not None
+            and heartbeat.cpu_load_pct >= 85
+        )
+        if should_optimize:
+            memory_guard_state = run_memory_guard(
+                execute=True,
+                memory_soft_pct=82,
+                cpu_soft_pct=85,
+                close_all_project_idle=True,
+            )
             if memory_guard_state.get("memory_after") != heartbeat.memory_used_pct:
                 heartbeat = sample_heartbeat()
+        if (
+            heartbeat.temperature_c is None
+            and heartbeat.cpu_load_pct is not None
+            and heartbeat.cpu_load_pct >= 90
+        ):
+            # CPU readings can briefly spike during WMI/PowerShell sampling.
+            # Verify once before arming a real cool-down.
+            import time
+
+            time.sleep(10)
+            verify = sample_heartbeat()
+            if (verify.cpu_load_pct or 0) < 80 and (verify.memory_used_pct or 0) < 90:
+                heartbeat = verify
     except Exception as exc:  # noqa: BLE001
         memory_guard_state = {
             "decision": "MEMORY_GUARD_ERROR",
@@ -97,9 +126,12 @@ def evaluate(cooldown_minutes=20, sustained_warm_streak=3):
         minutes = max(cooldown_minutes, 30)
         reasons.append("cooldown heartbeat")
     elif streak >= sustained_warm_streak:
-        active = True
-        minutes = cooldown_minutes
-        reasons.append(f"sustained warm streak={streak}")
+        if memory_guard_state and memory_guard_state.get("decision") == "MEMORY_OK_CONTINUE":
+            reasons.append(f"sustained warm streak={streak}; cleanup succeeded, no pause")
+        else:
+            active = True
+            minutes = cooldown_minutes
+            reasons.append(f"sustained warm streak={streak}; cleanup insufficient")
 
     cooldown_until = now() + timedelta(minutes=minutes) if active else now()
     state = {
@@ -112,6 +144,7 @@ def evaluate(cooldown_minutes=20, sustained_warm_streak=3):
         "hot_streak": streak,
         "heartbeat": asdict(heartbeat),
         "memory_guard": memory_guard_state,
+        "resource_policy": "optimize first, pause only after cleanup fails to bring pressure back under guardrails",
         "allowed_during_cooldown": ["hardware_heartbeat", "memory_cleanup", "report_batch", "local_light", "queue_planning", "api_read", "online_publish_safe"],
         "blocked_during_cooldown": ["image_batch", "asset_build", "market_research", "single_browser_task"],
     }

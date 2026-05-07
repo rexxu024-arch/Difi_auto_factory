@@ -23,6 +23,8 @@ Memory ownership protocol:
 - First response is cleanup, not stopping: close safe idle project automation tabs in Edge CDP 9223, reduce concurrency, and switch to local/report/API-read tasks.
 - Do not inspect or close Rex's daily Chrome/private personal tabs.
 - Pause only when cleanup fails and sustained CPU/memory pressure remains high, or Rex explicitly says stop.
+- Updated resource rule: high CPU/memory triggers proactive optimization first (safe idle Edge project tabs and project automation residues), then resample; cooldown is the fallback, not the first response.
+- Hardware autonomy rule: do not harm the laptop, but do not overreact to virtual/sampling spikes. Distinguish sustained dangerous pressure from momentary WMI/Defender/browser spikes; if it is workable, reduce load and keep producing.
 - Shutdown/restart is not automatic by default; write a rest-cycle recommendation unless Rex explicitly arms a shutdown/wake workflow.
 
 Endurance protocol:
