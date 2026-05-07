@@ -1076,3 +1076,13 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Included raw 24h logs and status files: factory supervisor logs, Performance_Log, Printify login guard, eBay replacement/retire logs, external sync logs, Etsy publish/fee/audit logs, unified registry, market queue, and latest reports.
 - Structured extracts generated for Grey/Gemini: 42 project-scoped zero-view rows and 111 Draft/Pending rows.
 - Hardware/env snapshot captured: Intel N95 CPU sampled at 100%, memory 84.3% used, WMI temperature probe denied, Edge automation browser running on port 9223, npm package tree empty, Docker CLI installed but daemon not running.
+
+## 2026-05-07 00:03:00 -04:00 Stress Test Round 3 + Self-Healing Daemon
+- Created `modules/self_healing_daemon.py` for Printify/eBay `PublishExternalMissing` recovery decisions.
+- Added npm shortcuts: `npm run printify:self-heal:dry` and `npm run printify:self-heal`.
+- Created `Review_Packets/CODEX_STRESS_TEST_ROUND3.md` with decision matrix, data-driven DNA mutation loop, and concurrency safety limits.
+- Dry-run caught and fixed a real parser issue: Printify status page explanatory text containing "delay" was falsely treated as degraded. Parser now lets explicit healthy markers win first.
+- Real self-healing pass executed after dry-run:
+  - 13 old Sticker external-missing rows marked `Quarantined_ExternalMissing`.
+  - 7 Poster/Acrylic rows force-associated by writing confirmed eBay external ids from Printify API back into the workbook.
+- Logs written to `Database/Self_Healing_Decisions.csv` and `Database/Self_Healing_Daemon_Log.csv`.

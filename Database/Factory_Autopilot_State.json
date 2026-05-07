@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-06T23:46:45-04:00",
+  "generated_at": "2026-05-07T00:06:26-04:00",
   "timezone": "America/New_York",
   "network_strategy": {
     "mode": "unknown",
@@ -44,7 +44,7 @@
     "OK": 38,
     "CHECK": 123
   },
-  "performance_age_hours": 0.03884202916666666,
+  "performance_age_hours": 0.3668556525,
   "printify_ui_status": {
     "status": "LOGGED_IN",
     "reason": "Printify app page is available in CDP browser."

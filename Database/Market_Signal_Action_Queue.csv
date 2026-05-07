@@ -99,6 +99,7 @@
 80,Poster-Academia-0009,Poster,Academia,Published_Zero_View_Copy_Ad_Review,WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST,"Published item has 0 visible views in last Seller Hub snapshot; 2% General ads are active, so wait for a cleaner baseline before editing online.",low,True,406903209258,0,False
 80,Poster-Academia-0010,Poster,Academia,Published_Zero_View_Copy_Ad_Review,WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST,"Published item has 0 visible views in last Seller Hub snapshot; 2% General ads are active, so wait for a cleaner baseline before editing online.",low,True,406903249496,0,False
 80,Poster-Academia-0011,Poster,Academia,Published_Zero_View_Copy_Ad_Review,WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST,"Published item has 0 visible views in last Seller Hub snapshot; 2% General ads are active, so wait for a cleaner baseline before editing online.",low,True,406903250376,0,True
+80,Poster-Academia-0013,Poster,Academia,Published_Zero_View_Copy_Ad_Review,WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST,"Published item has 0 visible views in last Seller Hub snapshot; 2% General ads are active, so wait for a cleaner baseline before editing online.",low,True,406903251282,0,True
 80,Poster-Academia-0083,Poster,Academia,Published_Zero_View_Copy_Ad_Review,WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST,"Published item has 0 visible views in last Seller Hub snapshot; 2% General ads are active, so wait for a cleaner baseline before editing online.",low,True,406902669660,0,True
 80,Poster-Academia-0084,Poster,Academia,Published_Zero_View_Copy_Ad_Review,WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST,"Published item has 0 visible views in last Seller Hub snapshot; 2% General ads are active, so wait for a cleaner baseline before editing online.",low,True,406902691983,0,False
 80,Poster-Academia-0091,Poster,Academia,Published_Zero_View_Copy_Ad_Review,WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST,"Published item has 0 visible views in last Seller Hub snapshot; 2% General ads are active, so wait for a cleaner baseline before editing online.",low,True,406902887127,0,True
@@ -173,7 +174,6 @@
 60,Sticker-Zen-0158,Sticker,Zen,Ready_For_Printify_When_Network_OK,UPLOAD_TO_PRINTIFY_SINGLE_ITEM_BATCH,Local assets are ready but network-dependent upload remains pending.,high,False,,,False
 60,Sticker-Zen-0159,Sticker,Zen,Ready_For_Printify_When_Network_OK,UPLOAD_TO_PRINTIFY_SINGLE_ITEM_BATCH,Local assets are ready but network-dependent upload remains pending.,high,False,,,False
 60,Sticker-Zen-0160,Sticker,Zen,Ready_For_Printify_When_Network_OK,UPLOAD_TO_PRINTIFY_SINGLE_ITEM_BATCH,Local assets are ready but network-dependent upload remains pending.,high,False,,,False
-50,Poster-Academia-0013,Poster,Academia,Etsy_Draft_Prepared,KEEP_FOR_ETSY_PHASE1,Candidate already selected for Etsy relaunch; wait for shop/OAuth readiness and listing-fee confirmation.,medium,False,,,True
 50,Poster-Academia-0026,Poster,Academia,Etsy_Draft_Prepared,KEEP_FOR_ETSY_PHASE1,Candidate already selected for Etsy relaunch; wait for shop/OAuth readiness and listing-fee confirmation.,medium,False,,,True
 50,Poster-Academia-0027,Poster,Academia,Etsy_Draft_Prepared,KEEP_FOR_ETSY_PHASE1,Candidate already selected for Etsy relaunch; wait for shop/OAuth readiness and listing-fee confirmation.,medium,False,,,True
 50,Poster-Academia-0028,Poster,Academia,Etsy_Draft_Prepared,KEEP_FOR_ETSY_PHASE1,Candidate already selected for Etsy relaunch; wait for shop/OAuth readiness and listing-fee confirmation.,medium,False,,,True
@@ -188,11 +188,11 @@
 20,Acrylic-Grimdark-0008,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406903746215,,False
 20,Acrylic-Grimdark-0009,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406903749989,,False
 20,Acrylic-Grimdark-0010,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406903756190,,False
-20,Acrylic-Grimdark-0011,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
-20,Acrylic-Grimdark-0012,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
-20,Acrylic-Grimdark-0013,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
-20,Acrylic-Grimdark-0014,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
-20,Acrylic-Grimdark-0015,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
+20,Acrylic-Grimdark-0011,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406903760725,,False
+20,Acrylic-Grimdark-0012,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909148324,,False
+20,Acrylic-Grimdark-0013,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909151733,,False
+20,Acrylic-Grimdark-0014,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909159060,,False
+20,Acrylic-Grimdark-0015,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909166683,,False
 20,Acrylic-Grimdark-0016,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
 20,Acrylic-Grimdark-0017,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
 20,Acrylic-Grimdark-0018,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
@@ -213,7 +213,7 @@
 20,Acrylic-Grimdark-0035,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
 20,Acrylic-Grimdark-0036,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
 20,Acrylic-Grimdark-0037,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
-20,Poster-Academia-0014,Poster,Academia,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
+20,Poster-Academia-0014,Poster,Academia,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406903252244,,False
 20,Poster-Academia-0017,Poster,Academia,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
 20,Poster-Academia-0019,Poster,Academia,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
 20,Poster-Academia-0020,Poster,Academia,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
