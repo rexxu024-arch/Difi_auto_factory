@@ -1,0 +1,50 @@
+{
+  "timestamp": "2026-05-07T15:45:27.551633-04:00",
+  "key_loaded": true,
+  "base_url": "https://generativelanguage.googleapis.com/v1beta",
+  "model_list_status_code": 200,
+  "model_list_ok": true,
+  "tests": [
+    {
+      "model": "gemini-flash-latest",
+      "ok": false,
+      "status_code": 429,
+      "elapsed_sec": 0.63,
+      "error_status": "RESOURCE_EXHAUSTED",
+      "error_message": "Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. "
+    },
+    {
+      "model": "gemini-flash-lite-latest",
+      "ok": false,
+      "status_code": 429,
+      "elapsed_sec": 0.65,
+      "error_status": "RESOURCE_EXHAUSTED",
+      "error_message": "Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. "
+    },
+    {
+      "model": "gemini-2.0-flash-lite",
+      "ok": false,
+      "status_code": 429,
+      "elapsed_sec": 0.6,
+      "error_status": "RESOURCE_EXHAUSTED",
+      "error_message": "Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. "
+    },
+    {
+      "model": "gemini-2.0-flash",
+      "ok": false,
+      "status_code": 429,
+      "elapsed_sec": 0.62,
+      "error_status": "RESOURCE_EXHAUSTED",
+      "error_message": "Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. "
+    },
+    {
+      "model": "gemini-2.5-flash",
+      "ok": false,
+      "status_code": 429,
+      "elapsed_sec": 0.58,
+      "error_status": "RESOURCE_EXHAUSTED",
+      "error_message": "Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. "
+    }
+  ],
+  "status": "KEY_VALID_BUT_NO_PREPAY_CREDITS"
+}

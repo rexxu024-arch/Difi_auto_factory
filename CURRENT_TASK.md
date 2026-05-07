@@ -45,6 +45,7 @@ Default authorization policy:
 - Interruption recovery rule: after any Rex/Gemini insert, urgent fix, or side quest, return to `Factory_Backlog.csv`, `CURRENT_TASK.md`, `PROGRESS_LOG.md`, and Grunt queue before idling; never rely on chat memory alone.
 
 Current execution order:
+Active override: Grey/Gemini API file bridge is now implemented and tested. Key/config/auth are valid, but Google AI Studio reports depleted prepayment credits for generation. Until credits are restored, use local `TO_GREY_latest.md` packets for manual/Gemini-web review and keep executing the Printify/POD monthly mainline.
 0. Mainline priority correction: Printify/eBay/Etsy POD factory remains the active project. Fall-back projects are strategy/R&D only and must not consume execution bandwidth until Printify pipeline is stable and Rex explicitly activates the next project.
 1. Pause rapid public eBay publishing after Akamai/zero-size-object instability.
 2. Build Phase 1 data foundation: eBay read-only performance log, unified listing records, and DNA signal fields.

@@ -54,7 +54,15 @@ class Config:
 
     # --- Gemini / Grey Advisor Bridge ---
     GEMINI_API_KEY = _env_any(
+        "GEMINI_FREE_API_KEY",
+        "Gemini_free_api_key",
+        "Gemnini_free_api_key",
+        "GEMNINI_FREE_API_KEY",
         "GEMINI_API_KEY",
+        "Gemnini_api_key",
+        "GEMNINI_API_KEY",
+        "Gemni_api_key",
+        "GEMNI_API_KEY",
         "Gemini_api_key",
         "GEMINI_KEY",
         "GOOGLE_API_KEY",
