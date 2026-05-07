@@ -29,6 +29,7 @@ NY = ZoneInfo("America/New_York")
 
 ALLOWED_ACTIONS = {
     "hardware_heartbeat",
+    "hardware_cooldown_guard",
     "local_supervisor_refresh",
     "quality_floor_scan",
     "copy_signal_refresh",
@@ -36,7 +37,7 @@ ALLOWED_ACTIONS = {
     "rest_log_compression_plan",
 }
 
-REST_ALLOWED = {"hardware_heartbeat", "rest_log_compression_plan", "quality_floor_scan"}
+REST_ALLOWED = {"hardware_heartbeat", "hardware_cooldown_guard", "rest_log_compression_plan", "quality_floor_scan"}
 
 
 def now():

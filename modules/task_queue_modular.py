@@ -105,6 +105,16 @@ def seed_default_tasks(force=False) -> list[ModularTask]:
             "expected_outputs": ["Database/Hardware_Heartbeat_State.json"],
         },
         {
+            "title": "Hardware cooldown guard",
+            "action": "hardware_cooldown_guard",
+            "priority": 98,
+            "resource_class": "local_light",
+            "command": "py modules\\hardware_cooldown_guard.py --json",
+            "timeout_seconds": 120,
+            "qa_profile": "log",
+            "expected_outputs": ["Database/Hardware_Cooldown_State.json"],
+        },
+        {
             "title": "Factory local maintenance refresh",
             "action": "local_supervisor_refresh",
             "priority": 90,

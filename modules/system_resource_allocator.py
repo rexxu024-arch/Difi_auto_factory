@@ -16,6 +16,7 @@ DATABASE_DIR = PROJECT_ROOT / "Database"
 POLICY_PATH = DATABASE_DIR / "System_Resource_Policy.json"
 STATE_PATH = DATABASE_DIR / "System_Resource_State.json"
 LOG_PATH = DATABASE_DIR / "System_Resource_Allocation.csv"
+COOLDOWN_PATH = DATABASE_DIR / "Hardware_Cooldown_State.json"
 NY = ZoneInfo("America/New_York")
 
 
@@ -280,6 +281,24 @@ def _load_state():
         return {"hot_streak": 0, "last_decision": "STATE_READ_ERROR"}
 
 
+def _active_cooldown():
+    if not COOLDOWN_PATH.exists():
+        return None
+    try:
+        data = json.loads(COOLDOWN_PATH.read_text(encoding="utf-8"))
+        if not data.get("active"):
+            return None
+        until_text = str(data.get("cooldown_until") or "")
+        until = datetime.fromisoformat(until_text)
+        if until.tzinfo is None:
+            until = until.replace(tzinfo=NY)
+        if until <= now():
+            return None
+        return data
+    except Exception:
+        return None
+
+
 def _write_state(state):
     STATE_PATH.write_text(json.dumps(state, indent=2), encoding="utf-8")
 
@@ -309,6 +328,7 @@ def choose_allocation(task_class="auto", priority=50, snapshot=None, policy=None
     reasons = []
     decision = "RUN"
     cooldown = 0
+    cooldown_state = _active_cooldown()
 
     temp = snapshot.temperature_c
     cpu = snapshot.cpu_load_pct
@@ -361,6 +381,23 @@ def choose_allocation(task_class="auto", priority=50, snapshot=None, policy=None
     if window.get("name") == "cruise" and cpu is not None and cpu >= thresholds["cruise_cpu_target_max_pct"]:
         decision = "RUN_CONSERVATIVE" if decision == "RUN" else decision
         reasons.append(f"cruise target CPU 40-50%; current {cpu:.1f}%")
+
+    if cooldown_state:
+        remaining = int((datetime.fromisoformat(cooldown_state["cooldown_until"]) - now()).total_seconds() / 60)
+        cooling_allowed = task_class in {
+            "hardware_heartbeat",
+            "report_batch",
+            "local_light",
+            "queue_planning",
+            "api_read",
+            "online_publish_safe",
+        }
+        reasons.append(f"hardware cooldown active {max(1, remaining)}m: {cooldown_state.get('reason', '')}")
+        if cooling_allowed and decision == "RUN":
+            decision = "RUN_CONSERVATIVE"
+        elif not cooling_allowed:
+            decision = "PAUSE_COOLDOWN"
+            cooldown = max(cooldown, max(1, remaining))
 
     if decision == "RUN_CONSERVATIVE":
         base_parallel = 1
