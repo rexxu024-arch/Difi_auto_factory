@@ -35,6 +35,17 @@ DEFAULT_MODELS = [
 ]
 
 
+def _extract_text(payload: dict) -> str:
+    chunks: list[str] = []
+    for candidate in payload.get("candidates") or []:
+        content = candidate.get("content") or {}
+        for part in content.get("parts") or []:
+            text = part.get("text")
+            if text:
+                chunks.append(str(text))
+    return "\n".join(chunks).strip()
+
+
 def _safe_error(payload: dict) -> dict:
     error = payload.get("error", payload)
     return {
@@ -137,7 +148,7 @@ def run() -> dict:
                     },
                     json={
                         "contents": [{"parts": [{"text": "Reply exactly OK"}]}],
-                        "generationConfig": {"maxOutputTokens": 16, "temperature": 0},
+                        "generationConfig": {"maxOutputTokens": 128, "temperature": 0},
                     },
                     timeout=60,
                 )
@@ -149,13 +160,9 @@ def run() -> dict:
                     payload = {}
                 item["ok"] = response.ok
                 if response.ok:
-                    text = (
-                        payload.get("candidates", [{}])[0]
-                        .get("content", {})
-                        .get("parts", [{}])[0]
-                        .get("text", "")
-                    )
+                    text = _extract_text(payload)
                     item["response_preview"] = str(text).strip()[:80]
+                    item["text_found"] = bool(text)
                 else:
                     error = _safe_error(payload)
                     item["error_status"] = error["status"]

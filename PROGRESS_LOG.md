@@ -1398,3 +1398,15 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
   - classified state: `KEY_VALID_BUT_NO_PREPAY_CREDITS`
 - Operator meaning: Gemini API authentication/config is working, but the Google AI Studio project currently has depleted prepayment credits, so real Grey API generation cannot run until billing/prepay is restored.
 - The bridge safely writes error state to `Database/Grey_Bridge_State.json` and does not retry aggressively.
+
+## 2026-05-07 15:55:00 -04:00 Gemini Free Key Live
+- Rex added `Gemnini_free_api_key` to `.env`.
+- `config.py` now prioritizes free-key aliases before the paid/prepay key aliases.
+- `npm run grey:status` now reports:
+  - key loaded: true
+  - model list endpoint: HTTP 200
+  - generation endpoint: HTTP 200
+  - classified state: `GENERATE_OK`
+- `npm run grey:send` successfully generated a Grey response and parsed 5 recommended tasks into `Database/Grey_Bridge_Tasks.csv`.
+- Operating rule: use Gemini free model for compact strategic review and task critique; avoid per-listing high-volume generation through Gemini free tier. Keep bulk text work on DeepSeek/local scripts.
+- Added `Review_Packets/Gemini_Bridge/GEMINI_FREE_TIER_EVALUATION.md` as the human/Gemini Chat handoff packet for deciding whether paid Gemini API is needed later.

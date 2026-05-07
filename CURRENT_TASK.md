@@ -28,6 +28,13 @@ Memory ownership protocol:
 - Hardware autonomy rule: do not harm the laptop, but do not overreact to virtual/sampling spikes. Distinguish sustained dangerous pressure from momentary WMI/Defender/browser spikes; if it is workable, reduce load and keep producing.
 - Shutdown/restart is not automatic by default; write a rest-cycle recommendation unless Rex explicitly arms a shutdown/wake workflow.
 
+Reasoning / quota budget protocol:
+- Weekly Codex quota is healthy as of 2026-05-07: screenshot shows about 76% weekly remaining and 98% 5h remaining.
+- Use high reasoning for architecture, risky account actions, QA design, pricing, debugging, and final marketplace decisions.
+- Use scripts, DeepSeek, Gemini free, and local batch tools for mechanical loops, bulk copy, report generation, and repetitive audits.
+- If weekly remaining drops below 35%, switch to conservation mode: fewer chat summaries, more batch scripts, more Gemini/DeepSeek delegation, and shorter final reports unless Rex asks for depth.
+- If weekly remaining drops below 20%, reserve Codex high reasoning for blockers, irreversible actions, or revenue-critical decisions only.
+
 Endurance protocol:
 - Host may stay on long-term power. Protect hardware through cool-down cycles instead of physical shutdown by default.
 - If Edge CDP/UI automation runs more than 3 hours, memory spikes, or CPU remains hot, save state and terminate only project automation browser/driver processes, then continue low-power local/API/report work.
@@ -45,7 +52,7 @@ Default authorization policy:
 - Interruption recovery rule: after any Rex/Gemini insert, urgent fix, or side quest, return to `Factory_Backlog.csv`, `CURRENT_TASK.md`, `PROGRESS_LOG.md`, and Grunt queue before idling; never rely on chat memory alone.
 
 Current execution order:
-Active override: Grey/Gemini API file bridge is now implemented and tested. Key/config/auth are valid, but Google AI Studio reports depleted prepayment credits for generation. Until credits are restored, use local `TO_GREY_latest.md` packets for manual/Gemini-web review and keep executing the Printify/POD monthly mainline.
+Active override: Grey/Gemini API file bridge is implemented and tested. `Gemnini_free_api_key` is live and generation works. Use Gemini free tier only for compact Grey strategic review and task critique; do not spend it on per-listing bulk labor. Keep executing the Printify/POD monthly mainline after bridge refresh/checkpoint.
 0. Mainline priority correction: Printify/eBay/Etsy POD factory remains the active project. Fall-back projects are strategy/R&D only and must not consume execution bandwidth until Printify pipeline is stable and Rex explicitly activates the next project.
 1. Pause rapid public eBay publishing after Akamai/zero-size-object instability.
 2. Build Phase 1 data foundation: eBay read-only performance log, unified listing records, and DNA signal fields.
