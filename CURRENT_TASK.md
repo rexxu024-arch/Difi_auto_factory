@@ -118,3 +118,82 @@ Guardrails:
 - Rex confirmed the wired asset/network setup is good enough to stop worrying about Wi-Fi instability.
 - Default execution mode returns to high-throughput online work: Printify publishing, live buyer-page audits, and API reads may run without low-bandwidth deferral.
 - Account-risk gates remain active: do not use PPC/Priority ads, do not touch payment/order/buyer-message settings, and do not create many duplicate Sticker replacements before old bad listings have a verified retirement path.
+
+## 2026-05-06 16:45:00 -04:00 Housekeeping Rule
+- Regularly scan for temporary/debug artifacts and clear obvious caches instead of letting the workspace/C drive fill silently.
+- Files intended for Rex/Gemini/another AI review should be placed under `Review_Packets/` with clear names.
+- Keep raw production assets in `Output/`, machine queues in `Database/`, and durable project memory in `START_HERE_OPENCLAW.md`, `RECOVERY_STATE.json`, `CURRENT_TASK.md`, and `PROGRESS_LOG.md`.
+- Do not delete personal downloads, production source assets, or Docker/large app data without a separate reason or explicit user signal.
+
+## 2026-05-06 17:30:55 -04:00 Gemini Brief Consolidation
+- Gemini cannot see local code, folders, or detailed CSV/XLSX state, so advisor packets must be written at business/strategy level with only minimal implementation notes.
+- Use `Review_Packets/OPENCLAW_GEMINI_BRIEF.md` as the canonical copy/paste brief for Gemini.
+- This brief explicitly says the wired LAN/network issue is fixed and low-bandwidth mode is lifted, so strategy advice should not rely on the old Wi-Fi constraint.
+- Older timestamped `Reports/` and `Gemini_Advisor/` files are historical supplements only; do not copy many old reports unless debugging history.
+
+## 2026-05-06 17:45:00 -04:00 Browser Isolation Protocol
+- Do not use Rex's daily Chrome tabs as the automation workbench, especially if Chrome is on personal checkout/account pages.
+- Prefer API/headless/read-only HTTP when possible.
+- For browser automation, use a dedicated automation profile and port instead of the daily browser. Default helper: `npm run browser:edge` starts/checks Edge on CDP port 9223 with profile `C:\openclaw_edge_profile`.
+- eBay browser scripts now accept `OPENCLAW_EBAY_CDP_PORT` / `OPENCLAW_CDP_PORT`; use port 9223 for Seller Hub/audit work when the dedicated Edge profile is ready.
+- Close automation tabs after each task and keep at most 1-2 automation tabs alive.
+
+## 2026-05-06 18:10:00 -04:00 Etsy Login Block
+- Dedicated automation Edge Etsy site data was cleared for `etsy.com` / `www.etsy.com` / `accounts.etsy.com`, but Etsy still returns the red "An error has occurred, please try again!" login banner.
+- Treat this as Etsy account/session/IP/risk verification issue, not a normal password typo.
+- Do not keep retrying password/Google login repeatedly; avoid stacking Etsy risk flags.
+- Etsy publishing/storefront edits are paused until login is stable. Printify-side Etsy drafts/local launch prep may continue, but do not trigger Etsy publish/listing fees until account access is reliable.
+
+## 2026-05-06 18:25:00 -04:00 Etsy Login Escalation
+- Rex confirmed Chrome + Google-account sign-in also returns the same Etsy red error.
+- This makes a single-browser cache/profile problem unlikely.
+- Stop repeated Etsy login attempts for now; next diagnostic should be account-safe: check Etsy/security email, use Etsy `Trouble signing in?`, or test once from phone/mobile data to distinguish account-side lock from local network/profile.
+- Continue non-Etsy-dependent monthly tasks while Etsy access cools down.
+
+## 2026-05-06 18:35:00 -04:00 Resume Full-Throughput Non-Etsy Monthly Tasks
+- Etsy login/publish remains paused.
+- Full-throughput mode is active because wired LAN is stable.
+- Execution order: retire old eBay bad-cover listings if Seller Hub access works, top up Poster inventory toward 50, keep Acrylic stable, audit production-image correctness, sync external IDs, then push latest durable changes to GitHub.
+- Maintain account-risk gates: no PPC/Priority ads, no payment/order/buyer-message changes, and no broad duplicate Sticker expansion beyond the current cap.
+
+## 2026-05-06 18:48:00 -04:00 eBay Market Learning Loop
+- If Seller Hub views/orders remain flat after cover repair and fixed 2% General ads, do not assume more volume alone will solve it.
+- Start small controlled eBay experiments: buyer-intent title rewrites, clearer cover/mockup selection, price/offer tests, trust/profile fixes, and new product-blueprint probes.
+- Evaluate eBay as a channel by evidence. If multiple controlled tests still produce near-zero views, shift execution priority toward Etsy and keep eBay as a smaller syndication/test channel.
+
+## 2026-05-06 19:05:00 -04:00 Quality/Reasoning Budget Rule
+- Rex explicitly prefers faster, higher-completion work over excessive token saving.
+- Use stronger reasoning for high-leverage tasks: architecture, marketplace strategy, QA gates, debugging, pricing, and experiment design.
+- Use scripts/batch execution for repetitive work; do not waste high reasoning on mechanical loops.
+- Do not pause work merely to conserve weekly quota unless the task is obviously low value.
+
+## 2026-05-06 19:12:00 -04:00 Etsy 200-Listing Experiment Pool
+- Once Etsy login is stable, Rex authorizes up to 200 Etsy listings as a controlled experiment pool, accepting about $40 in listing fees over the listing period.
+- Goal is not volume for its own sake: find monetizable winners quickly, then scale proven DNA.
+- Do not dump all 200 blindly. Use staged cells with clear metrics: digital printable packs, premium Poster POD, Acrylic POD, and a small custom/personalized pilot.
+- Etsy publish remains blocked until login/account access is stable, but local assets, metadata, and launch queues should be prepared now.
+
+## 2026-05-06 19:25:00 -04:00 Pricing / Free Shipping Rule
+- Marketplace listings should be positioned as free shipping where possible.
+- Printify production cost plus Printify shipping must be included in the product price/profit math; do not double-charge customers by adding marketplace shipping on top of an inflated product price.
+- Pricing must never knowingly go below break-even after Printify cost, Printify shipping, marketplace fees, payment processing where applicable, and ad fee assumptions.
+- Sticker may accept low margin to earn positive reviews and trust. Poster/Acrylic should preserve premium margin unless a deliberate A/B price test is being run.
+
+## 2026-05-06 20:08:00 -04:00 Proactive Research / Senior Operator Rule
+- Rex authorizes Codex to proactively search official docs, market references, open-source resources, and competitor/platform information when doing so helps the business goal.
+- Convert research into executable code, QA gates, experiments, pricing rules, and reports rather than leaving it as generic advice.
+- Boundaries remain: protect credentials/privacy; do not touch payment/order/buyer-message settings without clear need; do not design marketplace evasion or ban-circumvention systems.
+- Default role: senior requirement engineer + senior implementation engineer + cautious operator focused on Rex's money-printer goal.
+
+## 2026-05-06 20:00:00 -04:00 Interruption Return Rule
+- When Rex inserts a question, pressure test, or `steer conversation`, answer it, persist any new rule, then automatically return to the prior monthly-task mainline.
+- Do not treat an interruption as permission to stop the production workflow unless Rex explicitly says pause/stop.
+- Current resumed mainline: resolve `Poster-Academia-0038` through `0042` published-without-external-id state, then continue Poster top-up and marketplace experiment scaffolding.
+
+
+## 2026-05-06 20:19:29 -04:00 Active Mainline After Interruption
+- Interruption return rule is active: after answering side questions or pressure tests, resume the monthly-task mainline automatically.
+- Etsy Digital first 10 are QA-passed and fee-reserved but not published; Etsy auth/API remains the hard blocker. Do not spend listing fees until account access is clean.
+- Printify/eBay external sync issue is open for Poster-Academia-0038..0042. They are Printify-ready but not confirmed eBay live listings.
+- Default publish scheduler must not retry external-pending rows unless explicitly run with `--retry-pending` after route diagnosis.
+- Continue mainline: resolve publish route (eBay API or small UI proof), then top up Poster toward target and continue controlled marketplace experiments.

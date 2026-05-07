@@ -1,0 +1,92 @@
+{
+  "handling_time": {
+    "value": 10,
+    "unit": "day"
+  },
+  "profiles": [
+    {
+      "variant_ids": [
+        87613,
+        87615,
+        87617,
+        87618,
+        87620,
+        87622,
+        87624,
+        87625
+      ],
+      "first_item": {
+        "cost": 879,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 349,
+        "currency": "USD"
+      },
+      "countries": [
+        "AU"
+      ]
+    },
+    {
+      "variant_ids": [
+        87613,
+        87615,
+        87620,
+        87622
+      ],
+      "first_item": {
+        "cost": 899,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 719,
+        "currency": "USD"
+      },
+      "countries": [
+        "NZ"
+      ]
+    },
+    {
+      "variant_ids": [
+        87613,
+        87615,
+        87617,
+        87618,
+        87620,
+        87622,
+        87624,
+        87625
+      ],
+      "first_item": {
+        "cost": 4919,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 4919,
+        "currency": "USD"
+      },
+      "countries": [
+        "REST_OF_THE_WORLD"
+      ]
+    },
+    {
+      "variant_ids": [
+        87617,
+        87618,
+        87624,
+        87625
+      ],
+      "first_item": {
+        "cost": 1009,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 819,
+        "currency": "USD"
+      },
+      "countries": [
+        "NZ"
+      ]
+    }
+  ]
+}

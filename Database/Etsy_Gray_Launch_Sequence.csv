@@ -1,0 +1,6 @@
+Phase,Slot_Count,Channel,Product_Group,Why_First,Publish_Gate,Stop_Rule,Default_Price
+1,10,Etsy,Digital printable wall art packs,No Printify cost and fastest demand signal,Etsy login stable; ZIP and metadata ready,If 10 listings get 0 views after indexing window pause broad launch and fix SEO/shop trust,$6.99
+2,10,Etsy,Premium Poster POD,Decor aligned and lower price barrier than Acrylic,Production design audit pass; Printify mockups pass; shipping-included pricing pass,If views but no favorites test price/title; if 0 views pause,$34.99
+3,5,Etsy,Acrylic Photo Block POD,High AOV premium signal,Production design audit pass; mockups pass; price margin pass,If no views/favorites after 5 pause Acrylic expansion,$89.99
+4,5,Etsy,Variant/control cells,Determine whether title theme price or product type drives traffic,One variable changed per cell,Stop losing cells and copy winners,TBD
+5,20,Etsy,Winner expansion,Scale only after signal,Winner DNA has views/favorites/order signal,Stop if winner signal decays,TBD

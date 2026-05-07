@@ -1,6 +1,6 @@
 # Factory Backlog
 
-Generated: 2026-05-06 15:12:28 -0400 America/New_York
+Generated: 2026-05-06 20:31:25 -0400 America/New_York
 
 ## Status Counts
 
@@ -9,7 +9,6 @@ Generated: 2026-05-06 15:12:28 -0400 America/New_York
 - WAIT_COVER_GATE: 2
 - WAIT_USER_OR_API_APPROVAL: 2
 - READY_SINGLE_SKU_REPAIR: 1
-- WAIT_SOURCE_REPAIR_RESULT: 1
 - READY_FOR_SCHOLAR_REVIEW: 1
 
 ## Lane Counts
@@ -20,7 +19,6 @@ Generated: 2026-05-06 15:12:28 -0400 America/New_York
 - supervisor:replacement: 1
 - supervisor:cover_gate: 1
 - replacement: 1
-- fallback: 1
 - production: 1
 - publish: 1
 - supervisor:read_only_market: 1
@@ -56,42 +54,35 @@ Generated: 2026-05-06 15:12:28 -0400 America/New_York
 
 ### P97 supervisor:replacement - READY_TO_REPLACE_VERIFIED
 - Task: Create one verified replacement listing for a live cover failure that survived source repair.
-- Blocker: 1 listing already failed source repair plus live eBay buyer-page audit.
+- Blocker: 21 listing already failed source repair plus live eBay buyer-page audit.
 - Command: `py modules\ebay_replacement_draft_builder.py --limit 1`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: high / yes
 
 ### P95 supervisor:cover_gate - READY_SINGLE_SKU_REPAIR
 - Task: Repair one Printify source cover, then live-audit eBay before scaling.
-- Blocker: Live cover queue has 49 rows; 45 require Printify source repair or replacement listings. Printify UI: LOGGED_IN - Printify app page is available in CDP browser.
+- Blocker: Live cover queue has 49 rows; 21 require Printify source repair or replacement listings. Printify UI: LOGGED_IN - Printify app page is available in CDP browser.
 - Command: `py modules\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: medium / yes
 
 ### P94 replacement - READY_TO_REPLACE_VERIFIED
 - Task: Create verified replacement listing for source-repaired live cover failure
-- Blocker: 1 row already failed source repair plus live eBay audit.
+- Blocker: 21 row already failed source repair plus live eBay audit.
 - Command: `py modules\ebay_replacement_draft_builder.py --limit 1`
 - Done when: Replacement row is created as Ready_for_Printify; public publish still waits for QA and retire sequencing.
 - Risk/network: high / single replacement listing
 
-### P88 fallback - WAIT_SOURCE_REPAIR_RESULT
-- Task: Prepare replacement-listing path if source re-sync cannot repair Inventory-managed eBay images
-- Blocker: 44 rows waiting for one source repair result.
-- Command: `py modules\ebay_cover_replacement_queue.py`
-- Done when: Replacement queue separates safe replace candidates from non-sticker manual review rows.
-- Risk/network: medium / local
-
 ### P72 production - WAIT_COVER_GATE
 - Task: Resume Ready_for_Printify uploads only after cover/default-image gate passes
-- Blocker: 50 local rows are ready but should not upload until the image gate is proven.
+- Blocker: 46 local rows are ready but should not upload until the image gate is proven.
 - Command: `py modules\printify_full_pipeline.py --limit 1`
 - Done when: A new single item reaches stable mockup state and passes selected-count/default-count audit.
 - Risk/network: high / Printify UI/API
 
 ### P68 publish - WAIT_COVER_GATE
 - Task: Publish small cooled batch after image gate and network guard pass
-- Blocker: 41 stable drafts are candidates, but public publish is blocked by cover/default-image risk.
+- Blocker: 19 stable drafts are candidates, but public publish is blocked by cover/default-image risk.
 - Command: `py modules\printify_publish_scheduler.py --limit 3 --min-delay 180 --max-delay 420`
 - Done when: Published products are live-audited and added to 2% Standard/General ad coverage without PPC.
 - Risk/network: high / Printify API/eBay sync

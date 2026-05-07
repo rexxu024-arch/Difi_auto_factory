@@ -581,10 +581,26 @@ def run_logic():
     
     # 模式选择
     for key, obj in Registry.CATALOG.items(): print(f"[{key}] {obj.name}")
-    type_key = input("大类: ") or "1"
+    env_product = os.getenv("MJ_PRODUCT_TYPE", "").strip().lower()
+    if env_product:
+        reverse_catalog = {obj.name.lower(): key for key, obj in Registry.CATALOG.items()}
+        type_key = reverse_catalog.get(env_product)
+        if not type_key:
+            raise RuntimeError(f"Unknown MJ_PRODUCT_TYPE={env_product}")
+        print(f"[AUTO] Product type: {Registry.CATALOG[type_key].name}")
+    else:
+        type_key = input("大类: ") or "1"
     selected_prod = Registry.CATALOG.get(type_key, Registry.STICKER)
     for i, spec in enumerate(selected_prod.specs, 1): print(f"[{i}] {spec}")
-    spec_idx = int(input("制式: ") or "1") - 1
+    env_spec = os.getenv("MJ_PRODUCT_SPEC", "").strip().lower()
+    if env_spec:
+        matches = [i for i, spec in enumerate(selected_prod.specs) if spec.lower() == env_spec]
+        if not matches:
+            raise RuntimeError(f"Unknown MJ_PRODUCT_SPEC={env_spec} for {selected_prod.name}")
+        spec_idx = matches[0]
+        print(f"[AUTO] Product spec: {selected_prod.specs[spec_idx]}")
+    else:
+        spec_idx = int(input("制式: ") or "1") - 1
     sel_cat, sel_spec = selected_prod.name, selected_prod.specs[spec_idx]
     is_kiss_cut = (sel_cat == "Sticker" and "Kiss-Cut" in sel_spec)
 

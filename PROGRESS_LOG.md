@@ -840,3 +840,134 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Recompiled the changed Printify/eBay cover-gate modules successfully.
 - Regenerated the eBay replacement queue: 31 ready-to-replace verified rows, 14 replacement-published-live-pass rows, 4 review-before-replace rows.
 - Rechecked Printify/eBay connectivity: 0% packet loss, about 5-6ms average latency.
+
+## 2026-05-06 16:45 -04:00
+
+- Ran C drive cleanup audit and safe cleanup.
+- C drive free space improved from about 31.36GB to about 54.73GB.
+- Removed safe temp/cache targets only: user temp, Windows temp, pip cache, local `.cache`, browser caches, Discord cache, project `.tmp`, and project `__pycache__`.
+- Cleared Recycle Bin.
+- Left personal downloads, TapTap, Docker data, and production assets untouched.
+- Added `Review_Packets/` as the central folder for Rex/Gemini/AI review material and added housekeeping ignore rules for obvious transient artifacts.
+
+## 2026-05-06 17:30 -04:00
+
+- Consolidated Rex/Gemini-facing project status into `Review_Packets/OPENCLAW_GEMINI_BRIEF.md`.
+- Added `Review_Packets/REPORT_INDEX.md` and updated `Review_Packets/README.md`.
+- Updated `START_HERE_OPENCLAW.md` so future recovery sessions know to use the Gemini brief before old timestamped reports.
+- The new brief is written for Gemini without assuming repo or code access. It emphasizes: wired LAN is fixed, low-bandwidth mode is lifted, Sticker cover bug is the main quality issue, eBay ads alone did not solve traffic, eBay/Etsy APIs are still pending, and the next execution order is replacement audit/retirement then Poster to 50.
+
+## 2026-05-06 17:45 -04:00
+
+- Added dedicated automation browser helper `modules/automation_browser.py`.
+- Added npm shortcuts `browser:edge` and `browser:edge:check`.
+- Updated eBay browser scripts to accept `OPENCLAW_EBAY_CDP_PORT` / `OPENCLAW_CDP_PORT` so future Seller Hub and live-audit browser work can be moved away from Rex's active Chrome window.
+- Codified browser isolation rule: prefer API/headless; use dedicated Edge/CDP profile when browser is necessary; close automation tabs after use.
+- Launched dedicated Edge automation profile on CDP port 9223 at `C:\openclaw_edge_profile`.
+- Retried two failed live eBay cover audits through dedicated Edge; both passed as `LIKELY_COVER_OFFICIAL`.
+- Added 10 newly verified Sticker replacement mappings to `Database/eBay_Retire_Queue.csv`.
+- Tested retiring one old listing through dedicated Edge; Seller Hub requires login in the dedicated profile, so the script stopped safely with `LOGIN_REQUIRED` and preserved queue status.
+
+## 2026-05-06 18:10 -04:00
+
+- Cleared Etsy-only site data/cache/cookies in the dedicated automation Edge profile and reopened a clean Etsy sign-in page.
+- Rex still saw Etsy's red "An error has occurred, please try again!" banner after retry.
+- Public checks did not suggest a clear Etsy-wide outage; current diagnosis is account/session/IP/security verification or Etsy-side login bug.
+- Etsy UI edits, old listing deletion, and Etsy publish are paused to avoid repeated failed login attempts.
+- Built `modules/printify_etsy_launch.py` and generated a 20-item Etsy candidate launch plan, but the first Printify Etsy smoke product had no selected official mockups yet; do not publish Etsy listings until mockup selection/login path is stable.
+
+## 2026-05-06 18:25 -04:00
+
+- Rex confirmed Chrome Google-account Etsy login also fails with the same red banner.
+- Diagnosis strengthened: this is unlikely to be only Edge cache or a bad local profile.
+- New operating rule: pause repeated Etsy credential retries, keep Etsy publish/storefront edits blocked, and continue eBay/Printify/local factory tasks.
+- Recommended human-side checks are account-safe: Etsy email/security notice, `Trouble signing in?`, and one mobile/cellular login test to determine whether the Etsy account itself is temporarily blocked.
+
+## 2026-05-06 18:43 -04:00
+
+- Resumed full-throughput non-Etsy work after Rex confirmed to continue.
+- Used dedicated automation Edge on CDP port 9223, not Rex's daily Chrome.
+- Retired 10 old Sticker listings whose live eBay cover was previously wrong, and detached their old Printify external publish state:
+  - `Sticker-Zen-0005`, `0007`, `0008`, `0009`, `0022`, `0024`, `0025`, `0027`, `0041`, `0042`.
+- All 10 returned Seller Hub success banners and were marked `RETIRED_CONFIRMED` / `Retired_Replaced`.
+
+## 2026-05-06 18:48 -04:00
+
+- Topped up Poster by publishing `Poster-Academia-0034` through `0037`.
+- All 4 Poster products passed Printify production-design audit: local `Production_Design` matched Printify front print area visually, with 3600x5400 remote size and ahash distance 0.
+- All 4 Poster listings passed live eBay buyer-page image audit as `LIKELY_COVER_OFFICIAL`.
+- eBay item IDs synced:
+  - `Poster-Academia-0034` -> `406909467980`
+  - `Poster-Academia-0035` -> `406909471020`
+  - `Poster-Academia-0036` -> `406909472775`
+  - `Poster-Academia-0037` -> `406909473606`
+- All 4 were queued for future fixed 2% Promoted Listings Standard enrollment once eBay OAuth is available.
+- Added market-learning rule: if eBay views remain flat, run controlled product/copy/price/category experiments rather than only adding more volume.
+
+## 2026-05-06 19:00 -04:00
+
+- Created `Review_Packets/REVENUE_EXPERIMENTS.md` for Rex/Gemini strategy review.
+- Created `Database/Revenue_Experiment_Queue.csv` so revenue ideas become executable experiments instead of loose chat ideas.
+- Recommended first practical revenue experiment: Etsy digital printable wall art packs from existing Poster assets, because it uses local assets, avoids Printify/shipping cost, and can be prepared while Etsy login is blocked.
+
+## 2026-05-06 19:30 -04:00
+
+- Added `modules/digital_printable_pack_builder.py` and built the first 10 Etsy digital printable ZIP packs locally.
+- Added `modules/digital_etsy_metadata_builder.py` and generated 10 Etsy-ready metadata rows: title, description, 13 tags, price, ZIP path, and AI/digital-download disclosure.
+- Added `Database/Etsy_Gray_Launch_Sequence.csv` for the 200-listing Etsy experiment pool.
+- Added `Review_Packets/CODEX_STRESS_TEST_RESPONSE.md` with concrete answers to Gemini's stress test:
+  - network guard now detects `full_throughput`;
+  - eBay low-view risk requires controlled experiments, not more volume alone;
+  - Cover Gate prevention is enforced through production/live audits;
+  - Etsy listing fees must be spent through staged launch cells with stop rules.
+
+## 2026-05-06 19:42 -04:00
+
+- MJ harvest for `Poster-Academia-0038` through `0042` completed.
+- Generated Poster production assets for `0038` through `0042` and wrote eBay/Etsy listing rows.
+- Created and published Printify products for `Poster-Academia-0038` through `0042`; each passed Printify production-design audit and selected 8 official mockups.
+- Printify has not yet returned eBay external item IDs for these 5 products after two sync attempts; they remain published-but-waiting-external-sync.
+- Updated pricing/free-shipping rule: buyer-facing free shipping preferred, but Printify shipping is included in price/profit calculations.
+- Created `Database/Printify_Cost_Shipping_Guardrail.csv` and `Database/Pricing_Strategy_Matrix.csv`.
+
+## 2026-05-06 19:58 -04:00
+
+- Added `Review_Packets/CODEX_STRESS_TEST_ROUND2.md` for Gemini/Rex.
+- Added `Database/Etsy_Fee_Kill_Switch.json` with hard caps:
+  - batch listing cap 10;
+  - batch fee cap $2.00;
+  - daily test fee cap $6.00;
+  - ambiguous paid publish cap 1;
+  - duplicate paid listing cap 0.
+- Added `Database/Account_Risk_State.json` with Etsy marked `LOGIN_ANOMALY` and paid publish disabled.
+- Added `modules/risk_guard.py` for marketplace write/fee preflight blocking.
+- Added `modules/image_quality_gate.py` and ran it on `Poster-Academia-0038` through `0042`.
+- Image QA result: final production assets mostly pass; `Poster-Academia-0041` cover/gallery shows `SHADOW_CLIPPING`, so it should be treated as published-but-review-recommended rather than a future winner seed.
+
+
+## 2026-05-06 20:19:29 -04:00 Etsy Digital Gray Launch Gate + Printify External Sync Correction
+- Built first Etsy Digital gray-launch batch from 10 prepared printable wall-art packs.
+- Strict QA result: 10/10 PASS, 0 HOLD.
+- Fee guard result: $2.00 reserved, $0.00 confirmed spent. Etsy publish remains blocked by Account_Risk_State because Etsy login/API access is not clean.
+- Created `Database/Etsy_Digital_Gray_Launch_Queue.csv`, `Database/Etsy_Digital_QA_Report.csv`, `Database/Etsy_Fee_Ledger.csv`, and `Review_Packets/ETSY_DIGITAL_TRAFFIC_PENETRATION_REPORT_20260506.md`.
+- Scheduled morning heartbeat report for Etsy Digital traffic penetration readout.
+- Corrected `Poster-Academia-0038` through `0042` from false `Printify_Published_Mockups8` to `Printify_PublishExternalPending_Mockups8` because no eBay external id exists.
+- Recovered `Poster-Academia-0037` external id into workbook: 406909473606.
+- Patched `printify_publish_scheduler.py` so external-pending rows are not retried by default and published count means external id confirmed.
+
+
+## 2026-05-06 20:46:12 -04:00 Replacement Publish Route Proof
+- Created local replacement draft `Sticker-Zen-0044-FIX1` from verified cover-failure queue.
+- Ran full Printify pipeline: product `69fbdfc9f60a24b6d1035f8b`, production design visual match PASS, selected official mockups=3, custom U gallery=0.
+- Tried Printify API publish once; HTTP 200 but no eBay external id. Scheduler correctly reported `external_confirmed=0` and kept the row pending rather than counted as live.
+- Conclusion: current blocker is marketplace publish route, not product assets. Use eBay API once approved or a verified Printify UI publish path; do not broad-retry Printify API publish.
+
+
+## 2026-05-06 20:48:49 -04:00 Browser Isolation + Market Snapshot Refresh
+- Patched Printify login guard, full pipeline, mockup uploader, and supervisor to default to dedicated Edge CDP port 9223 instead of daily Chrome 9222.
+- Verified `npm run printify:login:dry` returns LOGGED_IN on dedicated Edge.
+- Ran factory supervisor local cycle again: failures=0.
+- Ran Printify production design audit: 2/2 passed visual match, ahash_distance=0.
+- Read eBay Seller Hub snapshot through dedicated Edge: 50 rows, 43 zero-view, 7 with one-plus views, 50 promoted.
+- Synced 80 Printify products for external ids: 67 updated. Traffic diagnosis now attributes movement by product type: Acrylic 3/17 moved, Poster 4/17 moved, Sticker 0/16 moved.
+- Created `Review_Packets/EBAY_API_MINIMAL_APPLICATION_PACKET.md` and updated Gemini brief/index.

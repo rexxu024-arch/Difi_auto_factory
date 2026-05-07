@@ -2,6 +2,7 @@ import argparse
 import asyncio
 import io
 import json
+import os
 import sys
 import time
 import urllib.request
@@ -20,7 +21,9 @@ from config import Config
 
 
 EBAY_BOOK = PROJECT_ROOT / "Database" / "eBay_listing.xlsx"
-CHROME_DEBUG_URL = "http://127.0.0.1:9222"
+CHROME_DEBUG_URL = (
+    f"http://127.0.0.1:{os.getenv('OPENCLAW_PRINTIFY_CDP_PORT') or os.getenv('OPENCLAW_CDP_PORT') or '9223'}"
+)
 TARGET_VARIANT_ID = 45754
 VARIANT_LABELS = {
     "Sticker": ['6" × 6", White', '6" x 6", White', '6" × 6"'],

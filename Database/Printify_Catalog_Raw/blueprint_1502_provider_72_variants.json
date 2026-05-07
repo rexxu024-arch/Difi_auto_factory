@@ -1,0 +1,266 @@
+{
+  "id": 72,
+  "title": "Print Clever",
+  "variants": [
+    {
+      "id": 108107,
+      "title": "10\" x 8\" (Horizontal) / Semi Glossy / White",
+      "options": {
+        "size": "10\" x 8\" (Horizontal)",
+        "paper": "Semi Glossy",
+        "color": "White"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3000,
+          "height": 2398
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 108108,
+      "title": "10\" x 8\" (Horizontal) / Semi Glossy / Black",
+      "options": {
+        "size": "10\" x 8\" (Horizontal)",
+        "paper": "Semi Glossy",
+        "color": "Black"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3000,
+          "height": 2398
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 108120,
+      "title": "16″ x 12″ (Horizontal) / Semi Glossy / Black",
+      "options": {
+        "size": "16″ x 12″ (Horizontal)",
+        "paper": "Semi Glossy",
+        "color": "Black"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4795,
+          "height": 3591
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 108131,
+      "title": "24″ x 18″ (Horizontal) / Semi Glossy / White",
+      "options": {
+        "size": "24″ x 18″ (Horizontal)",
+        "paper": "Semi Glossy",
+        "color": "White"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 7205,
+          "height": 5398
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 108132,
+      "title": "24″ x 18″ (Horizontal) / Semi Glossy / Black",
+      "options": {
+        "size": "24″ x 18″ (Horizontal)",
+        "paper": "Semi Glossy",
+        "color": "Black"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 7205,
+          "height": 5398
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 108148,
+      "title": "8\" x 10\" (Vertical) / Semi Glossy / Brown",
+      "options": {
+        "size": "8\" x 10\" (Vertical)",
+        "paper": "Semi Glossy",
+        "color": "Brown"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 2398,
+          "height": 3000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 108149,
+      "title": "8\" x 10\" (Vertical) / Semi Glossy / White",
+      "options": {
+        "size": "8\" x 10\" (Vertical)",
+        "paper": "Semi Glossy",
+        "color": "White"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 2398,
+          "height": 3000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 108150,
+      "title": "8\" x 10\" (Vertical) / Semi Glossy / Black",
+      "options": {
+        "size": "8\" x 10\" (Vertical)",
+        "paper": "Semi Glossy",
+        "color": "Black"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 2398,
+          "height": 3000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 108163,
+      "title": "12″ x 16″ (Vertical) / Semi Glossy / Brown",
+      "options": {
+        "size": "12″ x 16″ (Vertical)",
+        "paper": "Semi Glossy",
+        "color": "Brown"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3591,
+          "height": 4795
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 108165,
+      "title": "12″ x 16″ (Vertical) / Semi Glossy / Black",
+      "options": {
+        "size": "12″ x 16″ (Vertical)",
+        "paper": "Semi Glossy",
+        "color": "Black"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3591,
+          "height": 4795
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 108252,
+      "title": "18″ x 24″ (Vertical) / Semi Glossy / Brown",
+      "options": {
+        "size": "18″ x 24″ (Vertical)",
+        "paper": "Semi Glossy",
+        "color": "Brown"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 5398,
+          "height": 7205
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 108253,
+      "title": "18″ x 24″ (Vertical) / Semi Glossy / White",
+      "options": {
+        "size": "18″ x 24″ (Vertical)",
+        "paper": "Semi Glossy",
+        "color": "White"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 5398,
+          "height": 7205
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 108254,
+      "title": "18″ x 24″ (Vertical) / Semi Glossy / Black",
+      "options": {
+        "size": "18″ x 24″ (Vertical)",
+        "paper": "Semi Glossy",
+        "color": "Black"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 5398,
+          "height": 7205
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    }
+  ]
+}

@@ -18,6 +18,7 @@ from modules import ebay_ads_standard
 
 EBAY_BOOK = PROJECT_ROOT / "Database" / "eBay_listing.xlsx"
 PUBLISHABLE_PREFIXES = ("Printify_UI_Mockups",)
+RETRYABLE_EXTERNAL_PENDING_PREFIXES = ("Printify_PublishExternalPending_Mockups",)
 PUBLISHED_PREFIXES = ("Printify_Published", "Printify_Published_Mockups")
 PUBLISH_BODY = {
     "title": True,
@@ -156,7 +157,7 @@ def _publish(product_id):
     raise last_error
 
 
-def _load_publishable(limit, product_cycle, ids=None):
+def _load_publishable(limit, product_cycle, ids=None, retry_pending=False):
     wanted_ids = {str(item).strip() for item in (ids or []) if str(item).strip()}
     wb = load_workbook(EBAY_BOOK)
     ws = wb.active
@@ -171,7 +172,8 @@ def _load_publishable(limit, product_cycle, ids=None):
         if wanted_ids and row_id not in wanted_ids:
             continue
         status = str(ws.cell(row_idx, cols["Status"]).value or "")
-        if status.startswith(PUBLISHED_PREFIXES) or not status.startswith(PUBLISHABLE_PREFIXES):
+        allowed_prefixes = PUBLISHABLE_PREFIXES + (RETRYABLE_EXTERNAL_PENDING_PREFIXES if retry_pending else ())
+        if status.startswith(PUBLISHED_PREFIXES) or not status.startswith(allowed_prefixes):
             continue
         product_type = _product_type(ws.cell(row_idx, cols["Product_Type"]).value)
         if product_type not in buckets:
@@ -188,9 +190,9 @@ def _load_publishable(limit, product_cycle, ids=None):
     return wb, ws, cols, selected
 
 
-def run(limit=8, min_delay=90, max_delay=240, product_cycle=None, dry_run=False, ids=None):
+def run(limit=8, min_delay=90, max_delay=240, product_cycle=None, dry_run=False, ids=None, retry_pending=False):
     product_cycle = product_cycle or ["Poster", "Acrylic", "Sticker"]
-    wb, ws, cols, rows = _load_publishable(limit, product_cycle, ids=ids)
+    wb, ws, cols, rows = _load_publishable(limit, product_cycle, ids=ids, retry_pending=retry_pending)
     done = 0
     try:
         for row in rows:
@@ -207,15 +209,20 @@ def run(limit=8, min_delay=90, max_delay=240, product_cycle=None, dry_run=False,
                     continue
                 code = _publish(product_id)
                 suffix = _publish_suffix(row.get("Status"))
-                ws.cell(row_idx, cols["Status"]).value = f"Printify_Published_Mockups{suffix}" if suffix else "Printify_Published"
                 ws.cell(row_idx, cols["Publish_Timestamp"]).value = datetime.now()
                 ebay_id, external_note = _sync_external_id_for_row(ws, cols, row_idx, item_id, product_id)
+                if ebay_id:
+                    ws.cell(row_idx, cols["Status"]).value = f"Printify_Published_Mockups{suffix}" if suffix else "Printify_Published"
+                else:
+                    ws.cell(row_idx, cols["Status"]).value = (
+                        f"Printify_PublishExternalPending_Mockups{suffix}" if suffix else "Printify_PublishExternalPending"
+                    )
                 if ebay_id:
                     ads_ok = ebay_ads_standard.enroll_listing(item_id, ebay_id)
                     ads_note = "ads_enrolled" if ads_ok else "ads_queued"
                 else:
                     ads_note = "ads_waiting_for_external_id"
-                done += 1
+                done += 1 if ebay_id else 0
                 wb.save(EBAY_BOOK)
                 print(
                     f"[PUBLISH-OK] {item_id} product={product_id} http={code} {note} "
@@ -230,7 +237,7 @@ def run(limit=8, min_delay=90, max_delay=240, product_cycle=None, dry_run=False,
                 continue
     finally:
         wb.close()
-    print(f"[DONE] publish attempted={len(rows)} published={done}")
+    print(f"[DONE] publish attempted={len(rows)} external_confirmed={done}")
     return done
 
 
@@ -242,10 +249,19 @@ def main():
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--cycle", default="Poster,Acrylic,Sticker")
     parser.add_argument("--ids", default="", help="Comma-separated listing IDs to publish exactly.")
+    parser.add_argument("--retry-pending", action="store_true", help="Explicitly retry Printify_PublishExternalPending rows.")
     args = parser.parse_args()
     cycle = [part.strip() for part in args.cycle.split(",") if part.strip()]
     ids = [part.strip() for part in args.ids.split(",") if part.strip()]
-    run(limit=args.limit, min_delay=args.min_delay, max_delay=args.max_delay, product_cycle=cycle, dry_run=args.dry_run, ids=ids)
+    run(
+        limit=args.limit,
+        min_delay=args.min_delay,
+        max_delay=args.max_delay,
+        product_cycle=cycle,
+        dry_run=args.dry_run,
+        ids=ids,
+        retry_pending=args.retry_pending,
+    )
 
 
 if __name__ == "__main__":

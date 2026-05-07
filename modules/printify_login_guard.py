@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import os
 import sys
 import time
 import urllib.request
@@ -26,7 +27,8 @@ from config import Config
 from modules.printify_mockup_ui_uploader import CdpPage
 
 
-CHROME_DEBUG_URL = "http://127.0.0.1:9222"
+CDP_PORT = int(os.getenv("OPENCLAW_PRINTIFY_CDP_PORT") or os.getenv("OPENCLAW_CDP_PORT") or "9223")
+CHROME_DEBUG_URL = f"http://127.0.0.1:{CDP_PORT}"
 DATABASE_DIR = PROJECT_ROOT / "Database"
 STATUS_JSON = DATABASE_DIR / "Printify_Login_Status.json"
 RUN_LOG = DATABASE_DIR / "Printify_Login_Guard.log"
@@ -69,7 +71,7 @@ def new_tab(url: str) -> dict:
     return json.loads(urllib.request.urlopen(request, timeout=10).read().decode("utf-8", "ignore"))
 
 
-def find_printify_page() -> dict | None:
+def find_printify_pages() -> list[dict]:
     pages = list_pages()
     app_pages = [
         page
@@ -80,9 +82,9 @@ def find_printify_page() -> dict | None:
     ]
     if app_pages:
         app_pages.sort(key=lambda page: ("/app/" not in clean(page.get("url")), clean(page.get("url"))))
-        return app_pages[0]
+        return app_pages
     tab = new_tab("https://printify.com/app/dashboard")
-    return tab if tab.get("webSocketDebuggerUrl") else None
+    return [tab] if tab.get("webSocketDebuggerUrl") else []
 
 
 async def page_snapshot(page: CdpPage) -> dict[str, str]:
@@ -148,37 +150,46 @@ async def click_allowed_google_account(page: CdpPage, email: str) -> str:
 async def recover_login(timeout: int = 90, dry_run: bool = False) -> dict[str, str]:
     if not Config.PRINTIFY_LOGIN_EMAIL:
         return write_status("BLOCKED_MISSING_EMAIL", "PRINTIFY_LOGIN_EMAIL is not configured.")
-    page_info = find_printify_page()
-    if not page_info:
+    pages = find_printify_pages()
+    if not pages:
         return write_status("UNAVAILABLE", "No CDP Printify page and could not create one.")
-    async with CdpPage(page_info["webSocketDebuggerUrl"]) as page:
-        await page.navigate("https://printify.com/app/dashboard")
-        await asyncio.sleep(5)
-        snap = await page_snapshot(page)
-        if is_logged_in(snap):
-            return write_status("LOGGED_IN", "Printify dashboard is available.", clean(snap.get("url")))
-        if dry_run:
-            return write_status("LOGIN_REQUIRED", "Dry run stopped before Google login attempt.", clean(snap.get("url")))
+    last_error = ""
+    for page_info in pages:
+        page_url = clean(page_info.get("url"))
+        try:
+            async with CdpPage(page_info["webSocketDebuggerUrl"]) as page:
+                await page.navigate("https://printify.com/app/dashboard")
+                await asyncio.sleep(5)
+                snap = await page_snapshot(page)
+                if is_logged_in(snap):
+                    return write_status("LOGGED_IN", "Printify dashboard is available.", clean(snap.get("url")))
+                if dry_run:
+                    return write_status("LOGIN_REQUIRED", "Dry run stopped before Google login attempt.", clean(snap.get("url")))
 
-        clicked = await click_printify_google(page)
-        if not clicked:
-            snap = await page_snapshot(page)
-            return write_status("MANUAL_LOGIN_REQUIRED", "Could not find Printify Google login button.", clean(snap.get("url")))
+                clicked = await click_printify_google(page)
+                if not clicked:
+                    snap = await page_snapshot(page)
+                    return write_status("MANUAL_LOGIN_REQUIRED", "Could not find Printify Google login button.", clean(snap.get("url")))
 
-        deadline = time.time() + timeout
-        account_action = ""
-        while time.time() < deadline:
-            await asyncio.sleep(3)
-            snap = await page_snapshot(page)
-            url = clean(snap.get("url"))
-            if is_logged_in(snap):
-                return write_status("LOGGED_IN", "Recovered Printify login through saved Google session.", url)
-            if "accounts.google.com" in url:
-                account_action = await click_allowed_google_account(page, Config.PRINTIFY_LOGIN_EMAIL)
-                if account_action.startswith("PASSWORD_REQUIRED") or account_action.startswith("ALLOWED_ACCOUNT_NOT_VISIBLE"):
-                    return write_status("MANUAL_LOGIN_REQUIRED", account_action, url)
-        snap = await page_snapshot(page)
-        return write_status("TIMEOUT", f"Login recovery timed out. Last account action: {account_action}", clean(snap.get("url")))
+                deadline = time.time() + timeout
+                account_action = ""
+                while time.time() < deadline:
+                    await asyncio.sleep(3)
+                    snap = await page_snapshot(page)
+                    url = clean(snap.get("url"))
+                    if is_logged_in(snap):
+                        return write_status("LOGGED_IN", "Recovered Printify login through saved Google session.", url)
+                    if "accounts.google.com" in url:
+                        account_action = await click_allowed_google_account(page, Config.PRINTIFY_LOGIN_EMAIL)
+                        if account_action.startswith("PASSWORD_REQUIRED") or account_action.startswith("ALLOWED_ACCOUNT_NOT_VISIBLE"):
+                            return write_status("MANUAL_LOGIN_REQUIRED", account_action, url)
+                snap = await page_snapshot(page)
+                return write_status("TIMEOUT", f"Login recovery timed out. Last account action: {account_action}", clean(snap.get("url")))
+        except Exception as exc:
+            last_error = f"{type(exc).__name__}: {exc}"
+            append_log(f"SKIP_BAD_CDP_PAGE {page_url}: {last_error}")
+            continue
+    return write_status("UNAVAILABLE", f"All Printify CDP pages failed handshake. Last error: {last_error}")
 
 
 def main() -> None:

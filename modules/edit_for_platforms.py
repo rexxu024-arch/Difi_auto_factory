@@ -690,12 +690,24 @@ def _upsert(ws, headers, row_data):
         ws.cell(row=target, column=col).value = row_data.get(header, "")
 
 
-def build_listing_assets(limit=0, use_api=True, product_type="Sticker"):
+def _existing_ids(ws, headers):
+    id_col = headers.index("ID") + 1
+    return {
+        str(ws.cell(row=row, column=id_col).value or "").strip()
+        for row in range(2, ws.max_row + 1)
+        if str(ws.cell(row=row, column=id_col).value or "").strip()
+    }
+
+
+def build_listing_assets(limit=0, use_api=True, product_type="Sticker", only_missing=False):
     DATABASE_DIR.mkdir(exist_ok=True)
     ebay_wb, ebay_ws = _open_book(EBAY_BOOK, EBAY_HEADERS)
     etsy_wb, etsy_ws = _open_book(ETSY_BOOK, ETSY_HEADERS)
     product_type = "Acrylic" if product_type.lower().startswith("acry") else ("Poster" if product_type.lower().startswith("poster") else "Sticker")
     folders = _ready_folders(product_type)
+    if only_missing:
+        known = _existing_ids(ebay_ws, EBAY_HEADERS)
+        folders = [folder for folder in folders if _folder_id(folder) not in known]
     if limit:
         folders = folders[:limit]
     completed = 0
@@ -795,8 +807,14 @@ if __name__ == "__main__":
     parser.add_argument("--no-api", action="store_true")
     parser.add_argument("--product-type", default="Sticker", choices=["Sticker", "Poster", "Acrylic"])
     parser.add_argument("--normalize-existing", action="store_true")
+    parser.add_argument("--only-missing", action="store_true")
     args = parser.parse_args()
     if args.normalize_existing:
         normalize_existing_listing_rows()
     else:
-        build_listing_assets(limit=args.limit, use_api=not args.no_api, product_type=args.product_type)
+        build_listing_assets(
+            limit=args.limit,
+            use_api=not args.no_api,
+            product_type=args.product_type,
+            only_missing=args.only_missing,
+        )

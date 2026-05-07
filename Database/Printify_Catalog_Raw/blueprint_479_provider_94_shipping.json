@@ -1,0 +1,164 @@
+{
+  "handling_time": {
+    "value": 10,
+    "unit": "day"
+  },
+  "profiles": [
+    {
+      "variant_ids": [
+        65217,
+        104470
+      ],
+      "first_item": {
+        "cost": 3999,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 359,
+        "currency": "USD"
+      },
+      "countries": [
+        "US"
+      ]
+    },
+    {
+      "variant_ids": [
+        65217,
+        104470
+      ],
+      "first_item": {
+        "cost": 659,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 239,
+        "currency": "USD"
+      },
+      "countries": [
+        "BE",
+        "NL",
+        "IT",
+        "AX",
+        "AL",
+        "AD",
+        "AM",
+        "AT",
+        "BY",
+        "BA",
+        "BV",
+        "BG",
+        "HR",
+        "CY",
+        "FO",
+        "GE",
+        "GI",
+        "GR",
+        "GL",
+        "GP",
+        "GG",
+        "VA",
+        "HU",
+        "IE",
+        "IM",
+        "JE",
+        "MK",
+        "MT",
+        "MD",
+        "MC",
+        "ME",
+        "PL",
+        "PT",
+        "RE",
+        "RO",
+        "SM",
+        "RS",
+        "SK",
+        "SI",
+        "ES",
+        "TR",
+        "UA",
+        "XK",
+        "FR"
+      ]
+    },
+    {
+      "variant_ids": [
+        65217,
+        104470
+      ],
+      "first_item": {
+        "cost": 379,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 129,
+        "currency": "USD"
+      },
+      "countries": [
+        "GB"
+      ]
+    },
+    {
+      "variant_ids": [
+        65217,
+        104470
+      ],
+      "first_item": {
+        "cost": 999,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 239,
+        "currency": "USD"
+      },
+      "countries": [
+        "EE",
+        "LV",
+        "NO",
+        "LU",
+        "FI",
+        "LI",
+        "DK",
+        "CH",
+        "IS",
+        "LT",
+        "SE"
+      ]
+    },
+    {
+      "variant_ids": [
+        65217,
+        104470
+      ],
+      "first_item": {
+        "cost": 599,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 239,
+        "currency": "USD"
+      },
+      "countries": [
+        "DE",
+        "CZ"
+      ]
+    },
+    {
+      "variant_ids": [
+        65217,
+        104470
+      ],
+      "first_item": {
+        "cost": 2999,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 359,
+        "currency": "USD"
+      },
+      "countries": [
+        "REST_OF_THE_WORLD"
+      ]
+    }
+  ]
+}

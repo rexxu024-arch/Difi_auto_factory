@@ -143,8 +143,9 @@ def process_folder(folder, product_type, force=False):
     return True, f"{item_id}: best={source_path.name} score={max(score for _, score in scores):.2f}"
 
 
-def build_assets(product_type, limit=0, force=False):
+def build_assets(product_type, limit=0, force=False, ids=None):
     product_type = "Acrylic" if product_type.lower().startswith("acry") else "Poster"
+    wanted_ids = {str(item).strip() for item in (ids or []) if str(item).strip()}
     spec = PRODUCT_SPECS[product_type]
     root = PROJECT_ROOT / "Output" / product_type / spec["spec"]
     log_path = PROJECT_ROOT / "Database" / f"{product_type.lower()}_asset_audit.log"
@@ -153,6 +154,8 @@ def build_assets(product_type, limit=0, force=False):
         folder for folder in root.iterdir()
         if folder.is_dir() and folder.name.startswith("MASTER_") and folder.name.endswith("_Ready_for_Steaming")
     )
+    if wanted_ids:
+        candidates = [folder for folder in candidates if _folder_id(folder) in wanted_ids]
     if limit:
         candidates = candidates[:limit]
     ok = 0
@@ -175,6 +178,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("product_type", choices=["Poster", "Acrylic"])
     parser.add_argument("--limit", type=int, default=0)
+    parser.add_argument("--ids", default="", help="Comma-separated listing IDs to process exactly.")
     parser.add_argument("--force", action="store_true")
     args = parser.parse_args()
-    build_assets(args.product_type, limit=args.limit, force=args.force)
+    ids = [part.strip() for part in args.ids.split(",") if part.strip()]
+    build_assets(args.product_type, limit=args.limit, force=args.force, ids=ids)

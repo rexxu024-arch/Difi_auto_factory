@@ -1,6 +1,7 @@
 import argparse
 import asyncio
 import json
+import os
 import sys
 import time
 import urllib.request
@@ -22,7 +23,9 @@ from modules.printify_mockup_ui_uploader import _assets, _default_count, _fetch_
 
 
 EBAY_BOOK = PROJECT_ROOT / "Database" / "eBay_listing.xlsx"
-CHROME_DEBUG_URL = "http://127.0.0.1:9222"
+CHROME_DEBUG_URL = (
+    f"http://127.0.0.1:{os.getenv('OPENCLAW_PRINTIFY_CDP_PORT') or os.getenv('OPENCLAW_CDP_PORT') or '9223'}"
+)
 EXPECTED_MOCKUPS = {
     "Sticker": 5,
     "Poster": 4,
@@ -262,7 +265,7 @@ def run(limit=0, batch_size=75, batch_delay=3600, publish=False, product_type=No
             row_idx = row["_row_idx"]
             try:
                 product_filter = _canonical_product_filter(row.get("Product_Type"))
-                if product_filter != "Acrylic":
+                if product_filter == "Sticker":
                     _assert_printify_ui_logged_in()
                 product_id = _ensure_product_id(row)
                 _set_cell(ws, cols, row_idx, "Printify_Product_ID", product_id)

@@ -2,6 +2,7 @@ import argparse
 import asyncio
 import csv
 import json
+import os
 import re
 import sys
 import time
@@ -17,6 +18,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATABASE_DIR = PROJECT_ROOT / "Database"
 PERFORMANCE_LOG = DATABASE_DIR / "Performance_Log.csv"
 ACTIVE_URL = "https://www.ebay.com/sh/lst/active"
+DEFAULT_CDP_PORT = int(os.getenv("OPENCLAW_EBAY_CDP_PORT") or os.getenv("OPENCLAW_CDP_PORT") or "9222")
 
 HEADERS = [
     "Snapshot_Timestamp",
@@ -58,7 +60,7 @@ async def _send(ws, seq_state, method, params=None):
             return data
 
 
-async def _read_active_text(cdp_port=9222, scrolls=0):
+async def _read_active_text(cdp_port=DEFAULT_CDP_PORT, scrolls=0):
     encoded = urllib.parse.quote(ACTIVE_URL, safe=":/?&=%")
     created_or_reused_page = {}
     try:
@@ -184,7 +186,7 @@ def _append_log(rows):
         writer.writerows(rows)
 
 
-def run(cdp_port=9222, scrolls=0, dry_run=False):
+def run(cdp_port=DEFAULT_CDP_PORT, scrolls=0, dry_run=False):
     page = asyncio.run(_read_active_text(cdp_port=cdp_port, scrolls=scrolls))
     rows, status = _parse_rows(page)
     if status != "OK":
@@ -203,7 +205,7 @@ def run(cdp_port=9222, scrolls=0, dry_run=False):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--cdp-port", type=int, default=9222)
+    parser.add_argument("--cdp-port", type=int, default=DEFAULT_CDP_PORT)
     parser.add_argument("--scrolls", type=int, default=0)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()

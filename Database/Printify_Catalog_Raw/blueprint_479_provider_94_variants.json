@@ -1,0 +1,42 @@
+{
+  "id": 94,
+  "title": "Harrier",
+  "variants": [
+    {
+      "id": 65217,
+      "title": "11oz",
+      "options": {
+        "size": "11oz"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "dye-sublimation",
+          "width": 2327,
+          "height": 1086
+        }
+      ],
+      "decoration_methods": [
+        "dye-sublimation"
+      ]
+    },
+    {
+      "id": 104470,
+      "title": "15oz",
+      "options": {
+        "size": "15oz"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "dye-sublimation",
+          "width": 2448,
+          "height": 1266
+        }
+      ],
+      "decoration_methods": [
+        "dye-sublimation"
+      ]
+    }
+  ]
+}

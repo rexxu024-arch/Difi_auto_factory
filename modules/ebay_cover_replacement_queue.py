@@ -87,6 +87,27 @@ def build_rows() -> list[dict[str, str]]:
         repair_method = clean(decision.get("Repair_Method"))
         repair_status = clean(decision.get("Status"))
         if repair_method not in {"SOURCE_REPAIR_REQUIRED", "NON_STICKER_REVIEW_REQUIRED"}:
+            if repair_method == "RETIRED_REPLACED_DONE":
+                retire_row = retire_rows.get(item_id, {})
+                output.append(
+                    {
+                        "Priority": "10",
+                        "ID": item_id,
+                        "Replacement_SKU": clean(retire_row.get("Replacement_ID")) or f"{item_id}-FIX1",
+                        "Product_Type": product_type,
+                        "Category": clean(source.get("Category")),
+                        "Old_eBay_Item_ID": clean(source.get("eBay_Item_ID") or decision.get("eBay_Item_ID")),
+                        "Old_Printify_Product_ID": clean(source.get("Printify_Product_ID") or decision.get("Printify_Product_ID")),
+                        "Repair_Method": repair_method,
+                        "Replacement_Status": "OLD_RETIRED_REPLACED_DONE",
+                        "Title": clean(source.get("Title")),
+                        "Price": clean(source.get("Price")),
+                        "Production_Path": clean(source.get("Production_Path")),
+                        "Cover_Path": clean(source.get("Cover_Path")),
+                        "Action_Sequence": "No further cover action. Old listing was ended after replacement verification.",
+                        "Retire_Old_Only_After": "Done.",
+                    }
+                )
             continue
         replacement_sku = f"{item_id}-FIX1"
         if item_id in retire_rows:

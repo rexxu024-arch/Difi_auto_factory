@@ -1,0 +1,31 @@
+{
+  "id": 99,
+  "title": "Printify Choice",
+  "variants": [
+    {
+      "id": 252281,
+      "title": "5.5″ x 8.5″ / Dotgrid",
+      "options": {
+        "size": "5.5″ x 8.5″",
+        "paper": "Dotgrid"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 1725,
+          "height": 2625
+        },
+        {
+          "position": "back",
+          "decoration_method": "digital-printing",
+          "width": 1725,
+          "height": 2625
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    }
+  ]
+}

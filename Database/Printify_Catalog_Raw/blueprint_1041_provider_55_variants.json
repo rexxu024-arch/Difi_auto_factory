@@ -1,0 +1,366 @@
+{
+  "id": 55,
+  "title": "Drukātava",
+  "variants": [
+    {
+      "id": 80167,
+      "title": "A4 / Blank / Glossy",
+      "options": {
+        "size": "A4",
+        "paper": "Blank",
+        "finish": "Glossy"
+      },
+      "placeholders": [
+        {
+          "position": "front_cover",
+          "decoration_method": "digital-printing",
+          "width": 5669,
+          "height": 4028
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 80168,
+      "title": "A4 / Dotgrid / Glossy",
+      "options": {
+        "size": "A4",
+        "paper": "Dotgrid",
+        "finish": "Glossy"
+      },
+      "placeholders": [
+        {
+          "position": "front_cover",
+          "decoration_method": "digital-printing",
+          "width": 5669,
+          "height": 4028
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 80169,
+      "title": "A4 / Ruled line / Glossy",
+      "options": {
+        "size": "A4",
+        "paper": "Ruled line",
+        "finish": "Glossy"
+      },
+      "placeholders": [
+        {
+          "position": "front_cover",
+          "decoration_method": "digital-printing",
+          "width": 5669,
+          "height": 4028
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 80170,
+      "title": "B5 / Blank / Glossy",
+      "options": {
+        "size": "B5",
+        "paper": "Blank",
+        "finish": "Glossy"
+      },
+      "placeholders": [
+        {
+          "position": "front_cover",
+          "decoration_method": "digital-printing",
+          "width": 4724,
+          "height": 3354
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 80171,
+      "title": "B5 / Dotgrid / Glossy",
+      "options": {
+        "size": "B5",
+        "paper": "Dotgrid",
+        "finish": "Glossy"
+      },
+      "placeholders": [
+        {
+          "position": "front_cover",
+          "decoration_method": "digital-printing",
+          "width": 4724,
+          "height": 3354
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 80172,
+      "title": "B5 / Ruled line / Glossy",
+      "options": {
+        "size": "B5",
+        "paper": "Ruled line",
+        "finish": "Glossy"
+      },
+      "placeholders": [
+        {
+          "position": "front_cover",
+          "decoration_method": "digital-printing",
+          "width": 4724,
+          "height": 3354
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 80173,
+      "title": "A5 / Blank / Glossy",
+      "options": {
+        "size": "A5",
+        "paper": "Blank",
+        "finish": "Glossy"
+      },
+      "placeholders": [
+        {
+          "position": "front_cover",
+          "decoration_method": "digital-printing",
+          "width": 4205,
+          "height": 3000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 80174,
+      "title": "A5 / Dotgrid / Glossy",
+      "options": {
+        "size": "A5",
+        "paper": "Dotgrid",
+        "finish": "Glossy"
+      },
+      "placeholders": [
+        {
+          "position": "front_cover",
+          "decoration_method": "digital-printing",
+          "width": 4205,
+          "height": 3000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 80175,
+      "title": "A5 / Ruled line / Glossy",
+      "options": {
+        "size": "A5",
+        "paper": "Ruled line",
+        "finish": "Glossy"
+      },
+      "placeholders": [
+        {
+          "position": "front_cover",
+          "decoration_method": "digital-printing",
+          "width": 4205,
+          "height": 3000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 80242,
+      "title": "A4 / Blank / Matte",
+      "options": {
+        "size": "A4",
+        "paper": "Blank",
+        "finish": "Matte"
+      },
+      "placeholders": [
+        {
+          "position": "front_cover",
+          "decoration_method": "digital-printing",
+          "width": 5669,
+          "height": 4028
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 80243,
+      "title": "A4 / Dotgrid / Matte",
+      "options": {
+        "size": "A4",
+        "paper": "Dotgrid",
+        "finish": "Matte"
+      },
+      "placeholders": [
+        {
+          "position": "front_cover",
+          "decoration_method": "digital-printing",
+          "width": 5669,
+          "height": 4028
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 80244,
+      "title": "A4 / Ruled line / Matte",
+      "options": {
+        "size": "A4",
+        "paper": "Ruled line",
+        "finish": "Matte"
+      },
+      "placeholders": [
+        {
+          "position": "front_cover",
+          "decoration_method": "digital-printing",
+          "width": 5669,
+          "height": 4028
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 80245,
+      "title": "B5 / Blank / Matte",
+      "options": {
+        "size": "B5",
+        "paper": "Blank",
+        "finish": "Matte"
+      },
+      "placeholders": [
+        {
+          "position": "front_cover",
+          "decoration_method": "digital-printing",
+          "width": 4724,
+          "height": 3354
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 80246,
+      "title": "B5 / Dotgrid / Matte",
+      "options": {
+        "size": "B5",
+        "paper": "Dotgrid",
+        "finish": "Matte"
+      },
+      "placeholders": [
+        {
+          "position": "front_cover",
+          "decoration_method": "digital-printing",
+          "width": 4724,
+          "height": 3354
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 80247,
+      "title": "B5 / Ruled line / Matte",
+      "options": {
+        "size": "B5",
+        "paper": "Ruled line",
+        "finish": "Matte"
+      },
+      "placeholders": [
+        {
+          "position": "front_cover",
+          "decoration_method": "digital-printing",
+          "width": 4724,
+          "height": 3354
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 80248,
+      "title": "A5 / Blank / Matte",
+      "options": {
+        "size": "A5",
+        "paper": "Blank",
+        "finish": "Matte"
+      },
+      "placeholders": [
+        {
+          "position": "front_cover",
+          "decoration_method": "digital-printing",
+          "width": 4205,
+          "height": 3000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 80249,
+      "title": "A5 / Dotgrid / Matte",
+      "options": {
+        "size": "A5",
+        "paper": "Dotgrid",
+        "finish": "Matte"
+      },
+      "placeholders": [
+        {
+          "position": "front_cover",
+          "decoration_method": "digital-printing",
+          "width": 4205,
+          "height": 3000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 80250,
+      "title": "A5 / Ruled line / Matte",
+      "options": {
+        "size": "A5",
+        "paper": "Ruled line",
+        "finish": "Matte"
+      },
+      "placeholders": [
+        {
+          "position": "front_cover",
+          "decoration_method": "digital-printing",
+          "width": 4205,
+          "height": 3000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    }
+  ]
+}

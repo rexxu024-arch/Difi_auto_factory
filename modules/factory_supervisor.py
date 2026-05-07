@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import os
 import subprocess
 import sys
 import urllib.request
@@ -185,7 +186,8 @@ def network_strategy(skip_network: bool, count: int) -> dict[str, object]:
         return {"mode": "pause", "max_parallel": 0, "batch_size": 0, "reason": f"network guard failed: {exc}"}
 
 
-def printify_ui_status(cdp_port: int = 9222) -> dict[str, str]:
+def printify_ui_status(cdp_port: int | None = None) -> dict[str, str]:
+    cdp_port = cdp_port or int(os.getenv("OPENCLAW_PRINTIFY_CDP_PORT") or os.getenv("OPENCLAW_CDP_PORT") or "9223")
     try:
         with urllib.request.urlopen(f"http://127.0.0.1:{cdp_port}/json/list", timeout=8) as response:
             pages = json.load(response)

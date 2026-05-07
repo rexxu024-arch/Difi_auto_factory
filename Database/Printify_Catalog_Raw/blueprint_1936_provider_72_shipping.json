@@ -1,0 +1,702 @@
+{
+  "handling_time": {
+    "value": 10,
+    "unit": "day"
+  },
+  "profiles": [
+    {
+      "variant_ids": [
+        119907,
+        119910
+      ],
+      "first_item": {
+        "cost": 5419,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 5419,
+        "currency": "USD"
+      },
+      "countries": [
+        "REST_OF_THE_WORLD",
+        "CA"
+      ]
+    },
+    {
+      "variant_ids": [
+        119907,
+        119910
+      ],
+      "first_item": {
+        "cost": 2399,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 2399,
+        "currency": "USD"
+      },
+      "countries": [
+        "IS",
+        "LV",
+        "EE",
+        "DK",
+        "LT",
+        "NO",
+        "LI",
+        "SE",
+        "CH",
+        "FI"
+      ]
+    },
+    {
+      "variant_ids": [
+        119907,
+        119910
+      ],
+      "first_item": {
+        "cost": 4399,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 4399,
+        "currency": "USD"
+      },
+      "countries": [
+        "AU"
+      ]
+    },
+    {
+      "variant_ids": [
+        119907,
+        119910
+      ],
+      "first_item": {
+        "cost": 1699,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 1699,
+        "currency": "USD"
+      },
+      "countries": [
+        "AX",
+        "AL",
+        "AD",
+        "AM",
+        "AT",
+        "BY",
+        "BE",
+        "BA",
+        "BV",
+        "BG",
+        "HR",
+        "CY",
+        "CZ",
+        "FO",
+        "FR",
+        "GE",
+        "DE",
+        "GI",
+        "GR",
+        "GL",
+        "GP",
+        "GG",
+        "VA",
+        "HU",
+        "IT",
+        "JE",
+        "LU",
+        "MK",
+        "MT",
+        "MD",
+        "MC",
+        "ME",
+        "NL",
+        "PL",
+        "PT",
+        "RE",
+        "RO",
+        "SM",
+        "RS",
+        "SK",
+        "SI",
+        "ES",
+        "TR",
+        "UA",
+        "XK",
+        "IE"
+      ]
+    },
+    {
+      "variant_ids": [
+        119904,
+        119905,
+        119907,
+        119910
+      ],
+      "first_item": {
+        "cost": 1559,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 1559,
+        "currency": "USD"
+      },
+      "countries": [
+        "GB",
+        "IM"
+      ]
+    },
+    {
+      "variant_ids": [
+        119904,
+        119905
+      ],
+      "first_item": {
+        "cost": 7139,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 7139,
+        "currency": "USD"
+      },
+      "countries": [
+        "CA"
+      ]
+    },
+    {
+      "variant_ids": [
+        119904,
+        119905
+      ],
+      "first_item": {
+        "cost": 2589,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 2589,
+        "currency": "USD"
+      },
+      "countries": [
+        "AX",
+        "AL",
+        "AD",
+        "AM",
+        "AT",
+        "BY",
+        "BE",
+        "BA",
+        "BV",
+        "BG",
+        "HR",
+        "CY",
+        "CZ",
+        "FO",
+        "FR",
+        "GE",
+        "DE",
+        "GI",
+        "GR",
+        "GL",
+        "GP",
+        "GG",
+        "VA",
+        "HU",
+        "IT",
+        "JE",
+        "LU",
+        "MK",
+        "MT",
+        "MD",
+        "MC",
+        "ME",
+        "NL",
+        "PL",
+        "PT",
+        "RE",
+        "RO",
+        "SM",
+        "RS",
+        "SK",
+        "SI",
+        "ES",
+        "TR",
+        "UA",
+        "XK",
+        "IS",
+        "LV",
+        "EE",
+        "DK",
+        "LT",
+        "NO",
+        "LI",
+        "SE",
+        "CH",
+        "FI",
+        "IE"
+      ]
+    },
+    {
+      "variant_ids": [
+        119900,
+        119901,
+        119906,
+        119907,
+        119908,
+        119910
+      ],
+      "first_item": {
+        "cost": 1629,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 1629,
+        "currency": "USD"
+      },
+      "countries": [
+        "US"
+      ]
+    },
+    {
+      "variant_ids": [
+        119904,
+        119905
+      ],
+      "first_item": {
+        "cost": 7499,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 7499,
+        "currency": "USD"
+      },
+      "countries": [
+        "REST_OF_THE_WORLD"
+      ]
+    },
+    {
+      "variant_ids": [
+        119904,
+        119905
+      ],
+      "first_item": {
+        "cost": 1709,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 1709,
+        "currency": "USD"
+      },
+      "countries": [
+        "US"
+      ]
+    },
+    {
+      "variant_ids": [
+        119902,
+        119903,
+        119909,
+        119911
+      ],
+      "first_item": {
+        "cost": 1259,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 1259,
+        "currency": "USD"
+      },
+      "countries": [
+        "GB",
+        "IM"
+      ]
+    },
+    {
+      "variant_ids": [
+        119904,
+        119905
+      ],
+      "first_item": {
+        "cost": 6719,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 6719,
+        "currency": "USD"
+      },
+      "countries": [
+        "AU"
+      ]
+    },
+    {
+      "variant_ids": [
+        119902,
+        119903,
+        119909,
+        119911
+      ],
+      "first_item": {
+        "cost": 5489,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 5489,
+        "currency": "USD"
+      },
+      "countries": [
+        "AU"
+      ]
+    },
+    {
+      "variant_ids": [
+        119902,
+        119903,
+        119909,
+        119911
+      ],
+      "first_item": {
+        "cost": 6499,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 6499,
+        "currency": "USD"
+      },
+      "countries": [
+        "CA",
+        "REST_OF_THE_WORLD"
+      ]
+    },
+    {
+      "variant_ids": [
+        119902,
+        119903,
+        119909,
+        119911
+      ],
+      "first_item": {
+        "cost": 2499,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 2499,
+        "currency": "USD"
+      },
+      "countries": [
+        "IE",
+        "IS",
+        "LV",
+        "EE",
+        "DK",
+        "LT",
+        "NO",
+        "LI",
+        "SE",
+        "CH",
+        "FI",
+        "AX",
+        "AL",
+        "AD",
+        "AM",
+        "AT",
+        "BY",
+        "BE",
+        "BA",
+        "BV",
+        "BG",
+        "HR",
+        "CY",
+        "CZ",
+        "FO",
+        "FR",
+        "GE",
+        "DE",
+        "GI",
+        "GR",
+        "GL",
+        "GP",
+        "GG",
+        "VA",
+        "HU",
+        "IT",
+        "JE",
+        "LU",
+        "MK",
+        "MT",
+        "MD",
+        "MC",
+        "ME",
+        "NL",
+        "PL",
+        "PT",
+        "RE",
+        "RO",
+        "SM",
+        "RS",
+        "SK",
+        "SI",
+        "ES",
+        "TR",
+        "UA",
+        "XK"
+      ]
+    },
+    {
+      "variant_ids": [
+        119898,
+        119899,
+        119900,
+        119901,
+        119906,
+        119908
+      ],
+      "first_item": {
+        "cost": 759,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 759,
+        "currency": "USD"
+      },
+      "countries": [
+        "GB",
+        "IM"
+      ]
+    },
+    {
+      "variant_ids": [
+        119898,
+        119899,
+        119900,
+        119901,
+        119906,
+        119908
+      ],
+      "first_item": {
+        "cost": 1999,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 1999,
+        "currency": "USD"
+      },
+      "countries": [
+        "IS",
+        "LV",
+        "EE",
+        "DK",
+        "LT",
+        "NO",
+        "LI",
+        "SE",
+        "CH",
+        "FI"
+      ]
+    },
+    {
+      "variant_ids": [
+        119898,
+        119899,
+        119900,
+        119901,
+        119906,
+        119908
+      ],
+      "first_item": {
+        "cost": 4289,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 4289,
+        "currency": "USD"
+      },
+      "countries": [
+        "CA",
+        "REST_OF_THE_WORLD"
+      ]
+    },
+    {
+      "variant_ids": [
+        119898,
+        119899,
+        119900,
+        119901,
+        119906,
+        119908
+      ],
+      "first_item": {
+        "cost": 3609,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 3609,
+        "currency": "USD"
+      },
+      "countries": [
+        "AU"
+      ]
+    },
+    {
+      "variant_ids": [
+        119900,
+        119901,
+        119906,
+        119908
+      ],
+      "first_item": {
+        "cost": 1599,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 1599,
+        "currency": "USD"
+      },
+      "countries": [
+        "IE",
+        "AX",
+        "AL",
+        "AD",
+        "AM",
+        "AT",
+        "BY",
+        "BE",
+        "BA",
+        "BV",
+        "BG",
+        "HR",
+        "CY",
+        "CZ",
+        "FO",
+        "FR",
+        "GE",
+        "DE",
+        "GI",
+        "GR",
+        "GL",
+        "GP",
+        "GG",
+        "VA",
+        "HU",
+        "IT",
+        "JE",
+        "LU",
+        "MK",
+        "MT",
+        "MD",
+        "MC",
+        "ME",
+        "NL",
+        "PL",
+        "PT",
+        "RE",
+        "RO",
+        "SM",
+        "RS",
+        "SK",
+        "SI",
+        "ES",
+        "TR",
+        "UA",
+        "XK"
+      ]
+    },
+    {
+      "variant_ids": [
+        119902,
+        119903,
+        119909,
+        119911
+      ],
+      "first_item": {
+        "cost": 1669,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 1669,
+        "currency": "USD"
+      },
+      "countries": [
+        "US"
+      ]
+    },
+    {
+      "variant_ids": [
+        119898,
+        119899
+      ],
+      "first_item": {
+        "cost": 1199,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 1199,
+        "currency": "USD"
+      },
+      "countries": [
+        "AX",
+        "AL",
+        "AD",
+        "AM",
+        "AT",
+        "BY",
+        "BE",
+        "BA",
+        "BV",
+        "BG",
+        "HR",
+        "CY",
+        "CZ",
+        "FO",
+        "FR",
+        "GE",
+        "DE",
+        "GI",
+        "GR",
+        "GL",
+        "GP",
+        "GG",
+        "VA",
+        "HU",
+        "IT",
+        "JE",
+        "LU",
+        "MK",
+        "MT",
+        "MD",
+        "MC",
+        "ME",
+        "NL",
+        "PL",
+        "PT",
+        "RE",
+        "RO",
+        "SM",
+        "RS",
+        "SK",
+        "SI",
+        "ES",
+        "TR",
+        "UA",
+        "XK",
+        "IE"
+      ]
+    },
+    {
+      "variant_ids": [
+        119898,
+        119899
+      ],
+      "first_item": {
+        "cost": 1249,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 399,
+        "currency": "USD"
+      },
+      "countries": [
+        "US"
+      ]
+    }
+  ]
+}

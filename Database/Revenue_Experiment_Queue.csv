@@ -1,0 +1,9 @@
+Experiment_ID,Channel,Experiment,Dependency,Status,Priority,Metric,Next_Action
+REV-001,Etsy,Digital printable wall art packs,Etsy login for publish only,READY_LOCAL,1,views favorites sales after 72h,Build 10 local printable packs from strongest Poster assets
+REV-002,eBay,Traffic recovery title-intent A/B,Seller Hub read access,READY_LOCAL,1,views impressions clicks after 72h,Create control vs buyer-intent rewrite queue
+REV-003,Etsy,Curated premium POD launch,Etsy login and Printify Etsy mockup QA,BLOCKED_LOGIN,2,views favorites first sale,Hold publish until login stable
+REV-004,eBay,Product-mix test Poster/Acrylic vs Sticker,Printify publish available,IN_PROGRESS,2,views per listing by product type,Top up Poster and compare traffic against Sticker
+REV-005,Etsy,Custom pet portrait digital pilot,Etsy login and intake workflow,PLANNED,3,message quality conversion refund risk,Create 3 draft templates only
+REV-006,Adobe Stock,Generative AI stock asset submission,Adobe contributor setup,PLANNED,4,approval rate downloads revenue,Research metadata and disclosure workflow later
+REV-007,Etsy,B2B shop branding digital pack,Etsy login and template deliverables,PLANNED,4,views favorites conversion,Prototype only after printable packs
+REV-008,Etsy,200 listing controlled experiment pool,Etsy login stable,BLOCKED_LOGIN,1,revenue per cell views favorites conversion,Prepare staged launch cells not blind upload

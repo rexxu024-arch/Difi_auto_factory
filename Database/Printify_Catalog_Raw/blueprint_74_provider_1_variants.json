@@ -1,0 +1,24 @@
+{
+  "id": 1,
+  "title": "SPOKE Custom Products",
+  "variants": [
+    {
+      "id": 34240,
+      "title": "One Size",
+      "options": {
+        "size": "One Size"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 1810,
+          "height": 2534
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    }
+  ]
+}

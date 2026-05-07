@@ -110,12 +110,13 @@ npm run etsy:api-status
 - `Database/Factory_Backlog.md`: next actions sorted by priority.
 - `Reports/`: generated morning reports.
 - `Gemini_Advisor/`: summaries for Gemini strategy review.
+- `Review_Packets/OPENCLAW_GEMINI_BRIEF.md`: current copy/paste brief for Gemini or another advisor. Use this before older timestamped reports.
 
 ## Current Known Blockers
 
 - Some eBay live listings show a single U/detail image instead of the intended cover. Fix path is source repair through Printify, then live eBay buyer-page audit. If source repair cannot sync through inventory-managed variation images, create replacement listings and retire bad ones.
 - Etsy API app is still pending/inactive until Etsy approves the key.
-- Network can be unstable on 2.4 GHz Wi-Fi. If network quality is poor, do local QA, copy optimization, pricing, registry, and reports instead of bulk upload/publish.
+- Wired LAN was restored on 2026-05-06. Low-bandwidth mode is lifted unless a new network guard check fails. If network quality becomes poor again, fall back to local QA, copy optimization, pricing, registry, and reports instead of bulk upload/publish.
 
 ## What To Do Next After Recovery
 

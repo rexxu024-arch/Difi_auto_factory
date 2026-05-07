@@ -12,6 +12,7 @@ import asyncio
 import csv
 import io
 import json
+import os
 import sys
 import time
 import urllib.parse
@@ -39,6 +40,7 @@ COVER_QA_CSV = DATABASE_DIR / "eBay_Cover_QA.csv"
 OUT_CSV = DATABASE_DIR / "eBay_Online_Cover_Audit.csv"
 OUT_DIR = DATABASE_DIR / "eBay_Online_Cover_Audit"
 IMAGE_DIR = OUT_DIR / "images"
+DEFAULT_CDP_PORT = int(os.getenv("OPENCLAW_EBAY_CDP_PORT") or os.getenv("OPENCLAW_CDP_PORT") or "9222")
 
 
 def now_text() -> str:
@@ -108,7 +110,7 @@ EXTRACT_JS = r"""
 """
 
 
-async def extract_main_image(item_id: str, cdp_port: int = 9222, wait_seconds: float = 5.0) -> dict[str, Any]:
+async def extract_main_image(item_id: str, cdp_port: int = DEFAULT_CDP_PORT, wait_seconds: float = 5.0) -> dict[str, Any]:
     url = f"https://www.ebay.com/itm/{item_id}"
     tab = await open_tab(cdp_port, url)
     tab_id = tab.get("id", "")
@@ -140,7 +142,7 @@ def white_composite(image: Image.Image) -> Image.Image:
 
 def ahash(image: Image.Image, size: int = 24) -> str:
     image = white_composite(image).convert("L").resize((size, size), Image.Resampling.LANCZOS)
-    pixels = list(image.getdata())
+    pixels = list(image.tobytes())
     avg = sum(pixels) / len(pixels)
     return "".join("1" if pixel > avg else "0" for pixel in pixels)
 
@@ -416,7 +418,7 @@ async def audit_async(targets: list[dict[str, str]], cdp_port: int, wait_seconds
 def run(
     ids: list[str] | None = None,
     limit: int = 3,
-    cdp_port: int = 9222,
+    cdp_port: int = DEFAULT_CDP_PORT,
     wait_seconds: float = 5.0,
     source_mode: str = "cover_qa",
     product_types: set[str] | None = None,
@@ -433,7 +435,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--ids", default="", help="Comma-separated local IDs, e.g. Sticker-Zen-0025,Sticker-Zen-0045")
     parser.add_argument("--limit", type=int, default=3)
-    parser.add_argument("--cdp-port", type=int, default=9222)
+    parser.add_argument("--cdp-port", type=int, default=DEFAULT_CDP_PORT)
     parser.add_argument("--wait-seconds", type=float, default=5.0)
     parser.add_argument("--source", choices=["cover_qa", "workbook"], default="cover_qa")
     parser.add_argument("--product-types", default="", help="Comma-separated Product_Type filter, e.g. Sticker,Poster")

@@ -1,0 +1,44 @@
+{
+  "id": 72,
+  "title": "Print Clever",
+  "variants": [
+    {
+      "id": 119906,
+      "title": "12″ x 18″ (Vertical) / 1.6”",
+      "options": {
+        "size": "12″ x 18″ (Vertical)",
+        "depth": "1.6”"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3592,
+          "height": 5387
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 119908,
+      "title": "18″ x 12″ (Horizontal) / 1.6”",
+      "options": {
+        "size": "18″ x 12″ (Horizontal)",
+        "depth": "1.6”"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 5387,
+          "height": 3592
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "handling_time": {
+    "value": 10,
+    "unit": "day"
+  },
+  "profiles": [
+    {
+      "variant_ids": [
+        107225,
+        107226,
+        107227
+      ],
+      "first_item": {
+        "cost": 1899,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 99,
+        "currency": "USD"
+      },
+      "countries": [
+        "REST_OF_THE_WORLD",
+        "AU"
+      ]
+    },
+    {
+      "variant_ids": [
+        107225,
+        107226,
+        107227
+      ],
+      "first_item": {
+        "cost": 3299,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 199,
+        "currency": "USD"
+      },
+      "countries": [
+        "US"
+      ]
+    },
+    {
+      "variant_ids": [
+        107225,
+        107226,
+        107227
+      ],
+      "first_item": {
+        "cost": 449,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 99,
+        "currency": "USD"
+      },
+      "countries": [
+        "GB"
+      ]
+    },
+    {
+      "variant_ids": [
+        107225,
+        107226,
+        107227
+      ],
+      "first_item": {
+        "cost": 1119,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 119,
+        "currency": "USD"
+      },
+      "countries": [
+        "AX",
+        "AL",
+        "AD",
+        "AM",
+        "AT",
+        "BY",
+        "BE",
+        "BA",
+        "BV",
+        "BG",
+        "HR",
+        "CY",
+        "CZ",
+        "DK",
+        "EE",
+        "FO",
+        "FI",
+        "FR",
+        "GE",
+        "DE",
+        "GI",
+        "GR",
+        "GL",
+        "GP",
+        "GG",
+        "VA",
+        "HU",
+        "IS",
+        "IE",
+        "IM",
+        "IT",
+        "JE",
+        "LV",
+        "LI",
+        "LT",
+        "LU",
+        "MK",
+        "MT",
+        "MD",
+        "MC",
+        "ME",
+        "NL",
+        "NO",
+        "PL",
+        "PT",
+        "RE",
+        "RO",
+        "SM",
+        "RS",
+        "SK",
+        "SI",
+        "ES",
+        "SE",
+        "CH",
+        "TR",
+        "UA",
+        "XK"
+      ]
+    }
+  ]
+}

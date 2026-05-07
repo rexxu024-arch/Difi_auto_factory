@@ -94,3 +94,11 @@
 - Staging blocked by `.git/index.lock` permission denied, so no commit or push was made.
 - Working tree still contains the same local project and database changes; retry after fixing repo lock/ACL state.
 [2026-05-06 15:10:14 -04:00] Git checkpoint blocked: staging failed with .git/index.lock permission denied. No commit, rebase, or push was attempted. Working tree remains on main; review repo lock/ACL state before the next checkpoint run.
+2026-05-06T19:09:35-04:00
+- Safe checkpoint blocked again by Git index.lock permission denied during staging.
+- Repo is on main and cleanly aligned with origin/main by branch metadata, but no files were staged, committed, rebased, or pushed.
+- Intended durable scope was code, markdown state files, CSV/JSON/XLSX data, and helper scripts; transient logs/screenshots were excluded.
+2026-05-06T19:13:28-04:00
+- Checkpoint blocked by .git/index.lock permission denial during staging.
+- git status shows the repo on main and aligned with origin/main, but the local .git ACLs deny write access needed to create the lock file.
+- No commit, rebase, or push was performed.

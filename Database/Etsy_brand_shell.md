@@ -1,6 +1,6 @@
 # Etsy Brand Shell Draft
 
-Generated: 2026-05-05 03:18:21 -0400
+Generated: 2026-05-06 18:00:31 -0400
 
 ## Positioning
 
@@ -42,9 +42,8 @@ Production begins after purchase. Shipping time depends on the production partne
 
 ## Phase 1 Launch Mix
 
-- Acrylic: 16
-- Poster: 28
-- Sticker: 6
+- Acrylic: 6
+- Poster: 14
 
 ## Tag Universe
 

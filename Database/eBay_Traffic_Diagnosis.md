@@ -1,19 +1,19 @@
 # eBay Traffic Diagnosis
 
-Generated: 2026-05-06 15:11:24 -0400 America/New_York
+Generated: 2026-05-06 20:36:43 -0400 America/New_York
 
 ## P100 Sticker live cover/gallery mismatch is a primary blocker.
-- Evidence: Cover fix queue contains 49 rows; latest snapshot has 42/50 zero-view rows despite 50 promoted rows.
+- Evidence: Cover fix queue contains 49 rows; latest snapshot has 43/50 zero-view rows despite 50 promoted rows.
 - Action: Do not expand Sticker count. Repair Printify source defaults and re-audit live eBay covers before more Sticker publish.
 - Network dependency: medium
 
 ## P90 Promoted Listings Standard 2% is active but is not enough alone.
-- Evidence: Latest snapshot 2026-05-06 01:23:31 -0400: promoted=50, zero_views=42, rows=50.
+- Evidence: Latest snapshot 2026-05-06 20:32:20 -0400: promoted=50, zero_views=43, rows=50.
 - Action: Keep 2% Standard as baseline, but treat image/search-intent repair as the growth lever. Do not raise to suggested ad rates yet.
 - Network dependency: low
 
 ## P80 Poster/Acrylic currently show more early movement than Sticker.
-- Evidence: Acrylic: rows=9 views=2 moved=2; Poster: rows=9 views=7 moved=4; Sticker: rows=32 views=2 moved=2
+- Evidence: Acrylic: rows=17 views=4 moved=3; Poster: rows=17 views=7 moved=4; Sticker: rows=16 views=0 moved=0
 - Action: Keep the near-term product mix tilted toward Poster/Acrylic and Etsy digital printables until Sticker cover issue is fixed.
 - Network dependency: low
 

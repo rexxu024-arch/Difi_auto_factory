@@ -1,0 +1,318 @@
+{
+  "handling_time": {
+    "value": 10,
+    "unit": "day"
+  },
+  "profiles": [
+    {
+      "variant_ids": [
+        91997,
+        91998,
+        91999,
+        92003,
+        92005,
+        92006
+      ],
+      "first_item": {
+        "cost": 2059,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 629,
+        "currency": "USD"
+      },
+      "countries": [
+        "US"
+      ]
+    },
+    {
+      "variant_ids": [
+        91998,
+        92006
+      ],
+      "first_item": {
+        "cost": 7999,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 7999,
+        "currency": "USD"
+      },
+      "countries": [
+        "REST_OF_THE_WORLD"
+      ]
+    },
+    {
+      "variant_ids": [
+        91997,
+        91998,
+        92005,
+        92006
+      ],
+      "first_item": {
+        "cost": 5599,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 5599,
+        "currency": "USD"
+      },
+      "countries": [
+        "CA"
+      ]
+    },
+    {
+      "variant_ids": [
+        91993,
+        91994,
+        91995,
+        92000,
+        92001,
+        92002,
+        92007,
+        92008,
+        92009
+      ],
+      "first_item": {
+        "cost": 1769,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 529,
+        "currency": "USD"
+      },
+      "countries": [
+        "US"
+      ]
+    },
+    {
+      "variant_ids": [
+        92009
+      ],
+      "first_item": {
+        "cost": 5299,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 5299,
+        "currency": "USD"
+      },
+      "countries": [
+        "REST_OF_THE_WORLD"
+      ]
+    },
+    {
+      "variant_ids": [
+        92009
+      ],
+      "first_item": {
+        "cost": 3299,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 3299,
+        "currency": "USD"
+      },
+      "countries": [
+        "CA"
+      ]
+    },
+    {
+      "variant_ids": [
+        91996,
+        91999,
+        92003,
+        92004
+      ],
+      "first_item": {
+        "cost": 6599,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 6599,
+        "currency": "USD"
+      },
+      "countries": [
+        "REST_OF_THE_WORLD"
+      ]
+    },
+    {
+      "variant_ids": [
+        91997,
+        92005
+      ],
+      "first_item": {
+        "cost": 7099,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 7099,
+        "currency": "USD"
+      },
+      "countries": [
+        "REST_OF_THE_WORLD"
+      ]
+    },
+    {
+      "variant_ids": [
+        91996,
+        91999,
+        92003,
+        92004
+      ],
+      "first_item": {
+        "cost": 5099,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 5099,
+        "currency": "USD"
+      },
+      "countries": [
+        "CA"
+      ]
+    },
+    {
+      "variant_ids": [
+        91994,
+        92001,
+        92007
+      ],
+      "first_item": {
+        "cost": 3999,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 3999,
+        "currency": "USD"
+      },
+      "countries": [
+        "REST_OF_THE_WORLD"
+      ]
+    },
+    {
+      "variant_ids": [
+        91995,
+        92002,
+        92008
+      ],
+      "first_item": {
+        "cost": 4599,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 4599,
+        "currency": "USD"
+      },
+      "countries": [
+        "REST_OF_THE_WORLD"
+      ]
+    },
+    {
+      "variant_ids": [
+        91994,
+        92001,
+        92007
+      ],
+      "first_item": {
+        "cost": 2699,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 2699,
+        "currency": "USD"
+      },
+      "countries": [
+        "CA"
+      ]
+    },
+    {
+      "variant_ids": [
+        91995,
+        92002,
+        92008
+      ],
+      "first_item": {
+        "cost": 2999,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 2999,
+        "currency": "USD"
+      },
+      "countries": [
+        "CA"
+      ]
+    },
+    {
+      "variant_ids": [
+        91993,
+        92000,
+        92010
+      ],
+      "first_item": {
+        "cost": 3599,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 3599,
+        "currency": "USD"
+      },
+      "countries": [
+        "REST_OF_THE_WORLD",
+        "CA"
+      ]
+    },
+    {
+      "variant_ids": [
+        91996,
+        92004,
+        92010
+      ],
+      "first_item": {
+        "cost": 1849,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 629,
+        "currency": "USD"
+      },
+      "countries": [
+        "US"
+      ]
+    },
+    {
+      "variant_ids": [
+        91993,
+        92000
+      ],
+      "first_item": {
+        "cost": 2399,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 2399,
+        "currency": "USD"
+      },
+      "countries": [
+        "CA"
+      ]
+    },
+    {
+      "variant_ids": [
+        92010
+      ],
+      "first_item": {
+        "cost": 5799,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 5799,
+        "currency": "USD"
+      },
+      "countries": [
+        "REST_OF_THE_WORLD"
+      ]
+    }
+  ]
+}

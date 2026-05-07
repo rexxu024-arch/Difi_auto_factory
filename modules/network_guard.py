@@ -81,7 +81,7 @@ def choose_strategy(results):
         return {"mode": "pause", "max_parallel": 0, "batch_size": 0, "reason": f"loss={worst_loss:.1f}% avg={worst_avg:.0f}ms"}
     if worst_loss > 0 or worst_avg > 120 or worst_jitter > 60:
         return {"mode": "conservative", "max_parallel": 1, "batch_size": 1, "reason": f"loss={worst_loss:.1f}% avg={worst_avg:.0f}ms jitter={worst_jitter:.0f}ms"}
-    return {"mode": "normal_low_risk", "max_parallel": 1, "batch_size": 3, "reason": f"healthy but throttled until cleared; avg={worst_avg:.0f}ms"}
+    return {"mode": "full_throughput", "max_parallel": 3, "batch_size": 8, "reason": f"wired/healthy; avg={worst_avg:.0f}ms"}
 
 
 def report(count=6, targets=None):

@@ -1,0 +1,348 @@
+{
+  "id": 2,
+  "title": "Sensaria",
+  "variants": [
+    {
+      "id": 69663,
+      "title": "11\" x 14\" / Black",
+      "options": {
+        "size": "11\" x 14\"",
+        "color": "Black"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3300,
+          "height": 4200
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 69664,
+      "title": "12″ x 16″ / Black",
+      "options": {
+        "size": "12″ x 16″",
+        "color": "Black"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3600,
+          "height": 4800
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 69666,
+      "title": "16″ x 16″ / Black",
+      "options": {
+        "size": "16″ x 16″",
+        "color": "Black"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4800,
+          "height": 4800
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 69667,
+      "title": "16″ x 20″ / Black",
+      "options": {
+        "size": "16″ x 20″",
+        "color": "Black"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4800,
+          "height": 6000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 69668,
+      "title": "16″ x 24″ / Black",
+      "options": {
+        "size": "16″ x 24″",
+        "color": "Black"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4800,
+          "height": 7200
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 69669,
+      "title": "20\" x 30\" / Black",
+      "options": {
+        "size": "20\" x 30\"",
+        "color": "Black"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 6000,
+          "height": 9000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 69670,
+      "title": "11\" x 14\" / Walnut",
+      "options": {
+        "size": "11\" x 14\"",
+        "color": "Walnut"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3300,
+          "height": 4200
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 69671,
+      "title": "12″ x 16″ / Walnut",
+      "options": {
+        "size": "12″ x 16″",
+        "color": "Walnut"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3600,
+          "height": 4800
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 69673,
+      "title": "16″ x 16″ / Walnut",
+      "options": {
+        "size": "16″ x 16″",
+        "color": "Walnut"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4800,
+          "height": 4800
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 69674,
+      "title": "16″ x 20″ / Walnut",
+      "options": {
+        "size": "16″ x 20″",
+        "color": "Walnut"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4800,
+          "height": 6000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 69675,
+      "title": "16″ x 24″ / Walnut",
+      "options": {
+        "size": "16″ x 24″",
+        "color": "Walnut"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4800,
+          "height": 7200
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 69676,
+      "title": "20\" x 30\" / Walnut",
+      "options": {
+        "size": "20\" x 30\"",
+        "color": "Walnut"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 6000,
+          "height": 9000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 69677,
+      "title": "11\" x 14\" / White",
+      "options": {
+        "size": "11\" x 14\"",
+        "color": "White"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3300,
+          "height": 4200
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 69678,
+      "title": "12″ x 16″ / White",
+      "options": {
+        "size": "12″ x 16″",
+        "color": "White"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3600,
+          "height": 4800
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 69680,
+      "title": "16″ x 16″ / White",
+      "options": {
+        "size": "16″ x 16″",
+        "color": "White"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4800,
+          "height": 4800
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 69681,
+      "title": "16″ x 20″ / White",
+      "options": {
+        "size": "16″ x 20″",
+        "color": "White"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4800,
+          "height": 6000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 69682,
+      "title": "16″ x 24″ / White",
+      "options": {
+        "size": "16″ x 24″",
+        "color": "White"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4800,
+          "height": 7200
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 69683,
+      "title": "20\" x 30\" / White",
+      "options": {
+        "size": "20\" x 30\"",
+        "color": "White"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 6000,
+          "height": 9000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "id": 66,
+  "title": "Prima Printing",
+  "variants": [
+    {
+      "id": 85211,
+      "title": "14″ x 11″ (Horizontal) / Black Frame / Matte",
+      "options": {
+        "size": "14″ x 11″ (Horizontal)",
+        "color": "Black Frame",
+        "paper": "Matte"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4276,
+          "height": 3366
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 85212,
+      "title": "15\" x 10\" (Horizontal) / Black Frame / Matte",
+      "options": {
+        "size": "15\" x 10\" (Horizontal)",
+        "color": "Black Frame",
+        "paper": "Matte"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4571,
+          "height": 3071
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 85213,
+      "title": "16″ x 12″ (Horizontal) / Black Frame / Matte",
+      "options": {
+        "size": "16″ x 12″ (Horizontal)",
+        "color": "Black Frame",
+        "paper": "Matte"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4866,
+          "height": 3661
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 85214,
+      "title": "10\" x 15\" (Vertical) / Black Frame / Matte",
+      "options": {
+        "size": "10\" x 15\" (Vertical)",
+        "color": "Black Frame",
+        "paper": "Matte"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3071,
+          "height": 4571
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 85215,
+      "title": "11″ x 14″ (Vertical) / Black Frame / Matte",
+      "options": {
+        "size": "11″ x 14″ (Vertical)",
+        "color": "Black Frame",
+        "paper": "Matte"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3366,
+          "height": 4276
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 85216,
+      "title": "12″ x 16″ (Vertical) / Black Frame / Matte",
+      "options": {
+        "size": "12″ x 16″ (Vertical)",
+        "color": "Black Frame",
+        "paper": "Matte"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3661,
+          "height": 4866
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    }
+  ]
+}

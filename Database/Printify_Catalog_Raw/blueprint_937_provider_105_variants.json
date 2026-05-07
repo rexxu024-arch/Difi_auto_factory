@@ -1,0 +1,1108 @@
+{
+  "id": 105,
+  "title": "Jondo",
+  "variants": [
+    {
+      "id": 82218,
+      "title": "12\" x 9\" (Horizontal) / 0.75''",
+      "options": {
+        "size": "12\" x 9\" (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3600,
+          "height": 2700
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 82219,
+      "title": "14″ x 11″ (Horizontal) / 0.75''",
+      "options": {
+        "size": "14″ x 11″ (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4200,
+          "height": 3300
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 82220,
+      "title": "16″ x 12″ (Horizontal) / 0.75''",
+      "options": {
+        "size": "16″ x 12″ (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4800,
+          "height": 3600
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 82221,
+      "title": "20\" x 16\" (Horizontal) / 0.75''",
+      "options": {
+        "size": "20\" x 16\" (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 6000,
+          "height": 4800
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 82222,
+      "title": "24″ x 18″ (Horizontal) / 0.75''",
+      "options": {
+        "size": "24″ x 18″ (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 7200,
+          "height": 5400
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 82223,
+      "title": "30″ x 20″ (Horizontal) / 0.75''",
+      "options": {
+        "size": "30″ x 20″ (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 9000,
+          "height": 6000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 82224,
+      "title": "32\" x 24\" (Horizontal) / 0.75''",
+      "options": {
+        "size": "32\" x 24\" (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 9600,
+          "height": 7200
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 82225,
+      "title": "36\" x 24\" (Horizontal) / 0.75''",
+      "options": {
+        "size": "36\" x 24\" (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 10800,
+          "height": 7200
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 82226,
+      "title": "40\" x 30\" (Horizontal) / 0.75''",
+      "options": {
+        "size": "40\" x 30\" (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 12000,
+          "height": 9000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 82227,
+      "title": "48″ x 32″ (Horizontal) / 0.75''",
+      "options": {
+        "size": "48″ x 32″ (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 14400,
+          "height": 9600
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 82228,
+      "title": "9\" x 12\" (Vertical) / 0.75''",
+      "options": {
+        "size": "9\" x 12\" (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 2700,
+          "height": 3600
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 82229,
+      "title": "11″ x 14″ (Vertical) / 0.75''",
+      "options": {
+        "size": "11″ x 14″ (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3300,
+          "height": 4200
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 82230,
+      "title": "12″ x 16″ (Vertical) / 0.75''",
+      "options": {
+        "size": "12″ x 16″ (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3600,
+          "height": 4800
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 82231,
+      "title": "16″ x 20″ (Vertical) / 0.75''",
+      "options": {
+        "size": "16″ x 20″ (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4800,
+          "height": 6000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 82232,
+      "title": "18″ x 24″ (Vertical) / 0.75''",
+      "options": {
+        "size": "18″ x 24″ (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 5400,
+          "height": 7200
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 82233,
+      "title": "20″ x 30″ (Vertical) / 0.75''",
+      "options": {
+        "size": "20″ x 30″ (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 6000,
+          "height": 9000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 82234,
+      "title": "24\" x 32\" (Vertical) / 0.75''",
+      "options": {
+        "size": "24\" x 32\" (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 7200,
+          "height": 9600
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 82235,
+      "title": "24\" x 36\" (Vertical) / 0.75''",
+      "options": {
+        "size": "24\" x 36\" (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 7200,
+          "height": 10800
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 82236,
+      "title": "30\" x 40\" (Vertical) / 0.75''",
+      "options": {
+        "size": "30\" x 40\" (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 9000,
+          "height": 12000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 82237,
+      "title": "32″ x 48″ (Vertical) / 0.75''",
+      "options": {
+        "size": "32″ x 48″ (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 9600,
+          "height": 14400
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 82238,
+      "title": "14\" x 14\" / 0.75''",
+      "options": {
+        "size": "14\" x 14\"",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4200,
+          "height": 4200
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 82239,
+      "title": "24″ x 24″ / 0.75''",
+      "options": {
+        "size": "24″ x 24″",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 7200,
+          "height": 7200
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 82240,
+      "title": "32\" x 32\" / 0.75''",
+      "options": {
+        "size": "32\" x 32\"",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 9600,
+          "height": 9600
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 95209,
+      "title": "10\" x 8\" (Horizontal) / 0.75''",
+      "options": {
+        "size": "10\" x 8\" (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3000,
+          "height": 2400
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 95210,
+      "title": "18″ x 12″ (Horizontal) / 0.75''",
+      "options": {
+        "size": "18″ x 12″ (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 5400,
+          "height": 3600
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 95211,
+      "title": "24″ x 16″ (Horizontal) / 0.75''",
+      "options": {
+        "size": "24″ x 16″ (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 7200,
+          "height": 4800
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 95212,
+      "title": "8″ x 10″ (Vertical) / 0.75''",
+      "options": {
+        "size": "8″ x 10″ (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 2400,
+          "height": 3000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 95213,
+      "title": "12″ x 18″ (Vertical) / 0.75''",
+      "options": {
+        "size": "12″ x 18″ (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3600,
+          "height": 5400
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 95214,
+      "title": "16″ x 24″ (Vertical) / 0.75''",
+      "options": {
+        "size": "16″ x 24″ (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4800,
+          "height": 7200
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 102196,
+      "title": "30\" x 24\" (Horizontal) / 0.75''",
+      "options": {
+        "size": "30\" x 24\" (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 9000,
+          "height": 7200
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 102197,
+      "title": "36\" x 12\" (Horizontal) / 0.75''",
+      "options": {
+        "size": "36\" x 12\" (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 10800,
+          "height": 3600
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 102198,
+      "title": "48\" x 16\" (Horizontal) / 0.75''",
+      "options": {
+        "size": "48\" x 16\" (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 14400,
+          "height": 4800
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 102199,
+      "title": "12\" x 36\" (Vertical) / 0.75''",
+      "options": {
+        "size": "12\" x 36\" (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3600,
+          "height": 10800
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 102200,
+      "title": "16\" x 48\" (Vertical) / 0.75''",
+      "options": {
+        "size": "16\" x 48\" (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4800,
+          "height": 14400
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 102201,
+      "title": "24\" x 30\" (Vertical) / 0.75''",
+      "options": {
+        "size": "24\" x 30\" (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 7200,
+          "height": 9000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 102202,
+      "title": "6\" x 6\" / 0.75''",
+      "options": {
+        "size": "6\" x 6\"",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 1800,
+          "height": 1800
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 102203,
+      "title": "10″ x 10″ / 0.75''",
+      "options": {
+        "size": "10″ x 10″",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3000,
+          "height": 3000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 102204,
+      "title": "12″ x 12″ / 0.75''",
+      "options": {
+        "size": "12″ x 12″",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3600,
+          "height": 3600
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 102205,
+      "title": "16\" x 16\" / 0.75''",
+      "options": {
+        "size": "16\" x 16\"",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4800,
+          "height": 4800
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 102206,
+      "title": "24\" x 20\" (Horizontal) / 0.75''",
+      "options": {
+        "size": "24\" x 20\" (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 7200,
+          "height": 6000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 102207,
+      "title": "20\" x 24\" (Vertical) / 0.75''",
+      "options": {
+        "size": "20\" x 24\" (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 6000,
+          "height": 7200
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 102208,
+      "title": "20″ x 20″ / 0.75''",
+      "options": {
+        "size": "20″ x 20″",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 6000,
+          "height": 6000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 102209,
+      "title": "60\" x 20\" (Horizontal) / 0.75''",
+      "options": {
+        "size": "60\" x 20\" (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 18000,
+          "height": 6000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 102210,
+      "title": "20\" x 60\" (Vertical) / 0.75''",
+      "options": {
+        "size": "20\" x 60\" (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 6000,
+          "height": 18000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 102211,
+      "title": "30″ x 30″ / 0.75''",
+      "options": {
+        "size": "30″ x 30″",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 9000,
+          "height": 9000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 102212,
+      "title": "36\" x 36\" / 0.75''",
+      "options": {
+        "size": "36\" x 36\"",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 10800,
+          "height": 10800
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 114699,
+      "title": "20\" x 10\" (Horizontal) / 0.75''",
+      "options": {
+        "size": "20\" x 10\" (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 6000,
+          "height": 3000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 114700,
+      "title": "60\" x 30\" (Horizontal) / 0.75''",
+      "options": {
+        "size": "60\" x 30\" (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 18000,
+          "height": 9000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 114701,
+      "title": "60\" x 40\" (Horizontal) / 0.75''",
+      "options": {
+        "size": "60\" x 40\" (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 18000,
+          "height": 12000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 114702,
+      "title": "10\" x 20\" (Vertical) / 0.75''",
+      "options": {
+        "size": "10\" x 20\" (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3000,
+          "height": 6000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 114703,
+      "title": "30\" x 60\" (Vertical) / 0.75''",
+      "options": {
+        "size": "30\" x 60\" (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 9000,
+          "height": 18000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 114704,
+      "title": "40\" x 60\" (Vertical) / 0.75''",
+      "options": {
+        "size": "40\" x 60\" (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 12000,
+          "height": 18000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 114705,
+      "title": "30\" x 15\" (Horizontal) / 0.75''",
+      "options": {
+        "size": "30\" x 15\" (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 9000,
+          "height": 4500
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 114706,
+      "title": "15\" x 30\" (Vertical) / 0.75''",
+      "options": {
+        "size": "15\" x 30\" (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4500,
+          "height": 9000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 114707,
+      "title": "40\" x 20\" (Horizontal) / 0.75''",
+      "options": {
+        "size": "40\" x 20\" (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 12000,
+          "height": 6000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 114708,
+      "title": "20\" x 40\" (Vertical) / 0.75''",
+      "options": {
+        "size": "20\" x 40\" (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 6000,
+          "height": 12000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 114709,
+      "title": "48\" x 36\" (Horizontal) / 0.75''",
+      "options": {
+        "size": "48\" x 36\" (Horizontal)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 14400,
+          "height": 10800
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 114710,
+      "title": "36\" x 48\" (Vertical) / 0.75''",
+      "options": {
+        "size": "36\" x 48\" (Vertical)",
+        "depth": "0.75''"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 10800,
+          "height": 14400
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    }
+  ]
+}

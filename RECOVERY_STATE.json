@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-06T15:00:00-04:00",
+  "updated_at": "2026-05-06T20:49:16-04:00",
   "timezone": "America/New_York",
   "source_of_truth": [
     "START_HERE_OPENCLAW.md",
@@ -14,12 +14,34 @@
     "Database/eBay_Live_Cover_Fix_Plan.md",
     "Database/eBay_Traffic_Diagnosis.md",
     "Database/Printify_Production_Design_Audit.csv",
-    "Reports/latest morning_report_*.md"
+    "Reports/latest morning_report_*.md",
+    "Review_Packets/OPENCLAW_GEMINI_BRIEF.md",
+    "Review_Packets/REPORT_INDEX.md",
+    "Review_Packets/ETSY_DIGITAL_TRAFFIC_PENETRATION_REPORT_20260506.md",
+    "Review_Packets/PRINTIFY_EXTERNAL_SYNC_DIAGNOSIS_20260506.md",
+    "Database/Etsy_Digital_Gray_Launch_Queue.csv",
+    "Database/Etsy_Fee_Ledger.csv",
+    "Review_Packets/EBAY_API_MINIMAL_APPLICATION_PACKET.md"
   ],
   "operating_roles": {
     "Rex": "Commander",
     "Gemini": "Strategy advisor",
     "Codex": "Executive operator and factory debugger"
+  },
+  "advisor_packet_policy": {
+    "canonical_brief": "Review_Packets/OPENCLAW_GEMINI_BRIEF.md",
+    "index": "Review_Packets/REPORT_INDEX.md",
+    "principle": "Gemini cannot see the repo, code, or local folders, so advisor packets must summarize business context, current facts, risks, and strategy questions without requiring file access.",
+    "network_note": "The canonical Gemini brief explicitly supersedes older low-bandwidth assumptions: wired LAN is fixed and low-bandwidth mode is lifted."
+  },
+  "browser_isolation_policy": {
+    "principle": "Do not use Rex's active daily Chrome tabs as the automation workbench. Prefer API/headless work first, then a dedicated automation browser profile.",
+    "dedicated_edge_command": "npm run browser:edge",
+    "dedicated_edge_port": 9223,
+    "dedicated_edge_profile": "C:\\openclaw_edge_profile",
+    "ebay_env": "Set OPENCLAW_EBAY_CDP_PORT=9223 for Seller Hub and live eBay audit scripts.",
+    "current_note": "Dedicated Edge is running and works for public eBay live audits, but Seller Hub retirement requires eBay login in that dedicated profile before old listings can be retired without using Rex's daily Chrome.",
+    "latest_fix": "2026-05-06 20:31-20:40: Printify login guard, supervisor, mockup uploader, and full pipeline default to Edge CDP 9223. Do not use daily Chrome 9222 for project automation by default."
   },
   "automation_first_rule": {
     "principle": "Codex labor is for building and debugging the factory, not for becoming the permanent factory worker.",
@@ -89,13 +111,14 @@
     "small_batch_command": "py modules\\printify_design_audit.py --limit 2 --sleep-seconds 1"
   },
   "latest_market_signal": {
-    "latest_snapshot": "2026-05-06 01:23:31 -0400",
+    "latest_snapshot": "2026-05-06 20:32:20 -0400",
     "snapshot_rows": 50,
-    "zero_view_rows": 42,
-    "one_plus_view_rows": 8,
+    "zero_view_rows": 43,
+    "one_plus_view_rows": 7,
     "promoted_general_rows": 50,
+    "product_signal": "Acrylic 3/17 moved, Poster 4/17 moved, Sticker 0/16 moved.",
     "diagnosis_file": "Database/eBay_Traffic_Diagnosis.md",
-    "summary": "2% Standard ads are active but not enough alone; cover/gallery mismatch and search-intent/image trust are the main immediate levers."
+    "summary": "2% Standard ads are active but not enough; Sticker cover/gallery mismatch and publish-route control remain priority."
   },
   "prepared_local_assets": {
     "etsy_shop_packet": "Database/Etsy_shop_update_packet.md",
@@ -140,5 +163,39 @@
     "poster_acrylic": "Use one full production design; no die-cut/sticker-split logic. Preserve Printify official mockups/defaults as product-context images unless they create buyer confusion.",
     "future_rd": "Premium MJ-generated scene/mockups from real production images are allowed only after QA; track as R&D, not a blocker for current production."
   },
-  "network_policy": "Ethernet restored on 2026-05-06: Ethernet 3 up at 1Gbps, Wi-Fi disconnected, 0% loss and about 5-8ms latency in latest checks. Rex cleared low-bandwidth mode at 2026-05-06 15:20 -0400; online batches may run normally/full-throughput, but marketplace/account-risk throttles still apply."
+  "network_policy": "Ethernet restored on 2026-05-06: Ethernet 3 up at 1Gbps, Wi-Fi disconnected, 0% loss and about 5-8ms latency in latest checks. Rex cleared low-bandwidth mode at 2026-05-06 15:20 -0400; online batches may run normally/full-throughput, but marketplace/account-risk throttles still apply.",
+  "housekeeping_policy": {
+    "review_packet_dir": "Review_Packets/",
+    "rule": "Keep Rex/Gemini/AI-facing summaries and decision packets in Review_Packets. Keep script queues in Database and production assets in Output. Clear temp/cache/debug artifacts regularly, but do not delete personal downloads, Docker/app data, or production source assets without a specific reason.",
+    "latest_cleanup": "2026-05-06 16:45 -0400: safe caches/temp cleanup freed about 18GB and raised C drive free space to about 54.7GB."
+  },
+  "etsy_digital_gray_launch": {
+    "batch_id": "ETSY-DIGITAL-20260506-200824",
+    "queue": "Database/Etsy_Digital_Gray_Launch_Queue.csv",
+    "qa_report": "Database/Etsy_Digital_QA_Report.csv",
+    "fee_ledger": "Database/Etsy_Fee_Ledger.csv",
+    "report": "Review_Packets/ETSY_DIGITAL_TRAFFIC_PENETRATION_REPORT_20260506.md",
+    "selected": 10,
+    "qa_pass": 10,
+    "confirmed_spent_usd": 0.0,
+    "reserved_fee_usd": 2.0,
+    "status": "READY_BLOCKED_ETSY_AUTH",
+    "rule": "Do not trigger Etsy listing fees until login/API access is clean; first batch hard cap remains $2 and daily cap $6."
+  },
+  "printify_external_pending": {
+    "ids": [
+      "Poster-Academia-0038",
+      "Poster-Academia-0039",
+      "Poster-Academia-0040",
+      "Poster-Academia-0041",
+      "Poster-Academia-0042"
+    ],
+    "status": "Printify_PublishExternalPending_Mockups8",
+    "confirmed_not_live": "No eBay_Item_ID / product external id after sync and one API retry on 0038.",
+    "external_synced": [
+      "Poster-Academia-0037 -> 406909473606"
+    ],
+    "report": "Review_Packets/PRINTIFY_EXTERNAL_SYNC_DIAGNOSIS_20260506.md",
+    "scheduler_rule": "Normal publish scheduler no longer retries external-pending rows; explicit --retry-pending required."
+  }
 }

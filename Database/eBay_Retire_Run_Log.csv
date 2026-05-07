@@ -1,0 +1,27 @@
+Timestamp,Old_ID,Old_eBay_Item_ID,Result,Note
+2026-05-06T15:28:29,Sticker-Academia-0005,406892409123,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T15:28:46,Sticker-Academia-0005-FIX1,406909045760,ALREADY_NOT_ACTIVE,Seller Hub active search returned 0 rows.; printify_unpublish_http_400
+2026-05-06T15:29:18,Sticker-Academia-0006,406892409348,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T15:31:06,Sticker-Academia-0007,406892409645,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T15:31:34,Sticker-Academia-0008,406892409836,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T15:32:02,Sticker-Academia-0009,406892410017,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T15:32:32,Sticker-Academia-0010,406892410190,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T15:33:01,Sticker-Academia-0011,406892410307,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T15:33:29,Sticker-Academia-0014,406892410440,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T15:33:58,Sticker-Academia-0015,406892411034,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T15:34:27,Sticker-Academia-0016,406892411436,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T15:34:56,Sticker-Zen-0001,406892411931,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T15:35:26,Sticker-Zen-0002,406892412365,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T15:35:56,Sticker-Zen-0003,406892412612,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T15:36:25,Sticker-Zen-0004,406892412789,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T17:46:55,Sticker-Zen-0005,406892413076,LOGIN_REQUIRED,Dedicated automation browser is not signed in to eBay Seller Hub.
+2026-05-06T18:17:41,Sticker-Zen-0005,406892413076,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T18:18:11,Sticker-Zen-0007,406892413333,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T18:18:43,Sticker-Zen-0008,406892413714,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T18:19:16,Sticker-Zen-0009,406892413966,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T18:20:00,Sticker-Zen-0022,406892414235,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T18:20:32,Sticker-Zen-0024,406892414471,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T18:21:03,Sticker-Zen-0025,406892327989,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T18:21:38,Sticker-Zen-0027,406892414741,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T18:22:09,Sticker-Zen-0041,406902593931,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached
+2026-05-06T18:22:41,Sticker-Zen-0042,406902614234,ENDED_CONFIRMED_SELLER_HUB,Seller Hub success banner detected.; printify_external_detached

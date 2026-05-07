@@ -1,0 +1,272 @@
+{
+  "id": 36,
+  "title": "Print Pigeons",
+  "variants": [
+    {
+      "id": 65400,
+      "title": "11″ x 14″ / Black",
+      "options": {
+        "size": "11″ x 14″",
+        "color": "Black"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3300,
+          "height": 4200
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 65401,
+      "title": "11″ x 14″ / White",
+      "options": {
+        "size": "11″ x 14″",
+        "color": "White"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3300,
+          "height": 4200
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 65402,
+      "title": "12″ x 18″ / Black",
+      "options": {
+        "size": "12″ x 18″",
+        "color": "Black"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3600,
+          "height": 5400
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 65403,
+      "title": "12″ x 18″ / White",
+      "options": {
+        "size": "12″ x 18″",
+        "color": "White"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3600,
+          "height": 5400
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 65406,
+      "title": "18″ x 24″ / Black",
+      "options": {
+        "size": "18″ x 24″",
+        "color": "Black"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 5400,
+          "height": 7200
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 65407,
+      "title": "18″ x 24″ / White",
+      "options": {
+        "size": "18″ x 24″",
+        "color": "White"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 5400,
+          "height": 7200
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 65410,
+      "title": "24″ x 36″ / Black",
+      "options": {
+        "size": "24″ x 36″",
+        "color": "Black"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 7200,
+          "height": 10800
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 65411,
+      "title": "24″ x 36″ / White",
+      "options": {
+        "size": "24″ x 36″",
+        "color": "White"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 7200,
+          "height": 10800
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 66164,
+      "title": "8\" x 11\" / Black",
+      "options": {
+        "size": "8\" x 11\"",
+        "color": "Black"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 2400,
+          "height": 3300
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 66165,
+      "title": "8\" x 11\" / White",
+      "options": {
+        "size": "8\" x 11\"",
+        "color": "White"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 2400,
+          "height": 3300
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 66226,
+      "title": "16\" x 20\" / Black",
+      "options": {
+        "size": "16\" x 20\"",
+        "color": "Black"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4800,
+          "height": 6000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 66227,
+      "title": "20\" x 30\" / Black",
+      "options": {
+        "size": "20\" x 30\"",
+        "color": "Black"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 6000,
+          "height": 9000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 66228,
+      "title": "16\" x 20\" / White",
+      "options": {
+        "size": "16\" x 20\"",
+        "color": "White"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 4800,
+          "height": 6000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 66229,
+      "title": "20\" x 30\" / White",
+      "options": {
+        "size": "20\" x 30\"",
+        "color": "White"
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 6000,
+          "height": 9000
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    }
+  ]
+}

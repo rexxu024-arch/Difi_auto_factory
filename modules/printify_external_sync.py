@@ -1,5 +1,6 @@
 import argparse
 import csv
+import re
 import time
 from datetime import datetime
 from pathlib import Path
@@ -40,7 +41,8 @@ def _ensure_column(sheet, headers, name):
     return headers.index(name) + 1
 
 
-def sync(limit=0, sleep_seconds=3, dry_run=False):
+def sync(limit=0, sleep_seconds=3, dry_run=False, ids=None):
+    wanted_ids = {str(item).strip() for item in (ids or []) if str(item).strip()}
     workbook = load_workbook(EBAY_BOOK)
     sheet = workbook.active
     headers = [cell.value for cell in sheet[1]]
@@ -53,12 +55,15 @@ def sync(limit=0, sleep_seconds=3, dry_run=False):
     rows = []
     for row_idx in range(2, sheet.max_row + 1):
         status = str(sheet.cell(row_idx, cols["Status"]).value or "")
+        item_id = str(sheet.cell(row_idx, cols["ID"]).value or "").strip()
+        if wanted_ids and item_id not in wanted_ids:
+            continue
         product_id = str(sheet.cell(row_idx, cols["Printify_Product_ID"]).value or "").strip()
-        if not status.startswith("Printify_Published") or not product_id:
+        if not (status.startswith("Printify_Published") or status.startswith("Printify_PublishExternalPending")) or not product_id:
             continue
         if str(sheet.cell(row_idx, ebay_col).value or "").strip():
             continue
-        rows.append((row_idx, sheet.cell(row_idx, cols["ID"]).value, product_id))
+        rows.append((row_idx, item_id, product_id))
         if limit and len(rows) >= limit:
             break
     log_exists = LOG_PATH.exists()
@@ -77,10 +82,19 @@ def sync(limit=0, sleep_seconds=3, dry_run=False):
                 ebay_id = str(external.get("id") or "").strip()
                 handle_url = str(external.get("handle") or "").strip()
                 external_type = str(external.get("type") or "").strip()
-                if not dry_run and ebay_id:
-                    sheet.cell(row_idx, ebay_col).value = ebay_id
-                    sheet.cell(row_idx, external_url_col).value = handle_url
-                    sheet.cell(row_idx, external_type_col).value = external_type
+                if not dry_run:
+                    if ebay_id:
+                        sheet.cell(row_idx, ebay_col).value = ebay_id
+                        sheet.cell(row_idx, external_url_col).value = handle_url
+                        sheet.cell(row_idx, external_type_col).value = external_type
+                    elif status.startswith("Printify_Published"):
+                        match = re.search(r"Mockups(\d+)", status)
+                        suffix = match.group(1) if match else ""
+                        sheet.cell(row_idx, cols["Status"]).value = (
+                            f"Printify_PublishExternalPending_Mockups{suffix}"
+                            if suffix
+                            else "Printify_PublishExternalPending"
+                        )
                     sheet.cell(row_idx, external_sync_col).value = datetime.now()
                     workbook.save(EBAY_BOOK)
                 updated += 1 if ebay_id else 0
@@ -120,8 +134,10 @@ def main():
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--sleep-seconds", type=float, default=3)
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--ids", default="", help="Comma-separated workbook IDs to sync exactly.")
     args = parser.parse_args()
-    sync(limit=args.limit, sleep_seconds=args.sleep_seconds, dry_run=args.dry_run)
+    ids = [part.strip() for part in args.ids.split(",") if part.strip()]
+    sync(limit=args.limit, sleep_seconds=args.sleep_seconds, dry_run=args.dry_run, ids=ids)
 
 
 if __name__ == "__main__":

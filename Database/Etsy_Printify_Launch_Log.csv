@@ -1,0 +1,3 @@
+Timestamp,ID,Product_Type,Action,Status,Printify_Etsy_Product_ID,External_ID,External_Handle,Note
+2026-05-06T18:01:35-04:00,Poster-Academia-0091,Poster,CREATE,CREATED,69fbba39ce0d8cb5570fbda8,,,Created in Printify Etsy shop with official mockup-first policy.
+2026-05-06T18:03:41-04:00,Poster-Academia-0091,Poster,MOCKUP_CHECK,HOLD_MOCKUP_INSUFFICIENT,69fbba39ce0d8cb5570fbda8,,,selected=0 official=0

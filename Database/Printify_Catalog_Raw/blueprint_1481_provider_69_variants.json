@@ -1,0 +1,63 @@
+{
+  "id": 69,
+  "title": "Prodigi",
+  "variants": [
+    {
+      "id": 107225,
+      "title": "Blank / 5.2\" x 7.4\"",
+      "options": {
+        "paper": "Blank",
+        "size": "5.2\" x 7.4\""
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3735,
+          "height": 2622
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 107226,
+      "title": "Graph / 5.2\" x 7.4\"",
+      "options": {
+        "paper": "Graph",
+        "size": "5.2\" x 7.4\""
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3735,
+          "height": 2622
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    },
+    {
+      "id": 107227,
+      "title": "Ruled line / 5.2\" x 7.4\"",
+      "options": {
+        "paper": "Ruled line",
+        "size": "5.2\" x 7.4\""
+      },
+      "placeholders": [
+        {
+          "position": "front",
+          "decoration_method": "digital-printing",
+          "width": 3735,
+          "height": 2622
+        }
+      ],
+      "decoration_methods": [
+        "digital-printing"
+      ]
+    }
+  ]
+}

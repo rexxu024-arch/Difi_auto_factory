@@ -1,0 +1,37 @@
+[
+  {
+    "id": 28,
+    "title": "District Photo",
+    "decoration_methods": [
+      "dye-sublimation"
+    ]
+  },
+  {
+    "id": 410,
+    "title": "Printful",
+    "decoration_methods": [
+      "dye-sublimation"
+    ]
+  },
+  {
+    "id": 99,
+    "title": "Printify Choice",
+    "decoration_methods": [
+      "dye-sublimation"
+    ]
+  },
+  {
+    "id": 29,
+    "title": "Monster Digital",
+    "decoration_methods": [
+      "dye-sublimation"
+    ]
+  },
+  {
+    "id": 39,
+    "title": "SwiftPOD",
+    "decoration_methods": [
+      "dye-sublimation"
+    ]
+  }
+]

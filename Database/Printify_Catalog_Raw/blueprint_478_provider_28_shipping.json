@@ -1,0 +1,141 @@
+{
+  "handling_time": {
+    "value": 10,
+    "unit": "day"
+  },
+  "profiles": [
+    {
+      "variant_ids": [
+        65216
+      ],
+      "first_item": {
+        "cost": 639,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 299,
+        "currency": "USD"
+      },
+      "countries": [
+        "US"
+      ]
+    },
+    {
+      "variant_ids": [
+        104692
+      ],
+      "first_item": {
+        "cost": 829,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 299,
+        "currency": "USD"
+      },
+      "countries": [
+        "US"
+      ]
+    },
+    {
+      "variant_ids": [
+        65216
+      ],
+      "first_item": {
+        "cost": 1599,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 839,
+        "currency": "USD"
+      },
+      "countries": [
+        "NZ",
+        "AU",
+        "NO",
+        "REST_OF_THE_WORLD"
+      ]
+    },
+    {
+      "variant_ids": [
+        65216
+      ],
+      "first_item": {
+        "cost": 1469,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 699,
+        "currency": "USD"
+      },
+      "countries": [
+        "CA"
+      ]
+    },
+    {
+      "variant_ids": [
+        65216
+      ],
+      "first_item": {
+        "cost": 699,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 309,
+        "currency": "USD"
+      },
+      "countries": [
+        "US"
+      ]
+    },
+    {
+      "variant_ids": [
+        104692
+      ],
+      "first_item": {
+        "cost": 1799,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 839,
+        "currency": "USD"
+      },
+      "countries": [
+        "REST_OF_THE_WORLD",
+        "NZ",
+        "AU"
+      ]
+    },
+    {
+      "variant_ids": [
+        104692
+      ],
+      "first_item": {
+        "cost": 899,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 399,
+        "currency": "USD"
+      },
+      "countries": [
+        "US"
+      ]
+    },
+    {
+      "variant_ids": [
+        104692
+      ],
+      "first_item": {
+        "cost": 1499,
+        "currency": "USD"
+      },
+      "additional_items": {
+        "cost": 699,
+        "currency": "USD"
+      },
+      "countries": [
+        "CA"
+      ]
+    }
+  ]
+}

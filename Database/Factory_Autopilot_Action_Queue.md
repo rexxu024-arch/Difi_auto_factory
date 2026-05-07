@@ -1,14 +1,14 @@
 # Factory Autopilot Action Queue
 
-Generated: 2026-05-06T15:11:27-04:00 America/New_York
+Generated: 2026-05-06T20:31:26-04:00 America/New_York
 
 - Network mode: unknown (network guard skipped)
-- eBay workbook rows: 255
-- Stable: 175
-- Published: 134
-- Ready for Printify: 50
+- eBay workbook rows: 273
+- Stable: 169
+- Published: 150
+- Ready for Printify: 46
 - Live cover fix queue rows: 49
-- Repair decisions: {'SOURCE_REPAIR_REQUIRED': 45, 'NON_STICKER_REVIEW_REQUIRED': 4}
+- Repair decisions: {'RETIRED_REPLACED_DONE': 24, 'SOURCE_REPAIR_REQUIRED': 21, 'NON_STICKER_REVIEW_REQUIRED': 4}
 - Printify default audit: {'OK': 38, 'CHECK': 123}
 - Printify UI status: {'status': 'LOGGED_IN', 'reason': 'Printify app page is available in CDP browser.'}
 
@@ -22,13 +22,13 @@ Generated: 2026-05-06T15:11:27-04:00 America/New_York
 
 ### P97 replacement: READY_TO_REPLACE_VERIFIED
 - Action: Create one verified replacement listing for a live cover failure that survived source repair.
-- Reason: 1 listing already failed source repair plus live eBay buyer-page audit.
+- Reason: 21 listing already failed source repair plus live eBay buyer-page audit.
 - Command: `py modules\ebay_replacement_draft_builder.py --limit 1`
 - Network: yes; login: Printify API/UI and eBay live audit; risk: high
 
 ### P95 cover_gate: READY_SINGLE_SKU_REPAIR
 - Action: Repair one Printify source cover, then live-audit eBay before scaling.
-- Reason: Live cover queue has 49 rows; 45 require Printify source repair or replacement listings. Printify UI: LOGGED_IN - Printify app page is available in CDP browser.
+- Reason: Live cover queue has 49 rows; 21 require Printify source repair or replacement listings. Printify UI: LOGGED_IN - Printify app page is available in CDP browser.
 - Command: `py modules\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120`
 - Network: yes; login: Printify remote-debug profile; risk: medium
 

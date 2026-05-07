@@ -14,14 +14,19 @@ from modules.resilient_http import request_with_retry
 API_BASE = "https://api.etsy.com/v3/application"
 
 
-def api_key_header():
-    if not Config.ETSY_KEYSTRING or not Config.ETSY_SHARED_SECRET:
+def api_key_header(mode=None):
+    if not Config.ETSY_KEYSTRING:
         raise RuntimeError("Missing Etsy API credentials in .env.")
-    return f"{Config.ETSY_KEYSTRING}:{Config.ETSY_SHARED_SECRET}"
+    mode = mode or "keystring"
+    if mode == "combined":
+        if not Config.ETSY_SHARED_SECRET:
+            raise RuntimeError("Missing ETSY_SHARED_SECRET in .env for combined x-api-key mode.")
+        return f"{Config.ETSY_KEYSTRING}:{Config.ETSY_SHARED_SECRET}"
+    return Config.ETSY_KEYSTRING
 
 
-def headers(oauth=True):
-    data = {"x-api-key": api_key_header(), "Accept": "application/json"}
+def headers(oauth=True, api_key_mode=None):
+    data = {"x-api-key": api_key_header(api_key_mode), "Accept": "application/json"}
     if oauth:
         data["Authorization"] = f"Bearer {get_valid_token()}"
     return data
@@ -48,6 +53,17 @@ def request(method, path, *, params=None, data=None, json_body=None, files=None,
         else:
             request_headers["Content-Type"] = "application/x-www-form-urlencoded"
         response = request_with_retry(method, url, headers=request_headers, params=params, data=data, json=json_body, files=files, timeout=60)
+    if response.status_code == 403 and Config.ETSY_SHARED_SECRET:
+        alt_headers = headers(oauth=oauth, api_key_mode="combined")
+        if files:
+            alt_headers.pop("Content-Type", None)
+        elif json_body is not None:
+            alt_headers["Content-Type"] = "application/json"
+        else:
+            alt_headers["Content-Type"] = "application/x-www-form-urlencoded"
+        alt_response = request_with_retry(method, url, headers=alt_headers, params=params, data=data, json=json_body, files=files, timeout=60)
+        if alt_response.status_code < 400:
+            response = alt_response
     if response.status_code >= 400:
         raise RuntimeError(f"Etsy API {method} {path} failed HTTP {response.status_code}: {response.text[:1000]}")
     return response.json() if response.text else {}

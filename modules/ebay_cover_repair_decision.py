@@ -65,10 +65,16 @@ def _exists(value: object) -> bool:
 
 def classify(row: dict[str, str], workbook_row: dict[str, object]) -> tuple[str, str]:
     product_type = str(workbook_row.get("Product_Type") or row["ID"].split("-")[0])
+    status = str(workbook_row.get("Status") or "")
     has_cover = _exists(workbook_row.get("Cover_Path"))
     has_product = bool(row.get("Printify_Product_ID"))
     has_ebay = bool(row.get("eBay_Item_ID"))
 
+    if status == "Retired_Replaced":
+        return (
+            "RETIRED_REPLACED_DONE",
+            "Old live listing was ended after a replacement passed live buyer-page audit.",
+        )
     if not has_ebay:
         return "LOCAL_ONLY_NO_EBAY_ITEM", "No live eBay item id is available."
     if not has_cover:
