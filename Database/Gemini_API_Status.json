@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-07T15:55:17.664246-04:00",
+  "timestamp": "2026-05-07T16:42:09.879445-04:00",
   "key_loaded": true,
   "base_url": "https://generativelanguage.googleapis.com/v1beta",
   "model_list_status_code": 200,
@@ -9,7 +9,7 @@
       "model": "gemini-flash-latest",
       "ok": true,
       "status_code": 200,
-      "elapsed_sec": 1.19,
+      "elapsed_sec": 1.47,
       "response_preview": "OK",
       "text_found": true
     }

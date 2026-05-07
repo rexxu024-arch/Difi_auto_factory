@@ -1,6 +1,6 @@
 # Gemini Advisor Review Queue
 
-Generated: 2026-05-07 16:20 -0400 America/New_York
+Generated: 2026-05-07 17:58 -0400 America/New_York
 
 Rex is Commander, Gemini is Strategy Advisor, Codex is Executive Operator.
 
@@ -10,18 +10,18 @@ Please review the current OpenClaw plan as a strategy advisor. Do not request AP
 
 # OpenClaw Morning Report
 
-Generated: 2026-05-07 16:20 -0400 America/New_York
+Generated: 2026-05-07 17:58 -0400 America/New_York
 
 ## Current Factory State
 
-- Stable Printify-tracked products: 135
-- Published through Printify/eBay tracking: 119
+- Stable Printify-tracked products: 139
+- Published through Printify/eBay tracking: 123
 - Ready for Printify: 46
 
 ## Product Counts
 
-- Acrylic: stable 40, published 40, ready 0
-- Poster: stable 33, published 33, ready 0
+- Acrylic: stable 42, published 42, ready 0
+- Poster: stable 35, published 35, ready 0
 - Sticker: stable 62, published 46, ready 46
 
 ## Etsy Phase 1 Prep
@@ -81,32 +81,30 @@ Generated: 2026-05-07 16:20 -0400 America/New_York
 - Live eBay cover audit AMBIGUOUS: 48
 - Live eBay cover audit ERROR: 1
 - Live eBay cover audit LIKELY_COVER: 13
-- Live eBay cover audit LIKELY_COVER_OFFICIAL: 65
+- Live eBay cover audit LIKELY_COVER_OFFICIAL: 75
 - Live eBay cover audit LIKELY_SINGLE_U_MISMATCH: 50
 - Live cover fix queue rows: 49
-- Cover replacement queue OLD_RETIRED_REPLACED_DONE: 38
-- Cover replacement queue READY_TO_REPLACE_VERIFIED: 6
-- Cover replacement queue REPLACEMENT_PUBLISHED_LIVE_PASS: 1
-- Cover replacement queue REVIEW_BEFORE_REPLACE: 4
+- Cover replacement queue OLD_RETIRED_REPLACED_DONE: 49
 - Printify image-default audit rows: 161
 - Printify image-default audit CHECK: 123
 - Printify image-default audit OK: 38
 
 ## Factory Backlog
 
-- Backlog READY: 6
+- Backlog BLOCKED: 1
+- Backlog READY: 5
 - Backlog READY_FOR_SCHOLAR_REVIEW: 1
 - Backlog READY_MONITOR: 2
-- Backlog READY_SINGLE_SKU_REPAIR: 1
-- Backlog READY_TO_REPLACE_VERIFIED: 2
+- Backlog READY_TO_REPLACE_VERIFIED: 1
 - Backlog WAIT_COVER_GATE: 2
+- Backlog WAIT_PRINTIFY_LOGIN: 1
 
 Top tasks:
 - P100 control / READY: Run local supervisor maintenance cycle
 - P100 supervisor:local / READY: Refresh local QA, registry, market queue, cover decisions, experiment report, and morning report.
-- P98 cover_gate / READY: Repair one live eBay cover mismatch from Printify source and audit buyer page
+- P98 cover_gate / BLOCKED: Repair one live eBay cover mismatch from Printify source and audit buyer page
 - P97 supervisor:replacement / READY_TO_REPLACE_VERIFIED: Create one verified replacement listing for a live cover failure that survived source repair.
-- P95 supervisor:cover_gate / READY_SINGLE_SKU_REPAIR: Repair one Printify source cover, then live-audit eBay before scaling.
+- P95 supervisor:cover_gate / WAIT_PRINTIFY_LOGIN: Repair one Printify source cover, then live-audit eBay before scaling.
 
 Lane counts:
 - control: 1
@@ -116,7 +114,6 @@ Lane counts:
 - production: 1
 - publish: 1
 - r_and_d: 1
-- replacement: 1
 - supervisor:copy_experiment: 1
 - supervisor:cover_gate: 1
 - supervisor:etsy: 1

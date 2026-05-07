@@ -1,14 +1,15 @@
 # Factory Backlog
 
-Generated: 2026-05-07 12:49:07 -0400 America/New_York
+Generated: 2026-05-07 17:58:24 -0400 America/New_York
 
 ## Status Counts
 
-- READY: 6
-- READY_TO_REPLACE_VERIFIED: 2
+- READY: 5
 - WAIT_COVER_GATE: 2
 - READY_MONITOR: 2
-- READY_SINGLE_SKU_REPAIR: 1
+- BLOCKED: 1
+- READY_TO_REPLACE_VERIFIED: 1
+- WAIT_PRINTIFY_LOGIN: 1
 - READY_FOR_SCHOLAR_REVIEW: 1
 
 ## Lane Counts
@@ -18,7 +19,6 @@ Generated: 2026-05-07 12:49:07 -0400 America/New_York
 - cover_gate: 1
 - supervisor:replacement: 1
 - supervisor:cover_gate: 1
-- replacement: 1
 - production: 1
 - publish: 1
 - supervisor:production_design_qa: 1
@@ -44,33 +44,26 @@ Generated: 2026-05-07 12:49:07 -0400 America/New_York
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: low / no
 
-### P98 cover_gate - READY
+### P98 cover_gate - BLOCKED
 - Task: Repair one live eBay cover mismatch from Printify source and audit buyer page
-- Blocker: Printify CDP status: LOGGED_IN; Printify app page is available in CDP browser.
+- Blocker: Printify CDP status: UNAVAILABLE; <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
 - Command: `py modules\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120`
 - Done when: One SKU becomes LIVE_COVER_FIXED, or the runner records that replacement-listing fallback is required.
 - Risk/network: medium / single online item
 
 ### P97 supervisor:replacement - READY_TO_REPLACE_VERIFIED
 - Task: Create one verified replacement listing for a live cover failure that survived source repair.
-- Blocker: 12 listing already failed source repair plus live eBay buyer-page audit.
+- Blocker: 7 listing already failed source repair plus live eBay buyer-page audit. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 88.0%; memory elevated 85.4%
 - Command: `py modules\ebay_replacement_draft_builder.py --limit 1`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: high / yes
 
-### P95 supervisor:cover_gate - READY_SINGLE_SKU_REPAIR
+### P95 supervisor:cover_gate - WAIT_PRINTIFY_LOGIN
 - Task: Repair one Printify source cover, then live-audit eBay before scaling.
-- Blocker: Live cover queue has 49 rows; 12 require Printify source repair or replacement listings. Printify UI: LOGGED_IN - Printify app page is available in CDP browser.
-- Command: `py modules\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120`
+- Blocker: Live cover queue has 49 rows; 7 require Printify source repair or replacement listings. Printify UI: UNAVAILABLE - <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+- Command: `py modules\factory_cover_repair_runner.py --dry-run --post-sync-wait 0`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: medium / yes
-
-### P94 replacement - READY_TO_REPLACE_VERIFIED
-- Task: Create verified replacement listing for source-repaired live cover failure
-- Blocker: 7 row already failed source repair plus live eBay audit.
-- Command: `py modules\ebay_replacement_draft_builder.py --limit 1`
-- Done when: Replacement row is created as Ready_for_Printify; public publish still waits for QA and retire sequencing.
-- Risk/network: high / single replacement listing
 
 ### P72 production - WAIT_COVER_GATE
 - Task: Resume Ready_for_Printify uploads only after cover/default-image gate passes
@@ -88,7 +81,7 @@ Generated: 2026-05-07 12:49:07 -0400 America/New_York
 
 ### P63 supervisor:production_design_qa - READY
 - Task: Run a tiny Printify production-design audit before any larger online batch.
-- Blocker: This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi.
+- Blocker: This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 88.0%; memory elevated 85.4%
 - Command: `py modules\printify_design_audit.py --limit 2 --sleep-seconds 1`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: low / yes
@@ -109,7 +102,7 @@ Generated: 2026-05-07 12:49:07 -0400 America/New_York
 
 ### P55 supervisor:etsy - READY_MONITOR
 - Task: Monitor Etsy Digital first gray batch before spending more listing fees.
-- Blocker: Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout.
+- Blocker: Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 88.0%; memory elevated 85.4%
 - Command: `py modules\etsy_live_audit.py --limit 10`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: low / yes
