@@ -1365,3 +1365,14 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Added `modules/gemini_smoke_test.py` and `npm run gemini:smoke`.
 - Smoke test currently reports `MISSING_GEMINI_API_KEY`; `.env` contains the Gemini section marker but no detected key/value line yet.
 - Security note: do not echo Gemini keys in logs, reports, or commits.
+
+## 2026-05-07 13:00:00 -04:00 Gemini Env Name Normalization
+- Updated `config.py` to normalize Gemini env key names, so `.env` variants such as `Gemini_api_key`, `GEMINI_API_KEY`, `GEMINI KEY`, or `GOOGLE_API_KEY` can resolve to `Config.GEMINI_API_KEY`.
+- Rechecked `.env` safely with values masked; current parsed Gemini keys are still `NONE`, so smoke test remains blocked until the key/value line is saved into `.env`.
+
+## 2026-05-07 14:09:06 -04:00 4h Cruise Heartbeat Cooldown
+- `npm run hardware:heartbeat` still reaches the repo wrapper, but Python launch is blocked by sandbox access to the project venv/PyManager.
+- Refreshed heartbeat, cooldown, memory guard, system resource, and Grunt state/log files with performance-counter fallback checks.
+- Current proxy state: CPU 22.6%, available memory 1013MB, estimated physical memory used 91.6%, committed bytes 63.7%; thermal/fan/CIM sensors unavailable.
+- Hardware cooldown is active until 2026-05-07 14:39:06 -04:00; no Grunt tasks were run because memory/thermal sampling was hot or unstable.
+- No payment, billing, order, customer-message, paid publish, image, or listing-spend settings were touched.

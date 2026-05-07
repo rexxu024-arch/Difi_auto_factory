@@ -6,6 +6,20 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ENV_PATH = os.path.join(BASE_DIR, ".env")
 load_dotenv(ENV_PATH, override=True)
 
+
+def _env_any(*names):
+    for name in names:
+        value = os.getenv(name)
+        if value:
+            return value
+    wanted = {"".join(ch for ch in name.lower() if ch.isalnum()) for name in names}
+    for key, value in os.environ.items():
+        normalized = "".join(ch for ch in key.lower() if ch.isalnum())
+        if normalized in wanted and value:
+            return value
+    return None
+
+
 class Config:
     """
     Grey 思维核心 - V18.0 严苛对齐协议
@@ -39,11 +53,11 @@ class Config:
     CLAUDE_BASE_URL = os.getenv("CLAUDE_BASE_URL") or "https://api.anthropic.com"
 
     # --- Gemini / Grey Advisor Bridge ---
-    GEMINI_API_KEY = (
-        os.getenv("GEMINI_API_KEY")
-        or os.getenv("Gemini_api_key")
-        or os.getenv("GEMINI_KEY")
-        or os.getenv("GOOGLE_API_KEY")
+    GEMINI_API_KEY = _env_any(
+        "GEMINI_API_KEY",
+        "Gemini_api_key",
+        "GEMINI_KEY",
+        "GOOGLE_API_KEY",
     )
     GEMINI_BASE_URL = os.getenv("GEMINI_BASE_URL") or "https://generativelanguage.googleapis.com/v1beta"
     GEMINI_MODEL = os.getenv("GEMINI_MODEL") or "gemini-flash-latest"
