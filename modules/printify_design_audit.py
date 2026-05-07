@@ -2,6 +2,7 @@ import argparse
 import csv
 import hashlib
 import io
+import re
 import sys
 import time
 from pathlib import Path
@@ -34,6 +35,7 @@ AUDIT_STATUSES = {
     "Printify_BaseStaged_DefaultMockups3",
     "Printify_UI_Failed",
 }
+MOCKUP_STATUS_RE = re.compile(r"^Printify_(UI|Published)_Mockups\d+$")
 
 
 def _headers():
@@ -212,7 +214,12 @@ def audit_workbook(limit=0, mark=False, product_type=None, ids=None, sleep_secon
                 continue
             if product_type and _product_type_text(row_product_type).lower() != product_type.lower():
                 continue
-            if status not in AUDIT_STATUSES and status != DESIGN_MISMATCH_STATUS:
+            status_text = str(status or "")
+            if (
+                status_text not in AUDIT_STATUSES
+                and status_text != DESIGN_MISMATCH_STATUS
+                and not MOCKUP_STATUS_RE.match(status_text)
+            ):
                 continue
             record = {
                 "ID": item_id,

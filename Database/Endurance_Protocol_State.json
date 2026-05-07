@@ -1,69 +1,69 @@
 {
   "ui_session_running": true,
-  "updated_at": "2026-05-07T12:10:04-04:00",
-  "timestamp": "2026-05-07 12:10:10 -0400",
+  "updated_at": "2026-05-07T12:40:04-04:00",
+  "timestamp": "2026-05-07 12:40:11 -0400",
   "decision": "CONTINUE",
   "execute": true,
-  "ui_session_seconds": 1807,
+  "ui_session_seconds": 3608,
   "snapshot": {
-    "timestamp": "2026-05-07T12:10:10-04:00",
-    "cpu_load_pct": 43.0,
-    "memory_used_pct": 80.8,
+    "timestamp": "2026-05-07T12:40:11-04:00",
+    "cpu_load_pct": 37.0,
+    "memory_used_pct": 84.9,
     "memory_total_gb": 11.75,
-    "memory_free_gb": 2.26,
+    "memory_free_gb": 1.77,
     "temperature_c": null,
     "temperature_status": "DENIED_OR_UNAVAILABLE",
-    "gpu_util_pct": 4.6,
+    "gpu_util_pct": 4.7,
     "battery_percent": 100.0,
     "power_status": "AC_CHARGING",
     "top_processes": [
       {
-        "ProcessName": "Codex",
-        "Id": 27652,
-        "WorkingSetMB": 530.9,
-        "CPU": 18187
+        "ProcessName": "chrome",
+        "Id": 21384,
+        "WorkingSetMB": 1853.3,
+        "CPU": 569.078125
       },
       {
-        "ProcessName": "Memory Compression",
-        "Id": 2944,
-        "WorkingSetMB": 507.6,
-        "CPU": null
+        "ProcessName": "Codex",
+        "Id": 27652,
+        "WorkingSetMB": 491.7,
+        "CPU": 18761.921875
       },
       {
         "ProcessName": "chrome",
         "Id": 28132,
-        "WorkingSetMB": 445.6,
-        "CPU": 547.515625
-      },
-      {
-        "ProcessName": "chrome",
-        "Id": 9740,
-        "WorkingSetMB": 378.3,
-        "CPU": 51772.25
+        "WorkingSetMB": 435,
+        "CPU": 558
       },
       {
         "ProcessName": "chrome",
         "Id": 18944,
-        "WorkingSetMB": 348.8,
-        "CPU": 202.03125
+        "WorkingSetMB": 414.1,
+        "CPU": 217.609375
       },
       {
         "ProcessName": "chrome",
         "Id": 21820,
-        "WorkingSetMB": 283.5,
-        "CPU": 37.125
+        "WorkingSetMB": 330.1,
+        "CPU": 50.84375
+      },
+      {
+        "ProcessName": "chrome",
+        "Id": 9740,
+        "WorkingSetMB": 301.6,
+        "CPU": 51848.734375
       },
       {
         "ProcessName": "chrome",
         "Id": 15484,
-        "WorkingSetMB": 242.4,
-        "CPU": 58.703125
+        "WorkingSetMB": 238.1,
+        "CPU": 69.65625
       },
       {
         "ProcessName": "Code",
         "Id": 19100,
-        "WorkingSetMB": 237.6,
-        "CPU": 1353.375
+        "WorkingSetMB": 189.6,
+        "CPU": 1355.46875
       }
     ]
   },

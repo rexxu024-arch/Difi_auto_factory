@@ -1,5 +1,6 @@
 import argparse
 import io
+import re
 import sys
 from pathlib import Path
 
@@ -20,6 +21,7 @@ EXPECTED_MOCKUPS = {
     "Poster": 4,
     "Acrylic": 4,
 }
+MOCKUP_STATUS_RE = re.compile(r"^Printify_(UI|Published)_Mockups\d+$")
 
 
 def _headers():
@@ -113,7 +115,8 @@ def audit_and_mark(limit=0, ids=None):
     try:
         for row in range(2, ws.max_row + 1):
             status = ws.cell(row, cols["Status"]).value
-            if status not in {"Printify_UI_Mockups3", "Printify_UI_Mockups5", "Printify_UI_Mockups4", "Printify_UI_Mockups8", "Printify_Published_Mockups3", "Printify_Published_Mockups5", "Printify_Published_Mockups4", "Printify_Published_Mockups8", FIX_STATUS}:
+            status_text = str(status or "")
+            if not (MOCKUP_STATUS_RE.match(status_text) or status_text == FIX_STATUS):
                 continue
             product_id = ws.cell(row, cols["Printify_Product_ID"]).value
             cover_path = ws.cell(row, cols["Cover_Path"]).value
@@ -126,7 +129,7 @@ def audit_and_mark(limit=0, ids=None):
             product_type = ws.cell(row, cols.get("Product_Type", cols["ID"])).value if "Product_Type" in cols else "Sticker"
             ok, note = _default_matches_cover(str(product_id), cover_path, product_type=product_type)
             if ok:
-                if not str(status).startswith("Printify_Published"):
+                if not status_text.startswith("Printify_Published"):
                     ws.cell(row, cols["Status"]).value = f"Printify_UI_Mockups{_expected_count(product_type)}"
                 print(f"[PRIMARY-OK] {item_id} {note}")
             else:

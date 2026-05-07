@@ -290,3 +290,4 @@
 2026-05-07T11:10:28-04:00,,,NO_TASK,RUN,peak_rex_online,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy,0,"allowed_classes=api_read,local_light,online_publish_safe,single_browser_task"
 2026-05-07T11:40:23-04:00,,,NO_TASK,RUN,peak_rex_online,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy,0,"allowed_classes=api_read,local_light,online_publish_safe,single_browser_task"
 2026-05-07T12:10:26-04:00,,,NO_TASK,RUN,peak_rex_online,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy,0,"allowed_classes=api_read,local_light,online_publish_safe,single_browser_task"
+2026-05-07T12:40:24-04:00,,,NO_TASK,RUN_CONSERVATIVE,peak_rex_online,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 85.5%,0,"allowed_classes=api_read,local_light,online_publish_safe,single_browser_task"

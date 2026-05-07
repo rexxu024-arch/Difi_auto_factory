@@ -1344,3 +1344,18 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Live buyer-page cover audit passed `LIKELY_COVER_OFFICIAL`; old `Sticker-Zen-0057` was ended through Edge Seller Hub and detached from Printify.
 - `Sticker-Zen-0058-FIX1` was created but held: Printify product exists, production design passed, but official mockup selection returned `selected=0`; old listing remains live until recovery succeeds.
 - Replacement queue now: `36 OLD_RETIRED_REPLACED_DONE`, `8 READY_TO_REPLACE_VERIFIED`, `1 REPLACEMENT_STAGED_MOCKUP_SELECTION_FAILED`, `4 REVIEW_BEFORE_REPLACE`.
+
+## 2026-05-07 12:37:57 -04:00 Cover Gate Replacement 0058 Recovered And Closed
+- Rechecked Printify API for `Sticker-Zen-0058-FIX1`; official mockups appeared after delay: `selected=3`, `official_selected=3`.
+- Re-ran full pipeline on the existing product and recovered status to `Printify_UI_Mockups3`.
+- Published replacement; initial external id was missing, then self-healing force-associated `external.id=406911102240`.
+- Live buyer-page cover audit passed `LIKELY_COVER_OFFICIAL`; old `Sticker-Zen-0058` was ended through Edge Seller Hub and detached from Printify.
+- Replacement queue now: `37 OLD_RETIRED_REPLACED_DONE`, `8 READY_TO_REPLACE_VERIFIED`, `4 REVIEW_BEFORE_REPLACE`.
+
+## 2026-05-07 12:47:08 -04:00 Cover Gate Replacement 0060 Closed
+- Created `Sticker-Zen-0060-FIX1` and uploaded to Printify.
+- Printify generated 6 official mockups; QA scripts were patched to accept any `Printify_UI_MockupsN` / `Printify_Published_MockupsN` status instead of a fixed allowlist.
+- Production design audit passed with `ahash_distance=0`; primary audit passed with `selected=6`, `official=6`, `defaults=2`.
+- Published replacement; self-healing force-associated `external.id=406911120974`.
+- Live buyer-page cover audit passed `LIKELY_COVER_OFFICIAL`; old `Sticker-Zen-0060` was ended through Edge Seller Hub and detached from Printify.
+- Replacement queue now: `38 OLD_RETIRED_REPLACED_DONE`, `7 READY_TO_REPLACE_VERIFIED`, `4 REVIEW_BEFORE_REPLACE`.
