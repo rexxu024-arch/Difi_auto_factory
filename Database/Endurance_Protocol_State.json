@@ -1,0 +1,370 @@
+{
+  "ui_session_running": false,
+  "updated_at": "2026-05-07T09:49:56-04:00",
+  "timestamp": "2026-05-07 09:40:35 -0400",
+  "decision": "COOLDOWN_ENTERED",
+  "execute": true,
+  "ui_session_seconds": 8,
+  "snapshot": {
+    "timestamp": "2026-05-07T09:40:04-04:00",
+    "cpu_load_pct": 55.0,
+    "memory_used_pct": 90.2,
+    "memory_total_gb": 11.75,
+    "memory_free_gb": 1.15,
+    "temperature_c": null,
+    "temperature_status": "DENIED_OR_UNAVAILABLE",
+    "gpu_util_pct": 13.3,
+    "battery_percent": 100.0,
+    "power_status": "AC_CHARGING",
+    "top_processes": [
+      {
+        "ProcessName": "chrome",
+        "Id": 3280,
+        "WorkingSetMB": 2282.5,
+        "CPU": 7414.859375
+      },
+      {
+        "ProcessName": "chrome",
+        "Id": 21384,
+        "WorkingSetMB": 1432.3,
+        "CPU": 430.1875
+      },
+      {
+        "ProcessName": "Codex",
+        "Id": 27652,
+        "WorkingSetMB": 544.6,
+        "CPU": 16151.984375
+      },
+      {
+        "ProcessName": "chrome",
+        "Id": 9740,
+        "WorkingSetMB": 384,
+        "CPU": 50561.546875
+      },
+      {
+        "ProcessName": "Code",
+        "Id": 17544,
+        "WorkingSetMB": 257.4,
+        "CPU": 1105.65625
+      },
+      {
+        "ProcessName": "msedge",
+        "Id": 14068,
+        "WorkingSetMB": 186,
+        "CPU": 13.78125
+      },
+      {
+        "ProcessName": "Codex",
+        "Id": 26676,
+        "WorkingSetMB": 184.3,
+        "CPU": 6806.484375
+      },
+      {
+        "ProcessName": "msedge",
+        "Id": 28512,
+        "WorkingSetMB": 182.9,
+        "CPU": 2362.78125
+      }
+    ]
+  },
+  "reasons": [
+    "memory elevated 90.2%"
+  ],
+  "cooldown": {
+    "ui_session_running": true,
+    "updated_at": "2026-05-07T09:40:30-04:00",
+    "mode": "COOLDOWN",
+    "reason": "memory elevated 90.2%",
+    "memory_guard": {
+      "timestamp": "2026-05-07 09:40:21 -0400",
+      "mode": "EXECUTE_CLEANUP",
+      "execute": true,
+      "cdp_port": 9223,
+      "memory_soft_pct": 86.0,
+      "memory_hard_pct": 92.0,
+      "memory_before": 90.5,
+      "memory_after": 93.2,
+      "cpu_before": 88.0,
+      "cpu_after": 100.0,
+      "closed_tabs": [
+        {
+          "action": "CLOSE_EDGE_PROJECT_TAB",
+          "id": "B0AEF5CDD1EE74F2B2B9CC469766D8A8",
+          "title": "Shop Manager Dashboard - Etsy",
+          "url": "https://www.etsy.com/your/shops/me/dashboard"
+        }
+      ],
+      "top_processes": [
+        {
+          "ProcessName": "chrome",
+          "Id": 3280,
+          "WorkingSetMB": 2301.1,
+          "CPU": 7416.921875
+        },
+        {
+          "ProcessName": "chrome",
+          "Id": 21384,
+          "WorkingSetMB": 1448.7,
+          "CPU": 430.5
+        },
+        {
+          "ProcessName": "Codex",
+          "Id": 27652,
+          "WorkingSetMB": 546,
+          "CPU": 16154.484375
+        },
+        {
+          "ProcessName": "chrome",
+          "Id": 9740,
+          "WorkingSetMB": 384.2,
+          "CPU": 50562.46875
+        },
+        {
+          "ProcessName": "Code",
+          "Id": 17544,
+          "WorkingSetMB": 257.5,
+          "CPU": 1105.671875
+        },
+        {
+          "ProcessName": "msedge",
+          "Id": 14068,
+          "WorkingSetMB": 186,
+          "CPU": 13.796875
+        },
+        {
+          "ProcessName": "Codex",
+          "Id": 26676,
+          "WorkingSetMB": 185.1,
+          "CPU": 6807.28125
+        },
+        {
+          "ProcessName": "msedge",
+          "Id": 28512,
+          "WorkingSetMB": 182.9,
+          "CPU": 2362.875
+        }
+      ],
+      "decision": "MEMORY_STILL_HARD_PRESSURE",
+      "reason": "keep only local/report/API-read tasks; consider longer rest cycle if repeated",
+      "privacy_rule": "Only closes project automation Edge tabs through CDP 9223. Does not inspect or close Rex's daily Chrome tabs.",
+      "rest_rule": "Do not shutdown/restart by default; if pressure stays high after cleanup, write rest-cycle recommendation unless Rex explicitly requests immediate power action."
+    },
+    "terminated_processes": [
+      {
+        "pid": 28512,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 9204,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 20128,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 13276,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 22504,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 23508,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 26540,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 26908,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 5144,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 6128,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 26400,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 32020,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 28916,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 4260,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 31064,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 10144,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 2972,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 10160,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 27796,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 29272,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 23140,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 16328,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 30548,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 25992,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      },
+      {
+        "pid": 7468,
+        "name": "msedge.exe",
+        "action": "TERMINATE"
+      }
+    ],
+    "allowed_work": [
+      "local CSV/XLSX planning",
+      "report generation",
+      "Printify API read/write when no browser needed",
+      "risk/QA code"
+    ],
+    "blocked_work": [
+      "Edge CDP UI automation",
+      "image-heavy batch generation",
+      "broad marketplace RPA"
+    ]
+  },
+  "mode": "PRE_SHUTDOWN_WINDDOWN",
+  "reason": "05:30-06:00 ET winddown before daily shutdown",
+  "strong_write": {
+    "active": false,
+    "matches": [],
+    "grunt_lock_active": false
+  },
+  "startup_recovery": "scripts\\run_codex.bat after Windows login",
+  "new_task_policy": "Only local optimization, reports, queue planning, memory cleanup, and checkpointing. No new marketplace writes or browser UI tasks.",
+  "target_shutdown": "06:00 America/New_York",
+  "memory_guard": {
+    "timestamp": "2026-05-07 09:49:56 -0400",
+    "mode": "NOOP_BELOW_THRESHOLD",
+    "execute": false,
+    "cdp_port": 9223,
+    "memory_soft_pct": 86.0,
+    "memory_hard_pct": 92.0,
+    "memory_before": 82.0,
+    "memory_after": 82.0,
+    "cpu_before": 18.0,
+    "cpu_after": 18.0,
+    "closed_tabs": [],
+    "top_processes": [
+      {
+        "ProcessName": "chrome",
+        "Id": 3280,
+        "WorkingSetMB": 2420.4,
+        "CPU": 7664.703125
+      },
+      {
+        "ProcessName": "chrome",
+        "Id": 21384,
+        "WorkingSetMB": 728.1,
+        "CPU": 432.390625
+      },
+      {
+        "ProcessName": "Codex",
+        "Id": 27652,
+        "WorkingSetMB": 578,
+        "CPU": 16314.484375
+      },
+      {
+        "ProcessName": "chrome",
+        "Id": 9740,
+        "WorkingSetMB": 424.1,
+        "CPU": 50606.46875
+      },
+      {
+        "ProcessName": "Memory Compression",
+        "Id": 2944,
+        "WorkingSetMB": 405.5,
+        "CPU": null
+      },
+      {
+        "ProcessName": "Codex",
+        "Id": 26676,
+        "WorkingSetMB": 187.9,
+        "CPU": 6835.65625
+      },
+      {
+        "ProcessName": "Code",
+        "Id": 19100,
+        "WorkingSetMB": 187.3,
+        "CPU": 1324.4375
+      },
+      {
+        "ProcessName": "MsMpEng",
+        "Id": 4564,
+        "WorkingSetMB": 170.6,
+        "CPU": null
+      }
+    ],
+    "decision": "MEMORY_OK_CONTINUE",
+    "reason": "normal work may continue under marketplace risk guards",
+    "privacy_rule": "Only closes project automation Edge tabs through CDP 9223. Does not inspect or close Rex's daily Chrome tabs.",
+    "rest_rule": "Do not shutdown/restart by default; if pressure stays high after cleanup, write rest-cycle recommendation unless Rex explicitly requests immediate power action."
+  },
+  "stopped_ui_processes": [],
+  "stopped_write_processes": []
+}

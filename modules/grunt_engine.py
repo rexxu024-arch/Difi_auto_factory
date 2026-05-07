@@ -33,6 +33,7 @@ NY = ZoneInfo("America/New_York")
 ALLOWED_ACTIONS = {
     "hardware_heartbeat",
     "hardware_cooldown_guard",
+    "memory_cleanup",
     "local_supervisor_refresh",
     "quality_floor_scan",
     "copy_signal_refresh",
@@ -41,7 +42,7 @@ ALLOWED_ACTIONS = {
     "rest_log_compression_plan",
 }
 
-REST_ALLOWED = {"hardware_heartbeat", "hardware_cooldown_guard", "rest_log_compression_plan", "quality_floor_scan"}
+REST_ALLOWED = {"hardware_heartbeat", "hardware_cooldown_guard", "memory_cleanup", "rest_log_compression_plan", "quality_floor_scan"}
 
 
 def now():
@@ -200,6 +201,14 @@ def _run_task(task, dry_run=False):
         else:
             detail = "dry-run maintenance plan"
         return "DRY_RUN" if dry_run else "DONE", detail, 0
+    if task.action == "memory_cleanup":
+        if dry_run:
+            return "DRY_RUN", "dry-run memory cleanup", 0
+        from modules.memory_pressure_guard import run as run_memory_guard
+
+        detail = json.dumps(run_memory_guard(execute=True), ensure_ascii=False)[:1000]
+        update_task(task.task_id, status="DONE", result_summary=detail)
+        return "DONE", detail, 0
     if dry_run:
         return "DRY_RUN", f"would run: {task.command}", 0
     code, output, error = _run_command(task.command, task.timeout_seconds)

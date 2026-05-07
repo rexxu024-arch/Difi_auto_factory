@@ -1,0 +1,74 @@
+{
+  "timestamp": "2026-05-07 09:40:21 -0400",
+  "mode": "EXECUTE_CLEANUP",
+  "execute": true,
+  "cdp_port": 9223,
+  "memory_soft_pct": 86.0,
+  "memory_hard_pct": 92.0,
+  "memory_before": 90.5,
+  "memory_after": 93.2,
+  "cpu_before": 88.0,
+  "cpu_after": 100.0,
+  "closed_tabs": [
+    {
+      "action": "CLOSE_EDGE_PROJECT_TAB",
+      "id": "B0AEF5CDD1EE74F2B2B9CC469766D8A8",
+      "title": "Shop Manager Dashboard - Etsy",
+      "url": "https://www.etsy.com/your/shops/me/dashboard"
+    }
+  ],
+  "top_processes": [
+    {
+      "ProcessName": "chrome",
+      "Id": 3280,
+      "WorkingSetMB": 2301.1,
+      "CPU": 7416.921875
+    },
+    {
+      "ProcessName": "chrome",
+      "Id": 21384,
+      "WorkingSetMB": 1448.7,
+      "CPU": 430.5
+    },
+    {
+      "ProcessName": "Codex",
+      "Id": 27652,
+      "WorkingSetMB": 546,
+      "CPU": 16154.484375
+    },
+    {
+      "ProcessName": "chrome",
+      "Id": 9740,
+      "WorkingSetMB": 384.2,
+      "CPU": 50562.46875
+    },
+    {
+      "ProcessName": "Code",
+      "Id": 17544,
+      "WorkingSetMB": 257.5,
+      "CPU": 1105.671875
+    },
+    {
+      "ProcessName": "msedge",
+      "Id": 14068,
+      "WorkingSetMB": 186,
+      "CPU": 13.796875
+    },
+    {
+      "ProcessName": "Codex",
+      "Id": 26676,
+      "WorkingSetMB": 185.1,
+      "CPU": 6807.28125
+    },
+    {
+      "ProcessName": "msedge",
+      "Id": 28512,
+      "WorkingSetMB": 182.9,
+      "CPU": 2362.875
+    }
+  ],
+  "decision": "MEMORY_STILL_HARD_PRESSURE",
+  "reason": "keep only local/report/API-read tasks; consider longer rest cycle if repeated",
+  "privacy_rule": "Only closes project automation Edge tabs through CDP 9223. Does not inspect or close Rex's daily Chrome tabs.",
+  "rest_rule": "Do not shutdown/restart by default; if pressure stays high after cleanup, write rest-cycle recommendation unless Rex explicitly requests immediate power action."
+}

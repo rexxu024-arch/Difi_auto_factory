@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-05-07 07:31:41 -0400",
+  "timestamp": "2026-05-07 09:17:47 -0400",
   "credentials_present": true,
   "keystring_masked": "ehm7...jc9l",
-  "status": "ERROR",
-  "http_status": null,
-  "detail": "HTTP 500: {\"error\":\"Server Error\"}\n",
-  "oauth_next_step": "WAIT_APP_APPROVAL"
+  "status": "PENDING_OR_INACTIVE",
+  "http_status": 403,
+  "detail": "{\"error\":\"API key not found or not active, or incorrect shared secret for API key.\"}\n",
+  "oauth_next_step": "WAIT_APP_APPROVAL_OR_VERIFY_SECRET"
 }

@@ -18,6 +18,22 @@ Browser/resource hygiene:
 - Prefer API/local scripts over repeated browser refresh loops when possible.
 - Do not interfere with Rex's daily Chrome. Use the dedicated Edge automation profile on CDP port 9223 for marketplace/account UI work unless there is a specific reason not to.
 
+Memory ownership protocol:
+- Rex authorizes Codex to reduce memory pressure without asking when it affects OpenClaw work.
+- First response is cleanup, not stopping: close safe idle project automation tabs in Edge CDP 9223, reduce concurrency, and switch to local/report/API-read tasks.
+- Do not inspect or close Rex's daily Chrome/private personal tabs.
+- Pause only when cleanup fails and sustained CPU/memory pressure remains high, or Rex explicitly says stop.
+- Shutdown/restart is not automatic by default; write a rest-cycle recommendation unless Rex explicitly arms a shutdown/wake workflow.
+
+Endurance protocol:
+- Host may stay on long-term power. Protect hardware through cool-down cycles instead of physical shutdown by default.
+- If Edge CDP/UI automation runs more than 3 hours, memory spikes, or CPU remains hot, save state and terminate only project automation browser/driver processes, then continue low-power local/API/report work.
+- Daily reboot target is 04:00 America/New_York, but Windows password remains a hard security boundary. Do not bypass it with AutoLogon unless Rex explicitly accepts the privacy/security tradeoff.
+- Safe recovery chain: after Rex logs into Windows, `scripts\run_codex.bat` starts Codex and `scripts\openclaw_resume_after_login.bat` restores Edge CDP 9223 plus Grunt tasks.
+- Default daily reboot script is dry-run/check mode until Rex explicitly arms actual `shutdown /r`.
+- Updated compromise: daily hardware rest is now shutdown, not reboot. Windows Task Scheduler runs `scripts\openclaw_daily_shutdown.bat` at 06:00 Eastern time. Rex powers on manually after waking; after Windows login, Startup resumes OpenClaw.
+- Workday model: treat 05:30-06:00 ET as packing-up time. At 05:30 stop starting long jobs and do only optimization/report/checkpoint work. At 05:50 force-stop project automation browser/driver/write processes. At 06:00 shut down.
+
 Default authorization policy:
 - Rex has repeatedly granted full OpenClaw project access. Do not stop to ask for routine project account navigation, local file edits, API debugging, browser automation, QA checks, report writing, or script changes.
 - Ask only for true red lines: spending beyond the approved cap, touching payment/billing settings, placing/canceling orders, sending buyer/customer messages, exposing or changing private credentials, or destructive actions outside the project scope.

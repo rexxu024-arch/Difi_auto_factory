@@ -1,0 +1,21 @@
+﻿Priority,ID,Track,eBay_Item_ID,Current_Action,Primary_Intent,Reason
+P2,Acrylic-Grimdark-0005,B_HIGH_VOLUME_VALUE,406903251829,ZERO_VIEW_WAIT_48H_THEN_DOWNGRADE_OR_TRACK_C,shelf decor,refresh Seller Hub active listing views/favorites/orders if visible
+P1,Acrylic-Grimdark-0008,B_HIGH_VOLUME_VALUE,406903746215,WAIT_FOR_NEXT_SELLER_HUB_READ,desk display,refresh Seller Hub active listing views/favorites/orders if visible
+P1,Acrylic-Grimdark-0010,B_HIGH_VOLUME_VALUE,406903756190,WAIT_FOR_NEXT_SELLER_HUB_READ,shelf decor,refresh Seller Hub active listing views/favorites/orders if visible
+P1,Acrylic-Grimdark-0014,A_LOW_COMPETITION_NICHE,406909159060,WAIT_FOR_NEXT_SELLER_HUB_READ,smoky jade relic,refresh Seller Hub active listing views/favorites/orders if visible
+P1,Acrylic-Grimdark-0016,B_HIGH_VOLUME_VALUE,406909215172,WAIT_FOR_NEXT_SELLER_HUB_READ,acrylic photo block,refresh Seller Hub active listing views/favorites/orders if visible
+P1,Acrylic-Grimdark-0019,A_LOW_COMPETITION_NICHE,406909223875,WAIT_FOR_NEXT_SELLER_HUB_READ,moody desk display,refresh Seller Hub active listing views/favorites/orders if visible
+P1,Acrylic-Grimdark-0027,A_LOW_COMPETITION_NICHE,406909233684,WAIT_FOR_NEXT_SELLER_HUB_READ,occult library art,refresh Seller Hub active listing views/favorites/orders if visible
+P1,Acrylic-Grimdark-0030,B_HIGH_VOLUME_VALUE,406909235356,WAIT_FOR_NEXT_SELLER_HUB_READ,desk display,refresh Seller Hub active listing views/favorites/orders if visible
+P1,Acrylic-Grimdark-0031,B_HIGH_VOLUME_VALUE,406909236640,WAIT_FOR_NEXT_SELLER_HUB_READ,collector gift,refresh Seller Hub active listing views/favorites/orders if visible
+P1,Acrylic-Grimdark-0033,A_LOW_COMPETITION_NICHE,406909240724,WAIT_FOR_NEXT_SELLER_HUB_READ,dark study room decor,refresh Seller Hub active listing views/favorites/orders if visible
+P1,Acrylic-Grimdark-0035,B_HIGH_VOLUME_VALUE,406909243824,WAIT_FOR_NEXT_SELLER_HUB_READ,office decor,refresh Seller Hub active listing views/favorites/orders if visible
+P1,Acrylic-Grimdark-0038,A_LOW_COMPETITION_NICHE,406910074365,WAIT_FOR_NEXT_SELLER_HUB_READ,collector shelf object,refresh Seller Hub active listing views/favorites/orders if visible
+P1,Acrylic-Grimdark-0039,B_HIGH_VOLUME_VALUE,406910075457,WAIT_FOR_NEXT_SELLER_HUB_READ,office decor,refresh Seller Hub active listing views/favorites/orders if visible
+P2,Acrylic-Grimdark-0085,A_LOW_COMPETITION_NICHE,406903043482,ZERO_VIEW_WAIT_48H_THEN_DOWNGRADE_OR_TRACK_C,dark study room decor,refresh Seller Hub active listing views/favorites/orders if visible
+P3,Acrylic-Zen-0006,A_LOW_COMPETITION_NICHE,406902898909,NONZERO_TRAFFIC_MONITOR_CLICK_SIGNAL,tea room accent,refresh Seller Hub active listing views/favorites/orders if visible
+P2,Acrylic-Zen-0007,A_LOW_COMPETITION_NICHE,406903028253,ZERO_VIEW_WAIT_48H_THEN_DOWNGRADE_OR_TRACK_C,meditation room wall art,refresh Seller Hub active listing views/favorites/orders if visible
+P2,Poster-Academia-0008,B_HIGH_VOLUME_VALUE,406903046097,ZERO_VIEW_WAIT_48H_THEN_DOWNGRADE_OR_TRACK_C,wall art poster,refresh Seller Hub active listing views/favorites/orders if visible
+P1,Poster-Academia-0019,A_LOW_COMPETITION_NICHE,406903744471,WAIT_FOR_NEXT_SELLER_HUB_READ,dark academia reading nook,refresh Seller Hub active listing views/favorites/orders if visible
+P1,Poster-Academia-0036,A_LOW_COMPETITION_NICHE,406909472775,WAIT_FOR_NEXT_SELLER_HUB_READ,dark academia reading nook,refresh Seller Hub active listing views/favorites/orders if visible
+P2,Poster-Zen-0005,B_HIGH_VOLUME_VALUE,406903033377,ZERO_VIEW_WAIT_48H_THEN_DOWNGRADE_OR_TRACK_C,poster print,refresh Seller Hub active listing views/favorites/orders if visible

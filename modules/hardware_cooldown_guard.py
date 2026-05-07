@@ -15,6 +15,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from modules.hardware_heartbeat_monitor import LOG_PATH as HEARTBEAT_LOG
 from modules.hardware_heartbeat_monitor import sample_heartbeat, write_heartbeat
+from modules.memory_pressure_guard import run as run_memory_guard
 
 
 DATABASE_DIR = PROJECT_ROOT / "Database"
@@ -67,6 +68,17 @@ def _write_log(row):
 def evaluate(cooldown_minutes=20, sustained_warm_streak=3):
     DATABASE_DIR.mkdir(exist_ok=True)
     heartbeat = sample_heartbeat()
+    memory_guard_state = None
+    try:
+        if heartbeat.memory_used_pct is not None and heartbeat.memory_used_pct >= 86:
+            memory_guard_state = run_memory_guard(execute=True)
+            if memory_guard_state.get("memory_after") != heartbeat.memory_used_pct:
+                heartbeat = sample_heartbeat()
+    except Exception as exc:  # noqa: BLE001
+        memory_guard_state = {
+            "decision": "MEMORY_GUARD_ERROR",
+            "reason": f"{type(exc).__name__}: {exc}",
+        }
     write_heartbeat(heartbeat)
     rows = _recent_heartbeats(limit=max(6, sustained_warm_streak + 1))
     streak = _hot_streak(rows)
@@ -99,7 +111,8 @@ def evaluate(cooldown_minutes=20, sustained_warm_streak=3):
         "reason": "; ".join(part for part in reasons if part),
         "hot_streak": streak,
         "heartbeat": asdict(heartbeat),
-        "allowed_during_cooldown": ["hardware_heartbeat", "report_batch", "local_light", "queue_planning", "api_read", "online_publish_safe"],
+        "memory_guard": memory_guard_state,
+        "allowed_during_cooldown": ["hardware_heartbeat", "memory_cleanup", "report_batch", "local_light", "queue_planning", "api_read", "online_publish_safe"],
         "blocked_during_cooldown": ["image_batch", "asset_build", "market_research", "single_browser_task"],
     }
     STATE_PATH.write_text(json.dumps(state, indent=2, ensure_ascii=False), encoding="utf-8")

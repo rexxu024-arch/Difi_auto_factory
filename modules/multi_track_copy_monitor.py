@@ -7,10 +7,14 @@ from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from openpyxl import load_workbook
+
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATABASE = PROJECT_ROOT / "Database"
 REVIEW = PROJECT_ROOT / "Review_Packets"
 BATCH = DATABASE / "Multi_Track_Copy_Batch.csv"
+SYNC_LOG = DATABASE / "Multi_Track_Copy_Sync_Log.csv"
+EBAY_BOOK = DATABASE / "eBay_listing.xlsx"
 PERFORMANCE = DATABASE / "Performance_Log.csv"
 OUT_CSV = DATABASE / "Multi_Track_Copy_Performance_Monitor.csv"
 OUT_MD = REVIEW / f"MULTI_TRACK_COPY_MONITOR_{datetime.now():%Y%m%d}.md"
@@ -47,10 +51,81 @@ def latest_performance() -> dict[str, dict[str, str]]:
     return by_item
 
 
+def workbook_by_id() -> dict[str, dict[str, str]]:
+    if not EBAY_BOOK.exists():
+        return {}
+    wb = load_workbook(EBAY_BOOK, read_only=True, data_only=True)
+    ws = wb.active
+    headers = [cell.value for cell in ws[1]]
+    cols = {header: idx for idx, header in enumerate(headers) if header}
+    result: dict[str, dict[str, str]] = {}
+    for values in ws.iter_rows(min_row=2, values_only=True):
+        item_id = clean(values[cols["ID"]]) if "ID" in cols and cols["ID"] < len(values) else ""
+        if not item_id:
+            continue
+        row = {}
+        for key in [
+            "ID",
+            "Product_Type",
+            "Title",
+            "eBay_Item_ID",
+            "Multi_Track_Track",
+            "Multi_Track_Primary_Intent",
+            "Multi_Track_Mockup_Mood",
+            "Metadata_Sync_Status",
+        ]:
+            if key in cols and cols[key] < len(values):
+                row[key] = clean(values[cols[key]])
+        result[item_id] = row
+    wb.close()
+    return result
+
+
+def experiment_rows() -> list[dict[str, str]]:
+    """Monitor all synced copy experiments, not just the most recent batch file."""
+    by_id: dict[str, dict[str, str]] = {}
+    for row in read_csv(BATCH):
+        item_id = clean(row.get("ID"))
+        if item_id:
+            by_id[item_id] = dict(row)
+    for row in read_csv(SYNC_LOG):
+        if clean(row.get("Result")) != "OK":
+            continue
+        item_id = clean(row.get("ID"))
+        if not item_id:
+            continue
+        by_id.setdefault(
+            item_id,
+            {
+                "ID": item_id,
+                "Product_Type": clean(row.get("Product_Type")),
+                "eBay_Item_ID": clean(row.get("eBay_Item_ID")),
+                "Apply_Status": "SYNCED_PRINTIFY",
+                "Sync_Result": "OK",
+                "New_Title": "",
+            },
+        )
+    local = workbook_by_id()
+    merged: list[dict[str, str]] = []
+    for item_id in sorted(by_id):
+        row = dict(by_id[item_id])
+        meta = local.get(item_id, {})
+        row["Product_Type"] = row.get("Product_Type") or meta.get("Product_Type", "")
+        row["eBay_Item_ID"] = row.get("eBay_Item_ID") or meta.get("eBay_Item_ID", "")
+        row["Track"] = row.get("Track") or meta.get("Multi_Track_Track", "")
+        row["Primary_Intent"] = row.get("Primary_Intent") or meta.get("Multi_Track_Primary_Intent", "")
+        row["Mockup_Mood"] = row.get("Mockup_Mood") or meta.get("Multi_Track_Mockup_Mood", "")
+        row["New_Title"] = row.get("New_Title") or meta.get("Title", "")
+        row["Sync_Result"] = row.get("Sync_Result") or ("OK" if meta.get("Metadata_Sync_Status") == "MULTI_TRACK_SYNCED_PRINTIFY_PUBLISH" else "")
+        row["Apply_Status"] = row.get("Apply_Status") or meta.get("Metadata_Sync_Status", "")
+        merged.append(row)
+    return merged
+
+
 def build_rows() -> list[dict[str, str]]:
     performance = latest_performance()
     rows = []
-    for batch in read_csv(BATCH):
+    for batch in experiment_rows():
         item_id = clean(batch.get("eBay_Item_ID"))
         perf = performance.get(item_id, {})
         latest_views = as_int(perf.get("Views_30_Days"))

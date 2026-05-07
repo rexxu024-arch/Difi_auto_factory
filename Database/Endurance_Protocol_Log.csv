@@ -1,0 +1,7 @@
+﻿Timestamp,Action,Decision,Memory_Pct,CPU_Pct,Killed_Count,Strong_Write_Active,Detail
+2026-05-07 09:40:04 -0400,daily_reboot_check,SKIP_NOT_DUE,90.6,71.0,0,False,outside 04:00-04:20 America/New_York
+2026-05-07 09:40:35 -0400,enter_cooldown,EXECUTED,80.7,49.0,25,,memory elevated 90.2%
+2026-05-07 09:40:35 -0400,preflight,COOLDOWN_ENTERED,90.2,55.0,25,,memory elevated 90.2%
+2026-05-07 09:44:24 -0400,daily_shutdown_check,SHUTDOWN_READY_DRY_RUN,82.7,77.0,0,False,queues clear; daily hardware rest
+2026-05-07 09:44:24 -0400,daily_shutdown_check,SKIP_NOT_DUE,82.7,49.0,0,False,outside 06:00-06:20 America/New_York
+2026-05-07 09:49:56 -0400,shutdown_winddown,PRE_SHUTDOWN_WINDDOWN_DRY_RUN,82.8,49.0,0,False,"Only local optimization, reports, queue planning, memory cleanup, and checkpointing. No new marketplace writes or browser UI tasks."

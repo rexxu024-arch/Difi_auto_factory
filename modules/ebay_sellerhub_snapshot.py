@@ -18,7 +18,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATABASE_DIR = PROJECT_ROOT / "Database"
 PERFORMANCE_LOG = DATABASE_DIR / "Performance_Log.csv"
 ACTIVE_URL = "https://www.ebay.com/sh/lst/active"
-DEFAULT_CDP_PORT = int(os.getenv("OPENCLAW_EBAY_CDP_PORT") or os.getenv("OPENCLAW_CDP_PORT") or "9222")
+DEFAULT_CDP_PORT = int(os.getenv("OPENCLAW_EBAY_CDP_PORT") or os.getenv("OPENCLAW_CDP_PORT") or "9223")
 
 HEADERS = [
     "Snapshot_Timestamp",

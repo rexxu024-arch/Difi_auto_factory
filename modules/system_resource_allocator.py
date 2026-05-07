@@ -56,17 +56,36 @@ DEFAULT_POLICY = {
         {
             "name": "rest_maintenance",
             "start": "04:00",
-            "end": "06:00",
-            "preferred_classes": ["rest_maintenance", "hardware_heartbeat", "git_checkpoint", "queue_planning"],
+            "end": "05:30",
+            "preferred_classes": ["rest_maintenance", "memory_cleanup", "hardware_heartbeat", "git_checkpoint", "queue_planning"],
             "max_parallel": 1,
             "batch_size": 1,
-            "protected_actions": ["no_unattended_restart", "no_unattended_battery_cycle", "no_unattended_defrag"],
+            "protected_actions": [
+                "memory_cleanup_before_pause",
+                "write_rest_cycle_recommendation_before_shutdown",
+                "no_unattended_battery_cycle",
+                "no_unattended_defrag"
+            ],
+        },
+        {
+            "name": "pre_shutdown_winddown",
+            "start": "05:30",
+            "end": "06:00",
+            "preferred_classes": ["hardware_heartbeat", "memory_cleanup", "report_batch", "queue_planning", "git_checkpoint", "rest_maintenance"],
+            "max_parallel": 1,
+            "batch_size": 1,
+            "protected_actions": [
+                "no_new_marketplace_writes",
+                "no_new_browser_ui_tasks",
+                "finish_or_stop_by_0550",
+                "prepare_for_0600_shutdown"
+            ],
         },
         {
             "name": "morning_reports",
             "start": "06:00",
             "end": "10:00",
-            "preferred_classes": ["report_batch", "api_read", "market_research", "local_light", "queue_planning"],
+            "preferred_classes": ["report_batch", "api_read", "market_research", "local_light", "queue_planning", "memory_cleanup"],
             "max_parallel": 2,
             "batch_size": 5,
         },
@@ -102,6 +121,7 @@ DEFAULT_POLICY = {
         "git_checkpoint": {"base_parallel": 1, "base_batch": 1, "public_write": False},
         "queue_planning": {"base_parallel": 1, "base_batch": 10, "public_write": False},
         "hardware_heartbeat": {"base_parallel": 1, "base_batch": 1, "public_write": False},
+        "memory_cleanup": {"base_parallel": 1, "base_batch": 1, "public_write": False},
         "rest_maintenance": {"base_parallel": 1, "base_batch": 1, "public_write": False},
     },
 }
@@ -358,7 +378,11 @@ def choose_allocation(task_class="auto", priority=50, snapshot=None, policy=None
         reasons.append(f"cpu elevated {cpu:.1f}%")
     if mem is not None and mem >= thresholds["memory_cooldown_pct"]:
         hot_now = True
-        reasons.append(f"memory high {mem:.1f}%")
+        if task_class == "memory_cleanup":
+            decision = "RUN_CONSERVATIVE"
+            reasons.append(f"memory high {mem:.1f}%; run cleanup before any pause")
+        else:
+            reasons.append(f"memory high {mem:.1f}%")
     elif mem is not None and mem >= thresholds["memory_reduce_pct"] and decision == "RUN":
         decision = "RUN_CONSERVATIVE"
         reasons.append(f"memory elevated {mem:.1f}%")
@@ -391,6 +415,7 @@ def choose_allocation(task_class="auto", priority=50, snapshot=None, policy=None
             "queue_planning",
             "api_read",
             "online_publish_safe",
+            "memory_cleanup",
         }
         reasons.append(f"hardware cooldown active {max(1, remaining)}m: {cooldown_state.get('reason', '')}")
         if cooling_allowed and decision == "RUN":

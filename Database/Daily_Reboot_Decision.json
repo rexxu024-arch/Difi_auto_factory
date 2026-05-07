@@ -1,0 +1,74 @@
+{
+  "timestamp": "2026-05-07 09:40:04 -0400",
+  "decision": "SKIP_NOT_DUE",
+  "execute": false,
+  "due": false,
+  "strong_write": {
+    "active": false,
+    "matches": [],
+    "grunt_lock_active": false
+  },
+  "snapshot": {
+    "timestamp": "2026-05-07T09:40:04-04:00",
+    "cpu_load_pct": 71.0,
+    "memory_used_pct": 90.6,
+    "memory_total_gb": 11.75,
+    "memory_free_gb": 1.1,
+    "temperature_c": null,
+    "temperature_status": "DENIED_OR_UNAVAILABLE",
+    "gpu_util_pct": 13.4,
+    "battery_percent": 100.0,
+    "power_status": "AC_CHARGING",
+    "top_processes": [
+      {
+        "ProcessName": "chrome",
+        "Id": 3280,
+        "WorkingSetMB": 2282.5,
+        "CPU": 7414.859375
+      },
+      {
+        "ProcessName": "chrome",
+        "Id": 21384,
+        "WorkingSetMB": 1432.3,
+        "CPU": 430.1875
+      },
+      {
+        "ProcessName": "Codex",
+        "Id": 27652,
+        "WorkingSetMB": 544.6,
+        "CPU": 16151.984375
+      },
+      {
+        "ProcessName": "chrome",
+        "Id": 9740,
+        "WorkingSetMB": 384,
+        "CPU": 50561.546875
+      },
+      {
+        "ProcessName": "Code",
+        "Id": 17544,
+        "WorkingSetMB": 257.4,
+        "CPU": 1105.65625
+      },
+      {
+        "ProcessName": "msedge",
+        "Id": 14068,
+        "WorkingSetMB": 186,
+        "CPU": 13.78125
+      },
+      {
+        "ProcessName": "Codex",
+        "Id": 26676,
+        "WorkingSetMB": 184.3,
+        "CPU": 6806.484375
+      },
+      {
+        "ProcessName": "msedge",
+        "Id": 28512,
+        "WorkingSetMB": 182.9,
+        "CPU": 2362.78125
+      }
+    ]
+  },
+  "detail": "outside 04:00-04:20 America/New_York"
+}

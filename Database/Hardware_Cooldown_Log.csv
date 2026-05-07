@@ -12,3 +12,7 @@
 2026-05-07T07:28:58-04:00,False,2026-05-07T07:28:58-04:00,0,OK,48.0,81.5,,temperature DENIED_OR_UNAVAILABLE,0
 2026-05-07T07:50:56-04:00,True,2026-05-07T08:10:56-04:00,20,WARM,49.0,91.0,,temperature DENIED_OR_UNAVAILABLE; memory elevated 91.0%; sustained warm streak=5,5
 2026-05-07T08:00:48-04:00,True,2026-05-07T08:20:48-04:00,20,WARM,31.0,87.1,,temperature DENIED_OR_UNAVAILABLE; memory elevated 87.1%; sustained warm streak=6,6
+2026-05-07T09:17:15-04:00,True,2026-05-07T09:37:15-04:00,20,WARM,40.0,90.3,,temperature DENIED_OR_UNAVAILABLE; memory elevated 90.3%; sustained warm streak=6,6
+2026-05-07T09:21:51-04:00,True,2026-05-07T09:41:51-04:00,20,WARM,48.0,91.5,,temperature DENIED_OR_UNAVAILABLE; memory elevated 91.5%; sustained warm streak=6,6
+2026-05-07T09:30:04-04:00,True,2026-05-07T09:50:04-04:00,20,WARM,80.0,86.4,,temperature DENIED_OR_UNAVAILABLE; cpu elevated 80.0%; sustained warm streak=6,6
+2026-05-07T09:31:12-04:00,True,2026-05-07T10:01:12-04:00,30,COOLDOWN,91.0,83.9,,temperature DENIED_OR_UNAVAILABLE; cpu 91.0%; cooldown heartbeat,6

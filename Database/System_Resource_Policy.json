@@ -43,6 +43,7 @@
       "end": "06:00",
       "preferred_classes": [
         "rest_maintenance",
+        "memory_cleanup",
         "hardware_heartbeat",
         "git_checkpoint",
         "queue_planning"
@@ -50,7 +51,8 @@
       "max_parallel": 1,
       "batch_size": 1,
       "protected_actions": [
-        "no_unattended_restart",
+        "memory_cleanup_before_pause",
+        "write_rest_cycle_recommendation_before_shutdown",
         "no_unattended_battery_cycle",
         "no_unattended_defrag"
       ]
@@ -64,7 +66,8 @@
         "api_read",
         "market_research",
         "local_light",
-        "queue_planning"
+        "queue_planning",
+        "memory_cleanup"
       ],
       "max_parallel": 2,
       "batch_size": 5
@@ -167,6 +170,17 @@
       "base_parallel": 1,
       "base_batch": 1,
       "public_write": false
+    },
+    "memory_cleanup": {
+      "base_parallel": 1,
+      "base_batch": 1,
+      "public_write": false
     }
+  },
+  "memory_ownership_protocol": {
+    "default_response": "cleanup_project_idle_tabs_then_reduce_concurrency",
+    "automation_browser": "Edge CDP 9223 only; do not inspect Rex daily Chrome",
+    "pause_rule": "pause only after cleanup fails or sustained CPU/memory pressure continues",
+    "shutdown_rule": "write recommendation by default; no unattended shutdown/restart unless Rex explicitly arms that rest-cycle task"
   }
 }

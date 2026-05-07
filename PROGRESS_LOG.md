@@ -1256,3 +1256,32 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Etsy API remains unavailable: status ERROR / next step WAIT_APP_APPROVAL.
 - Hardware cooldown was active, so no Edge UI traffic readback was attempted. Views/favorites/orders are unread, not assumed zero.
 - Next 10 Etsy Digital candidates remain QA-ready with $0 spent and projected $2 only if later published.
+
+## 2026-05-07 09:28:00 -0400 Memory Ownership Protocol
+- Rex authorized Codex to actively reduce memory pressure instead of stopping work by default.
+- New operating rule: close safe idle OpenClaw automation tabs in Edge CDP 9223, lower concurrency, and continue local/report/API-read tasks before entering cooldown.
+- Privacy guard remains active: do not inspect or close Rex's daily Chrome/private personal tabs.
+- Shutdown/restart is not automatic by default; only recommend a rest cycle unless Rex explicitly arms a shutdown/wake workflow.
+
+## 2026-05-07 09:38:00 -0400 Endurance Protocol Startup Boundary
+- Rex upgraded lifecycle policy to long-power endurance mode: cool-down cycles first, no casual shutdown.
+- Added safe login-after-reboot recovery path:
+  - `scripts\run_codex.bat`
+  - `scripts\openclaw_resume_after_login.bat`
+  - `scripts\openclaw_daily_reboot_check.bat`
+- Important boundary: Windows login password cannot be safely bypassed. AutoLogon would store credentials and is not enabled by default.
+- Actual daily reboot remains check/dry-run until Rex explicitly arms `shutdown /r`; after login, Startup can restore Codex/Edge/Grunt automatically.
+
+## 2026-05-07 09:48:00 -0400 Daily 6AM Shutdown Compromise
+- Rex chose the safer compromise: no password bypass and no AutoLogon.
+- Daily hardware rest is now a 06:00 America/New_York shutdown task.
+- Added `scripts\openclaw_daily_shutdown.bat` and `modules\endurance_protocol.py --daily-shutdown-check`.
+- Startup recovery remains login-bound: Rex powers on and logs into Windows, then `OpenClaw Resume After Login.lnk` starts Codex/Edge/Grunt.
+
+## 2026-05-07 09:55:00 -0400 05:30 Packing-Up Window
+- Rex defined the operator model: work until 05:30, pack up from 05:30, clear the desk at 05:50-05:55, shut down at 06:00.
+- Added pre-shutdown winddown behavior:
+  - 05:30: `scripts\openclaw_shutdown_winddown_0530.bat`
+  - 05:50: `scripts\openclaw_shutdown_force_stop_0550.bat`
+  - 06:00: `scripts\openclaw_daily_shutdown.bat`
+- During the winddown window, start no new long marketplace/browser/image tasks; only reports, queue planning, optimization, memory cleanup, and checkpointing are allowed.

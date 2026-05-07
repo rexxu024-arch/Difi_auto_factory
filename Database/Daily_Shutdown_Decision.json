@@ -1,0 +1,76 @@
+{
+  "timestamp": "2026-05-07 09:44:24 -0400",
+  "decision": "SKIP_NOT_DUE",
+  "execute": false,
+  "due": false,
+  "shutdown_delay_seconds": 0,
+  "strong_write": {
+    "active": false,
+    "matches": [],
+    "grunt_lock_active": false
+  },
+  "snapshot": {
+    "timestamp": "2026-05-07T09:44:24-04:00",
+    "cpu_load_pct": 49.0,
+    "memory_used_pct": 82.7,
+    "memory_total_gb": 11.75,
+    "memory_free_gb": 2.03,
+    "temperature_c": null,
+    "temperature_status": "DENIED_OR_UNAVAILABLE",
+    "gpu_util_pct": 3.6,
+    "battery_percent": 100.0,
+    "power_status": "AC_CHARGING",
+    "top_processes": [
+      {
+        "ProcessName": "chrome",
+        "Id": 3280,
+        "WorkingSetMB": 2368.1,
+        "CPU": 7535.53125
+      },
+      {
+        "ProcessName": "chrome",
+        "Id": 21384,
+        "WorkingSetMB": 1459.3,
+        "CPU": 431.234375
+      },
+      {
+        "ProcessName": "Codex",
+        "Id": 27652,
+        "WorkingSetMB": 421.9,
+        "CPU": 16209.140625
+      },
+      {
+        "ProcessName": "chrome",
+        "Id": 9740,
+        "WorkingSetMB": 406.9,
+        "CPU": 50580.953125
+      },
+      {
+        "ProcessName": "Code",
+        "Id": 19100,
+        "WorkingSetMB": 182.9,
+        "CPU": 1323.6875
+      },
+      {
+        "ProcessName": "MsMpEng",
+        "Id": 4564,
+        "WorkingSetMB": 160,
+        "CPU": null
+      },
+      {
+        "ProcessName": "Codex",
+        "Id": 26676,
+        "WorkingSetMB": 152.2,
+        "CPU": 6815.609375
+      },
+      {
+        "ProcessName": "codex",
+        "Id": 7580,
+        "WorkingSetMB": 126.4,
+        "CPU": 4307.296875
+      }
+    ]
+  },
+  "detail": "outside 06:00-06:20 America/New_York",
+  "password_boundary": "Windows password is not bypassed; recovery resumes after Rex logs in."
+}

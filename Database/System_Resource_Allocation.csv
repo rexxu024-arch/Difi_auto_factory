@@ -28,3 +28,5 @@
 2026-05-07T07:32:35-04:00,morning_reports,report_batch,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.1%,1,2,0,56.0,82.1,,AC_CHARGING
 2026-05-07T07:33:02-04:00,morning_reports,report_batch,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.4%,1,2,0,39.0,82.4,,AC_CHARGING
 2026-05-07T07:34:30-04:00,morning_reports,report_batch,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.8%,1,2,0,31.0,82.8,,AC_CHARGING
+2026-05-07T09:30:03-04:00,morning_reports,memory_cleanup,80,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu elevated 81.0%; hardware cooldown active 11m: temperature DENIED_OR_UNAVAILABLE; memory elevated 91.5%; sustained warm streak=6,1,1,0,81.0,86.4,,AC_CHARGING
+2026-05-07T09:49:50-04:00,morning_reports,online_publish_safe,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 83.0%; hardware cooldown active 11m: temperature DENIED_OR_UNAVAILABLE; cpu 91.0%; cooldown heartbeat,1,2,0,54.0,83.0,,AC_CHARGING
