@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-05-07T01:44:55-04:00",
+  "cpu_load_pct": 22.0,
+  "memory_used_pct": 83.7,
+  "temperature_c": null,
+  "temperature_status": "DENIED_OR_UNAVAILABLE",
+  "fan_rpm": 0.0,
+  "fan_status": "OK_WIN32_FAN",
+  "gpu_util_pct": 1.2,
+  "battery_percent": 100.0,
+  "power_status": "AC_CHARGING",
+  "health_state": "WARM",
+  "reason": "temperature DENIED_OR_UNAVAILABLE; memory elevated 83.7%"
+}

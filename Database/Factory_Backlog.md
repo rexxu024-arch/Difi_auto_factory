@@ -1,6 +1,6 @@
 # Factory Backlog
 
-Generated: 2026-05-07 00:16:18 -0400 America/New_York
+Generated: 2026-05-07 01:32:34 -0400 America/New_York
 
 ## Status Counts
 
@@ -53,14 +53,14 @@ Generated: 2026-05-07 00:16:18 -0400 America/New_York
 
 ### P97 supervisor:replacement - READY_TO_REPLACE_VERIFIED
 - Task: Create one verified replacement listing for a live cover failure that survived source repair.
-- Blocker: 12 listing already failed source repair plus live eBay buyer-page audit.
+- Blocker: 12 listing already failed source repair plus live eBay buyer-page audit. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 100.0%; memory elevated 90.7%
 - Command: `py modules\ebay_replacement_draft_builder.py --limit 1`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: high / yes
 
 ### P95 supervisor:cover_gate - READY_SINGLE_SKU_REPAIR
 - Task: Repair one Printify source cover, then live-audit eBay before scaling.
-- Blocker: Live cover queue has 49 rows; 12 require Printify source repair or replacement listings. Printify UI: LOGGED_IN - Printify app page is available in CDP browser.
+- Blocker: Live cover queue has 49 rows; 12 require Printify source repair or replacement listings. Printify UI: LOGGED_IN - Printify app page is available in CDP browser. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 100.0%; memory elevated 90.7%
 - Command: `py modules\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: medium / yes
@@ -88,7 +88,7 @@ Generated: 2026-05-07 00:16:18 -0400 America/New_York
 
 ### P63 supervisor:production_design_qa - READY
 - Task: Run a tiny Printify production-design audit before any larger online batch.
-- Blocker: This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi.
+- Blocker: This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 100.0%; memory elevated 90.7%
 - Command: `py modules\printify_design_audit.py --limit 2 --sleep-seconds 1`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: low / yes
@@ -109,7 +109,7 @@ Generated: 2026-05-07 00:16:18 -0400 America/New_York
 
 ### P55 supervisor:etsy - READY_MONITOR
 - Task: Monitor Etsy Digital first gray batch before spending more listing fees.
-- Blocker: Live=10 ready=20 confirmed_spend=$2.00; hold scale until first traffic readout.
+- Blocker: Live=10 ready=20 confirmed_spend=$2.00; hold scale until first traffic readout. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 100.0%; memory elevated 90.7%
 - Command: `py modules\etsy_live_audit.py --limit 10`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: low / yes

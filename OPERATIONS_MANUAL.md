@@ -138,6 +138,46 @@ Runs the resource allocator as a lightweight monitor. It writes:
 Resource decisions are `RUN`, `RUN_CONSERVATIVE`, `DEFER_TO_NIGHT`, or `PAUSE_COOLDOWN`. Factory supervisor now includes this resource strategy in its state.
 
 ```powershell
+npm run hardware:heartbeat
+```
+
+Samples CPU, memory, GPU counter availability, battery/power, fan probe, and thermal sensor availability. Writes:
+
+- `Database/Hardware_Heartbeat_State.json`
+- `Database/Hardware_Heartbeat.csv`
+
+```powershell
+npm run grunt:seed
+npm run grunt:queue
+npm run grunt:dry
+npm run grunt:once
+```
+
+Runs the OpenClaw Grunt Engine background-task layer. The Grunt Engine owns portable local work that does not need Rex decisions: hardware heartbeat, local supervisor refresh, quality-floor scans, market/SEO report refreshes, and rest-window maintenance planning.
+
+It writes:
+
+- `Database/Grunt_Task_Queue.jsonl`
+- `Database/Grunt_Engine_State.json`
+- `Database/Grunt_Engine_Run_Log.csv`
+- `Database/Grunt_Maintenance_Plan.json`
+
+Rest-window disruptive actions such as restart, battery cycling, and disk optimization are planned only and are not executed unattended.
+
+```powershell
+py modules\ebay_quiet_jade_pivot.py --prepare --apply-local --limit 42
+py modules\ebay_quiet_jade_pivot.py --sync-printify --limit 42
+```
+
+Runs Operation Quiet Jade style metadata pivots for active eBay listings using local workbook + Printify API. This path updates title, description, and enabled variant price only; it does not publish images or shipping templates.
+
+```powershell
+py modules\ebay_ui_title_revise.py --ids <ID1,ID2> --cdp-port 9223
+```
+
+Title-only Seller Hub fallback for rows where Printify metadata updates do not propagate to eBay. Use dedicated Edge CDP profile only.
+
+```powershell
 py modules\etsy_digital_ui_publisher.py --limit 1
 ```
 

@@ -1101,3 +1101,23 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Added hardware/business design packet: `Review_Packets/AI_LABOR_FACTORY_KERNEL_AND_HARDWARE_PLAN.md`.
 - Integrated resource strategy into `factory_supervisor.py`; supervisor state now records resource decisions and appends conservative resource reasons to eligible actions.
 - Current observed allocator result: night window is active, but CPU/memory pressure caused `RUN_CONSERVATIVE` with max_parallel=1 and batch_size=2.
+## 2026-05-07 01:36 -04:00
+- Completed Operation Quiet Jade for 42 live zero-view eBay listings.
+- Local workbook updated with rollback and search-intent metadata.
+- Printify API sync: 42/42 OK for title/description/enabled-variant price; no image publish/reorder.
+- Seller Hub active snapshot after API + UI fallback: 42/42 target titles visible, 42/42 prices match.
+- UI fallback: 17 stale eBay rows revised title-only through dedicated Edge CDP profile.
+- Added `modules/ebay_quiet_jade_pivot.py` and `modules/ebay_ui_title_revise.py`.
+- Added `Review_Packets/OPERATION_QUIET_JADE_REPORT_20260507.md`.
+- Grunt Engine validation continued: fixed module import paths and Quality Floor false-positive regex; heartbeat/seed/dry/once checks pass.
+
+## 2026-05-07 01:45 -04:00 Grunt Engine Final Validation
+- Fixed Quality Floor login-error false positive so recovery notes can quote historical Etsy login banners without being treated as raw error-page captures.
+- `npm run hardware:heartbeat` passes; latest state is `WARM` because memory is elevated and Windows temperature sensor access is unavailable.
+- `npm run grunt:dry` passes and preserves queue state.
+- `npm run grunt:once` physically quarantined stale debug artifacts:
+  - `Database/current_screen_for_upload.png`
+  - `Database/full_pipeline_sticker_batch_20260429_1408.err.log`
+  - `Database/full_pipeline_sticker_batch_20260429_1408.log`
+- Follow-up `npm run grunt:once` now returns `NO_TASK` cleanly and writes that live state to `Database/Grunt_Engine_State.json`.
+- Final documentation QA passes for `CURRENT_TASK.md`, `OPERATIONS_MANUAL.md`, `Review_Packets/OPENCLAW_GRUNT_ENGINE_DESIGN.md`, and `Review_Packets/OPERATION_QUIET_JADE_REPORT_20260507.md`.

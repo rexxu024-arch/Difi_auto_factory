@@ -1,0 +1,57 @@
+﻿Timestamp,Task_ID,Action,Status,Decision,Resource_Window,Resource_Reason,ReturnCode,Detail
+2026-05-07T01:30:23-04:00,grunt-local_supervisor_refresh-c1a8c1db,local_supervisor_refresh,DEFERRED,RUN_CONSERVATIVE,cruise,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cruise target CPU 40-50%; current 64.0%,0,would run: py modules\factory_supervisor.py --execute-local --skip-network
+2026-05-07T01:32:36-04:00,grunt-local_supervisor_refresh-c1a8c1db,local_supervisor_refresh,DONE,RUN,cruise,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy,0,"[AUTOPILOT-LOCAL] start printify_login_guard.py
+[AUTOPILOT-LOCAL] printify_login_guard.py OK
+[PRINTIFY-LOGIN] LOGGED_IN Printify dashboard is available.
+[AUTOPILOT-LOCAL] start local_listing_qa.py
+[AUTOPILOT-LOCAL] local_listing_qa.py OK
+[LOCAL-QA] rows=282 csv=C:\AIprojects\openclaw_difi\Database\Local_Listing_QA.csv
+[LOCAL-QA] issue_rows=62
+[LOCAL-QA] Sticker-Academia-0001 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Academia-0002 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Academia-0003 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Academia-0013 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0006 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0021 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0023 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0028 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0030 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0033 missing_cover; missing_gallery
+[LOCAL-QA] Sticker-Zen-0039 missing_cover; mi"
+2026-05-07T01:34:25-04:00,grunt-quality_floor_scan-708c2dfc,quality_floor_scan,DRY_RUN,RUN_CONSERVATIVE,cruise,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 85.6%,0,would run: py modules\quality_floor_guard.py --paths Database --limit 80
+2026-05-07T01:41:35-04:00,grunt-quality_floor_scan-708c2dfc,quality_floor_scan,DRY_RUN,RUN_CONSERVATIVE,cruise,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 86.7%,0,would run: py modules\quality_floor_guard.py --paths Database --limit 80
+2026-05-07T01:42:02-04:00,grunt-quality_floor_scan-708c2dfc,quality_floor_scan,DEFERRED,RUN_CONSERVATIVE,cruise,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 87.0%,1,"C:\AIprojects\openclaw_difi\modules\quality_floor_guard.py:75: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  pixels = list(small.getdata())
+[QUALITY-FLOOR] .etsy_oauth_state.json PASS failed=0
+[QUALITY-FLOOR] Account_Risk_State.json PASS failed=0
+[QUALITY-FLOOR] acrylic_asset_audit.log PASS failed=0
+[QUALITY-FLOOR] cleanup_20260506.log PASS failed=0
+[QUALITY-FLOOR] Cover_Repair_Run_Log.csv PASS failed=0
+[QUALITY-FLOOR] current_screen_for_upload.png QUARANTINE failed=1
+[QUALITY-FLOOR] Digital_Etsy_Metadata.csv PASS failed=0
+[QUALITY-FLOOR] Digital_Printable_Pack_Index.csv PASS failed=0
+[QUALITY-FLOOR] ebay_ads_pending_2pct.csv PASS failed=0
+[QUALITY-FLOOR] ebay_ads_standard_2pct.csv PASS failed=0
+[QUALITY-FLOOR] eBay_Cover_QA.csv PASS failed=0
+[QUALITY-FLOOR] eBay_Cover_QA_Manual_Review.md PASS failed=0
+[QUALITY-FLOOR] eBay_Cover_Repair_Decisions.csv PASS failed=0
+[QUALITY-FLOOR] eBay_Cover_Repair_D"
+2026-05-07T01:42:52-04:00,grunt-quality_floor_scan-708c2dfc,quality_floor_scan,FAILED,RUN_CONSERVATIVE,cruise,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 87.3%,1,"[QUALITY-FLOOR] .etsy_oauth_state.json PASS failed=0
+[QUALITY-FLOOR] Account_Risk_State.json PASS failed=0
+[QUALITY-FLOOR] acrylic_asset_audit.log PASS failed=0
+[QUALITY-FLOOR] cleanup_20260506.log PASS failed=0
+[QUALITY-FLOOR] Cover_Repair_Run_Log.csv PASS failed=0
+[QUALITY-FLOOR] Digital_Etsy_Metadata.csv PASS failed=0
+[QUALITY-FLOOR] Digital_Printable_Pack_Index.csv PASS failed=0
+[QUALITY-FLOOR] ebay_ads_pending_2pct.csv PASS failed=0
+[QUALITY-FLOOR] ebay_ads_standard_2pct.csv PASS failed=0
+[QUALITY-FLOOR] eBay_Cover_QA.csv PASS failed=0
+[QUALITY-FLOOR] eBay_Cover_QA_Manual_Review.md PASS failed=0
+[QUALITY-FLOOR] eBay_Cover_Repair_Decisions.csv PASS failed=0
+[QUALITY-FLOOR] eBay_Cover_Repair_Decisions.md PASS failed=0
+[QUALITY-FLOOR] eBay_Cover_Replacement_Queue.csv PASS failed=0
+[QUALITY-FLOOR] eBay_Cover_Replacement_Queue.md PASS failed=0
+[QUALITY-FLOOR] eBay_Live_Cover_Fix_Plan.md PASS failed=0
+[QUALITY-FLOOR] eBay_Metadata_Sync_Log.csv PASS failed=0
+[QUALITY-FLOOR] eBay_Metadata"
+2026-05-07T01:44:55-04:00,,,NO_TASK,RUN_CONSERVATIVE,cruise,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 83.9%; cruise target CPU 40-50%; current 69.0%,0,"allowed_classes=asset_build,image_batch,market_research,qa_batch,report_batch"

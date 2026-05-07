@@ -1,0 +1,13 @@
+{
+  "timestamp": "2026-05-07 00:46:18 -0400",
+  "selected": 42,
+  "apply_local": true,
+  "backup": "C:\\AIprojects\\openclaw_difi\\Database\\eBay_listing.backup_quiet_jade_20260507_004618.xlsx",
+  "pivot_csv": "C:\\AIprojects\\openclaw_difi\\Database\\eBay_Quiet_Jade_Pivot.csv",
+  "rollback_csv": "C:\\AIprojects\\openclaw_difi\\Database\\eBay_Quiet_Jade_Rollback.csv",
+  "product_counts": {
+    "Poster": 16,
+    "Acrylic": 17,
+    "Sticker": 9
+  }
+}

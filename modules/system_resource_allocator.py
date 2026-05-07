@@ -36,43 +36,47 @@ DEFAULT_POLICY = {
     "load_thresholds": {
         "cpu_reduce_pct": 75,
         "cpu_cooldown_pct": 88,
+        "cruise_cpu_target_min_pct": 40,
+        "cruise_cpu_target_max_pct": 50,
         "memory_reduce_pct": 82,
         "memory_cooldown_pct": 92,
         "hot_streak_required": 3,
     },
     "windows": [
         {
-            "name": "night_heavy",
+            "name": "cruise",
             "start": "00:00",
-            "end": "06:30",
-            "preferred_classes": ["local_heavy", "image_batch", "qa_batch", "asset_build", "report_batch"],
-            "max_parallel": 2,
-            "batch_size": 8,
+            "end": "04:00",
+            "preferred_classes": ["qa_batch", "image_batch", "asset_build", "report_batch", "market_research"],
+            "max_parallel": 1,
+            "batch_size": 4,
+            "target_cpu_pct": "40-50",
+        },
+        {
+            "name": "rest_maintenance",
+            "start": "04:00",
+            "end": "06:00",
+            "preferred_classes": ["rest_maintenance", "hardware_heartbeat", "git_checkpoint", "queue_planning"],
+            "max_parallel": 1,
+            "batch_size": 1,
+            "protected_actions": ["no_unattended_restart", "no_unattended_battery_cycle", "no_unattended_defrag"],
         },
         {
             "name": "morning_reports",
-            "start": "06:30",
+            "start": "06:00",
             "end": "10:00",
             "preferred_classes": ["report_batch", "api_read", "market_research", "local_light"],
             "max_parallel": 2,
             "batch_size": 5,
         },
         {
-            "name": "rex_interactive",
+            "name": "peak_rex_online",
             "start": "10:00",
-            "end": "18:00",
-            "preferred_classes": ["local_light", "api_read", "single_browser_task"],
-            "max_parallel": 1,
-            "batch_size": 2,
-            "protect_user_interactivity": True,
-        },
-        {
-            "name": "evening_online",
-            "start": "18:00",
             "end": "23:00",
-            "preferred_classes": ["api_read", "online_publish_safe", "single_browser_task", "qa_batch"],
-            "max_parallel": 2,
-            "batch_size": 4,
+            "preferred_classes": ["single_browser_task", "api_read", "online_publish_safe", "local_light"],
+            "max_parallel": 3,
+            "batch_size": 6,
+            "protect_user_interactivity": True,
         },
         {
             "name": "preflight_checkpoint",
@@ -96,6 +100,8 @@ DEFAULT_POLICY = {
         "local_light": {"base_parallel": 1, "base_batch": 5, "public_write": False},
         "git_checkpoint": {"base_parallel": 1, "base_batch": 1, "public_write": False},
         "queue_planning": {"base_parallel": 1, "base_batch": 10, "public_write": False},
+        "hardware_heartbeat": {"base_parallel": 1, "base_batch": 1, "public_write": False},
+        "rest_maintenance": {"base_parallel": 1, "base_batch": 1, "public_write": False},
     },
 }
 
@@ -352,6 +358,9 @@ def choose_allocation(task_class="auto", priority=50, snapshot=None, policy=None
     if window.get("protect_user_interactivity") and task_class in {"local_heavy", "image_batch", "asset_build"} and priority < 90:
         decision = "DEFER_TO_NIGHT"
         reasons.append("interactive window protects Rex foreground use")
+    if window.get("name") == "cruise" and cpu is not None and cpu >= thresholds["cruise_cpu_target_max_pct"]:
+        decision = "RUN_CONSERVATIVE" if decision == "RUN" else decision
+        reasons.append(f"cruise target CPU 40-50%; current {cpu:.1f}%")
 
     if decision == "RUN_CONSERVATIVE":
         base_parallel = 1

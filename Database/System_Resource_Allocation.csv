@@ -3,3 +3,12 @@
 2026-05-07T00:12:31-04:00,night_heavy,local_heavy,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 100.0%; memory elevated 89.2%,1,2,0,100.0,89.2,,AC_CHARGING
 2026-05-07T00:12:51-04:00,night_heavy,online_publish_safe,95,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 88.3%,1,2,0,62.0,88.3,,AC_CHARGING
 2026-05-07T00:14:16-04:00,night_heavy,local_heavy,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 100.0%; memory elevated 90.7%,1,2,0,100.0,90.7,,AC_CHARGING
+2026-05-07T01:30:18-04:00,cruise,qa_batch,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cruise target CPU 40-50%; current 64.0%,1,2,0,64.0,78.2,,AC_CHARGING
+2026-05-07T01:30:43-04:00,cruise,qa_batch,50,RUN,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy,1,4,0,36.0,79.0,,AC_CHARGING
+2026-05-07T01:30:57-04:00,cruise,qa_batch,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cruise target CPU 40-50%; current 52.0%,1,2,0,52.0,79.4,,AC_CHARGING
+2026-05-07T01:34:19-04:00,cruise,qa_batch,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 85.6%,1,2,0,35.0,85.6,,AC_CHARGING
+2026-05-07T01:41:30-04:00,cruise,qa_batch,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 86.7%,1,2,0,44.0,86.7,,AC_CHARGING
+2026-05-07T01:41:55-04:00,cruise,qa_batch,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 87.0%,1,2,0,46.0,87.0,,AC_CHARGING
+2026-05-07T01:42:46-04:00,cruise,qa_batch,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 87.3%,1,2,0,40.0,87.3,,AC_CHARGING
+2026-05-07T01:43:32-04:00,cruise,qa_batch,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 84.1%; cruise target CPU 40-50%; current 60.0%,1,2,0,60.0,84.1,,AC_CHARGING
+2026-05-07T01:44:49-04:00,cruise,qa_batch,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 83.9%; cruise target CPU 40-50%; current 69.0%,1,2,0,69.0,83.9,,AC_CHARGING

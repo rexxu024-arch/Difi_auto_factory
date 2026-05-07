@@ -18,6 +18,8 @@ This is the best current summary. It is written so Gemini can understand the pro
 - `GREY_FULL_LOGIC_ASSET_EXPORT_20260506_2348.md` - unpacked markdown version of the same full audit export.
 - `CODEX_STRESS_TEST_ROUND3.md` - extreme-environment pressure-test response: Self_Healing_Daemon decision matrix, data-driven DNA mutation logic, and concurrency safety ceiling.
 - `AI_LABOR_FACTORY_KERNEL_AND_HARDWARE_PLAN.md` - portable AI labor factory kernel plan plus 24-hour laptop resource/power protection strategy.
+- `OPENCLAW_GRUNT_ENGINE_DESIGN.md` - 24/7 background task layer design: modular queue, heartbeat monitor, quality floor, and duty cycle.
+- `OPERATION_QUIET_JADE_REPORT_20260507.md` - eBay zero-view pivot: 42 live listings retitled/repositioned, Printify sync verified, Seller Hub title/price readback verified.
 - `ETSY_DIGITAL_TRAFFIC_PENETRATION_REPORT_20260506.md` - live first batch: 10 Etsy Digital listings published, $2.00 confirmed spend, UI route working through dedicated Edge.
 - `PRINTIFY_EXTERNAL_SYNC_DIAGNOSIS_20260506.md`
 - `EBAY_API_MINIMAL_APPLICATION_PACKET.md`

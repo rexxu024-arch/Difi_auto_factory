@@ -1,0 +1,43 @@
+{
+  "updated_at": "2026-05-07T01:44:55-04:00",
+  "last_run": {
+    "Timestamp": "2026-05-07T01:44:55-04:00",
+    "Task_ID": "",
+    "Action": "",
+    "Status": "NO_TASK",
+    "Decision": "RUN_CONSERVATIVE",
+    "Resource_Window": "cruise",
+    "Resource_Reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 83.9%; cruise target CPU 40-50%; current 69.0%",
+    "ReturnCode": 0,
+    "Detail": "allowed_classes=asset_build,image_batch,market_research,qa_batch,report_batch"
+  },
+  "allocation": {
+    "timestamp": "2026-05-07T01:44:49-04:00",
+    "window": "cruise",
+    "task_class": "qa_batch",
+    "priority": 50,
+    "decision": "RUN_CONSERVATIVE",
+    "reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 83.9%; cruise target CPU 40-50%; current 69.0%",
+    "max_parallel": 1,
+    "batch_size": 2,
+    "cooldown_minutes": 0,
+    "cpu_load_pct": 69.0,
+    "memory_used_pct": 83.9,
+    "temperature_c": null,
+    "power_status": "AC_CHARGING"
+  },
+  "heartbeat": {
+    "timestamp": "2026-05-07T01:44:55-04:00",
+    "cpu_load_pct": 22.0,
+    "memory_used_pct": 83.7,
+    "temperature_c": null,
+    "temperature_status": "DENIED_OR_UNAVAILABLE",
+    "fan_rpm": 0.0,
+    "fan_status": "OK_WIN32_FAN",
+    "gpu_util_pct": 1.2,
+    "battery_percent": 100.0,
+    "power_status": "AC_CHARGING",
+    "health_state": "WARM",
+    "reason": "temperature DENIED_OR_UNAVAILABLE; memory elevated 83.7%"
+  }
+}

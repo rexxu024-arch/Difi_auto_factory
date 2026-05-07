@@ -1,274 +1,312 @@
-{
-  "updated_at": "2026-05-07T00:16:00-04:00",
-  "timezone": "America/New_York",
-  "source_of_truth": [
-    "START_HERE_OPENCLAW.md",
-    "CURRENT_TASK.md",
-    "PROGRESS_LOG.md",
-    "PROJECT_OPERATING_PROTOCOL.md",
-    "PROJECT_FACTORY_ROADMAP.md",
-    "OPERATIONS_MANUAL.md",
-    "Database/Factory_Autopilot_State.json",
-    "Database/Factory_Autopilot_Action_Queue.csv",
-    "Database/Factory_Backlog.csv",
-    "Database/eBay_Live_Cover_Fix_Plan.md",
-    "Database/eBay_Traffic_Diagnosis.md",
-    "Database/Printify_Production_Design_Audit.csv",
-    "Reports/latest morning_report_*.md",
-    "Review_Packets/OPENCLAW_GEMINI_BRIEF.md",
-    "Review_Packets/REPORT_INDEX.md",
-    "Review_Packets/ETSY_DIGITAL_TRAFFIC_PENETRATION_REPORT_20260506.md",
-    "Review_Packets/PRINTIFY_EXTERNAL_SYNC_DIAGNOSIS_20260506.md",
-    "Database/Etsy_Digital_Gray_Launch_Queue.csv",
-    "Database/Etsy_Fee_Ledger.csv",
-    "Review_Packets/EBAY_API_MINIMAL_APPLICATION_PACKET.md",
-    "Review_Packets/AI_LABOR_FACTORY_KERNEL_AND_HARDWARE_PLAN.md",
-    "Database/System_Resource_Policy.json",
-    "Database/System_Resource_State.json",
-    "Database/System_Resource_Allocation.csv"
-  ],
-  "operating_roles": {
-    "Rex": "Commander",
-    "Gemini": "Strategy advisor",
-    "Codex": "Executive operator and factory debugger"
-  },
-  "default_authorization_policy": {
-    "principle": "Rex has repeatedly granted full OpenClaw project access. Routine project account navigation, local file edits, API debugging, browser automation, QA checks, report writing, and script changes should proceed without repeated permission prompts.",
-    "ask_only_for": [
-      "spending beyond the approved cap",
-      "payment or billing settings",
-      "placing, canceling, or refunding orders",
-      "sending buyer/customer messages",
-      "exposing or changing private credentials",
-      "destructive actions outside the OpenClaw project scope"
-    ],
-    "blocked_behavior": "When a tool/runtime/login failure appears, record the blocker, choose the safest authorized workaround, and return to the mainline instead of waiting by default."
-  },
-  "advisor_packet_policy": {
-    "canonical_brief": "Review_Packets/OPENCLAW_GEMINI_BRIEF.md",
-    "index": "Review_Packets/REPORT_INDEX.md",
-    "principle": "Gemini cannot see the repo, code, or local folders, so advisor packets must summarize business context, current facts, risks, and strategy questions without requiring file access.",
-    "network_note": "The canonical Gemini brief explicitly supersedes older low-bandwidth assumptions: wired LAN is fixed and low-bandwidth mode is lifted."
-  },
-  "browser_isolation_policy": {
-    "principle": "Do not use Rex's active daily Chrome tabs as the automation workbench. Prefer API/headless work first, then a dedicated automation browser profile.",
-    "dedicated_edge_command": "npm run browser:edge",
-    "dedicated_edge_port": 9223,
-    "dedicated_edge_profile": "C:\\openclaw_edge_profile",
-    "ebay_env": "Set OPENCLAW_EBAY_CDP_PORT=9223 for Seller Hub and live eBay audit scripts.",
-    "current_note": "Dedicated Edge is running and should be used for marketplace/account UI work. Latest check: Printify, Etsy Shop Manager, and eBay Seller Hub are logged in/readable on Edge CDP 9223; only eBay Developer Program still redirects to sign-in/pending access.",
-    "latest_fix": "2026-05-06 20:31-20:40: Printify login guard, supervisor, mockup uploader, and full pipeline default to Edge CDP 9223. Do not use daily Chrome 9222 for project automation by default."
-  },
-  "automation_first_rule": {
-    "principle": "Codex labor is for building and debugging the factory, not for becoming the permanent factory worker.",
-    "durable_entrypoint": "py modules\\factory_supervisor.py --execute-local --skip-network",
-    "online_preflight": "py modules\\factory_supervisor.py",
-    "logs": [
-      "Database/Factory_Autopilot_State.json",
-      "Database/Factory_Autopilot_Action_Queue.csv",
-      "Database/Factory_Backlog.csv",
-      "Database/Factory_Autopilot_Run_Log.csv"
-    ],
-    "new_device_setup": "Read START_HERE_OPENCLAW.md, then OPERATIONS_MANUAL.md; run npm run setup:win, npm run doctor, and npm run local."
-  },
-  "current_counts": {
-    "ebay_listing_rows": 240,
-    "stable_printify_tracked": 161,
-    "published_tracking_rows": 112,
-    "ready_for_printify": 50,
-    "factory_backlog_rows": 14,
-    "product_counts": {
-      "Sticker": {
-        "stable": 76,
-        "published": 60,
-        "ready": 46
-      },
-      "Poster": {
-        "stable": 32,
-        "published": 26,
-        "ready": 4
-      },
-      "Acrylic": {
-        "stable": 53,
-        "published": 26,
-        "ready": 0
-      }
-    },
-    "last_known_after_lan_batch": "eBay workbook rows=255; published tracked rows: Sticker=74, Poster=30, Acrylic=30 after 2026-05-06 LAN batch."
-  },
-  "current_blockers": [
-    "Sticker/public publish is blocked by live eBay cover mismatch until source repair or replacement is verified.",
-    "Printify login can expire; use npm run printify:login to verify/recover the CDP profile before UI source repair.",
-    "Etsy API app is still pending personal approval, but Etsy UI login works in the dedicated Edge profile and the first 10 digital printable listings are live. Do not scale beyond gray caps without signal.",
-    "Printify official/default mockups should be preserved when useful; cover repair now validates custom cover/design presence and live buyer-page result rather than requiring exactly one default image.",
-    "One verified sample proves some old inventory-managed eBay variation images may not accept source repair; use replacement listing flow for READY_TO_REPLACE_VERIFIED rows.",
-    "Old bad Sticker listings must be safely retired after replacement listings pass live audit; retire queue is Database/eBay_Retire_Queue.csv."
-  ],
-  "cover_repair_state": {
-    "live_cover_fix_queue_rows": 49,
-    "source_repair_required": 12,
-    "non_sticker_review_required": 4,
-    "replacement_queue": "Database/eBay_Cover_Replacement_Queue.csv",
-    "repair_decisions": "Database/eBay_Cover_Repair_Decisions.csv",
-    "next_action_if_logged_in": "Run one targeted source repair with py modules\\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120, then live audit the same SKU before scaling.",
-    "latest_single_sku_test": "Cover-only official replacement path is now proven at scale: Sticker-Zen-0044-FIX1 through 0046-FIX1 and 0049-FIX1 through 0054-FIX1 passed live buyer-page cover audit; all corresponding old bad-cover listings were retired through Edge Seller Hub and detached from Printify.",
-    "replacement_draft_latest": "Cover-only replacement path is now production policy for Sticker: upload Cover only as custom marketplace image, keep Printify official mockups, retain U1-U4 only as local reference unless a separate audited gallery path is added."
-  },
-  "printify_login_state": {
-    "allowed_google_account": "rexxu024@gmail.com",
-    "guard_command": "npm run printify:login",
-    "latest_check": "2026-05-06 23:11 -0400: LOGGED_IN through Edge CDP 9223; Printify-eBay store token renewed through eBay consent.",
-    "status_file": "Database/Printify_Login_Status.json",
-    "rule": "Never select a Google account other than rexxu024@gmail.com; if password is required, stop for manual login."
-  },
-  "production_design_qa_state": {
-    "latest_audit": "Database/Printify_Production_Design_Audit.csv",
-    "latest_sample": "2 Acrylic rows checked on 2026-05-06 morning; 2/2 visual and size match, ahash_distance=0. Exact SHA differed due Printify-side re-encoding.",
-    "small_batch_command": "py modules\\printify_design_audit.py --limit 2 --sleep-seconds 1"
-  },
-  "latest_market_signal": {
-    "latest_snapshot": "2026-05-06 23:03:00 -0400",
-    "snapshot_rows": 50,
-    "zero_view_rows": 43,
-    "one_plus_view_rows": 7,
-    "promoted_general_rows": 50,
-    "product_signal": "Acrylic 3/17 moved, Poster 4/17 moved, Sticker 0/16 moved.",
-    "diagnosis_file": "Database/eBay_Traffic_Diagnosis.md",
-    "summary": "2% Standard ads are active but not enough; Sticker cover/gallery mismatch and publish-route control remain priority."
-  },
-  "prepared_local_assets": {
-    "etsy_shop_packet": "Database/Etsy_shop_update_packet.md",
-    "ebay_profile_packet": "Database/eBay_Profile_Update_Packet.md",
-    "etsy_digital_final_packet": "Database/Etsy_Digital_Final_Upload_Packet.csv",
-    "blueprint_next_test_plan": "Database/Product_Blueprint_Next_Test_Plan.md",
-    "factory_backlog": "Database/Factory_Backlog.md",
-    "operations_manual": "OPERATIONS_MANUAL.md"
-  },
-  "confirmed_printify_specs": {
-    "poster_premium_matte_vertical": {
-      "blueprint_id": 282,
-      "provider_id": 99,
-      "variant_id": 43138,
-      "target_size": "12x18",
-      "print_area": "3600x5400"
-    },
-    "photo_block_acrylic": {
-      "blueprint_id": 1471,
-      "provider_id": 104,
-      "variant_id": 106190,
-      "target_size": "5x7 vertical",
-      "print_area": "1538x2138"
-    }
-  },
-  "next_product_test_plan": [
-    "Canvas blueprint 1936 variant 119906",
-    "Framed Poster blueprint 1236 variant 93818",
-    "Notebook/Journal blueprint 5634 variant 252281",
-    "Mug blueprint 478 variant 65216",
-    "Metal blueprint 1206 variant 91995"
-  ],
-  "do_not_do_without_new_signal": [
-    "Do not broad-publish more stickers while cover gate is open.",
-    "Do not use Priority/PPC ads; only Promoted Listings Standard/General fixed 2%.",
-    "Do not use suggested ad rates.",
-    "Do not touch payments, orders, buyer messages, or billing settings.",
-    "Do not publish beyond the first Etsy Digital gray batch unless the fee guard and current Rex budget cap allow it; normal pool is $40 total and $60 requires written rationale."
-  ],
-  "image_policy": {
-    "sticker": "Use Cover-only custom art plus Printify official mockups for first-pass marketplace publishing. Do not publish U1-U4 as eBay/Printify gallery images because eBay can select one U/detail image as the main cover. Keep U1-U4 local for QA/detail/reference.",
-    "poster_acrylic": "Use one full production design; no die-cut/sticker-split logic. Preserve Printify official mockups/defaults as product-context images unless they create buyer confusion.",
-    "future_rd": "Premium MJ-generated scene/mockups from real production images are allowed only after QA; track as R&D, not a blocker for current production."
-  },
-  "network_policy": "Ethernet restored on 2026-05-06: Ethernet 3 up at 1Gbps, Wi-Fi disconnected, 0% loss and about 5-8ms latency in latest checks. Rex cleared low-bandwidth mode at 2026-05-06 15:20 -0400; online batches may run normally/full-throughput, but marketplace/account-risk throttles still apply.",
-  "housekeeping_policy": {
-    "review_packet_dir": "Review_Packets/",
-    "rule": "Keep Rex/Gemini/AI-facing summaries and decision packets in Review_Packets. Keep script queues in Database and production assets in Output. Clear temp/cache/debug artifacts regularly, but do not delete personal downloads, Docker/app data, or production source assets without a specific reason.",
-    "latest_cleanup": "2026-05-06 16:45 -0400: safe caches/temp cleanup freed about 18GB and raised C drive free space to about 54.7GB."
-  },
-  "etsy_digital_gray_launch": {
-    "batch_id": "ETSY-DIGITAL-FIRST-LIVE-20260506",
-    "queue": "Database/Etsy_Digital_Gray_Launch_Queue.csv",
-    "qa_report": "Database/Etsy_Digital_QA_Report.csv",
-    "fee_ledger": "Database/Etsy_Fee_Ledger.csv",
-    "report": "Review_Packets/ETSY_DIGITAL_TRAFFIC_PENETRATION_REPORT_20260506.md",
-    "selected": 10,
-    "qa_pass": 10,
-    "confirmed_spent_usd": 2.0,
-    "reserved_fee_usd": 2.0,
-    "status": "PUBLISHED_UI_CONFIRMED_FIRST_10",
-    "public_audit": "10/10 active/readable and 10/10 digital-download signal in Database/Etsy_Digital_Live_Audit.csv.",
-    "legacy_cleanup": "Old DriveFuel Etsy listings 4407466791 and 4366700475 deleted/retired; public pages show unavailable and active manager no longer contains them.",
-    "live_listing_ids": [
-      "Poster-Academia-0001 -> 4500654287",
-      "Poster-Academia-0002 -> 4500664506",
-      "Poster-Academia-0003 -> 4500665474",
-      "Poster-Academia-0081 -> 4500657145",
-      "Poster-Academia-0082 -> 4500667154",
-      "Poster-Academia-0083 -> 4500667734",
-      "Poster-Academia-0084 -> 4500668282",
-      "Poster-Academia-0085 -> 4500668786",
-      "Poster-Academia-0091 -> 4500660013",
-      "Poster-Zen-0001 -> 4500669878"
-    ],
-    "rule": "First batch is live; hold further paid publishing until initial traffic/indexing readout unless Rex explicitly asks or the fee guard admits the next gray cell."
-  },
-  "latest_supervisor_state": {
-    "last_local_run": "2026-05-07 00:16 -04:00",
-    "result": "npm run local completed with failures=0.",
-    "etsy_status": "READY_MONITOR: first 10 Etsy Digital listings are live; monitor traffic before spending more.",
-    "latest_report": "Reports/morning_report_20260507_0016.md",
-    "latest_gemini_queue": "Gemini_Advisor/gemini_review_queue_20260507_0016.md",
-    "resource_strategy": "Factory supervisor now writes resource_strategy into Database/Factory_Autopilot_State.json and appends conservative resource guard reasons to eligible actions."
-  },
-  "printify_external_pending": {
-    "ids": [
-      "Poster-Academia-0038",
-      "Poster-Academia-0039",
-      "Poster-Academia-0040",
-      "Poster-Academia-0041",
-      "Poster-Academia-0042"
-    ],
-    "status": "Printify_PublishExternalPending_Mockups8",
-    "confirmed_not_live": "No eBay_Item_ID / product external id after sync and one API retry on 0038.",
-    "external_synced": [
-      "Poster-Academia-0037 -> 406909473606"
-    ],
-    "report": "Review_Packets/PRINTIFY_EXTERNAL_SYNC_DIAGNOSIS_20260506.md",
-    "scheduler_rule": "Normal publish scheduler no longer retries external-pending rows; explicit --retry-pending required."
-  },
-  "ai_labor_factory_kernel": {
-    "status": "BRANCH_CREATED",
-    "purpose": "Portable AI labor factory core for future revenue projects; decouple task contracts, risk gates, quality gates, cost gates, and resource allocation from Printify/eBay/Etsy specifics.",
-    "core_files": [
-      "modules/factory_core/contracts.py",
-      "modules/factory_core/portable_gates.py",
-      "modules/factory_core/__init__.py"
-    ],
-    "portable_concepts": [
-      "FactoryTask",
-      "GateResult",
-      "ExecutionDecision",
-      "GateStack"
-    ],
-    "next_integration": "New business modules should produce FactoryTask objects and register business-specific risk/quality/cost gate adapters instead of embedding marketplace-specific checks in production scripts."
-  },
-  "hardware_resource_policy": {
-    "allocator": "modules/system_resource_allocator.py",
-    "commands": [
-      "npm run system:resources",
-      "npm run system:resources:watch"
-    ],
-    "policy_file": "Database/System_Resource_Policy.json",
-    "state_file": "Database/System_Resource_State.json",
-    "log_file": "Database/System_Resource_Allocation.csv",
-    "night_heavy_window": "00:00-06:30 America/New_York",
-    "temperature_thresholds_celsius": {
-      "ideal_max": 75,
-      "warm_reduce": 80,
-      "hot_cooldown": 85,
-      "critical_pause": 90
-    },
-    "fallback_when_temperature_unavailable": "Use CPU and memory pressure as thermal proxy; sustained CPU >=88% or memory >=92% triggers cooldown after repeated samples.",
-    "latest_observation": "2026-05-07 00:12 EDT: temperature sensor denied/unavailable; CPU sampled up to 100%; memory 88-89%; AC charging; allocator selected RUN_CONSERVATIVE max_parallel=1 batch_size=2."
-  }
+﻿{
+    "updated_at":  "2026-05-07T01:36:00-04:00",
+    "timezone":  "America/New_York",
+    "source_of_truth":  [
+                            "START_HERE_OPENCLAW.md",
+                            "CURRENT_TASK.md",
+                            "PROGRESS_LOG.md",
+                            "PROJECT_OPERATING_PROTOCOL.md",
+                            "PROJECT_FACTORY_ROADMAP.md",
+                            "OPERATIONS_MANUAL.md",
+                            "Database/Factory_Autopilot_State.json",
+                            "Database/Factory_Autopilot_Action_Queue.csv",
+                            "Database/Factory_Backlog.csv",
+                            "Database/eBay_Live_Cover_Fix_Plan.md",
+                            "Database/eBay_Traffic_Diagnosis.md",
+                            "Database/Printify_Production_Design_Audit.csv",
+                            "Reports/latest morning_report_*.md",
+                            "Review_Packets/OPENCLAW_GEMINI_BRIEF.md",
+                            "Review_Packets/REPORT_INDEX.md",
+                            "Review_Packets/ETSY_DIGITAL_TRAFFIC_PENETRATION_REPORT_20260506.md",
+                            "Review_Packets/PRINTIFY_EXTERNAL_SYNC_DIAGNOSIS_20260506.md",
+                            "Database/Etsy_Digital_Gray_Launch_Queue.csv",
+                            "Database/Etsy_Fee_Ledger.csv",
+                            "Review_Packets/EBAY_API_MINIMAL_APPLICATION_PACKET.md",
+                            "Review_Packets/AI_LABOR_FACTORY_KERNEL_AND_HARDWARE_PLAN.md",
+                            "Database/System_Resource_Policy.json",
+                            "Database/System_Resource_State.json",
+                            "Database/System_Resource_Allocation.csv",
+                            "Review_Packets/OPERATION_QUIET_JADE_REPORT_20260507.md",
+                            "Review_Packets/OPENCLAW_GRUNT_ENGINE_DESIGN.md",
+                            "Database/eBay_Quiet_Jade_Pivot.csv",
+                            "Database/eBay_Quiet_Jade_Verify.csv",
+                            "Database/Grunt_Task_Queue.jsonl",
+                            "Database/Hardware_Heartbeat_State.json",
+                            "Database/Quality_Floor_Guard.csv",
+                            "Database/Grunt_Engine_State.json"
+                        ],
+    "operating_roles":  {
+                            "Rex":  "Commander",
+                            "Gemini":  "Strategy advisor",
+                            "Codex":  "Executive operator and factory debugger"
+                        },
+    "default_authorization_policy":  {
+                                         "principle":  "Rex has repeatedly granted full OpenClaw project access. Routine project account navigation, local file edits, API debugging, browser automation, QA checks, report writing, and script changes should proceed without repeated permission prompts.",
+                                         "ask_only_for":  [
+                                                              "spending beyond the approved cap",
+                                                              "payment or billing settings",
+                                                              "placing, canceling, or refunding orders",
+                                                              "sending buyer/customer messages",
+                                                              "exposing or changing private credentials",
+                                                              "destructive actions outside the OpenClaw project scope"
+                                                          ],
+                                         "blocked_behavior":  "When a tool/runtime/login failure appears, record the blocker, choose the safest authorized workaround, and return to the mainline instead of waiting by default."
+                                     },
+    "advisor_packet_policy":  {
+                                  "canonical_brief":  "Review_Packets/OPENCLAW_GEMINI_BRIEF.md",
+                                  "index":  "Review_Packets/REPORT_INDEX.md",
+                                  "principle":  "Gemini cannot see the repo, code, or local folders, so advisor packets must summarize business context, current facts, risks, and strategy questions without requiring file access.",
+                                  "network_note":  "The canonical Gemini brief explicitly supersedes older low-bandwidth assumptions: wired LAN is fixed and low-bandwidth mode is lifted."
+                              },
+    "browser_isolation_policy":  {
+                                     "principle":  "Do not use Rex\u0027s active daily Chrome tabs as the automation workbench. Prefer API/headless work first, then a dedicated automation browser profile.",
+                                     "dedicated_edge_command":  "npm run browser:edge",
+                                     "dedicated_edge_port":  9223,
+                                     "dedicated_edge_profile":  "C:\\openclaw_edge_profile",
+                                     "ebay_env":  "Set OPENCLAW_EBAY_CDP_PORT=9223 for Seller Hub and live eBay audit scripts.",
+                                     "current_note":  "Dedicated Edge is running and should be used for marketplace/account UI work. Latest check: Printify, Etsy Shop Manager, and eBay Seller Hub are logged in/readable on Edge CDP 9223; only eBay Developer Program still redirects to sign-in/pending access.",
+                                     "latest_fix":  "2026-05-06 20:31-20:40: Printify login guard, supervisor, mockup uploader, and full pipeline default to Edge CDP 9223. Do not use daily Chrome 9222 for project automation by default."
+                                 },
+    "automation_first_rule":  {
+                                  "principle":  "Codex labor is for building and debugging the factory, not for becoming the permanent factory worker.",
+                                  "durable_entrypoint":  "py modules\\factory_supervisor.py --execute-local --skip-network",
+                                  "online_preflight":  "py modules\\factory_supervisor.py",
+                                  "logs":  [
+                                               "Database/Factory_Autopilot_State.json",
+                                               "Database/Factory_Autopilot_Action_Queue.csv",
+                                               "Database/Factory_Backlog.csv",
+                                               "Database/Factory_Autopilot_Run_Log.csv"
+                                           ],
+                                  "new_device_setup":  "Read START_HERE_OPENCLAW.md, then OPERATIONS_MANUAL.md; run npm run setup:win, npm run doctor, and npm run local."
+                              },
+    "current_counts":  {
+                           "ebay_listing_rows":  240,
+                           "stable_printify_tracked":  161,
+                           "published_tracking_rows":  112,
+                           "ready_for_printify":  50,
+                           "factory_backlog_rows":  14,
+                           "product_counts":  {
+                                                  "Sticker":  {
+                                                                  "stable":  76,
+                                                                  "published":  60,
+                                                                  "ready":  46
+                                                              },
+                                                  "Poster":  {
+                                                                 "stable":  32,
+                                                                 "published":  26,
+                                                                 "ready":  4
+                                                             },
+                                                  "Acrylic":  {
+                                                                  "stable":  53,
+                                                                  "published":  26,
+                                                                  "ready":  0
+                                                              }
+                                              },
+                           "last_known_after_lan_batch":  "eBay workbook rows=255; published tracked rows: Sticker=74, Poster=30, Acrylic=30 after 2026-05-06 LAN batch."
+                       },
+    "current_blockers":  [
+                             "Sticker/public publish is blocked by live eBay cover mismatch until source repair or replacement is verified.",
+                             "Printify login can expire; use npm run printify:login to verify/recover the CDP profile before UI source repair.",
+                             "Etsy API app is still pending personal approval, but Etsy UI login works in the dedicated Edge profile and the first 10 digital printable listings are live. Do not scale beyond gray caps without signal.",
+                             "Printify official/default mockups should be preserved when useful; cover repair now validates custom cover/design presence and live buyer-page result rather than requiring exactly one default image.",
+                             "One verified sample proves some old inventory-managed eBay variation images may not accept source repair; use replacement listing flow for READY_TO_REPLACE_VERIFIED rows.",
+                             "Old bad Sticker listings must be safely retired after replacement listings pass live audit; retire queue is Database/eBay_Retire_Queue.csv."
+                         ],
+    "cover_repair_state":  {
+                               "live_cover_fix_queue_rows":  49,
+                               "source_repair_required":  12,
+                               "non_sticker_review_required":  4,
+                               "replacement_queue":  "Database/eBay_Cover_Replacement_Queue.csv",
+                               "repair_decisions":  "Database/eBay_Cover_Repair_Decisions.csv",
+                               "next_action_if_logged_in":  "Run one targeted source repair with py modules\\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120, then live audit the same SKU before scaling.",
+                               "latest_single_sku_test":  "Cover-only official replacement path is now proven at scale: Sticker-Zen-0044-FIX1 through 0046-FIX1 and 0049-FIX1 through 0054-FIX1 passed live buyer-page cover audit; all corresponding old bad-cover listings were retired through Edge Seller Hub and detached from Printify.",
+                               "replacement_draft_latest":  "Cover-only replacement path is now production policy for Sticker: upload Cover only as custom marketplace image, keep Printify official mockups, retain U1-U4 only as local reference unless a separate audited gallery path is added."
+                           },
+    "printify_login_state":  {
+                                 "allowed_google_account":  "rexxu024@gmail.com",
+                                 "guard_command":  "npm run printify:login",
+                                 "latest_check":  "2026-05-06 23:11 -0400: LOGGED_IN through Edge CDP 9223; Printify-eBay store token renewed through eBay consent.",
+                                 "status_file":  "Database/Printify_Login_Status.json",
+                                 "rule":  "Never select a Google account other than rexxu024@gmail.com; if password is required, stop for manual login."
+                             },
+    "production_design_qa_state":  {
+                                       "latest_audit":  "Database/Printify_Production_Design_Audit.csv",
+                                       "latest_sample":  "2 Acrylic rows checked on 2026-05-06 morning; 2/2 visual and size match, ahash_distance=0. Exact SHA differed due Printify-side re-encoding.",
+                                       "small_batch_command":  "py modules\\printify_design_audit.py --limit 2 --sleep-seconds 1"
+                                   },
+    "latest_market_signal":  {
+                                 "latest_snapshot":  "2026-05-07 01:36:00 -0400",
+                                 "snapshot_rows":  50,
+                                 "zero_view_rows":  43,
+                                 "one_plus_view_rows":  7,
+                                 "promoted_general_rows":  50,
+                                 "product_signal":  "Acrylic 3/17 moved, Poster 4/17 moved, Sticker 0/16 moved.",
+                                 "diagnosis_file":  "Database/eBay_Traffic_Diagnosis.md",
+                                 "summary":  "Operation Quiet Jade completed: 42 live zero-view listings retitled/repositioned; 2% ads remain baseline; next 24-48h readout determines whether eBay search surface responds."
+                             },
+    "prepared_local_assets":  {
+                                  "etsy_shop_packet":  "Database/Etsy_shop_update_packet.md",
+                                  "ebay_profile_packet":  "Database/eBay_Profile_Update_Packet.md",
+                                  "etsy_digital_final_packet":  "Database/Etsy_Digital_Final_Upload_Packet.csv",
+                                  "blueprint_next_test_plan":  "Database/Product_Blueprint_Next_Test_Plan.md",
+                                  "factory_backlog":  "Database/Factory_Backlog.md",
+                                  "operations_manual":  "OPERATIONS_MANUAL.md"
+                              },
+    "confirmed_printify_specs":  {
+                                     "poster_premium_matte_vertical":  {
+                                                                           "blueprint_id":  282,
+                                                                           "provider_id":  99,
+                                                                           "variant_id":  43138,
+                                                                           "target_size":  "12x18",
+                                                                           "print_area":  "3600x5400"
+                                                                       },
+                                     "photo_block_acrylic":  {
+                                                                 "blueprint_id":  1471,
+                                                                 "provider_id":  104,
+                                                                 "variant_id":  106190,
+                                                                 "target_size":  "5x7 vertical",
+                                                                 "print_area":  "1538x2138"
+                                                             }
+                                 },
+    "next_product_test_plan":  [
+                                   "Canvas blueprint 1936 variant 119906",
+                                   "Framed Poster blueprint 1236 variant 93818",
+                                   "Notebook/Journal blueprint 5634 variant 252281",
+                                   "Mug blueprint 478 variant 65216",
+                                   "Metal blueprint 1206 variant 91995"
+                               ],
+    "do_not_do_without_new_signal":  [
+                                         "Do not broad-publish more stickers while cover gate is open.",
+                                         "Do not use Priority/PPC ads; only Promoted Listings Standard/General fixed 2%.",
+                                         "Do not use suggested ad rates.",
+                                         "Do not touch payments, orders, buyer messages, or billing settings.",
+                                         "Do not publish beyond the first Etsy Digital gray batch unless the fee guard and current Rex budget cap allow it; normal pool is $40 total and $60 requires written rationale."
+                                     ],
+    "image_policy":  {
+                         "sticker":  "Use Cover-only custom art plus Printify official mockups for first-pass marketplace publishing. Do not publish U1-U4 as eBay/Printify gallery images because eBay can select one U/detail image as the main cover. Keep U1-U4 local for QA/detail/reference.",
+                         "poster_acrylic":  "Use one full production design; no die-cut/sticker-split logic. Preserve Printify official mockups/defaults as product-context images unless they create buyer confusion.",
+                         "future_rd":  "Premium MJ-generated scene/mockups from real production images are allowed only after QA; track as R\u0026D, not a blocker for current production."
+                     },
+    "network_policy":  "Ethernet restored on 2026-05-06: Ethernet 3 up at 1Gbps, Wi-Fi disconnected, 0% loss and about 5-8ms latency in latest checks. Rex cleared low-bandwidth mode at 2026-05-06 15:20 -0400; online batches may run normally/full-throughput, but marketplace/account-risk throttles still apply.",
+    "housekeeping_policy":  {
+                                "review_packet_dir":  "Review_Packets/",
+                                "rule":  "Keep Rex/Gemini/AI-facing summaries and decision packets in Review_Packets. Keep script queues in Database and production assets in Output. Clear temp/cache/debug artifacts regularly, but do not delete personal downloads, Docker/app data, or production source assets without a specific reason.",
+                                "latest_cleanup":  "2026-05-06 16:45 -0400: safe caches/temp cleanup freed about 18GB and raised C drive free space to about 54.7GB."
+                            },
+    "etsy_digital_gray_launch":  {
+                                     "batch_id":  "ETSY-DIGITAL-FIRST-LIVE-20260506",
+                                     "queue":  "Database/Etsy_Digital_Gray_Launch_Queue.csv",
+                                     "qa_report":  "Database/Etsy_Digital_QA_Report.csv",
+                                     "fee_ledger":  "Database/Etsy_Fee_Ledger.csv",
+                                     "report":  "Review_Packets/ETSY_DIGITAL_TRAFFIC_PENETRATION_REPORT_20260506.md",
+                                     "selected":  10,
+                                     "qa_pass":  10,
+                                     "confirmed_spent_usd":  2.0,
+                                     "reserved_fee_usd":  2.0,
+                                     "status":  "PUBLISHED_UI_CONFIRMED_FIRST_10",
+                                     "public_audit":  "10/10 active/readable and 10/10 digital-download signal in Database/Etsy_Digital_Live_Audit.csv.",
+                                     "legacy_cleanup":  "Old DriveFuel Etsy listings 4407466791 and 4366700475 deleted/retired; public pages show unavailable and active manager no longer contains them.",
+                                     "live_listing_ids":  [
+                                                              "Poster-Academia-0001 -\u003e 4500654287",
+                                                              "Poster-Academia-0002 -\u003e 4500664506",
+                                                              "Poster-Academia-0003 -\u003e 4500665474",
+                                                              "Poster-Academia-0081 -\u003e 4500657145",
+                                                              "Poster-Academia-0082 -\u003e 4500667154",
+                                                              "Poster-Academia-0083 -\u003e 4500667734",
+                                                              "Poster-Academia-0084 -\u003e 4500668282",
+                                                              "Poster-Academia-0085 -\u003e 4500668786",
+                                                              "Poster-Academia-0091 -\u003e 4500660013",
+                                                              "Poster-Zen-0001 -\u003e 4500669878"
+                                                          ],
+                                     "rule":  "First batch is live; hold further paid publishing until initial traffic/indexing readout unless Rex explicitly asks or the fee guard admits the next gray cell."
+                                 },
+    "latest_supervisor_state":  {
+                                    "last_local_run":  "2026-05-07 00:16 -04:00",
+                                    "result":  "npm run local completed with failures=0.",
+                                    "etsy_status":  "READY_MONITOR: first 10 Etsy Digital listings are live; monitor traffic before spending more.",
+                                    "latest_report":  "Reports/morning_report_20260507_0016.md",
+                                    "latest_gemini_queue":  "Gemini_Advisor/gemini_review_queue_20260507_0016.md",
+                                    "resource_strategy":  "Factory supervisor now writes resource_strategy into Database/Factory_Autopilot_State.json and appends conservative resource guard reasons to eligible actions."
+                                },
+    "printify_external_pending":  {
+                                      "ids":  [
+                                                  "Poster-Academia-0038",
+                                                  "Poster-Academia-0039",
+                                                  "Poster-Academia-0040",
+                                                  "Poster-Academia-0041",
+                                                  "Poster-Academia-0042"
+                                              ],
+                                      "status":  "Printify_PublishExternalPending_Mockups8",
+                                      "confirmed_not_live":  "No eBay_Item_ID / product external id after sync and one API retry on 0038.",
+                                      "external_synced":  [
+                                                              "Poster-Academia-0037 -\u003e 406909473606"
+                                                          ],
+                                      "report":  "Review_Packets/PRINTIFY_EXTERNAL_SYNC_DIAGNOSIS_20260506.md",
+                                      "scheduler_rule":  "Normal publish scheduler no longer retries external-pending rows; explicit --retry-pending required."
+                                  },
+    "ai_labor_factory_kernel":  {
+                                    "status":  "BRANCH_CREATED",
+                                    "purpose":  "Portable AI labor factory core for future revenue projects; decouple task contracts, risk gates, quality gates, cost gates, and resource allocation from Printify/eBay/Etsy specifics.",
+                                    "core_files":  [
+                                                       "modules/factory_core/contracts.py",
+                                                       "modules/factory_core/portable_gates.py",
+                                                       "modules/factory_core/__init__.py"
+                                                   ],
+                                    "portable_concepts":  [
+                                                              "FactoryTask",
+                                                              "GateResult",
+                                                              "ExecutionDecision",
+                                                              "GateStack"
+                                                          ],
+                                    "next_integration":  "New business modules should produce FactoryTask objects and register business-specific risk/quality/cost gate adapters instead of embedding marketplace-specific checks in production scripts."
+                                },
+    "hardware_resource_policy":  {
+                                     "allocator":  "modules/system_resource_allocator.py",
+                                     "commands":  [
+                                                      "npm run system:resources",
+                                                      "npm run system:resources:watch"
+                                                  ],
+                                     "policy_file":  "Database/System_Resource_Policy.json",
+                                     "state_file":  "Database/System_Resource_State.json",
+                                     "log_file":  "Database/System_Resource_Allocation.csv",
+                                     "night_heavy_window":  "00:00-06:30 America/New_York",
+                                     "temperature_thresholds_celsius":  {
+                                                                            "ideal_max":  75,
+                                                                            "warm_reduce":  80,
+                                                                            "hot_cooldown":  85,
+                                                                            "critical_pause":  90
+                                                                        },
+                                     "fallback_when_temperature_unavailable":  "Use CPU and memory pressure as thermal proxy; sustained CPU \u003e=88% or memory \u003e=92% triggers cooldown after repeated samples.",
+                                     "latest_observation":  "2026-05-07 00:12 EDT: temperature sensor denied/unavailable; CPU sampled up to 100%; memory 88-89%; AC charging; allocator selected RUN_CONSERVATIVE max_parallel=1 batch_size=2."
+                                 },
+    "quiet_jade_pivot":  {
+                             "status":  "COMPLETED",
+                             "timestamp":  "2026-05-07 01:36 -0400",
+                             "target_rows":  42,
+                             "product_mix":  "16 Poster / 17 Acrylic / 9 Sticker",
+                             "printify_verify":  "42/42 OK",
+                             "sellerhub_verify":  "42/42 titles visible and prices match",
+                             "price_guard":  "Poster $34.99, Acrylic $89.99, Sticker $11.99; Acrylic not lowered below cost guardrail",
+                             "report":  "Review_Packets/OPERATION_QUIET_JADE_REPORT_20260507.md",
+                             "rollback":  "Database/eBay_Quiet_Jade_Rollback.csv"
+                         },
+    "grunt_engine":  {
+                         "status":  "VALIDATED",
+                         "queue":  "Database/Grunt_Task_Queue.jsonl",
+                         "modules":  [
+                                         "modules/task_queue_modular.py",
+                                         "modules/hardware_heartbeat_monitor.py",
+                                         "modules/quality_floor_guard.py",
+                                         "modules/grunt_engine.py"
+                                     ],
+                         "commands":  [
+                                          "npm run hardware:heartbeat",
+                                          "npm run grunt:seed",
+                                          "npm run grunt:queue",
+                                          "npm run grunt:dry",
+                                          "npm run grunt:once"
+                                      ],
+                         "latest_health":  "WARM due memory pressure; temperature sensor denied/unavailable",
+                         "rest_policy":  "Plan disruptive rest actions only; do not execute restart/battery cycle/defrag unattended."
+                     }
 }

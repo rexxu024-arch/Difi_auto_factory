@@ -221,3 +221,24 @@ Guardrails:
 - 24h hardware rule: heavy local compute belongs mainly in the 00:00-06:30 New York window, but thermal/load guard overrides the clock. If temperature sensors are unavailable, use CPU/memory pressure as proxy.
 - Current hardware reading during implementation: temperature sensor denied/unavailable, CPU spiked to 100%, memory around 88-89%, AC charging. Allocator correctly chose `RUN_CONSERVATIVE` with max_parallel=1 and batch_size=2.
 - Factory supervisor now includes `resource_strategy` in `Database/Factory_Autopilot_State.json` and appends resource guard reasons to network/account actions when the machine is under pressure.
+
+## 2026-05-07 01:36 -04:00 Operation Quiet Jade Completed
+- Targeted 42 live zero-view eBay listings with high-intent value-positioning copy.
+- Product mix: 16 Poster, 17 Acrylic, 9 Sticker.
+- Final Seller Hub active snapshot verified 42/42 target titles visible and 42/42 prices matching.
+- Price guard: Poster `$34.99`, Acrylic `$89.99`, Sticker `$11.99`; Acrylic was not lowered to `$29.99-$34.99` because that would violate cost + shipping + platform fee break-even.
+- Printify API sync verified 42/42 title/description/variant price; images were explicitly not published or reordered.
+- 17 rows that did not propagate from Printify to eBay were fixed through Edge Seller Hub title-only Revise pages.
+- Report: `Review_Packets/OPERATION_QUIET_JADE_REPORT_20260507.md`.
+
+## 2026-05-07 01:36 -04:00 Grunt Engine Validation
+- `Task_Queue_Modular`, `Hardware_Heartbeat_Monitor`, `Quality_Floor_Guard`, and `Grunt_Engine` are implemented.
+- Fixed script import paths for direct module execution.
+- Fixed Quality Floor false-positive secret marker and control-character regex.
+- `npm run hardware:heartbeat` passes; latest state: WARM due high memory, temperature sensor denied/unavailable.
+- `npm run grunt:seed`, `npm run grunt:dry`, and one `npm run grunt:once` pass.
+- Rest-window disruptive actions remain planned/guarded, not automatically executed.
+- Final validation at 2026-05-07 01:45 -04:00:
+  - Quality Floor documentation scan passes.
+  - Old debug screenshot/empty log artifacts were quarantined.
+  - Grunt Engine live state now cleanly reports `NO_TASK` when the queue is empty instead of preserving stale failure state.
