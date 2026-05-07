@@ -397,9 +397,15 @@ def run(
     thread_name: str = DEFAULT_THREAD_NAME,
     min_idle_seconds: int = DEFAULT_MIN_IDLE_SECONDS,
     wait_response_seconds: int = 180,
+    wait_until_idle_minutes: int = 0,
 ) -> dict:
     payload = build_payload()
     idle_seconds = get_idle_seconds()
+    if execute and not force and wait_until_idle_minutes > 0:
+        deadline = time.time() + wait_until_idle_minutes * 60
+        while idle_seconds < min_idle_seconds and time.time() < deadline:
+            time.sleep(15)
+            idle_seconds = get_idle_seconds()
     result = {
         "timestamp": now_text(),
         "execute": execute,
@@ -461,6 +467,7 @@ def main() -> None:
     parser.add_argument("--thread-name", default=DEFAULT_THREAD_NAME)
     parser.add_argument("--min-idle-seconds", type=int, default=DEFAULT_MIN_IDLE_SECONDS)
     parser.add_argument("--wait-response-seconds", type=int, default=180)
+    parser.add_argument("--wait-until-idle-minutes", type=int, default=0)
     args = parser.parse_args()
     print(
         json.dumps(
@@ -472,6 +479,7 @@ def main() -> None:
                 thread_name=args.thread_name,
                 min_idle_seconds=args.min_idle_seconds,
                 wait_response_seconds=args.wait_response_seconds,
+                wait_until_idle_minutes=args.wait_until_idle_minutes,
             ),
             indent=2,
             ensure_ascii=False,

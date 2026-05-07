@@ -2,3 +2,5 @@ Timestamp,Status,Detail
 2026-05-07 16:04:30 -0400,DRY_RUN_READY,payload_chars=3817
 2026-05-07 16:11:56 -0400,DRY_RUN_READY,payload_chars=3817
 2026-05-07 16:14:10 -0400,DRY_RUN_READY,payload_chars=3817
+2026-05-07 16:22:28 -0400,WAIT_USER_ACTIVE,idle_seconds=0.0 below min_idle_seconds=120
+2026-05-07 16:24:05 -0400,DRY_RUN_READY,payload_chars=3817

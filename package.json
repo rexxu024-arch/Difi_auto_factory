@@ -29,6 +29,7 @@
     "grey:parse": "scripts\\openclaw-python.cmd modules\\grey_memory_bridge.py --parse-only",
     "gemini:chat:dry": "scripts\\openclaw-python.cmd modules\\gemini_chat_sync.py",
     "gemini:chat:send": "scripts\\openclaw-python.cmd modules\\gemini_chat_sync.py --execute",
+    "gemini:chat:send:idle": "scripts\\openclaw-python.cmd modules\\gemini_chat_sync.py --execute --wait-until-idle-minutes 60",
     "gemini:chat:force": "scripts\\openclaw-python.cmd modules\\gemini_chat_sync.py --execute --force --min-idle-seconds 0",
     "system:resources": "scripts\\openclaw-python.cmd modules\\system_resource_allocator.py --json",
     "system:resources:watch": "scripts\\openclaw-python.cmd modules\\system_resource_allocator.py --watch --interval-seconds 300",
