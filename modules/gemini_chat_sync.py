@@ -20,6 +20,7 @@ import csv
 import ctypes
 import json
 import random
+import subprocess
 import sys
 import time
 import urllib.parse
@@ -333,7 +334,15 @@ async def capture_latest_response(page: CdpPage, wait_seconds: int = 180) -> dic
 
 def set_clipboard_text(text: str) -> None:
     if win32clipboard is None or win32con is None:
-        raise RuntimeError("pywin32 clipboard modules are unavailable.")
+        command = [
+            "powershell",
+            "-NoProfile",
+            "-STA",
+            "-Command",
+            "Add-Type -AssemblyName System.Windows.Forms; [System.Windows.Forms.Clipboard]::SetText([Console]::In.ReadToEnd())",
+        ]
+        subprocess.run(command, input=text, text=True, check=True, timeout=30)
+        return
     win32clipboard.OpenClipboard()
     try:
         win32clipboard.EmptyClipboard()
