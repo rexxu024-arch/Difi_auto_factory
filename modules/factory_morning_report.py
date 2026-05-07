@@ -10,6 +10,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATABASE_DIR = PROJECT_ROOT / "Database"
 REPORTS_DIR = PROJECT_ROOT / "Reports"
 GEMINI_DIR = PROJECT_ROOT / "Gemini_Advisor"
+LATEST_DIR = PROJECT_ROOT / "Review_Packets" / "Latest"
 EBAY_BOOK = DATABASE_DIR / "eBay_listing.xlsx"
 ETSY_PLAN = DATABASE_DIR / "Etsy_launch_plan.xlsx"
 PERFORMANCE_LOG = DATABASE_DIR / "Performance_Log.csv"
@@ -412,7 +413,7 @@ def build():
             "- eBay rapid publish remains paused after Akamai/zero-size-object instability.",
             "- Wired LAN is fixed; online work may run normally, but marketplace/account-risk throttles still apply.",
             "- Etsy Digital first gray batch is live; do not spend beyond the next approved gray cell without traffic/signal logic.",
-            "- No paid ads activated without final action-time confirmation.",
+            "- eBay Promoted Listings Standard / General 2% is the only approved active ad mode; do not use Priority/PPC or suggested ad rates.",
             "- Sticker expansion remains paused until the custom cover/gallery issue is fixed.",
             "- Multiple Printify official/default mockups are allowed when they help product context; publish is blocked only by missing custom design/cover, live buyer-page mismatch, or zero default image.",
             "",
@@ -458,6 +459,9 @@ def build():
         ),
         encoding="utf-8",
     )
+    LATEST_DIR.mkdir(parents=True, exist_ok=True)
+    (LATEST_DIR / "morning_report_latest.md").write_text(body, encoding="utf-8")
+    (LATEST_DIR / "gemini_review_queue_latest.md").write_text(gemini_path.read_text(encoding="utf-8"), encoding="utf-8")
     print(f"[REPORT] {report_path}")
     print(f"[GEMINI] {gemini_path}")
     return report_path, gemini_path

@@ -1,6 +1,6 @@
 # Gemini Advisor Review Queue
 
-Generated: 2026-05-06 22:30 -0400 America/New_York
+Generated: 2026-05-07 07:52 -0400 America/New_York
 
 Rex is Commander, Gemini is Strategy Advisor, Codex is Executive Operator.
 
@@ -10,18 +10,18 @@ Please review the current OpenClaw plan as a strategy advisor. Do not request AP
 
 # OpenClaw Morning Report
 
-Generated: 2026-05-06 22:30 -0400 America/New_York
+Generated: 2026-05-07 07:52 -0400 America/New_York
 
 ## Current Factory State
 
-- Stable Printify-tracked products: 156
-- Published through Printify/eBay tracking: 137
+- Stable Printify-tracked products: 161
+- Published through Printify/eBay tracking: 145
 - Ready for Printify: 46
 
 ## Product Counts
 
-- Acrylic: stable 53, published 50, ready 0
-- Poster: stable 40, published 40, ready 0
+- Acrylic: stable 53, published 53, ready 0
+- Poster: stable 45, published 45, ready 0
 - Sticker: stable 63, published 47, ready 46
 
 ## Etsy Phase 1 Prep
@@ -32,7 +32,7 @@ Generated: 2026-05-06 22:30 -0400 America/New_York
 
 ## Performance Snapshot
 
-- Latest eBay snapshot: 2026-05-06 20:32:20 -0400
+- Latest eBay snapshot: 2026-05-07 02:13:19 -0400
 - Rows read: 50
 - 0-view rows in snapshot: 43
 - Rows with at least 1 view: 7
@@ -42,7 +42,7 @@ Generated: 2026-05-06 22:30 -0400 America/New_York
 
 - Listing copy optimization candidates: 161
 - Pricing matrix scenarios: 6
-- Unified registry rows bucketed: 274
+- Unified registry rows bucketed: 282
 - Etsy digital printable upload queue: 20 listings, max file 3.42MB, under 20MB limit: True
 - Etsy digital previews: 20 listings x 3 preview images
 - Etsy digital final upload packet: 20 listings, QA bad=0, missing=0
@@ -56,13 +56,13 @@ Generated: 2026-05-06 22:30 -0400 America/New_York
 
 ## Unified Registry Buckets
 
-- Etsy_Draft_Prepared: 6
+- Etsy_Draft_Prepared: 4
 - Fix_Gallery_First: 1
-- Hold: 152
+- Hold: 165
 - Published_Has_View_Monitor: 7
 - Published_Zero_View_Copy_Ad_Review: 43
 - Ready_For_Printify_When_Network_OK: 46
-- Stable_Draft_Publish_When_Scheduled: 19
+- Stable_Draft_Publish_When_Scheduled: 16
 
 ## eBay Traffic Experiment
 
@@ -82,11 +82,11 @@ Generated: 2026-05-06 22:30 -0400 America/New_York
 - Live eBay cover audit AMBIGUOUS: 48
 - Live eBay cover audit ERROR: 1
 - Live eBay cover audit LIKELY_COVER: 13
-- Live eBay cover audit LIKELY_COVER_OFFICIAL: 50
+- Live eBay cover audit LIKELY_COVER_OFFICIAL: 59
 - Live eBay cover audit LIKELY_SINGLE_U_MISMATCH: 50
 - Live cover fix queue rows: 49
-- Cover replacement queue OLD_RETIRED_REPLACED_DONE: 24
-- Cover replacement queue READY_TO_REPLACE_VERIFIED: 21
+- Cover replacement queue OLD_RETIRED_REPLACED_DONE: 33
+- Cover replacement queue READY_TO_REPLACE_VERIFIED: 12
 - Cover replacement queue REVIEW_BEFORE_REPLACE: 4
 - Printify image-default audit rows: 161
 - Printify image-default audit CHECK: 123
@@ -94,13 +94,12 @@ Generated: 2026-05-06 22:30 -0400 America/New_York
 
 ## Factory Backlog
 
-- Backlog READY: 7
+- Backlog READY: 6
 - Backlog READY_FOR_SCHOLAR_REVIEW: 1
-- Backlog READY_MONITOR: 1
+- Backlog READY_MONITOR: 2
 - Backlog READY_SINGLE_SKU_REPAIR: 1
 - Backlog READY_TO_REPLACE_VERIFIED: 2
 - Backlog WAIT_COVER_GATE: 2
-- Backlog WAIT_USER_OR_API_APPROVAL: 1
 
 Top tasks:
 - P100 control / READY: Run local supervisor maintenance cycle
@@ -123,7 +122,6 @@ Lane counts:
 - supervisor:etsy: 1
 - supervisor:local: 1
 - supervisor:production_design_qa: 1
-- supervisor:read_only_market: 1
 - supervisor:replacement: 1
 
 ## Current Guardrails
@@ -131,7 +129,7 @@ Lane counts:
 - eBay rapid publish remains paused after Akamai/zero-size-object instability.
 - Wired LAN is fixed; online work may run normally, but marketplace/account-risk throttles still apply.
 - Etsy Digital first gray batch is live; do not spend beyond the next approved gray cell without traffic/signal logic.
-- No paid ads activated without final action-time confirmation.
+- eBay Promoted Listings Standard / General 2% is the only approved active ad mode; do not use Priority/PPC or suggested ad rates.
 - Sticker expansion remains paused until the custom cover/gallery issue is fixed.
 - Multiple Printify official/default mockups are allowed when they help product context; publish is blocked only by missing custom design/cover, live buyer-page mismatch, or zero default image.
 
