@@ -1241,3 +1241,10 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Ran real Grunt tasks: hardware heartbeat, cooldown guard, local supervisor, eBay traffic experiment report, market signal queue, and multi-track planner.
 - Track A monitor refreshed: first batch still needs more Seller Hub readback; one row already has nonzero signal.
 - Track B high-volume copy experiment executed on 10 existing live Printify/eBay-linked products; 10/10 metadata sync succeeded via Printify API, no images touched, no paid listing created.
+
+## 2026-05-07 07:49:18 -0400 Etsy Digital Track C No-Spend Selector
+- Added `modules/etsy_digital_next_batch_selector.py` and npm shortcut `etsy:digital:next`.
+- Selected next 10 Etsy Digital candidates without reserving fees or publishing.
+- QA result: 10/10 ready, 0 hold.
+- Projected fee if later published: $2.00. Actual spend now: $0.00.
+- Report: `Review_Packets/ETSY_DIGITAL_NEXT_BATCH_CANDIDATES.md`.

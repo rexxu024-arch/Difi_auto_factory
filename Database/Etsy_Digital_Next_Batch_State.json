@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-05-07 07:48:19 -0400",
+  "selected": 10,
+  "ready": 10,
+  "hold": 0,
+  "projected_fee_if_published_usd": 2.0,
+  "spend_now": 0.0,
+  "csv": "C:\\AIprojects\\openclaw_difi\\Database\\Etsy_Digital_Next_Batch_Candidates.csv",
+  "report": "C:\\AIprojects\\openclaw_difi\\Review_Packets\\ETSY_DIGITAL_NEXT_BATCH_CANDIDATES.md"
+}

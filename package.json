@@ -19,6 +19,7 @@
     "etsy:api-status": "scripts\\openclaw-python.cmd modules\\etsy_app_status_probe.py",
     "etsy:fee:reconcile:dry": "scripts\\openclaw-python.cmd modules\\etsy_fee_reconciler.py",
     "etsy:fee:reconcile": "scripts\\openclaw-python.cmd modules\\etsy_fee_reconciler.py --execute",
+    "etsy:digital:next": "scripts\\openclaw-python.cmd modules\\etsy_digital_next_batch_selector.py --limit 10 --json",
     "system:resources": "scripts\\openclaw-python.cmd modules\\system_resource_allocator.py --json",
     "system:resources:watch": "scripts\\openclaw-python.cmd modules\\system_resource_allocator.py --watch --interval-seconds 300",
     "hardware:heartbeat": "scripts\\openclaw-python.cmd modules\\hardware_heartbeat_monitor.py --once --json",

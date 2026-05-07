@@ -130,6 +130,11 @@ Guardrails:
 - Grunt Engine now has a global lock to prevent duplicate task claims when manual and scheduled runs overlap.
 - Track B high-volume value metadata experiment synced 10 existing live Printify/eBay-linked listings; no images touched and no paid listings created.
 
+## 2026-05-07 07:50:00 -04:00 Etsy Digital Next Batch Ready Without Spend
+- Added a no-spend Etsy Digital selector.
+- Next 10 candidates are QA-ready and would cost $2.00 only if later published.
+- No reservation, no listing creation, and no Etsy fee spend occurred during selection.
+
 ## 2026-05-06 14:55:00 -04:00 Wired Network Restored + Sticker Cover Gate Resolution
 - Ethernet is active through `Ethernet 3` at 1Gbps; Wi-Fi is disconnected. Multi-endpoint checks showed 0% packet loss and about 5-8ms latency; 50MB download test was about 214 Mbps.
 - Low-bandwidth mode is lifted for online batches, but account-risk throttles still apply.
