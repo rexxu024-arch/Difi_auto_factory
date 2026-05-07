@@ -17,6 +17,8 @@
     "ebay:retire-queue": "py modules\\ebay_retire_queue_from_audit.py",
     "printify:design-audit": "py modules\\printify_design_audit.py --limit 2 --sleep-seconds 1",
     "etsy:api-status": "py modules\\etsy_app_status_probe.py",
+    "etsy:fee:reconcile:dry": "py modules\\etsy_fee_reconciler.py",
+    "etsy:fee:reconcile": "py modules\\etsy_fee_reconciler.py --execute",
     "system:resources": "py modules\\system_resource_allocator.py --json",
     "system:resources:watch": "py modules\\system_resource_allocator.py --watch --interval-seconds 300",
     "hardware:heartbeat": "py modules\\hardware_heartbeat_monitor.py --once --json",

@@ -33,6 +33,7 @@ COVER_FIX_PATH = DATABASE / "eBay_Online_Cover_Fix_Queue.csv"
 COVER_REPAIR_PATH = DATABASE / "eBay_Cover_Repair_Decisions.csv"
 QUALITY_GATE_PATH = DATABASE / "Image_Quality_Gate.csv"
 PERFORMANCE_LOG_PATH = DATABASE / "Performance_Log.csv"
+COPY_BATCH_PATH = DATABASE / "Multi_Track_Copy_Batch.csv"
 
 PLAN_CSV = DATABASE / "Multi_Track_Experiment_Plan.csv"
 STATE_JSON = DATABASE / "Multi_Track_Experiment_State.json"
@@ -674,6 +675,13 @@ def write_report(rows: list[dict[str, object]], state: dict[str, object]) -> Non
             )
         return "\n".join(lines)
 
+    copy_rows = _read_csv(COPY_BATCH_PATH)
+    synced_copy = [row for row in copy_rows if row.get("Apply_Status") == "SYNCED_PRINTIFY"]
+    copy_counts = Counter(row.get("Track", "") for row in synced_copy)
+    copy_summary = "\n".join(
+        [f"- Synced `{track or 'UNKNOWN'}` copy rows: {count}" for track, count in sorted(copy_counts.items())]
+    ) or "- No multi-track copy rows synced yet."
+
     report = f"""# Multi-Track Experiment Plan
 
 Generated: {state['timestamp']}
@@ -703,6 +711,11 @@ Objective: {TRACKS['C_DIGITAL_PURE_PROFIT']['objective']}
 ## QA Hold Pool
 - HOLD rows are excluded from the 165 experiment capacity and written as `QA_HOLD_POOL`.
 - HOLD count in this run: {state['qa_counts'].get('HOLD', 0)}.
+
+## Executed Experiment Batches
+{copy_summary}
+
+Latest copy-monitor report, when present: `Review_Packets/MULTI_TRACK_COPY_MONITOR_20260507.md`.
 
 ## Next Operator Move
 1. Do not spend additional Etsy listing fees until the next gray cell is selected from Track C and the fee ledger is reconciled.

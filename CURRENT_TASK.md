@@ -281,6 +281,13 @@ Guardrails:
 - This batch is the first 48h non-zero-traffic test for long-tail room-use terms such as meditation room wall art, dark study room decor, collector shelf object, smoky jade relic, and dark academia reading nook.
 - Next: monitor Seller Hub/eBay performance for these 10 IDs, then either expand Track A or pivot to Track C Etsy Digital depending on traffic signal.
 
+## 2026-05-07 03:05 -04:00 Etsy Digital Fee Pool Clean
+- Stale old login-block reservations were released:
+  - 20 rows changed from reserved-not-spent to released-not-spent.
+  - 0 additional spend.
+- Track C is now cleaner: eligible next-fee candidates show as `NEXT_ETSY_GRAY_BATCH_UNDER_FEE_CAP` instead of stale reconciliation blockers.
+- Still obey the fee rule: do not publish another paid Etsy batch without the $2/batch and $6/day guard actively passing.
+
 ## 2026-05-07 01:36 -04:00 Grunt Engine Validation
 - `Task_Queue_Modular`, `Hardware_Heartbeat_Monitor`, `Quality_Floor_Guard`, and `Grunt_Engine` are implemented.
 - Fixed script import paths for direct module execution.

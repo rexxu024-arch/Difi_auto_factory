@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-07 02:37:26 -0400",
+  "timestamp": "2026-05-07 03:01:39 -0400",
   "timezone": "America/New_York",
   "slot_target_total": 165,
   "track_targets": {
@@ -15,8 +15,7 @@
   "action_counts": {
     "COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING": 80,
     "BUILD_ASSET_OR_METADATA_ONLY": 49,
-    "RECONCILE_RESERVED_BEFORE_ANY_NEW_FEE": 19,
-    "NEXT_ETSY_GRAY_BATCH_UNDER_FEE_CAP": 9,
+    "NEXT_ETSY_GRAY_BATCH_UNDER_FEE_CAP": 28,
     "MONITOR_LIVE_DIGITAL_TRAFFIC": 8,
     "HOLD_DO_NOT_PUBLISH": 60
   },
@@ -53,7 +52,7 @@
   },
   "etsy_confirmed_spend_today_usd": 0.0,
   "etsy_next_paid_capacity_today_usd": 6.0,
-  "digital_fee_impact_if_all_ready_spent_usd": 1.8,
+  "digital_fee_impact_if_all_ready_spent_usd": 5.6,
   "depatterning": {
     "jitter_minutes": "9-47 deterministic-random minutes per row; scheduler may add platform-specific jitter.",
     "mockup_mood_rotation": "Switch every 5 listing slots.",

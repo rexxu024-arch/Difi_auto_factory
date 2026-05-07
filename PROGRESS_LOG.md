@@ -1202,3 +1202,19 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
   - 2 rows are still 0-view in the current snapshot.
   - 7 rows need the next Seller Hub readback before judging.
   - Monitor report: `Review_Packets/MULTI_TRACK_COPY_MONITOR_20260507.md`.
+
+## 2026-05-07 03:05 -04:00 Etsy Fee Reservation Reconciliation
+- Added `modules/etsy_fee_reconciler.py`.
+- Added npm shortcuts:
+  - `npm run etsy:fee:reconcile:dry`
+  - `npm run etsy:fee:reconcile`
+- Reconciled the stale Etsy Digital reservations created during the old Etsy login anomaly:
+  - Candidates found: 20.
+  - Released: 20.
+  - Confirmed additional spend: $0.00.
+- Updated files:
+  - `Database/Etsy_Digital_Gray_Launch_Queue.csv`: stale rows now `RELEASED_NOT_SPENT` / `RELEASED_TO_DRAFT_QUEUE`.
+  - `Database/Etsy_Fee_Ledger.csv`: stale reservations now `RELEASED_NOT_SPENT`.
+  - `Database/Digital_Etsy_Metadata.csv`: released products returned to `READY_FOR_ETSY_DRAFT`.
+  - `Database/Etsy_Fee_Reconciliation_Log.csv`: release audit log.
+- Reran `npm run market:multi-track`; Track C now has 28 rows eligible as `NEXT_ETSY_GRAY_BATCH_UNDER_FEE_CAP` and no stale `RECONCILE_RESERVED_BEFORE_ANY_NEW_FEE` action remains.
