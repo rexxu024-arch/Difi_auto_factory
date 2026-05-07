@@ -38,6 +38,16 @@ class Config:
     CLAUDE_API_KEY = os.getenv("CLAUDE_API_KEY")
     CLAUDE_BASE_URL = os.getenv("CLAUDE_BASE_URL") or "https://api.anthropic.com"
 
+    # --- Gemini / Grey Advisor Bridge ---
+    GEMINI_API_KEY = (
+        os.getenv("GEMINI_API_KEY")
+        or os.getenv("Gemini_api_key")
+        or os.getenv("GEMINI_KEY")
+        or os.getenv("GOOGLE_API_KEY")
+    )
+    GEMINI_BASE_URL = os.getenv("GEMINI_BASE_URL") or "https://generativelanguage.googleapis.com/v1beta"
+    GEMINI_MODEL = os.getenv("GEMINI_MODEL") or "gemini-flash-latest"
+
     # --- [F] Etsy Open API / OAuth 2.0 PKCE ---
     ETSY_KEYSTRING = (
         os.getenv("ETSY_KEYSTRING")
@@ -101,7 +111,8 @@ class Config:
             "GUILD_ID": cls.GUILD_ID,
             "CHANNEL_ID": cls.CHANNEL_ID,
             "ETSY_KEYSTRING": cls.ETSY_KEYSTRING,
-            "ETSY_SHARED_SECRET": cls.ETSY_SHARED_SECRET
+            "ETSY_SHARED_SECRET": cls.ETSY_SHARED_SECRET,
+            "GEMINI_API_KEY": cls.GEMINI_API_KEY
         }
         
         is_safe = True
@@ -124,4 +135,5 @@ if __name__ == "__main__":
 
 CLAUDE_API_KEY = Config.CLAUDE_API_KEY
 DEEPSEEK_API_KEY = Config.DEEPSEEK_API_KEY
+GEMINI_API_KEY = Config.GEMINI_API_KEY
 BASE_URL = Config.CLAUDE_BASE_URL or Config.DEEPSEEK_BASE_URL

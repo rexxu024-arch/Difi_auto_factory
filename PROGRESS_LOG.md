@@ -1359,3 +1359,9 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Published replacement; self-healing force-associated `external.id=406911120974`.
 - Live buyer-page cover audit passed `LIKELY_COVER_OFFICIAL`; old `Sticker-Zen-0060` was ended through Edge Seller Hub and detached from Printify.
 - Replacement queue now: `38 OLD_RETIRED_REPLACED_DONE`, `7 READY_TO_REPLACE_VERIFIED`, `4 REVIEW_BEFORE_REPLACE`.
+
+## 2026-05-07 12:57:00 -04:00 Gemini API Hook Prepared
+- Added Gemini config aliases: `GEMINI_API_KEY`, `Gemini_api_key`, `GEMINI_KEY`, or `GOOGLE_API_KEY`.
+- Added `modules/gemini_smoke_test.py` and `npm run gemini:smoke`.
+- Smoke test currently reports `MISSING_GEMINI_API_KEY`; `.env` contains the Gemini section marker but no detected key/value line yet.
+- Security note: do not echo Gemini keys in logs, reports, or commits.
