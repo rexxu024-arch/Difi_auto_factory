@@ -22,6 +22,9 @@ npm run gemini:chat:send:idle
 
 - API calls never print or commit key values.
 - Gemini Chat sync uses Edge CDP 9223 only.
+- Gemini Chat thread URL uses the `/u/1/` account context:
+  `https://gemini.google.com/u/1/app/d2ab3afa2778aa9e`
+- The Grey Chat account hint is `xuyuan02038898080@gmail.com`; this is an account-selection hint only, not a credential.
 - Chrome is not used for this workflow.
 - Gemini Chat sync defaults to dry-run and writes the payload to:
   `Review_Packets/Gemini_Bridge/DAILY_SITREP_FOR_GEMINI_CHAT_latest.md`

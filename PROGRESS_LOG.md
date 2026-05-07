@@ -1435,3 +1435,4 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Submission used OS clipboard and OS-level Ctrl+V/Enter; no DOM value injection.
 - Saved the captured web reply to `Review_Packets/Gemini_Bridge/FROM_GEMINI_CHAT_latest.md`.
 - Web Grey response agreed with the API Grey: Sticker Cover Gate remains the critical production bottleneck before scaling.
+- Rex clarified the intended Gemini Chat account context is `/u/1/`, account hint `xuyuan02038898080@gmail.com`. Future Gemini Chat sync uses `https://gemini.google.com/u/1/app/d2ab3afa2778aa9e`.

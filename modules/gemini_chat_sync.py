@@ -54,8 +54,9 @@ CHAT_REPLY = BRIDGE_DIR / "FROM_GEMINI_CHAT_latest.md"
 STATE_JSON = PROJECT_ROOT / "Database" / "Gemini_Chat_Sync_State.json"
 RUN_LOG = PROJECT_ROOT / "Database" / "Gemini_Chat_Sync_Log.csv"
 
-DEFAULT_CHAT_URL = "https://gemini.google.com/app/d2ab3afa2778aa9e"
+DEFAULT_CHAT_URL = "https://gemini.google.com/u/1/app/d2ab3afa2778aa9e"
 DEFAULT_THREAD_NAME = "Codex 自动化矩阵升级计划"
+DEFAULT_ACCOUNT_HINT = "xuyuan02038898080@gmail.com"
 DEFAULT_PORT = 9223
 DEFAULT_MIN_IDLE_SECONDS = 120
 
