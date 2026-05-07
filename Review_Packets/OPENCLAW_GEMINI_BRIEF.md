@@ -268,6 +268,45 @@ Rex wants Codex to build a system where:
 
 The old "network is too unstable" bottleneck is gone. The main bottleneck is now marketplace quality and conversion learning: correct images, clear buyer intent, better store trust, controlled product mix, and performance-driven iteration.
 
+## Update - 2026-05-07 02:42:00 America/New_York
+
+Codex has converted Rex/Grey's Multi-Track Experimentation strategy into an executable planner:
+
+- New module: `modules/multi_track_experiment_planner.py`.
+- Main output: `Database/Multi_Track_Experiment_Plan.csv`.
+- Summary report: `Review_Packets/MULTI_TRACK_EXPERIMENT_PLAN_20260507.md`.
+- npm shortcut: `npm run market:multi-track`.
+
+Current experiment structure:
+
+- Track A: `A_LOW_COMPETITION_NICHE`, 55 slots. Uses room-use and long-tail intent terms such as reading nook, meditation room, dorm desk, study room, collector shelf.
+- Track B: `B_HIGH_VOLUME_VALUE`, 55 slots. Uses broader marketplace terms such as wall art poster, acrylic photo block, laptop sticker set, desk display, room decor.
+- Track C: `C_DIGITAL_PURE_PROFIT`, 55 slots. Uses Etsy Digital printable packs and alternates SEO templates: Buyer Persona, Room Use, Gift Intent.
+
+Current planner result:
+
+- 165 active experiment slots planned.
+- 60 additional rows are in `QA_HOLD_POOL` and do not consume launch capacity.
+- Active slots have zero HOLD rows.
+- Ready rows: 116.
+- Backlog/not-ready build slots: 49.
+- Etsy confirmed spend today: $0.00; next paid capacity today remains $6.00, but queued digital rows must still pass fee/reconciliation gates.
+
+Hard rules now encoded:
+
+- `SHADOW_CLIPPING`, `LOW_RESOLUTION`, or `HIGHLIGHT_CLIPPING` -> HOLD.
+- Sticker Cover Gate mismatch -> HOLD.
+- Etsy paid listings: $2/batch, $6/day, stop on ambiguous paid state.
+- eBay ads: Promoted Listings Standard / General fixed 2%; no PPC/Priority and no suggested-rate chasing.
+- De-patterning: jittered scheduling and mockup mood rotation every 5 slots.
+
+Strategic meaning for Gemini:
+
+- The system is no longer trying to brute-force only Zen/Dark Academia.
+- eBay is being tested through both low-competition search entry and high-volume buyer terms.
+- Etsy Digital becomes the lowest-cost learning lane; paid expansion should wait for traffic/favorite/indexing evidence.
+- The next strategic question is not "make more listings" but "which track gets non-zero search entry first, and which visual/SEO lane can be scaled without damaging account trust?"
+
 
 ## Update - 2026-05-06 20:48:25 America/New_York
 
