@@ -7,3 +7,5 @@
 2026-05-07T01:53:15,15,False,full_throughput,wired/healthy; avg=7ms,steady,status_page_steady_marker,0.067
 2026-05-07T01:54:56,67,True,conservative,loss=0.0% avg=14ms jitter=9999ms,steady,status_page_steady_marker,0.067
 2026-05-07T09:17:59,0,False,full_throughput,wired/healthy; avg=16ms,steady,status_page_steady_marker,0.067
+2026-05-07T10:40:49,0,False,full_throughput,wired/healthy; avg=6ms,steady,status_page_steady_marker,0.067
+2026-05-07T10:51:11,0,False,full_throughput,wired/healthy; avg=8ms,steady,status_page_steady_marker,0.067

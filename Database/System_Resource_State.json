@@ -1,82 +1,82 @@
 {
-  "updated_at": "2026-05-07T10:37:12-04:00",
-  "hot_streak": 1,
+  "updated_at": "2026-05-07T10:50:04-04:00",
+  "hot_streak": 0,
   "last_decision": "RUN_CONSERVATIVE",
-  "last_reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 97.0%; memory elevated 82.1%",
+  "last_reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu elevated 85.0%",
   "last_snapshot": {
-    "timestamp": "2026-05-07T10:37:12-04:00",
-    "cpu_load_pct": 97.0,
-    "memory_used_pct": 82.1,
+    "timestamp": "2026-05-07T10:50:04-04:00",
+    "cpu_load_pct": 85.0,
+    "memory_used_pct": 88.9,
     "memory_total_gb": 11.75,
-    "memory_free_gb": 2.1,
+    "memory_free_gb": 1.31,
     "temperature_c": null,
     "temperature_status": "DENIED_OR_UNAVAILABLE",
-    "gpu_util_pct": 10.5,
+    "gpu_util_pct": 1.0,
     "battery_percent": 100.0,
     "power_status": "AC_CHARGING",
     "top_processes": [
       {
         "ProcessName": "chrome",
         "Id": 3280,
-        "WorkingSetMB": 2864.3,
-        "CPU": 9353.796875
+        "WorkingSetMB": 2893.7,
+        "CPU": 9758.328125
       },
       {
         "ProcessName": "Codex",
         "Id": 27652,
-        "WorkingSetMB": 550.6,
-        "CPU": 16440.140625
+        "WorkingSetMB": 572.9,
+        "CPU": 16665.1875
       },
       {
         "ProcessName": "chrome",
         "Id": 9740,
-        "WorkingSetMB": 458.1,
-        "CPU": 51052.90625
+        "WorkingSetMB": 524.7,
+        "CPU": 51181.890625
+      },
+      {
+        "ProcessName": "chrome",
+        "Id": 18944,
+        "WorkingSetMB": 281.6,
+        "CPU": 18.75
       },
       {
         "ProcessName": "chrome",
         "Id": 21384,
-        "WorkingSetMB": 215.9,
-        "CPU": 470.625
+        "WorkingSetMB": 262.6,
+        "CPU": 473.40625
+      },
+      {
+        "ProcessName": "chrome",
+        "Id": 24452,
+        "WorkingSetMB": 215,
+        "CPU": 6890.046875
       },
       {
         "ProcessName": "MsMpEng",
         "Id": 4564,
-        "WorkingSetMB": 206.4,
+        "WorkingSetMB": 202.1,
         "CPU": null
       },
       {
-        "ProcessName": "Weixin",
-        "Id": 4708,
-        "WorkingSetMB": 173.8,
-        "CPU": 11302
-      },
-      {
-        "ProcessName": "Memory Compression",
-        "Id": 2944,
-        "WorkingSetMB": 173.6,
-        "CPU": null
-      },
-      {
-        "ProcessName": "Codex",
-        "Id": 26676,
-        "WorkingSetMB": 171,
-        "CPU": 6942.78125
+        "ProcessName": "Code",
+        "Id": 19100,
+        "WorkingSetMB": 195.6,
+        "CPU": 1331.8125
       }
     ]
   },
   "last_allocation": {
-    "timestamp": "2026-05-07T10:37:12-04:00",
+    "timestamp": "2026-05-07T10:50:04-04:00",
     "window": "peak_rex_online",
     "task_class": "single_browser_task",
     "priority": 50,
     "decision": "RUN_CONSERVATIVE",
-    "reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 97.0%; memory elevated 82.1%",
+    "reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu elevated 85.0%",
     "max_parallel": 1,
     "batch_size": 1,
     "cooldown_minutes": 0,
-    "cpu_load_pct": 97.0,
-    "memory_used_pct": 82.1,
+    "cpu_load_pct": 85.0,
+    "memory_used_pct": 88.9,
     "temperature_c": null,
     "power_status": "AC_CHARGING"
   },

@@ -285,3 +285,5 @@
 [MARKET-QUEUE] dependency high=46
 [MARKET-QUEUE] dependency low=7
 "
+2026-05-07T10:40:40-04:00,,,PAUSE_COOLDOWN,PAUSE_COOLDOWN,peak_rex_online,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 83.2%; hardware cooldown active 18m: temperature DENIED_OR_UNAVAILABLE; memory elevated 82.5%; sustained warm streak=3,,resource cooldown: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 83.2%; hardware cooldown active 18m: temperature DENIED_OR_UNAVAILABLE; memory elevated 82.5%; sustained warm streak=3
+2026-05-07T10:50:11-04:00,,,NO_TASK,RUN_CONSERVATIVE,peak_rex_online,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu elevated 85.0%,0,"allowed_classes=api_read,local_light,online_publish_safe,single_browser_task"
