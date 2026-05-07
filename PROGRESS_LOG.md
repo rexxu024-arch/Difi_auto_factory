@@ -1462,3 +1462,8 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 ## 2026-05-07 17:37:00 -04:00 Acrylic 0001 Cover Replacement Closed
 - `Acrylic-Zen-0001-FIX1` created and uploaded. First Printify pass hit delayed official mockup generation (`selected=0`), so it was held and retried instead of published.
 - Retry passed production-design audit (`visual_match=True`, `ahash_distance=0`) and official acrylic front/back/side mockup audit, published to eBay item `406911574121`, passed live buyer-page cover audit (`LIKELY_COVER_OFFICIAL`), and old item `406902620519` was ended in Seller Hub with Printify external detached.
+
+## 2026-05-07 17:51:00 -04:00 Poster 0001 Cover Replacement Closed
+- `Poster-Academia-0001-FIX1` created and uploaded. First Printify pass hit delayed official poster mockup generation (`selected=0`), then retry passed production-design audit (`visual_match=True`, `ahash_distance=0`) and official poster mockup audit.
+- Publish returned `missing_external_id`; `self_healing_daemon.py` found Printify external id `406911589289`, safely force-associated the local row, then live buyer-page cover audit passed (`LIKELY_COVER_OFFICIAL`).
+- Old eBay item `406902584620` was ended in Seller Hub and old Printify external detached.

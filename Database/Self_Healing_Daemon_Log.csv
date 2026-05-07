@@ -16,3 +16,6 @@
 2026-05-07T12:25:10,1,True,full_throughput,wired/healthy; avg=10ms,steady,status_page_steady_marker,0.067
 2026-05-07T12:34:51,1,True,full_throughput,wired/healthy; avg=9ms,steady,status_page_steady_marker,0.067
 2026-05-07T12:44:53,1,True,full_throughput,wired/healthy; avg=8ms,steady,status_page_steady_marker,0.067
+2026-05-07T16:18:09,0,False,full_throughput,wired/healthy; avg=10ms,steady,status_page_steady_marker,0.067
+2026-05-07T17:47:48,1,False,full_throughput,wired/healthy; avg=6ms,steady,status_page_steady_marker,0.067
+2026-05-07T17:48:21,1,True,full_throughput,wired/healthy; avg=7ms,steady,status_page_steady_marker,0.067
