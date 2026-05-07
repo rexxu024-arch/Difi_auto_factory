@@ -120,6 +120,24 @@ npm run etsy:api-status
 Checks whether Etsy API key has become active. As of the latest check, it is still pending/inactive.
 
 ```powershell
+npm run system:resources
+```
+
+Samples CPU, memory, GPU counter availability, battery/power, and thermal sensor availability, then writes the current resource allocation decision.
+
+```powershell
+npm run system:resources:watch
+```
+
+Runs the resource allocator as a lightweight monitor. It writes:
+
+- `Database/System_Resource_Policy.json`
+- `Database/System_Resource_State.json`
+- `Database/System_Resource_Allocation.csv`
+
+Resource decisions are `RUN`, `RUN_CONSERVATIVE`, `DEFER_TO_NIGHT`, or `PAUSE_COOLDOWN`. Factory supervisor now includes this resource strategy in its state.
+
+```powershell
 py modules\etsy_digital_ui_publisher.py --limit 1
 ```
 
@@ -148,6 +166,8 @@ py modules\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120
 - `PROJECT_FACTORY_ROADMAP.md`: 3-5 day, 7-12 day, and 2-4 week plan.
 - `Database/Factory_Backlog.md`: sortable task backlog.
 - `Database/Factory_Autopilot_Action_Queue.md`: current supervisor actions.
+- `Database/System_Resource_State.json`: current hardware/resource guard state.
+- `Review_Packets/AI_LABOR_FACTORY_KERNEL_AND_HARDWARE_PLAN.md`: portable AI labor kernel and 24-hour laptop protection plan.
 - `Reports/latest morning_report_*.md`: latest human-facing summary.
 - `Gemini_Advisor/latest gemini_review_queue_*.md`: strategy advisor packet.
 

@@ -209,3 +209,15 @@ Guardrails:
 - Do not use Rex's daily Chrome for OpenClaw account work.
 - Current login check: Printify `LOGGED_IN`, Etsy Shop Manager `LOGGED_IN`, eBay Seller Hub `LOGGED_IN`.
 - Only current account gap: eBay Developer Program still redirects to sign-in/pending program access; not a blocker for immediate Printify/Etsy/Seller Hub UI work.
+
+## 2026-05-07 00:16:00 -04:00 AI Labor Kernel + Hardware Care Branch
+- New durable branch after current Poster/external-id reconciliation: design a universal "AI labor factory" kernel that can migrate Risk Guard, Quality Gate, Cost Gate, and Resource Guard into new revenue projects without copying Printify/eBay/Etsy-specific logic.
+- Implemented portable core contracts under `modules/factory_core/`: `FactoryTask`, `GateResult`, `ExecutionDecision`, and `GateStack`.
+- Implemented laptop resource allocator: `modules/system_resource_allocator.py`.
+- New resource commands:
+  - `npm run system:resources`
+  - `npm run system:resources:watch`
+- Resource policy lives in `Database/System_Resource_Policy.json`; state/logs live in `Database/System_Resource_State.json` and `Database/System_Resource_Allocation.csv`.
+- 24h hardware rule: heavy local compute belongs mainly in the 00:00-06:30 New York window, but thermal/load guard overrides the clock. If temperature sensors are unavailable, use CPU/memory pressure as proxy.
+- Current hardware reading during implementation: temperature sensor denied/unavailable, CPU spiked to 100%, memory around 88-89%, AC charging. Allocator correctly chose `RUN_CONSERVATIVE` with max_parallel=1 and batch_size=2.
+- Factory supervisor now includes `resource_strategy` in `Database/Factory_Autopilot_State.json` and appends resource guard reasons to network/account actions when the machine is under pressure.

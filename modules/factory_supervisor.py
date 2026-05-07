@@ -213,6 +213,25 @@ def network_strategy(skip_network: bool, count: int) -> dict[str, object]:
         return {"mode": "pause", "max_parallel": 0, "batch_size": 0, "reason": f"network guard failed: {exc}"}
 
 
+def resource_strategy() -> dict[str, object]:
+    try:
+        from modules import system_resource_allocator
+
+        allocation, snapshot = system_resource_allocator.choose_allocation(task_class="auto", priority=50)
+        return {"allocation": asdict(allocation), "snapshot": asdict(snapshot)}
+    except Exception as exc:  # noqa: BLE001
+        return {
+            "allocation": {
+                "decision": "UNKNOWN",
+                "reason": f"resource allocator failed: {exc}",
+                "max_parallel": 1,
+                "batch_size": 1,
+                "cooldown_minutes": 0,
+            },
+            "snapshot": {},
+        }
+
+
 def printify_ui_status(cdp_port: int | None = None) -> dict[str, str]:
     cdp_port = cdp_port or int(os.getenv("OPENCLAW_PRINTIFY_CDP_PORT") or os.getenv("OPENCLAW_CDP_PORT") or "9223")
     try:
@@ -230,7 +249,27 @@ def printify_ui_status(cdp_port: int | None = None) -> dict[str, str]:
     return {"status": "UNKNOWN", "reason": "; ".join(urls[:3])}
 
 
-def build_actions(strategy: dict[str, object]) -> list[FactoryAction]:
+def _apply_resource_gate(actions: list[FactoryAction], resource: dict[str, object]) -> None:
+    allocation = resource.get("allocation") or {}
+    decision = clean(allocation.get("decision"))
+    reason = clean(allocation.get("reason"))
+    if decision == "PAUSE_COOLDOWN":
+        for action in actions:
+            if action.lane != "local" and action.status.startswith("READY"):
+                action.status = "WAIT_RESOURCE_COOLDOWN"
+                action.reason = f"{action.reason} Resource guard: {reason}"
+    elif decision == "DEFER_TO_NIGHT":
+        for action in actions:
+            if action.lane in {"production", "production_design_qa"} and action.status.startswith("READY"):
+                action.status = "WAIT_NIGHT_RESOURCE_WINDOW"
+                action.reason = f"{action.reason} Resource guard: {reason}"
+    elif decision == "RUN_CONSERVATIVE":
+        for action in actions:
+            if action.status.startswith("READY") and action.requires_network == "yes":
+                action.reason = f"{action.reason} Resource guard says conservative: {reason}"
+
+
+def build_actions(strategy: dict[str, object], resource: dict[str, object] | None = None) -> list[FactoryAction]:
     fix_rows = csv_count(FIX_QUEUE)
     source_repairs = count_by(REPAIR_DECISIONS, "Repair_Method").get("SOURCE_REPAIR_REQUIRED", 0)
     replacement_ready = count_by(REPLACEMENT_QUEUE, "Replacement_Status").get("READY_TO_REPLACE_VERIFIED", 0)
@@ -389,15 +428,18 @@ def build_actions(strategy: dict[str, object]) -> list[FactoryAction]:
             "low",
         )
     )
+    if resource:
+        _apply_resource_gate(actions, resource)
     return sorted(actions, key=lambda item: (-item.priority, item.lane, item.action))
 
 
-def write_state(strategy: dict[str, object], actions: list[FactoryAction]) -> None:
+def write_state(strategy: dict[str, object], resource: dict[str, object], actions: list[FactoryAction]) -> None:
     DATABASE_DIR.mkdir(exist_ok=True)
     state = {
         "generated_at": now().isoformat(timespec="seconds"),
         "timezone": "America/New_York",
         "network_strategy": strategy,
+        "resource_strategy": resource,
         "workbook_counts": workbook_counts(),
         "fix_queue_rows": csv_count(FIX_QUEUE),
         "repair_decisions": count_by(REPAIR_DECISIONS, "Repair_Method"),
@@ -421,6 +463,8 @@ def write_state(strategy: dict[str, object], actions: list[FactoryAction]) -> No
         f"Generated: {state['generated_at']} America/New_York",
         "",
         f"- Network mode: {strategy.get('mode')} ({strategy.get('reason')})",
+        f"- Resource mode: {(resource.get('allocation') or {}).get('decision')} ({(resource.get('allocation') or {}).get('reason')})",
+        f"- Resource max parallel/batch: {(resource.get('allocation') or {}).get('max_parallel')}/{(resource.get('allocation') or {}).get('batch_size')}",
         f"- eBay workbook rows: {state['workbook_counts']['rows']}",
         f"- Stable: {state['workbook_counts']['stable']}",
         f"- Published: {state['workbook_counts']['published']}",
@@ -504,12 +548,13 @@ def main() -> None:
     args = parser.parse_args()
 
     strategy = network_strategy(skip_network=args.skip_network, count=args.network_count)
+    resource = resource_strategy()
     if args.execute_local:
         failures = run_local_cycle()
         print(f"[AUTOPILOT-LOCAL-DONE] failures={failures}")
 
-    actions = build_actions(strategy)
-    write_state(strategy, actions)
+    actions = build_actions(strategy, resource)
+    write_state(strategy, resource, actions)
     print(f"[AUTOPILOT] state={STATE_JSON}")
     print(f"[AUTOPILOT] queue={ACTION_QUEUE}")
     for action in actions[:8]:

@@ -1086,3 +1086,18 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
   - 13 old Sticker external-missing rows marked `Quarantined_ExternalMissing`.
   - 7 Poster/Acrylic rows force-associated by writing confirmed eBay external ids from Printify API back into the workbook.
 - Logs written to `Database/Self_Healing_Decisions.csv` and `Database/Self_Healing_Daemon_Log.csv`.
+
+## 2026-05-07 00:16:00 -04:00 Universal AI Labor Kernel + Resource Allocator
+- Added portable factory-core primitives under `modules/factory_core/`:
+  - `FactoryTask`
+  - `GateResult`
+  - `ExecutionDecision`
+  - `GateStack`
+- Added `modules/system_resource_allocator.py` to choose run/conservative/defer/cooldown decisions from time window, CPU, memory, temperature availability, GPU probe, and power status.
+- Added npm shortcuts:
+  - `npm run system:resources`
+  - `npm run system:resources:watch`
+- Generated `Database/System_Resource_Policy.json`, `Database/System_Resource_State.json`, and `Database/System_Resource_Allocation.csv`.
+- Added hardware/business design packet: `Review_Packets/AI_LABOR_FACTORY_KERNEL_AND_HARDWARE_PLAN.md`.
+- Integrated resource strategy into `factory_supervisor.py`; supervisor state now records resource decisions and appends conservative resource reasons to eligible actions.
+- Current observed allocator result: night window is active, but CPU/memory pressure caused `RUN_CONSERVATIVE` with max_parallel=1 and batch_size=2.

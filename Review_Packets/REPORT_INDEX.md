@@ -17,6 +17,7 @@ This is the best current summary. It is written so Gemini can understand the pro
 - `GREY_FULL_LOGIC_ASSET_EXPORT_20260506_2348.zip` - full Grey audit packet with core code, raw logs, risk guard state, hardware/npm/docker health, 42 project-scoped zero-view rows, and 111 Draft/Pending rows.
 - `GREY_FULL_LOGIC_ASSET_EXPORT_20260506_2348.md` - unpacked markdown version of the same full audit export.
 - `CODEX_STRESS_TEST_ROUND3.md` - extreme-environment pressure-test response: Self_Healing_Daemon decision matrix, data-driven DNA mutation logic, and concurrency safety ceiling.
+- `AI_LABOR_FACTORY_KERNEL_AND_HARDWARE_PLAN.md` - portable AI labor factory kernel plan plus 24-hour laptop resource/power protection strategy.
 - `ETSY_DIGITAL_TRAFFIC_PENETRATION_REPORT_20260506.md` - live first batch: 10 Etsy Digital listings published, $2.00 confirmed spend, UI route working through dedicated Edge.
 - `PRINTIFY_EXTERNAL_SYNC_DIAGNOSIS_20260506.md`
 - `EBAY_API_MINIMAL_APPLICATION_PACKET.md`

@@ -1,6 +1,6 @@
 # eBay Traffic Diagnosis
 
-Generated: 2026-05-07 00:06:23 -0400 America/New_York
+Generated: 2026-05-07 00:16:15 -0400 America/New_York
 
 ## P100 Sticker live cover/gallery mismatch is a primary blocker.
 - Evidence: Cover fix queue contains 49 rows; latest snapshot has 43/50 zero-view rows despite 50 promoted rows.

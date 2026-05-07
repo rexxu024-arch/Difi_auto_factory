@@ -1,0 +1,83 @@
+{
+  "hot_streak": 1,
+  "last_decision": "RUN_CONSERVATIVE",
+  "updated_at": "2026-05-07T00:14:16-04:00",
+  "last_reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 100.0%; memory elevated 90.7%",
+  "last_snapshot": {
+    "timestamp": "2026-05-07T00:14:16-04:00",
+    "cpu_load_pct": 100.0,
+    "memory_used_pct": 90.7,
+    "memory_total_gb": 11.75,
+    "memory_free_gb": 1.09,
+    "temperature_c": null,
+    "temperature_status": "DENIED_OR_UNAVAILABLE",
+    "gpu_util_pct": 1.0,
+    "battery_percent": 100.0,
+    "power_status": "AC_CHARGING",
+    "top_processes": [
+      {
+        "ProcessName": "chrome",
+        "Id": 3280,
+        "WorkingSetMB": 754.5,
+        "CPU": 1815.90625
+      },
+      {
+        "ProcessName": "chrome",
+        "Id": 25104,
+        "WorkingSetMB": 592.4,
+        "CPU": 23.8125
+      },
+      {
+        "ProcessName": "chrome",
+        "Id": 9740,
+        "WorkingSetMB": 446.9,
+        "CPU": 48261.40625
+      },
+      {
+        "ProcessName": "Codex",
+        "Id": 27652,
+        "WorkingSetMB": 424.5,
+        "CPU": 13963.28125
+      },
+      {
+        "ProcessName": "chrome",
+        "Id": 1504,
+        "WorkingSetMB": 355,
+        "CPU": 1136.484375
+      },
+      {
+        "ProcessName": "msedge",
+        "Id": 9252,
+        "WorkingSetMB": 287,
+        "CPU": 44.765625
+      },
+      {
+        "ProcessName": "chrome",
+        "Id": 29500,
+        "WorkingSetMB": 267.3,
+        "CPU": 48.890625
+      },
+      {
+        "ProcessName": "msedge",
+        "Id": 28512,
+        "WorkingSetMB": 195.4,
+        "CPU": 1689.9375
+      }
+    ]
+  },
+  "last_allocation": {
+    "timestamp": "2026-05-07T00:14:16-04:00",
+    "window": "night_heavy",
+    "task_class": "local_heavy",
+    "priority": 50,
+    "decision": "RUN_CONSERVATIVE",
+    "reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 100.0%; memory elevated 90.7%",
+    "max_parallel": 1,
+    "batch_size": 2,
+    "cooldown_minutes": 0,
+    "cpu_load_pct": 100.0,
+    "memory_used_pct": 90.7,
+    "temperature_c": null,
+    "power_status": "AC_CHARGING"
+  }
+}

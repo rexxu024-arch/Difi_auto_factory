@@ -1,0 +1,152 @@
+{
+  "timezone": "America/New_York",
+  "sensor_policy": {
+    "temperature_preferred": true,
+    "temperature_missing_mode": "proxy_by_cpu_memory",
+    "temperature_missing_note": "If Windows denies thermal sensors, use sustained CPU/memory pressure as heat proxy."
+  },
+  "temperature_celsius": {
+    "ideal_max": 75,
+    "warm_reduce": 80,
+    "hot_cooldown": 85,
+    "critical_pause": 90,
+    "cooldown_minutes": 20
+  },
+  "load_thresholds": {
+    "cpu_reduce_pct": 75,
+    "cpu_cooldown_pct": 88,
+    "memory_reduce_pct": 82,
+    "memory_cooldown_pct": 92,
+    "hot_streak_required": 3
+  },
+  "windows": [
+    {
+      "name": "night_heavy",
+      "start": "00:00",
+      "end": "06:30",
+      "preferred_classes": [
+        "local_heavy",
+        "image_batch",
+        "qa_batch",
+        "asset_build",
+        "report_batch"
+      ],
+      "max_parallel": 2,
+      "batch_size": 8
+    },
+    {
+      "name": "morning_reports",
+      "start": "06:30",
+      "end": "10:00",
+      "preferred_classes": [
+        "report_batch",
+        "api_read",
+        "market_research",
+        "local_light"
+      ],
+      "max_parallel": 2,
+      "batch_size": 5
+    },
+    {
+      "name": "rex_interactive",
+      "start": "10:00",
+      "end": "18:00",
+      "preferred_classes": [
+        "local_light",
+        "api_read",
+        "single_browser_task"
+      ],
+      "max_parallel": 1,
+      "batch_size": 2,
+      "protect_user_interactivity": true
+    },
+    {
+      "name": "evening_online",
+      "start": "18:00",
+      "end": "23:00",
+      "preferred_classes": [
+        "api_read",
+        "online_publish_safe",
+        "single_browser_task",
+        "qa_batch"
+      ],
+      "max_parallel": 2,
+      "batch_size": 4
+    },
+    {
+      "name": "preflight_checkpoint",
+      "start": "23:00",
+      "end": "24:00",
+      "preferred_classes": [
+        "report_batch",
+        "git_checkpoint",
+        "queue_planning",
+        "local_light"
+      ],
+      "max_parallel": 1,
+      "batch_size": 3
+    }
+  ],
+  "resource_classes": {
+    "local_heavy": {
+      "base_parallel": 2,
+      "base_batch": 8,
+      "public_write": false
+    },
+    "image_batch": {
+      "base_parallel": 2,
+      "base_batch": 6,
+      "public_write": false
+    },
+    "qa_batch": {
+      "base_parallel": 2,
+      "base_batch": 10,
+      "public_write": false
+    },
+    "asset_build": {
+      "base_parallel": 2,
+      "base_batch": 6,
+      "public_write": false
+    },
+    "report_batch": {
+      "base_parallel": 2,
+      "base_batch": 8,
+      "public_write": false
+    },
+    "market_research": {
+      "base_parallel": 2,
+      "base_batch": 5,
+      "public_write": false
+    },
+    "api_read": {
+      "base_parallel": 3,
+      "base_batch": 12,
+      "public_write": false
+    },
+    "online_publish_safe": {
+      "base_parallel": 1,
+      "base_batch": 3,
+      "public_write": true
+    },
+    "single_browser_task": {
+      "base_parallel": 1,
+      "base_batch": 1,
+      "public_write": true
+    },
+    "local_light": {
+      "base_parallel": 1,
+      "base_batch": 5,
+      "public_write": false
+    },
+    "git_checkpoint": {
+      "base_parallel": 1,
+      "base_batch": 1,
+      "public_write": false
+    },
+    "queue_planning": {
+      "base_parallel": 1,
+      "base_batch": 10,
+      "public_write": false
+    }
+  }
+}

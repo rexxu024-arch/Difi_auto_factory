@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-06T22:30:00-04:00",
+  "updated_at": "2026-05-07T00:16:00-04:00",
   "timezone": "America/New_York",
   "source_of_truth": [
     "START_HERE_OPENCLAW.md",
@@ -21,7 +21,11 @@
     "Review_Packets/PRINTIFY_EXTERNAL_SYNC_DIAGNOSIS_20260506.md",
     "Database/Etsy_Digital_Gray_Launch_Queue.csv",
     "Database/Etsy_Fee_Ledger.csv",
-    "Review_Packets/EBAY_API_MINIMAL_APPLICATION_PACKET.md"
+    "Review_Packets/EBAY_API_MINIMAL_APPLICATION_PACKET.md",
+    "Review_Packets/AI_LABOR_FACTORY_KERNEL_AND_HARDWARE_PLAN.md",
+    "Database/System_Resource_Policy.json",
+    "Database/System_Resource_State.json",
+    "Database/System_Resource_Allocation.csv"
   ],
   "operating_roles": {
     "Rex": "Commander",
@@ -209,11 +213,12 @@
     "rule": "First batch is live; hold further paid publishing until initial traffic/indexing readout unless Rex explicitly asks or the fee guard admits the next gray cell."
   },
   "latest_supervisor_state": {
-    "last_local_run": "2026-05-06 22:30 -04:00",
+    "last_local_run": "2026-05-07 00:16 -04:00",
     "result": "npm run local completed with failures=0.",
     "etsy_status": "READY_MONITOR: first 10 Etsy Digital listings are live; monitor traffic before spending more.",
-    "latest_report": "Reports/morning_report_20260506_2230.md",
-    "latest_gemini_queue": "Gemini_Advisor/gemini_review_queue_20260506_2230.md"
+    "latest_report": "Reports/morning_report_20260507_0016.md",
+    "latest_gemini_queue": "Gemini_Advisor/gemini_review_queue_20260507_0016.md",
+    "resource_strategy": "Factory supervisor now writes resource_strategy into Database/Factory_Autopilot_State.json and appends conservative resource guard reasons to eligible actions."
   },
   "printify_external_pending": {
     "ids": [
@@ -230,5 +235,40 @@
     ],
     "report": "Review_Packets/PRINTIFY_EXTERNAL_SYNC_DIAGNOSIS_20260506.md",
     "scheduler_rule": "Normal publish scheduler no longer retries external-pending rows; explicit --retry-pending required."
+  },
+  "ai_labor_factory_kernel": {
+    "status": "BRANCH_CREATED",
+    "purpose": "Portable AI labor factory core for future revenue projects; decouple task contracts, risk gates, quality gates, cost gates, and resource allocation from Printify/eBay/Etsy specifics.",
+    "core_files": [
+      "modules/factory_core/contracts.py",
+      "modules/factory_core/portable_gates.py",
+      "modules/factory_core/__init__.py"
+    ],
+    "portable_concepts": [
+      "FactoryTask",
+      "GateResult",
+      "ExecutionDecision",
+      "GateStack"
+    ],
+    "next_integration": "New business modules should produce FactoryTask objects and register business-specific risk/quality/cost gate adapters instead of embedding marketplace-specific checks in production scripts."
+  },
+  "hardware_resource_policy": {
+    "allocator": "modules/system_resource_allocator.py",
+    "commands": [
+      "npm run system:resources",
+      "npm run system:resources:watch"
+    ],
+    "policy_file": "Database/System_Resource_Policy.json",
+    "state_file": "Database/System_Resource_State.json",
+    "log_file": "Database/System_Resource_Allocation.csv",
+    "night_heavy_window": "00:00-06:30 America/New_York",
+    "temperature_thresholds_celsius": {
+      "ideal_max": 75,
+      "warm_reduce": 80,
+      "hot_cooldown": 85,
+      "critical_pause": 90
+    },
+    "fallback_when_temperature_unavailable": "Use CPU and memory pressure as thermal proxy; sustained CPU >=88% or memory >=92% triggers cooldown after repeated samples.",
+    "latest_observation": "2026-05-07 00:12 EDT: temperature sensor denied/unavailable; CPU sampled up to 100%; memory 88-89%; AC charging; allocator selected RUN_CONSERVATIVE max_parallel=1 batch_size=2."
   }
 }

@@ -1,0 +1,5 @@
+﻿timestamp,window,task_class,priority,decision,reason,max_parallel,batch_size,cooldown_minutes,cpu_load_pct,memory_used_pct,temperature_c,power_status
+2026-05-07T00:12:31-04:00,night_heavy,image_batch,80,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 100.0%; memory elevated 89.5%,1,2,0,100.0,89.5,,AC_CHARGING
+2026-05-07T00:12:31-04:00,night_heavy,local_heavy,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 100.0%; memory elevated 89.2%,1,2,0,100.0,89.2,,AC_CHARGING
+2026-05-07T00:12:51-04:00,night_heavy,online_publish_safe,95,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 88.3%,1,2,0,62.0,88.3,,AC_CHARGING
+2026-05-07T00:14:16-04:00,night_heavy,local_heavy,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 100.0%; memory elevated 90.7%,1,2,0,100.0,90.7,,AC_CHARGING
