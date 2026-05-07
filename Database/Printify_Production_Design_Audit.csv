@@ -1,2 +1,2 @@
 ID,Product_Type,Status,Printify_Product_ID,exact_sha_match,visual_match,local_size,remote_size,remote_declared_size,ahash_distance,local_sha256,remote_sha256,remote_image_id,error
-Acrylic-Grimdark-0081-FIX1,Acrylic,Printify_UI_Mockups8,69fd02f3d70cf705c50f4d27,False,True,"(1538, 2138)","(1538, 2138)","(1538, 2138)",0,fd83ee547bc4f7cc439216864be450f95134f991470da03756695d30a6a3a0e2,ff56057152c45ca81737d3a7742d8deddc45944ba0b59b20f787520dd9c1a32d,69fd02e4d271d693badcb84c,
+Acrylic-Zen-0001-FIX1,Acrylic,Printify_UI_Mockups4,69fd040f6873b551670941bd,False,True,"(1538, 2138)","(1538, 2138)","(1538, 2138)",0,8a22da228c5fdbe1010f0e5242187e3056bf34167cc08d59844c1e92c87d9870,e280a5b3c29fe2792d3656d4f400060188febfbff541dee6575132c2bede260e,69fd0400badc57c6f42ee9f5,

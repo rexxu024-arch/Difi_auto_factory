@@ -1458,3 +1458,7 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Created `Database/eBay_Non_Sticker_Cover_Review.csv` to preserve visual-review overrides for non-sticker products whose eBay first image differs materially from the actual local Production_Design/Cover_Mockup.
 - Updated `ebay_cover_replacement_queue.py` so `REPLACE_CONFIRMED` non-sticker review rows become `READY_TO_REPLACE_VERIFIED` instead of staying stuck in review.
 - `Acrylic-Grimdark-0081-FIX1` created, uploaded to Printify, passed production-design audit (`visual_match=True`, `ahash_distance=0`), passed official acrylic front/back/side mockup audit, published to eBay item `406911568594`, passed live buyer-page cover audit (`LIKELY_COVER_OFFICIAL`), and old item `406902606976` was ended in Seller Hub with Printify external detached.
+
+## 2026-05-07 17:37:00 -04:00 Acrylic 0001 Cover Replacement Closed
+- `Acrylic-Zen-0001-FIX1` created and uploaded. First Printify pass hit delayed official mockup generation (`selected=0`), so it was held and retried instead of published.
+- Retry passed production-design audit (`visual_match=True`, `ahash_distance=0`) and official acrylic front/back/side mockup audit, published to eBay item `406911574121`, passed live buyer-page cover audit (`LIKELY_COVER_OFFICIAL`), and old item `406902620519` was ended in Seller Hub with Printify external detached.
