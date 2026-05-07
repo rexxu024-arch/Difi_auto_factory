@@ -57,6 +57,13 @@ def _polish(image):
 
 def _load_candidates(limit=10, ids=None):
     wanted = {item.strip() for item in (ids or []) if item.strip()}
+    existing = set()
+    if INDEX_PATH.exists() and not wanted:
+        with INDEX_PATH.open("r", encoding="utf-8-sig", newline="") as handle:
+            for row in csv.DictReader(handle):
+                item_id = _clean(row.get("ID"))
+                if item_id:
+                    existing.add(item_id)
     workbook = load_workbook(EBAY_BOOK, read_only=True, data_only=True)
     sheet = workbook.active
     headers = [cell.value for cell in sheet[1]]
@@ -67,6 +74,8 @@ def _load_candidates(limit=10, ids=None):
             continue
         item_id = str(row[cols["ID"]]).strip()
         if wanted and item_id not in wanted:
+            continue
+        if not wanted and item_id in existing:
             continue
         product_type = str(row[cols.get("Product_Type")] or "").strip()
         status = str(row[cols.get("Status")] or "").strip()
@@ -180,27 +189,41 @@ def _append_index(records):
 def build(limit=10, ids=None, force=False):
     OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
     rows = _load_candidates(limit=limit, ids=ids)
-    records = []
+    done = 0
     for row in rows:
-        folder, zip_path, zip_mb, status = _build_one(row, force=force)
-        record = {
-            "Timestamp": datetime.now().isoformat(timespec="seconds"),
-            "ID": row["ID"],
-            "Title": row["Title"],
-            "Source_Path": str(row["Production_Path"]),
-            "Pack_Folder": str(folder),
-            "Zip_Path": str(zip_path),
-            "Zip_MB": f"{zip_mb:.2f}",
-            "Build_Status": status,
-            "Suggested_Etsy_Price": "$6.99",
-            "Listing_Status": "LOCAL_READY_NOT_PUBLISHED",
-        }
-        records.append(record)
-        print(f"[DIGITAL-PACK] {row['ID']} zip={zip_mb:.2f}MB {status}")
-    if records:
-        _append_index(records)
-    print(f"[DONE] digital printable packs built={len(records)}")
-    return len(records)
+        try:
+            folder, zip_path, zip_mb, status = _build_one(row, force=force)
+            record = {
+                "Timestamp": datetime.now().isoformat(timespec="seconds"),
+                "ID": row["ID"],
+                "Title": row["Title"],
+                "Source_Path": str(row["Production_Path"]),
+                "Pack_Folder": str(folder),
+                "Zip_Path": str(zip_path),
+                "Zip_MB": f"{zip_mb:.2f}",
+                "Build_Status": status,
+                "Suggested_Etsy_Price": "$6.99",
+                "Listing_Status": "LOCAL_READY_NOT_PUBLISHED",
+            }
+            print(f"[DIGITAL-PACK] {row['ID']} zip={zip_mb:.2f}MB {status}")
+        except Exception as exc:
+            record = {
+                "Timestamp": datetime.now().isoformat(timespec="seconds"),
+                "ID": row["ID"],
+                "Title": row["Title"],
+                "Source_Path": str(row["Production_Path"]),
+                "Pack_Folder": "",
+                "Zip_Path": "",
+                "Zip_MB": "",
+                "Build_Status": f"ERROR_{type(exc).__name__}: {_clean(exc)}"[:120],
+                "Suggested_Etsy_Price": "$6.99",
+                "Listing_Status": "HOLD_SOURCE_IMAGE_REVIEW",
+            }
+            print(f"[DIGITAL-PACK-HOLD] {row['ID']} {record['Build_Status']}")
+        _append_index([record])
+        done += 1
+    print(f"[DONE] digital printable pack records={done}")
+    return done
 
 
 def main():

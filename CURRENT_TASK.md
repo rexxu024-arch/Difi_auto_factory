@@ -16,21 +16,34 @@ Browser/resource hygiene:
 - Keep only the 1-2 project tabs needed for the next active task.
 - Do not close unrelated/private user tabs unless Rex explicitly asks.
 - Prefer API/local scripts over repeated browser refresh loops when possible.
+- Do not interfere with Rex's daily Chrome. Use the dedicated Edge automation profile on CDP port 9223 for marketplace/account UI work unless there is a specific reason not to.
+
+Default authorization policy:
+- Rex has repeatedly granted full OpenClaw project access. Do not stop to ask for routine project account navigation, local file edits, API debugging, browser automation, QA checks, report writing, or script changes.
+- Ask only for true red lines: spending beyond the approved cap, touching payment/billing settings, placing/canceling orders, sending buyer/customer messages, exposing or changing private credentials, or destructive actions outside the project scope.
+- When blocked by a tool/runtime/login failure, record the blocker, choose the safest authorized workaround, and continue the mainline instead of waiting by default.
 
 Current execution order:
 1. Pause rapid public eBay publishing after Akamai/zero-size-object instability.
 2. Build Phase 1 data foundation: eBay read-only performance log, unified listing records, and DNA signal fields.
-3. Keep Etsy shop setup in waiting mode until Rex says the Etsy shop is ready. Prepare data/assets only; do not debug Etsy storefront, publish Etsy listings, or edit Etsy shop settings.
+3. Etsy Digital gray test is now active through the dedicated Edge UI profile: first 10 digital printable listings are live, with confirmed spend $2.00. Do not scale beyond the gray caps without signal.
 4. Keep Printify production available but avoid shop-front design changes until Rex updates the Printify storefront.
 5. Continue QA-first production, eBay read-only monitoring, performance logging, and report automation.
 6. Save morning/Gemini advisor report templates so Gemini can act as strategy advisor and Codex can filter recommendations.
 
 Guardrails:
-- Do not publish new eBay/Etsy listings in this phase unless explicitly resumed.
-- Do not interact with Etsy shop setup until Rex gives the signal that the Etsy shop is ready.
+- Do not rapid-publish new eBay listings while external sync and Sticker cover trust remain unresolved.
+- Etsy Digital is explicitly resumed for a controlled gray test. First batch cap is 10 listings / $2.00; no-result spend cap is $40-$60 total, with $40 as the normal pool and $60 requiring written rationale.
 - Do not activate paid advertising without final action-time confirmation. Exception already completed on 2026-05-04: Rex confirmed eBay Promoted Listings Standard / General fixed 2.0%; Seller Hub campaign now covers 99 identifiable OpenClaw listings after external-id refresh.
 - Do not touch payment settings, orders, or buyer messages without confirmation.
 - Sticker expansion remains paused until the Cover/U image selection bug is fixed.
+
+## 2026-05-06 21:58 -04:00 Etsy Digital First Batch Live
+- Etsy UI login is working in the dedicated Edge automation profile.
+- First Etsy Digital gray batch: 10/10 live, all manual-renewal digital listings, confirmed Etsy listing-fee spend $2.00.
+- Public page QA: 10/10 active/readable, 10/10 with digital-download signal.
+- The 2 old legacy DriveFuel listings were deleted/retired; their public pages now show unavailable and active manager no longer contains them.
+- Next Etsy actions: pause further paid publishing until the first 10 have initial indexing/traffic data or Rex explicitly asks to spend more.
 
 ## 2026-05-04 20:22 -04:00 Etsy Brand Shell Current State
 - Use Edge for Etsy site operations by default; Chrome has Etsy site data cleared and may have OAuth issues.

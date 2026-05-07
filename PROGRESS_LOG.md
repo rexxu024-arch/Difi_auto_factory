@@ -971,3 +971,41 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Read eBay Seller Hub snapshot through dedicated Edge: 50 rows, 43 zero-view, 7 with one-plus views, 50 promoted.
 - Synced 80 Printify products for external ids: 67 updated. Traffic diagnosis now attributes movement by product type: Acrylic 3/17 moved, Poster 4/17 moved, Sticker 0/16 moved.
 - Created `Review_Packets/EBAY_API_MINIMAL_APPLICATION_PACKET.md` and updated Gemini brief/index.
+
+## 2026-05-06 21:58:00 -04:00 Authorization Guardrail + Etsy Digital Batch 1 Live
+- Added Rex's full-project-access rule to `CURRENT_TASK.md`: routine OpenClaw file/account/API/browser/debug work should proceed without repeated permission prompts.
+- Preserved hard red lines: payment/billing settings, orders, buyer/customer messages, private credentials, and spend beyond approved caps still require explicit confirmation.
+- Etsy UI login is working in the dedicated Edge automation profile on CDP port 9223.
+- First Etsy Digital gray batch is live: 10/10 printable wall-art listings published through Etsy UI, all digital/manual-renewal, confirmed listing-fee spend $2.00.
+- Confirmed live Etsy listing ids:
+  - `Poster-Academia-0001` -> `4500654287`
+  - `Poster-Academia-0002` -> `4500664506`
+  - `Poster-Academia-0003` -> `4500665474`
+  - `Poster-Academia-0081` -> `4500657145`
+  - `Poster-Academia-0082` -> `4500667154`
+  - `Poster-Academia-0083` -> `4500667734`
+  - `Poster-Academia-0084` -> `4500668282`
+  - `Poster-Academia-0085` -> `4500668786`
+  - `Poster-Academia-0091` -> `4500660013`
+  - `Poster-Zen-0001` -> `4500669878`
+- Etsy Shop Manager currently shows 12 active listings: 10 new OpenClaw digital tests plus 2 legacy DriveFuel listings.
+- Patched the Etsy UI publisher during the run:
+  - use the dedicated Edge profile, not Chrome;
+  - upload ZIPs through Etsy's digital-file field, not the photo input;
+  - copy ZIPs to short Etsy-safe upload names like `OC-Poster-Academia-0081.zip`;
+  - write confirmed listing ids and spend to queue/metadata/ledger.
+- Next: update Gemini/Rex packets, public QA sample, retire/delete the two legacy Etsy listings, and hold further paid Etsy publishing until first-10 traffic can be read or Rex asks to spend more.
+
+## 2026-05-06 22:06:00 -04:00 Etsy Digital Public Page Audit
+- Added `modules/etsy_live_audit.py` for reusable public Etsy listing checks through the dedicated Edge automation profile.
+- Audited all 10 newly published Etsy Digital listings.
+- Result: 10/10 `ACTIVE_READABLE`, 10/10 with digital-download signal present.
+- Audit log written to `Database/Etsy_Digital_Live_Audit.csv`.
+
+## 2026-05-06 22:20:00 -04:00 Etsy Legacy Listings Removed
+- Deleted/retired the two old DriveFuel legacy Etsy listings Rex asked to remove:
+  - `4407466791` - Impulse Purchase Recovery Kit (Digital Download)
+  - `4366700475` - DriverFuel_SideHustle_Driver_Planner_Kit
+- Public verification: both pages now show "This item is unavailable."
+- Shop Manager active listing page no longer contains either legacy listing id/title.
+- Clean confirmation saved to `Database/Etsy_Legacy_Retirement_Status.csv`.

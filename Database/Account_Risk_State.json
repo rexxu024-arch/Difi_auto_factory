@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-06T19:55:00-04:00",
+  "updated_at": "2026-05-06T21:08:51-04:00",
   "policy": "Compliant account containment. Do not spoof identity, bypass marketplace enforcement, or move flagged activity to backup accounts.",
   "states": {
     "ebay": {
@@ -11,11 +11,11 @@
       "notes": "No Priority/PPC. Seller Hub writes allowed only for known maintenance like retiring verified bad listings."
     },
     "etsy": {
-      "read_allowed": false,
-      "write_allowed": false,
-      "paid_publish_allowed": false,
-      "risk_state": "LOGIN_ANOMALY",
-      "notes": "Edge and Chrome/Google login showed Etsy red error. Pause Etsy UI/API publish until account access is stable."
+      "read_allowed": true,
+      "write_allowed": true,
+      "paid_publish_allowed": true,
+      "risk_state": "UI_LOGGED_IN_API_PENDING",
+      "notes": "Rex confirmed Etsy login works in dedicated Edge. Paid publish is authorized only under Etsy_Fee_Kill_Switch caps: 200-listing pool, $2 per batch, $6 daily gray cap unless explicitly changed."
     },
     "printify": {
       "read_allowed": true,

@@ -19,6 +19,7 @@ Gemini_Advisor/gemini_review_queue_*.md
 __review_temp__/
 Database/*_tmp.*
 Database/current_screen_for_upload.png
+Database/*_debug.png
 Database/Printify_Product_Backups/
 Database/Harvest_Logs/
 Database/design_mismatch_previews/

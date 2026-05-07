@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-06T20:49:16-04:00",
+  "updated_at": "2026-05-06T21:58:00-04:00",
   "timezone": "America/New_York",
   "source_of_truth": [
     "START_HERE_OPENCLAW.md",
@@ -27,6 +27,18 @@
     "Rex": "Commander",
     "Gemini": "Strategy advisor",
     "Codex": "Executive operator and factory debugger"
+  },
+  "default_authorization_policy": {
+    "principle": "Rex has repeatedly granted full OpenClaw project access. Routine project account navigation, local file edits, API debugging, browser automation, QA checks, report writing, and script changes should proceed without repeated permission prompts.",
+    "ask_only_for": [
+      "spending beyond the approved cap",
+      "payment or billing settings",
+      "placing, canceling, or refunding orders",
+      "sending buyer/customer messages",
+      "exposing or changing private credentials",
+      "destructive actions outside the OpenClaw project scope"
+    ],
+    "blocked_behavior": "When a tool/runtime/login failure appears, record the blocker, choose the safest authorized workaround, and return to the mainline instead of waiting by default."
   },
   "advisor_packet_policy": {
     "canonical_brief": "Review_Packets/OPENCLAW_GEMINI_BRIEF.md",
@@ -83,7 +95,7 @@
   "current_blockers": [
     "Sticker/public publish is blocked by live eBay cover mismatch until source repair or replacement is verified.",
     "Printify login can expire; use npm run printify:login to verify/recover the CDP profile before UI source repair.",
-    "Etsy API app is still pending personal approval; do not publish Etsy listings or trigger listing fees until Rex confirms readiness.",
+    "Etsy API app is still pending personal approval, but Etsy UI login works in the dedicated Edge profile and the first 10 digital printable listings are live. Do not scale beyond gray caps without signal.",
     "Printify official/default mockups should be preserved when useful; cover repair now validates custom cover/design presence and live buyer-page result rather than requiring exactly one default image.",
     "One verified sample proves some old inventory-managed eBay variation images may not accept source repair; use replacement listing flow for READY_TO_REPLACE_VERIFIED rows.",
     "Old bad Sticker listings must be safely retired after replacement listings pass live audit; retire queue is Database/eBay_Retire_Queue.csv."
@@ -156,7 +168,7 @@
     "Do not use Priority/PPC ads; only Promoted Listings Standard/General fixed 2%.",
     "Do not use suggested ad rates.",
     "Do not touch payments, orders, buyer messages, or billing settings.",
-    "Do not publish Etsy listings or trigger Etsy listing fees until Rex confirms Etsy is ready."
+    "Do not publish beyond the first Etsy Digital gray batch unless the fee guard and current Rex budget cap allow it; normal pool is $40 total and $60 requires written rationale."
   ],
   "image_policy": {
     "sticker": "Use Cover-only custom art plus Printify official mockups for first-pass marketplace publishing. Do not publish U1-U4 as eBay/Printify gallery images because eBay can select one U/detail image as the main cover. Keep U1-U4 local for QA/detail/reference.",
@@ -170,17 +182,31 @@
     "latest_cleanup": "2026-05-06 16:45 -0400: safe caches/temp cleanup freed about 18GB and raised C drive free space to about 54.7GB."
   },
   "etsy_digital_gray_launch": {
-    "batch_id": "ETSY-DIGITAL-20260506-200824",
+    "batch_id": "ETSY-DIGITAL-FIRST-LIVE-20260506",
     "queue": "Database/Etsy_Digital_Gray_Launch_Queue.csv",
     "qa_report": "Database/Etsy_Digital_QA_Report.csv",
     "fee_ledger": "Database/Etsy_Fee_Ledger.csv",
     "report": "Review_Packets/ETSY_DIGITAL_TRAFFIC_PENETRATION_REPORT_20260506.md",
     "selected": 10,
     "qa_pass": 10,
-    "confirmed_spent_usd": 0.0,
+    "confirmed_spent_usd": 2.0,
     "reserved_fee_usd": 2.0,
-    "status": "READY_BLOCKED_ETSY_AUTH",
-    "rule": "Do not trigger Etsy listing fees until login/API access is clean; first batch hard cap remains $2 and daily cap $6."
+    "status": "PUBLISHED_UI_CONFIRMED_FIRST_10",
+    "public_audit": "10/10 active/readable and 10/10 digital-download signal in Database/Etsy_Digital_Live_Audit.csv.",
+    "legacy_cleanup": "Old DriveFuel Etsy listings 4407466791 and 4366700475 deleted/retired; public pages show unavailable and active manager no longer contains them.",
+    "live_listing_ids": [
+      "Poster-Academia-0001 -> 4500654287",
+      "Poster-Academia-0002 -> 4500664506",
+      "Poster-Academia-0003 -> 4500665474",
+      "Poster-Academia-0081 -> 4500657145",
+      "Poster-Academia-0082 -> 4500667154",
+      "Poster-Academia-0083 -> 4500667734",
+      "Poster-Academia-0084 -> 4500668282",
+      "Poster-Academia-0085 -> 4500668786",
+      "Poster-Academia-0091 -> 4500660013",
+      "Poster-Zen-0001 -> 4500669878"
+    ],
+    "rule": "First batch is live; hold further paid publishing until initial traffic/indexing readout unless Rex explicitly asks or the fee guard admits the next gray cell."
   },
   "printify_external_pending": {
     "ids": [

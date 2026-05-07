@@ -139,12 +139,21 @@ def _deepseek(row):
 
 def _read_index(limit=0, ids=None):
     wanted = {item.strip() for item in (ids or []) if item.strip()}
+    existing = set()
+    if OUTPUT_PATH.exists() and not wanted:
+        with OUTPUT_PATH.open("r", encoding="utf-8-sig", newline="") as handle:
+            for row in csv.DictReader(handle):
+                item_id = _clean(row.get("ID"))
+                if item_id:
+                    existing.add(item_id)
     rows = []
     if not INDEX_PATH.exists():
         return rows
     with INDEX_PATH.open("r", encoding="utf-8-sig", newline="") as handle:
         for row in csv.DictReader(handle):
             if wanted and row.get("ID") not in wanted:
+                continue
+            if not wanted and row.get("ID") in existing:
                 continue
             if row.get("Listing_Status") != "LOCAL_READY_NOT_PUBLISHED":
                 continue
@@ -194,6 +203,7 @@ def build(limit=10, ids=None, use_api=True):
                     "Status": "READY_FOR_ETSY_DRAFT",
                 }
             )
+            handle.flush()
             done += 1
             print(f"[DIGITAL-META] {row['ID']} tags={len(meta['Tags'])} title_len={len(meta['Title'])}")
     print(f"[DONE] digital etsy metadata rows={done}")

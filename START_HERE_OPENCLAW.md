@@ -27,8 +27,10 @@ The execution rule is not "more listings at any cost." The rule is stable produc
 - eBay/Etsy APIs are support layers for analytics, ads, health checks, metadata experiments, and reconciliation.
 - Do not build a second full listing engine unless a verified blocker forces it.
 - Do not touch payment settings, orders, buyer messages, or purchases without explicit confirmation.
+- Rex has granted default full access for routine OpenClaw project work: files, project account navigation, API debugging, browser automation, QA, report writing, and scripts. Do not repeatedly ask for permission unless a hard red line is involved.
 - Use only the Printify Google account `rexxu024@gmail.com`.
 - Keep browser tabs minimal; prefer scripts/APIs over manual browser loops.
+- Use the dedicated Edge automation profile on CDP port 9223 for marketplace UI work. Do not interfere with Rex's daily Chrome unless explicitly requested.
 
 ## Current Image Policy
 
@@ -57,10 +59,10 @@ cd C:\AIprojects\openclaw_difi
 npm run setup:win
 ```
 
-Start or reuse Chrome remote-debug profile for Printify UI work:
+Start or reuse the dedicated Edge remote-debug profile for marketplace UI work:
 
 ```powershell
-"C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir="C:\sel_chrome_profile"
+npm run browser:edge
 ```
 
 Run safe local maintenance:
@@ -115,7 +117,7 @@ npm run etsy:api-status
 ## Current Known Blockers
 
 - Some eBay live listings show a single U/detail image instead of the intended cover. Fix path is source repair through Printify, then live eBay buyer-page audit. If source repair cannot sync through inventory-managed variation images, create replacement listings and retire bad ones.
-- Etsy API app is still pending/inactive until Etsy approves the key.
+- Etsy API app is still pending/inactive until Etsy approves the key. Etsy UI login works through the dedicated Edge profile; first Etsy Digital gray batch is live: 10 listings, $2.00 confirmed spend.
 - Wired LAN was restored on 2026-05-06. Low-bandwidth mode is lifted unless a new network guard check fails. If network quality becomes poor again, fall back to local QA, copy optimization, pricing, registry, and reports instead of bulk upload/publish.
 
 ## What To Do Next After Recovery
@@ -125,4 +127,5 @@ npm run etsy:api-status
 3. Check `Database/eBay_Cover_Repair_Decisions.md`.
 4. If Printify login is valid, repair exactly one cover SKU and inspect live eBay result.
 5. Only expand batches after one repair proves stable.
-6. Keep Git checkpointing safe code/docs/database state; never commit `.env`, browser profiles, cache, or temporary screenshots.
+6. For Etsy Digital, read traffic on the first 10 live listings before spending more unless Rex explicitly resumes the next gray cell.
+7. Keep Git checkpointing safe code/docs/database state; never commit `.env`, browser profiles, cache, or temporary screenshots.

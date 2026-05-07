@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-06T19:55:00-04:00",
+  "updated_at": "2026-05-06T21:09:14-04:00",
   "marketplace": "Etsy",
   "authorized_pool_listings": 200,
   "expected_listing_fee_usd": 0.2,
@@ -12,9 +12,15 @@
   "default_action_on_ambiguous_paid_state": "STOP_BATCH_AND_RECONCILE",
   "publish_requires_confirmation_before_next_create": true,
   "notes": [
+    "Default Etsy experiment pool: 200 listings / $40 listing fees.",
+    "Before there is meaningful market evidence, $40-$60 is the maximum acceptable total spend.",
+    "Do not exceed $40 unless a written evidence-based rationale is recorded for Rex/Gemini.",
+    "Never exceed $60 before results without explicit new instruction.",
     "Preserve capital before preserving output.",
     "If a paid publish/create result cannot be confirmed, do not retry create blindly.",
     "Query by local idempotency key/title/SKU/hash before any retry.",
     "Full 200-listing pool should be consumed only after staged performance signals."
-  ]
+  ],
+  "absolute_no_result_spend_cap_usd": 60.0,
+  "spend_between_40_and_60_requires_written_rationale": true
 }

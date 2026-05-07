@@ -18,13 +18,15 @@ For OpenClaw / Difi Auto Factory work, the user has granted standing project-lev
 - Installing missing project Python dependencies into the project `.venv`.
 - Querying project-related APIs such as Printify for status, audit, draft repair, and listing preparation.
 - Inspecting project-related browser pages such as Printify and eBay Seller Hub when already logged in.
+- Using the dedicated Edge automation profile for project marketplace UI tasks so Rex's daily Chrome is not disturbed.
+- Publishing or editing within an already-approved gray test when a written fee/risk cap exists and the action stays under that cap.
 
 Do not repeatedly ask for confirmation for these routine project actions. If the Codex app's sandbox still forces a tool-level approval, treat that as a system execution gate, not as a new user decision.
 
 Still pause for:
 
 - Payment, orders, purchases, subscriptions, or account billing/payment credentials.
-- Broad public eBay publishing/sync that may materially affect account health.
+- Broad public eBay/Etsy publishing/sync that may materially affect account health or exceed the written gray-test cap.
 - Destructive local/cloud deletion unless the target is narrowly verified as a bad project artifact or draft cleanup already within the task scope.
 - Sensitive personal data unrelated to the OpenClaw project.
 

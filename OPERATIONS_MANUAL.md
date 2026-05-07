@@ -65,10 +65,10 @@ py -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-4. Start or reuse Chrome remote-debug profile for Printify UI tasks:
+4. Start or reuse the dedicated Edge remote-debug profile for marketplace UI tasks:
 
 ```powershell
-"C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir="C:\sel_chrome_profile"
+npm run browser:edge
 ```
 
 5. Run the factory preflight:
@@ -119,6 +119,12 @@ npm run etsy:api-status
 
 Checks whether Etsy API key has become active. As of the latest check, it is still pending/inactive.
 
+```powershell
+py modules\etsy_digital_ui_publisher.py --limit 1
+```
+
+Publishes the next approved Etsy Digital gray-test listing through the dedicated Edge profile. Use only when `Database\Etsy_Fee_Kill_Switch.json` and `Database\Account_Risk_State.json` allow it.
+
 ## Current Blocking State
 
 The primary blocker is live eBay image integrity:
@@ -150,22 +156,23 @@ py modules\factory_cover_repair_runner.py --limit 1 --post-sync-wait 120
 Allowed without repeated confirmation:
 
 - Project files under this repo.
+- Project account navigation, local file edits, API debugging, browser automation, QA checks, report writing, and script changes related to OpenClaw.
 - Printify status/audit/draft repair/listing preparation.
-- eBay Seller Hub read-only inspection.
+- eBay/Etsy Seller Hub read-only inspection.
 - Printify/eBay/Etsy local data reconciliation.
-- Small recoverable probes that do not spend money or create orders.
+- Small recoverable probes that do not create orders, touch payments, or exceed an approved fee cap.
 
 Pause or ask before:
 
 - Payments, orders, purchases, subscriptions, billing settings.
 - Buyer messages.
-- Etsy listing-fee-triggering publishes.
+- Etsy listing-fee-triggering publishes beyond the current written cap.
 - Broad public eBay/Etsy publishing if supervisor flags cover/network/account risk.
 
 ## Marketplace Strategy Memory
 
 - eBay: 2% Promoted Listings Standard/General only. No Priority/PPC. Ignore suggested ad rate.
-- Etsy: use existing shop, no bulk dump. Start curated 20-30 listings once shop/API/listing-fee readiness is confirmed.
+- Etsy: existing shop is now usable through Edge UI. First Digital gray batch is live: 10 listings, $2.00 spend. Do not bulk dump; read traffic before spending more unless Rex explicitly resumes the next gray cell.
 - Product creation and mockups remain Printify-first.
 - eBay/Etsy APIs are support layers, not a replacement for Printify unless the image/variation blocker forces it.
 

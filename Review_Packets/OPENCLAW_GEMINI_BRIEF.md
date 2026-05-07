@@ -1,6 +1,6 @@
 # OpenClaw Gemini Brief
 
-Generated: 2026-05-06 17:30:55 -04:00 America/New_York
+Generated: 2026-05-06 21:58:00 -04:00 America/New_York
 
 This is the copy/paste brief for Gemini. Gemini does **not** need direct access to the repo, code, or folders to understand the strategy. The implementation details are summarized as business capabilities and current operational facts.
 
@@ -18,6 +18,14 @@ The old low-bandwidth assumption is no longer valid.
 - A 50MB download test reached about 214Mbps.
 - Online production can resume at normal/high throughput.
 - Remaining throttles should be business/account-risk throttles, not network throttles.
+
+ETSY DIGITAL TEST IS LIVE.
+
+- Etsy UI login works in the dedicated Edge automation profile.
+- Codex published the first 10 OpenClaw Etsy Digital printable listings through Etsy UI.
+- Confirmed Etsy listing-fee spend is $2.00.
+- Etsy API is still pending approval, so UI automation is the current route.
+- Etsy Shop Manager initially showed 12 active listings: 10 OpenClaw digital tests plus 2 old DriveFuel listings. The two old DriveFuel listings have now been deleted/retired; their public pages show unavailable.
 
 ## Role Split
 
@@ -166,21 +174,23 @@ Avoid building a second full listing system. Printify should remain the main pro
 
 ## Etsy State
 
-Etsy shop exists, but Etsy should not be rushed.
+Etsy shop exists and the first digital gray batch is now live.
 
 Current state:
 
 - Etsy API/app is pending/inactive.
-- Etsy UI login is currently blocked: both Edge and Chrome/Google sign-in show Etsy's red "An error has occurred, please try again!" banner. This is now treated as an Etsy account/session/security issue, not merely browser cache.
-- Etsy shop brand shell is not final.
-- Do not publish Etsy listings or trigger Etsy listing fees until Rex confirms readiness and Etsy login is stable.
+- Etsy UI login works in the dedicated Edge profile, not Rex's daily Chrome.
+- First Etsy Digital batch: 10 live printable wall-art listings, confirmed spend $2.00.
+- Etsy shop brand shell is still not final.
+- Two old legacy DriveFuel listings have been deleted/retired; their public pages now show unavailable.
 
 Strategic direction:
 
 - Etsy should launch with a curated premium shell, not a brute-force dump.
-- Start with 20-30 selected listings.
+- Treat the first 10 digital listings as a gray test, not proof of product-market fit.
 - Copy should be more poetic than eBay but still SEO-aware.
 - Store identity should support premium decor, Zen/dark-academia/jade relic aesthetics, and future broader bestsellers.
+- Spend control: Rex authorized a 200-listing long-run experiment pool, but before signal the practical spending pool is $40 normal / $60 hard-with-rationale. Do not burn the pool without views/favorites/search signal.
 
 ## Pricing Notes
 
@@ -211,13 +221,12 @@ This is more important than speed because bad production art can create refunds,
 
 Execution priorities:
 
-1. Finish latest Sticker replacement audit and old-listing retirement.
-2. Bring Poster count to 50.
-3. Keep Acrylic around 50 unless new high-quality acrylic DNA is ready.
-4. Sync missing marketplace IDs.
-5. Keep eBay ads automation ready for OAuth approval.
-6. Prepare Etsy brand/data locally, but do not publish Etsy yet.
-7. Keep turning manual labor into scripts, queues, QA gates, and reports.
+1. QA the first 10 Etsy Digital public listings and read initial traffic when Etsy exposes it.
+2. Finish latest Sticker replacement audit and old-listing retirement.
+3. Bring Poster count to 50 only when eBay/Printify external sync is controlled.
+4. Keep Acrylic around 50 unless a clearly stronger premium DNA/product test is ready.
+5. Keep eBay ads/API automation ready for OAuth approval.
+6. Keep turning manual labor into scripts, queues, QA gates, and reports.
 
 ## Stress Test / Guardrails Update
 

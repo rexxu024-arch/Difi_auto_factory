@@ -1,6 +1,6 @@
 # Review Packet Index
 
-Generated: 2026-05-06 17:30:55 -04:00 America/New_York
+Generated: 2026-05-06 21:58:00 -04:00 America/New_York
 
 Use this folder as the simple copy/paste hub for Rex, Gemini, or another AI advisor.
 
@@ -14,7 +14,7 @@ This is the best current summary. It is written so Gemini can understand the pro
 
 - `Latest/morning_report_latest.md`
 - `Latest/gemini_review_queue_latest.md`
-- `ETSY_DIGITAL_TRAFFIC_PENETRATION_REPORT_20260506.md`
+- `ETSY_DIGITAL_TRAFFIC_PENETRATION_REPORT_20260506.md` - live first batch: 10 Etsy Digital listings published, $2.00 confirmed spend, UI route working through dedicated Edge.
 - `PRINTIFY_EXTERNAL_SYNC_DIAGNOSIS_20260506.md`
 - `EBAY_API_MINIMAL_APPLICATION_PACKET.md`
 - `CODEX_STRESS_TEST_ROUND2.md`
