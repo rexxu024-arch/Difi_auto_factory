@@ -238,7 +238,14 @@ def audit_row(row: dict[str, str], near_threshold: int = 6, deep_hash: bool = Fa
     return record
 
 
-def run(limit: int = 0, ids: set[str] | None = None, sleep_seconds: float = 0.5, near_threshold: int = 6, deep_hash: bool = False) -> list[dict[str, str]]:
+def run(
+    limit: int = 0,
+    ids: set[str] | None = None,
+    sleep_seconds: float = 0.5,
+    near_threshold: int = 6,
+    deep_hash: bool = False,
+    merge_existing: bool = False,
+) -> list[dict[str, str]]:
     records = []
     for row in workbook_rows(limit=limit, ids=ids):
         record = audit_row(row, near_threshold=near_threshold, deep_hash=deep_hash)
@@ -269,12 +276,22 @@ def run(limit: int = 0, ids: set[str] | None = None, sleep_seconds: float = 0.5,
         "Notes",
         "Error",
     ]
+    output_records = records
+    if merge_existing and OUT_CSV.exists():
+        existing = read_csv(OUT_CSV)
+        by_id = {clean(row.get("ID")): row for row in existing if clean(row.get("ID"))}
+        for record in records:
+            by_id[clean(record.get("ID"))] = record
+        existing_order = [clean(row.get("ID")) for row in existing if clean(row.get("ID"))]
+        new_order = [clean(record.get("ID")) for record in records if clean(record.get("ID")) not in existing_order]
+        output_records = [by_id[item_id] for item_id in existing_order if item_id in by_id] + [by_id[item_id] for item_id in new_order]
+
     with OUT_CSV.open("w", encoding="utf-8-sig", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=fieldnames)
         writer.writeheader()
-        writer.writerows(records)
-    checks = sum(1 for record in records if record.get("Result") != "OK")
-    print(f"[GALLERY-DUP-AUDIT-DONE] rows={len(records)} checks={checks} csv={OUT_CSV}")
+        writer.writerows(output_records)
+    checks = sum(1 for record in output_records if record.get("Result") != "OK")
+    print(f"[GALLERY-DUP-AUDIT-DONE] rows={len(output_records)} updated={len(records)} checks={checks} csv={OUT_CSV}")
     return records
 
 
@@ -285,9 +302,17 @@ def main() -> None:
     parser.add_argument("--sleep-seconds", type=float, default=0.5)
     parser.add_argument("--near-threshold", type=int, default=6)
     parser.add_argument("--deep-hash", action="store_true")
+    parser.add_argument("--merge-existing", action="store_true", help="Update matching IDs in the existing full audit CSV instead of replacing it.")
     args = parser.parse_args()
     ids = {part.strip() for part in args.ids.split(",") if part.strip()} or None
-    run(limit=args.limit, ids=ids, sleep_seconds=args.sleep_seconds, near_threshold=args.near_threshold, deep_hash=args.deep_hash)
+    run(
+        limit=args.limit,
+        ids=ids,
+        sleep_seconds=args.sleep_seconds,
+        near_threshold=args.near_threshold,
+        deep_hash=args.deep_hash,
+        merge_existing=args.merge_existing,
+    )
 
 
 if __name__ == "__main__":

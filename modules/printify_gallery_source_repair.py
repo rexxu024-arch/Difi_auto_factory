@@ -12,6 +12,7 @@ import argparse
 import asyncio
 import csv
 import json
+import os
 import sys
 import time
 from datetime import datetime
@@ -24,6 +25,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from config import Config
+from modules.automation_browser import DEFAULT_PROFILE, cdp_status, launch
 from modules.printify_gallery_duplicate_audit import audit_row, workbook_rows
 from modules.printify_mockup_ui_uploader import CdpPage, _target_ws
 
@@ -31,6 +33,7 @@ from modules.printify_mockup_ui_uploader import CdpPage, _target_ws
 DATABASE_DIR = PROJECT_ROOT / "Database"
 REPAIR_QUEUE = DATABASE_DIR / "Printify_Gallery_Repair_Queue.csv"
 OUT_CSV = DATABASE_DIR / "Printify_Gallery_Source_Repair_Log.csv"
+CDP_PORT = int(os.getenv("OPENCLAW_PRINTIFY_CDP_PORT") or os.getenv("OPENCLAW_CDP_PORT") or "9223")
 
 
 def clean(value: object) -> str:
@@ -70,7 +73,20 @@ def publish_images(product_id: str) -> int:
     return response.status_code
 
 
+def ensure_edge_cdp() -> None:
+    status = cdp_status(CDP_PORT)
+    if status.get("status") == "RUNNING":
+        return
+    launch("edge", CDP_PORT, DEFAULT_PROFILE, "about:blank", minimized=False)
+
+
+def is_cdp_connection_error(exc: Exception) -> bool:
+    text = str(exc)
+    return "WinError 10061" in text or "Connection refused" in text or "actively refused" in text
+
+
 async def resave_current_selection(product_id: str, wait_seconds: int = 10) -> dict[str, str]:
+    ensure_edge_cdp()
     ws_url = _target_ws(product_id)
     async with CdpPage(ws_url) as page:
         await page.navigate(
@@ -119,6 +135,7 @@ async def resave_current_selection(product_id: str, wait_seconds: int = 10) -> d
 
 
 async def select_official_mockups(product_id: str, product_type: str, wait_seconds: int = 10) -> dict[str, str]:
+    ensure_edge_cdp()
     ws_url = _target_ws(product_id)
     desired = {
         "Acrylic": ["Front", "Back", "Side 1", "Side 2"],
@@ -305,11 +322,20 @@ def run(limit: int, ids: set[str], include_custom_risk: bool, publish: bool, sle
             "Error": "",
         }
         try:
-            if official_only:
-                record["Action"] = "SELECT_OFFICIAL_ONLY"
-                record.update(asyncio.run(select_official_mockups(product_id, record["Product_Type"])))
-            else:
-                record.update(asyncio.run(resave_current_selection(product_id)))
+            for attempt in range(2):
+                try:
+                    if official_only:
+                        record["Action"] = "SELECT_OFFICIAL_ONLY"
+                        record.update(asyncio.run(select_official_mockups(product_id, record["Product_Type"])))
+                    else:
+                        record.update(asyncio.run(resave_current_selection(product_id)))
+                    break
+                except Exception as exc:  # noqa: BLE001
+                    if attempt == 0 and is_cdp_connection_error(exc):
+                        ensure_edge_cdp()
+                        time.sleep(2)
+                        continue
+                    raise
             post = audit_row(row, deep_hash=False)
             record["Post_Result"] = clean(post.get("Result"))
             record["Post_Selected_Count"] = clean(post.get("Selected_Count"))

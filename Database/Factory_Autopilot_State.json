@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-07T18:50:32-04:00",
+  "generated_at": "2026-05-07T20:57:47-04:00",
   "timezone": "America/New_York",
   "network_strategy": {
     "mode": "unknown",
@@ -9,79 +9,79 @@
   },
   "resource_strategy": {
     "allocation": {
-      "timestamp": "2026-05-07T18:45:48-04:00",
+      "timestamp": "2026-05-07T20:53:25-04:00",
       "window": "peak_rex_online",
       "task_class": "single_browser_task",
       "priority": 50,
       "decision": "RUN_CONSERVATIVE",
-      "reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.3%",
+      "reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.7%",
       "max_parallel": 1,
       "batch_size": 1,
       "cooldown_minutes": 0,
-      "cpu_load_pct": 15.0,
-      "memory_used_pct": 82.3,
+      "cpu_load_pct": 12.0,
+      "memory_used_pct": 82.7,
       "temperature_c": null,
       "power_status": "AC_CHARGING"
     },
     "snapshot": {
-      "timestamp": "2026-05-07T18:45:48-04:00",
-      "cpu_load_pct": 15.0,
-      "memory_used_pct": 82.3,
+      "timestamp": "2026-05-07T20:53:25-04:00",
+      "cpu_load_pct": 12.0,
+      "memory_used_pct": 82.7,
       "memory_total_gb": 11.75,
-      "memory_free_gb": 2.08,
+      "memory_free_gb": 2.03,
       "temperature_c": null,
       "temperature_status": "DENIED_OR_UNAVAILABLE",
-      "gpu_util_pct": 1.1,
+      "gpu_util_pct": 5.9,
       "battery_percent": 100.0,
       "power_status": "AC_CHARGING",
       "top_processes": [
         {
           "ProcessName": "chrome",
           "Id": 28132,
-          "WorkingSetMB": 1393,
-          "CPU": 1392.8125
+          "WorkingSetMB": 1765.6,
+          "CPU": 1932.34375
         },
         {
           "ProcessName": "Memory Compression",
           "Id": 2944,
-          "WorkingSetMB": 620.6,
+          "WorkingSetMB": 618.4,
           "CPU": null
-        },
-        {
-          "ProcessName": "Code",
-          "Id": 17544,
-          "WorkingSetMB": 444.4,
-          "CPU": 1186.0625
-        },
-        {
-          "ProcessName": "chrome",
-          "Id": 9740,
-          "WorkingSetMB": 440,
-          "CPU": 53132.34375
         },
         {
           "ProcessName": "Codex",
           "Id": 27652,
-          "WorkingSetMB": 437.5,
-          "CPU": 22541.28125
+          "WorkingSetMB": 422.9,
+          "CPU": 23590.21875
         },
         {
           "ProcessName": "chrome",
-          "Id": 26308,
-          "WorkingSetMB": 253,
-          "CPU": 95.609375
+          "Id": 26560,
+          "WorkingSetMB": 419.1,
+          "CPU": 75.375
         },
         {
           "ProcessName": "chrome",
-          "Id": 26452,
-          "WorkingSetMB": 250,
-          "CPU": 21.546875
+          "Id": 9740,
+          "WorkingSetMB": 333,
+          "CPU": 53933.96875
         },
         {
           "ProcessName": "chrome",
-          "Id": 21820,
-          "WorkingSetMB": 222.7,
-          "CPU": 381.890625
+          "Id": 27048,
+          "WorkingSetMB": 260,
+          "CPU": 878.046875
+        },
+        {
+          "ProcessName": "chrome",
+          "Id": 4500,
+          "WorkingSetMB": 234.2,
+          "CPU": 110.609375
+        },
+        {
+          "ProcessName": "MsMpEng",
+          "Id": 4564,
+          "WorkingSetMB": 217.7,
+          "CPU": null
         }
       ]
     }
@@ -121,7 +121,7 @@
     "OK": 38,
     "CHECK": 123
   },
-  "performance_age_hours": 0.7982009319444444,
+  "performance_age_hours": 2.919033693611111,
   "printify_ui_status": {
     "status": "LOGGED_IN",
     "reason": "Printify app page is available in CDP browser."
@@ -143,7 +143,7 @@
       "lane": "gallery_integrity",
       "action": "Resolve repeated/risky Printify gallery images before public publishing resumes.",
       "status": "BLOCKING_PUBLISH",
-      "reason": "74 live or staged products have exact duplicate selected images or custom gallery repeat risk.",
+      "reason": "22 live or staged products have exact duplicate selected images or custom gallery repeat risk.",
       "command": "py modules\\printify_gallery_duplicate_audit.py --sleep-seconds 0.1",
       "requires_network": "yes",
       "requires_login": "Printify API",
@@ -154,7 +154,7 @@
       "lane": "production_design_qa",
       "action": "Run a tiny Printify production-design audit before any larger online batch.",
       "status": "READY",
-      "reason": "This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.3%",
+      "reason": "This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.7%",
       "command": "py modules\\printify_design_audit.py --limit 2 --sleep-seconds 1",
       "requires_network": "yes",
       "requires_login": "Printify API",
@@ -165,7 +165,7 @@
       "lane": "etsy",
       "action": "Monitor Etsy Digital first gray batch before spending more listing fees.",
       "status": "READY_MONITOR",
-      "reason": "Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.3%",
+      "reason": "Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.7%",
       "command": "py modules\\etsy_live_audit.py --limit 10",
       "requires_network": "yes",
       "requires_login": "Etsy UI/public",

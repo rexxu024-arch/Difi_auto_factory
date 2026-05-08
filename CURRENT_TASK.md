@@ -98,6 +98,12 @@ Guardrails:
 - Allowed: local code hardening, data normalization, listing text/tag/price generation, image metadata cleanup, mockup/gallery derivation, QA audit scripts, report builders.
 - If network is needed, run network_guard first and use max_parallel=1, batch_size=1 unless the guard is clearly healthy.
 
+## 2026-05-07 20:30:00 -04:00 Household Network Courtesy Window
+- Wired LAN is the preferred OpenClaw path and is stable enough for daytime high-throughput work.
+- Household usage pattern update: daytime is mostly Rex only, so Codex may run larger API/upload/audit batches when account-risk guards permit.
+- Between 17:00 and 23:00 Eastern, switch to neighbor-friendly network behavior: avoid stacking PS5/game downloads, bulk image uploads, and high-concurrency browser audits; prefer API reads, local QA, metadata work, and small recoverable marketplace batches.
+- After 23:00 Eastern, bulk network tasks may resume if hardware and account-risk guards are green.
+
 ## 2026-05-05 08:41:18 -04:00 Current Local-Only Work + Product R&D Branch
 - Network guard currently reports pause, so no bulk online writes.
 - Continue local monthly factory tasks: copy candidates, unpublished-draft copy application, market signal/action queue, report refresh.

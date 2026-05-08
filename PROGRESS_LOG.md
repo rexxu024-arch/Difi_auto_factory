@@ -1518,3 +1518,15 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Empirical test: after source clean + image republish + 10-minute wait, Acrylic-Grimdark-0006/0007/0011 still showed duplicate buyer-page gallery images on eBay.
 - Updated operating rule: source clean prevents future pollution, but already-live duplicate eBay galleries need eBay revise API/UI or replacement if the marketplace gallery refuses to refresh.
 - Custom-gallery repair is harder than exact duplicate repair; do not bulk-run official-only UI repair until selectors are made more reliable.
+
+## 2026-05-07 20:30 -04:00 Household Network Courtesy Update
+- Rex clarified daytime network can be aggressive because household usage is mostly Rex; 17:00-23:00 ET should be neighbor-friendly. Updated CURRENT_TASK.md with this default protocol. Continuing Gallery Integrity mainline under evening-safe small batches.
+
+## 2026-05-07 20:36 -04:00 eBay Gallery Sync Retest
+- Re-tested Acrylic-Grimdark-0006/0007/0011 on live buyer pages after waiting beyond Printify's normal sync window. All 3 still show CHECK_LIVE_DUPLICATE with 11 pictures / 5 unique / 6 duplicates.
+- Conclusion: Printify source repair prevents future source pollution, but existing eBay live galleries need eBay revise/replacement if they do not refresh. Keep publish blocked until Gallery Integrity clears.
+
+## 2026-05-07 20:58 -04:00 Exact Duplicate Gallery Source Cleaned
+- Printify selected-gallery exact duplicates reduced to zero through source re-save workflow and targeted merge-audit refresh.
+- Current Printify_Gallery_Repair_Queue: 22 rows, all CHECK_CUSTOM_GALLERY_REPEATS_RISK. These are non-sticker custom/detail galleries and require a separate official-mockup selection or replacement strategy.
+- Added local audit merge mode and Edge CDP self-heal retry so future small-batch repairs do not corrupt the full audit CSV or stop on transient port loss.

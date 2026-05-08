@@ -1,6 +1,6 @@
 # Factory Backlog
 
-Generated: 2026-05-07 20:04:45 -0400 America/New_York
+Generated: 2026-05-07 20:57:46 -0400 America/New_York
 
 ## Status Counts
 
@@ -43,14 +43,14 @@ Generated: 2026-05-07 20:04:45 -0400 America/New_York
 
 ### P94 gallery_integrity - BLOCKING_PUBLISH
 - Task: Repair repeated/risky Printify gallery images before more public publish
-- Blocker: 52 products have exact duplicate selected images or custom gallery repeat risk.
+- Blocker: 22 products have exact duplicate selected images or custom gallery repeat risk.
 - Command: `py modules\printify_gallery_duplicate_audit.py --sleep-seconds 0.1`
 - Done when: All live/staged products in duplicate audit are OK, or risky rows are queued for source repair/replacement.
 - Risk/network: medium / Printify API
 
 ### P93 supervisor:gallery_integrity - BLOCKING_PUBLISH
 - Task: Resolve repeated/risky Printify gallery images before public publishing resumes.
-- Blocker: 74 live or staged products have exact duplicate selected images or custom gallery repeat risk.
+- Blocker: 52 live or staged products have exact duplicate selected images or custom gallery repeat risk.
 - Command: `py modules\printify_gallery_duplicate_audit.py --sleep-seconds 0.1`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: medium / yes
@@ -71,7 +71,7 @@ Generated: 2026-05-07 20:04:45 -0400 America/New_York
 
 ### P63 supervisor:production_design_qa - READY
 - Task: Run a tiny Printify production-design audit before any larger online batch.
-- Blocker: This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.3%
+- Blocker: This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 88.8%
 - Command: `py modules\printify_design_audit.py --limit 2 --sleep-seconds 1`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: low / yes
@@ -92,7 +92,7 @@ Generated: 2026-05-07 20:04:45 -0400 America/New_York
 
 ### P55 supervisor:etsy - READY_MONITOR
 - Task: Monitor Etsy Digital first gray batch before spending more listing fees.
-- Blocker: Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.3%
+- Blocker: Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 88.8%
 - Command: `py modules\etsy_live_audit.py --limit 10`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: low / yes

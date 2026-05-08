@@ -1,6 +1,6 @@
 # eBay Traffic Diagnosis
 
-Generated: 2026-05-07 18:50:27 -0400 America/New_York
+Generated: 2026-05-07 20:57:44 -0400 America/New_York
 
 ## P100 Cover Gate is cleared; the current blocker is traffic/product-market fit.
 - Evidence: Active cover fix queue is 0 after excluding 50 retired old eBay IDs; latest snapshot has 40/44 zero-view rows despite 44 promoted rows.
@@ -13,7 +13,7 @@ Generated: 2026-05-07 18:50:27 -0400 America/New_York
 - Network dependency: low
 
 ## P85 Repeated or risky gallery images can suppress buyer trust and marketplace quality scoring.
-- Evidence: Printify gallery duplicate audit has 74 non-OK rows. This includes exact repeated selected image URLs and non-sticker custom gallery sets that can look like duplicate spam on eBay.
+- Evidence: Printify gallery duplicate audit has 22 non-OK rows. This includes exact repeated selected image URLs and non-sticker custom gallery sets that can look like duplicate spam on eBay.
 - Action: Pause expansion, repair selected galleries to unique official product mockups, and only resume small-batch publish after duplicate audit is OK.
 - Network dependency: medium
 
