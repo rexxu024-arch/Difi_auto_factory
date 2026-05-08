@@ -1614,3 +1614,11 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Printify primary/gallery audit still flags old gallery/default-image risk. This affects buyer-facing trust/duplicate perception, not the actual print file. Keep Sticker expansion frozen and prioritize gallery-safe Poster/Acrylic plus SEO/traffic learning.
 - Gemini free API smoke test passed (`gemini-flash-latest`, status 200, generate OK). Grey bridge produced 4 review tasks into `Database/Grey_Bridge_Tasks.csv`; no live edits were executed from Grey output.
 - Etsy phase-one read-only live audit passed for 10/10 active listings. No extra listing fee spend.
+
+## 2026-05-08 08:23:00 -04:00 eBay Traffic Learning Loop Advanced
+- Read-only Seller Hub snapshot succeeded through Edge CDP: 50 rows read, 44 zero-view, 6 with at least one view, 50 promoted via General/Standard.
+- Reconciled 5 previously local-only multi-track copy rows to Printify/eBay sync successfully (`get=200`, `update=200`, `publish=200`).
+- Prepared and synced 10 new Track A low-competition intent rewrites focused on Acrylic/Poster, not Sticker. All 10 synced successfully with no image changes and no listing-fee spend.
+- Generated `Review_Packets/PRINTIFY_SOURCE_GALLERY_RISK_20260508.md`: 22 Printify source-gallery debt rows, all `P2_SOURCE_DEBT`; no current `P1_LIVE_VISIBLE` duplicate fire.
+- Refreshed multi-track experiment and monitor reports. Latest decision: keep 2% ads as baseline, but treat product-market fit, long-tail intent, and gallery trust as the growth levers.
+- Etsy Digital remains capped: 10 live/readable, total confirmed spend $2, today $0, API still pending/inactive.

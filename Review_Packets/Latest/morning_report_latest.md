@@ -1,18 +1,18 @@
 # OpenClaw Morning Report
 
-Generated: 2026-05-07 23:18 -0400 America/New_York
+Generated: 2026-05-08 08:21 -0400 America/New_York
 
 ## Current Factory State
 
-- Stable Printify-tracked products: 137
-- Published through Printify/eBay tracking: 127
-- Ready for Printify: 46
+- Stable Printify-tracked products: 121
+- Published through Printify/eBay tracking: 121
+- Ready for Printify: 47
 
 ## Product Counts
 
 - Acrylic: stable 42, published 42, ready 0
-- Poster: stable 35, published 35, ready 0
-- Sticker: stable 60, published 50, ready 46
+- Poster: stable 34, published 34, ready 0
+- Sticker: stable 45, published 45, ready 47
 
 ## Etsy Phase 1 Prep
 
@@ -22,11 +22,11 @@ Generated: 2026-05-07 23:18 -0400 America/New_York
 
 ## Performance Snapshot
 
-- Latest eBay snapshot: 2026-05-07 18:02:39 -0400
-- Rows read: 44
-- 0-view rows in snapshot: 40
-- Rows with at least 1 view: 4
-- General promoted rows in snapshot: 44
+- Latest eBay snapshot: 2026-05-08 08:09:29 -0400
+- Rows read: 50
+- 0-view rows in snapshot: 44
+- Rows with at least 1 view: 6
+- General promoted rows in snapshot: 50
 
 ## Local Low-Bandwidth Work Completed
 
@@ -50,8 +50,8 @@ Generated: 2026-05-07 23:18 -0400 America/New_York
 - Fix_Gallery_First: 1
 - Hold: 200
 - Published_Zero_View_Copy_Ad_Review: 28
-- Ready_For_Printify_When_Network_OK: 46
-- Stable_Draft_Publish_When_Scheduled: 10
+- Ready_For_Printify_When_Network_OK: 47
+- Stable_Draft_Publish_When_Scheduled: 9
 
 ## eBay Traffic Experiment
 
@@ -89,7 +89,7 @@ Generated: 2026-05-07 23:18 -0400 America/New_York
 
 ## Factory Backlog
 
-- Backlog READY: 5
+- Backlog READY: 6
 - Backlog READY_AFTER_IMAGE_QA: 2
 - Backlog READY_FOR_SCHOLAR_REVIEW: 1
 - Backlog READY_MONITOR: 2
@@ -114,6 +114,7 @@ Lane counts:
 - supervisor:local: 1
 - supervisor:production_design_qa: 1
 - supervisor:publish: 1
+- supervisor:read_only_market: 1
 
 ## Current Guardrails
 

@@ -1,10 +1,10 @@
 # Factory Autopilot Action Queue
 
-Generated: 2026-05-07T23:54:50-04:00 America/New_York
+Generated: 2026-05-08T07:29:42-04:00 America/New_York
 
-- Network mode: unknown (network guard skipped)
-- Resource mode: RUN_CONSERVATIVE (temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 89.6%)
-- Resource max parallel/batch: 1/2
+- Network mode: conservative (loss=0.0% avg=7ms jitter=9999ms)
+- Resource mode: RUN (temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy)
+- Resource max parallel/batch: 2/5
 - eBay workbook rows: 299
 - Stable: 136
 - Published: 127
@@ -24,19 +24,25 @@ Generated: 2026-05-07T23:54:50-04:00 America/New_York
 
 ### P70 publish: WAIT_NETWORK
 - Action: Publish small cooled batch if network guard is healthy.
-- Reason: Stable=136 published=127 ready=47; network=unknown.
+- Reason: Stable=136 published=127 ready=47; network=conservative.
 - Command: `py modules\printify_publish_scheduler.py --limit 3 --min-delay 180 --max-delay 420`
 - Network: yes; login: Printify API; risk: high
 
+### P65 read_only_market: READY
+- Action: Refresh eBay Seller Hub performance snapshot.
+- Reason: Performance data is stale or absent; this is read-only but browser/network dependent.
+- Command: `py modules\ebay_sellerhub_snapshot.py`
+- Network: yes; login: eBay Seller Hub; risk: low
+
 ### P63 production_design_qa: READY
 - Action: Run a tiny Printify production-design audit before any larger online batch.
-- Reason: This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 89.6%
+- Reason: This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi.
 - Command: `py modules\printify_design_audit.py --limit 2 --sleep-seconds 1`
 - Network: yes; login: Printify API; risk: low
 
 ### P55 etsy: READY_MONITOR
 - Action: Monitor Etsy Digital first gray batch before spending more listing fees.
-- Reason: Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 89.6%
+- Reason: Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout.
 - Command: `py modules\etsy_live_audit.py --limit 10`
 - Network: yes; login: Etsy UI/public; risk: low
 

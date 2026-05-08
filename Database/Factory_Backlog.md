@@ -1,10 +1,10 @@
 # Factory Backlog
 
-Generated: 2026-05-07 23:18:51 -0400 America/New_York
+Generated: 2026-05-08 08:20:52 -0400 America/New_York
 
 ## Status Counts
 
-- READY: 5
+- READY: 6
 - READY_AFTER_IMAGE_QA: 2
 - READY_MONITOR: 2
 - WAIT_NETWORK: 1
@@ -17,6 +17,7 @@ Generated: 2026-05-07 23:18:51 -0400 America/New_York
 - production: 1
 - supervisor:publish: 1
 - publish: 1
+- supervisor:read_only_market: 1
 - supervisor:production_design_qa: 1
 - market_learning: 1
 - etsy: 1
@@ -42,28 +43,35 @@ Generated: 2026-05-07 23:18:51 -0400 America/New_York
 
 ### P72 production - READY_AFTER_IMAGE_QA
 - Task: Resume Ready_for_Printify uploads in audited single-item batches
-- Blocker: 46 local rows are ready; Cover Gate is cleared, so proceed only through single-item upload plus production-design/default-image audit.
+- Blocker: 47 local rows are ready; Cover Gate is cleared, so proceed only through single-item upload plus production-design/default-image audit.
 - Command: `py modules\printify_full_pipeline.py --limit 1`
 - Done when: A new single item reaches stable mockup state and passes selected-count/default-count audit.
 - Risk/network: high / Printify UI/API
 
 ### P70 supervisor:publish - WAIT_NETWORK
 - Task: Publish small cooled batch if network guard is healthy.
-- Blocker: Stable=139 published=126 ready=46; network=unknown.
+- Blocker: Stable=136 published=127 ready=47; network=conservative.
 - Command: `py modules\printify_publish_scheduler.py --limit 3 --min-delay 180 --max-delay 420`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: high / yes
 
 ### P68 publish - READY_AFTER_IMAGE_QA
 - Task: Publish small cooled batch after default-image and live-cover spot audit
-- Blocker: 10 stable drafts are candidates. Cover Gate is cleared; continue with cooled scheduler and post-publish live-cover spot checks.
+- Blocker: 9 stable drafts are candidates. Cover Gate is cleared; continue with cooled scheduler and post-publish live-cover spot checks.
 - Command: `py modules\printify_publish_scheduler.py --limit 3 --min-delay 180 --max-delay 420`
 - Done when: Published products are live-audited and added to 2% Standard/General ad coverage without PPC.
 - Risk/network: high / Printify API/eBay sync
 
+### P65 supervisor:read_only_market - READY
+- Task: Refresh eBay Seller Hub performance snapshot.
+- Blocker: Performance data is stale or absent; this is read-only but browser/network dependent.
+- Command: `py modules\ebay_sellerhub_snapshot.py`
+- Done when: Supervisor action remains present until its status is completed or superseded.
+- Risk/network: low / yes
+
 ### P63 supervisor:production_design_qa - READY
 - Task: Run a tiny Printify production-design audit before any larger online batch.
-- Blocker: This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 83.9%
+- Blocker: This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi.
 - Command: `py modules\printify_design_audit.py --limit 2 --sleep-seconds 1`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: low / yes
@@ -84,7 +92,7 @@ Generated: 2026-05-07 23:18:51 -0400 America/New_York
 
 ### P55 supervisor:etsy - READY_MONITOR
 - Task: Monitor Etsy Digital first gray batch before spending more listing fees.
-- Blocker: Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 83.9%
+- Blocker: Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout.
 - Command: `py modules\etsy_live_audit.py --limit 10`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: low / yes
