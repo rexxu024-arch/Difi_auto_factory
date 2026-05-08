@@ -554,7 +554,7 @@ async def _upload_files_to_library(product_id, files, keep_default_mockups=True)
         )
         if not continued:
             raise RuntimeError("Continue button not found")
-        expected_library_count = len(files) + 1 if keep_default_mockups else len(files)
+        expected_library_count = len(files)
         for _ in range(60):
             ready = await page.eval(
                 """((expectedCount) => {
@@ -586,7 +586,7 @@ async def _select_latest_library_mockups(product_id, add_count, expected_count=5
                         const ctrl=e.querySelector('[data-testid="checkboxWrapper"], [role="checkbox"]');
                         return ctrl && ctrl.getAttribute('aria-checked') !== 'true';
                     }).length;
-                    return items.length >= addCount + 1 && unselected >= addCount;
+                    return items.length >= addCount && unselected >= addCount;
                 })(""" + str(add_count) + """)"""
             )
             if ready:
@@ -650,6 +650,10 @@ async def _select_latest_library_mockups(product_id, add_count, expected_count=5
 
 
 async def _upload_mockups(product_id, files, keep_default_mockups=False, expected_count=5, publish=False, product_type="Sticker"):
+    if keep_default_mockups and len(files) == 1:
+        await _upload_files_to_library(product_id, files, keep_default_mockups=True)
+        await _select_latest_library_mockups(product_id, add_count=1, expected_count=expected_count, publish=publish)
+        return
     if len(files) == 5:
         # Printify periodically changes the "link uploaded mockups to variants"
         # side-panel flow. The most stable path is: upload every custom gallery

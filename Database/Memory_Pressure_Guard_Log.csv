@@ -39,3 +39,6 @@
 "2026-05-07T22:12:46-04:00","EXECUTE_CLEANUP_FALLBACK","True","89.6","86.4","65.2","79.8","3","MEMORY_STILL_WARM_ACTIVATE_COOLDOWN","Python entrypoints blocked; Edge CDP idle tabs closed; Grunt skipped"
 2026-05-07 22:21:30 -0400,EXECUTE_CLEANUP,True,87.8,87.6,96.0,31.0,0,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
 2026-05-07 22:40:47 -0400,EXECUTE_CLEANUP,True,85.4,90.1,46.0,100.0,0,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
+2026-05-07 23:10:49 -0400,EXECUTE_CLEANUP,True,84.3,88.8,74.0,88.0,0,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
+2026-05-07 23:43:53 -0400,NOOP_BELOW_THRESHOLD,True,,79.3,,34.0,0,MEMORY_OK_CONTINUE,normal work may continue under marketplace risk guards
+2026-05-07 23:55:20 -0400,EXECUTE_CLEANUP,True,86.0,85.9,93.0,20.0,0,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks

@@ -1,9 +1,9 @@
 # eBay Traffic Diagnosis
 
-Generated: 2026-05-07 22:29:24 -0400 America/New_York
+Generated: 2026-05-07 23:58:06 -0400 America/New_York
 
 ## P100 Cover Gate is cleared; the current blocker is traffic/product-market fit.
-- Evidence: Active cover fix queue is 0 after excluding 51 retired old eBay IDs; latest snapshot has 40/44 zero-view rows despite 44 promoted rows.
+- Evidence: Active cover fix queue is 0 after excluding 52 retired old eBay IDs; latest snapshot has 40/44 zero-view rows despite 44 promoted rows.
 - Action: Keep image-order audits in the QA gate, but shift growth effort to Track A/B/C experiments: buyer-intent SEO, product mix, price/room-use positioning, and Etsy digital gray launch.
 - Network dependency: low
 

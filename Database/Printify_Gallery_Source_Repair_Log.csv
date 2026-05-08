@@ -73,3 +73,13 @@
 2026-05-07 22:51:55 ,Sticker-Zen-0081,Sticker,69f26782c326d7da170c1498,,SELECT_STICKER_COVER_PLUS_OFFICIAL,4,4,Cover|Front|Context 1|Context 2,OK,4,4,,
 2026-05-07 22:52:24 ,Sticker-Zen-0076,Sticker,69f264df357398ded80f6a3a,,SELECT_STICKER_COVER_PLUS_OFFICIAL,7,4,Cover|Front|Context 1|Context 2,OK,7,7,,
 2026-05-07 22:57:19 ,Sticker-Zen-0081,Sticker,69f26782c326d7da170c1498,406912094146,SELECT_STICKER_COVER_PLUS_OFFICIAL,,,,,,,,Could not select 3 official sticker mockups: []
+2026-05-07 23:01:01 ,Sticker-Zen-0083,Sticker,69f2683ecaeb1241880b7fcb,,SELECT_STICKER_COVER_PLUS_OFFICIAL,,,,,,,,Could not select 3 official sticker mockups: []
+2026-05-07 23:04:41 ,Sticker-Zen-0083,Sticker,69f2683ecaeb1241880b7fcb,,SELECT_STICKER_COVER_PLUS_OFFICIAL,,,,,,,,Could not select 3 official sticker mockups: []
+2026-05-07 23:08:40 ,Sticker-Zen-0083,Sticker,69f2683ecaeb1241880b7fcb,,SELECT_STICKER_COVER_PLUS_OFFICIAL,,,,,,,,Could not locate uploaded cover mockup candidates
+2026-05-07 23:13:09 ,Sticker-Zen-0083,Sticker,69f2683ecaeb1241880b7fcb,,SELECT_STICKER_COVER_PLUS_OFFICIAL,5,4,Cover(distance=NA)|Grid 1|Grid 2|Grid 3,OK,5,5,,
+2026-05-07 23:19:40 ,Sticker-Zen-0083,Sticker,69f2683ecaeb1241880b7fcb,,SELECT_STICKER_COVER_PLUS_OFFICIAL,7,4,Cover(distance=NA)|Front|Context 1|Context 2,OK,5,5,5,0,5,0,,Unsafe sticker gallery mix after save: images=5 official=0 custom=5 other=0
+2026-05-07 23:22:50 ,Sticker-Zen-0083,Sticker,69f2683ecaeb1241880b7fcb,,SELECT_STICKER_COVER_PLUS_OFFICIAL,,,,,,,,,,,,Could not locate uploaded cover mockup candidates
+2026-05-07 23:24:48 ,Sticker-Zen-0083,Sticker,69f2683ecaeb1241880b7fcb,,SELECT_STICKER_COVER_PLUS_OFFICIAL,,,,,,,,,,,,Could not locate uploaded cover mockup candidates
+2026-05-07 23:28:43 ,Sticker-Zen-0083,Sticker,69f2683ecaeb1241880b7fcb,,SELECT_STICKER_COVER_PLUS_OFFICIAL,8,4,Cover(distance=NA)|Front|Context 1|Context 2,OK,8,8,8,3,5,0,,Unsafe sticker gallery mix after save: images=8 official=3 custom=5 other=0
+2026-05-07 23:42:58 ,Sticker-Zen-0083,Sticker,69fd5ad4cd220b844e0f99ef,,SELECT_STICKER_COVER_PLUS_OFFICIAL,,,,,,,,,,,,Could not locate uploaded cover mockup candidates
+2026-05-07 23:51:47 ,Sticker-Zen-0083,Sticker,69fd5ad4cd220b844e0f99ef,,SELECT_STICKER_COVER_PLUS_OFFICIAL,,,,,,,,,,,,Could not select 3 official sticker mockups: ['Grid 1']

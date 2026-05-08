@@ -2191,3 +2191,64 @@ Traceback (most recent call last):
 [FACTORY-BACKLOG] READY_FOR_SCHOLAR_REVIEW=1"
 2026-05-07T22:29:28-04:00,factory_morning_report.py,OK,"[REPORT] C:\AIprojects\openclaw_difi\Reports\morning_report_20260507_2229.md
 [GEMINI] C:\AIprojects\openclaw_difi\Gemini_Advisor\gemini_review_queue_20260507_2229.md"
+2026-05-07T23:12:20-04:00,printify_login_guard.py,OK,[PRINTIFY-LOGIN] LOGGED_IN Printify dashboard is available.
+2026-05-07T23:15:21-04:00,local_listing_qa.py,TIMEOUT,"Command '['C:\\AIprojects\\openclaw_difi\\.venv\\Scripts\\python.exe', 'C:\\AIprojects\\openclaw_difi\\modules\\local_listing_qa.py']' timed out after 180 seconds"
+2026-05-07T23:15:22-04:00,ebay_cover_repair_decision.py,OK,"[COVER-REPAIR-DECISIONS] rows=49 csv=C:\AIprojects\openclaw_difi\Database\eBay_Cover_Repair_Decisions.csv
+  RETIRED_REPLACED_DONE: 49"
+2026-05-07T23:15:23-04:00,ebay_cover_replacement_queue.py,OK,"[COVER-REPLACEMENT-QUEUE] rows=49 csv=C:\AIprojects\openclaw_difi\Database\eBay_Cover_Replacement_Queue.csv
+[COVER-REPLACEMENT-QUEUE] OLD_RETIRED_REPLACED_DONE=49"
+2026-05-07T23:15:23-04:00,ebay_gallery_replacement_queue.py,OK,[GALLERY-REPLACEMENT-QUEUE] rows=0 csv=C:\AIprojects\openclaw_difi\Database\eBay_Gallery_Replacement_Queue.csv
+2026-05-07T23:15:24-04:00,ebay_title_repair_queue.py,OK,[TITLE-REPAIR] rows=0 ready=0 changed=0 csv=C:\AIprojects\openclaw_difi\Database\eBay_Title_Repair_Queue.csv
+2026-05-07T23:15:25-04:00,unified_listing_registry.py,OK,"[REGISTRY] rows=299 csv=C:\AIprojects\openclaw_difi\Database\Unified_Listing_Registry.csv
+[REGISTRY] Etsy_Draft_Prepared=14
+[REGISTRY] Fix_Gallery_First=1
+[REGISTRY] Hold=200
+[REGISTRY] Published_Zero_View_Copy_Ad_Review=28
+[REGISTRY] Ready_For_Printify_When_Network_OK=46
+[REGISTRY] Stable_Draft_Publish_When_Scheduled=10"
+2026-05-07T23:18:47-04:00,printify_gallery_duplicate_audit.py,OK,"[GALLERY-DUP-AUDIT] Sticker-Academia-0004 result=OK selected=5 unique=5 exact_dup=0 near_dup=0
+[GALLERY-DUP-AUDIT] Sticker-Zen-0010 result=OK selected=5 unique=5 exact_dup=0 near_dup=0
+[GALLERY-DUP-AUDIT] Sticker-Zen-0072 result=OK selected=3 unique=3 exact_dup=0 near_dup=0
+[GALLERY-DUP-AUDIT] Sticker-Zen-0073 result=OK selected=3 unique=3 exact_dup=0 near_dup=0
+[GALLERY-DUP-AUDIT] Sticker-Zen-0074 result=OK selected=3 unique=3 exact_dup=0 near_dup=0
+[GALLERY-DUP-AUDIT] Sticker-Zen-0075 result=OK selected=4 unique=4 exact_dup=0 near_dup=0
+[GALLERY-DUP-AUDIT] Poster-Academia-0002 result=CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=9 unique=9 exact_dup=0 near_dup=0
+[GALLERY-DUP-AUDIT] Acrylic-Academia-0001 result=OK selected=3 unique=3 exact_dup=0 near_dup=0
+[GALLERY-DUP-AUDIT] Poster-Academia-0081 result=CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=5 unique=5 exact_dup=0 near_dup=0
+[GALLERY-DUP-AUDIT] Poster-Academia-0082 result=CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=5 unique=5 exact_du"
+2026-05-07T23:18:47-04:00,printify_gallery_repair_queue.py,OK,[GALLERY-REPAIR-QUEUE] rows=0 csv=C:\AIprojects\openclaw_difi\Database\Printify_Gallery_Repair_Queue.csv
+2026-05-07T23:18:48-04:00,market_signal_planner.py,OK,"[MARKET-QUEUE] rows=299 csv=C:\AIprojects\openclaw_difi\Database\Market_Signal_Action_Queue.csv
+[MARKET-QUEUE] action HOLD=147
+[MARKET-QUEUE] action QA_HOLD_OR_REBUILD=82
+[MARKET-QUEUE] action UPLOAD_TO_PRINTIFY_SINGLE_ITEM_BATCH=46
+[MARKET-QUEUE] action PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK=10
+[MARKET-QUEUE] action WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST=9
+[MARKET-QUEUE] action KEEP_FOR_ETSY_PHASE1=5
+[MARKET-QUEUE] dependency local=229
+[MARKET-QUEUE] dependency high=46
+[MARKET-QUEUE] dependency medium=15
+[MARKET-QUEUE] dependency low=9"
+2026-05-07T23:18:48-04:00,ebay_experiment_report.py,OK,[EXPERIMENT-REPORT] rows=44 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Experiment_Report.csv
+2026-05-07T23:18:49-04:00,ebay_traffic_diagnosis.py,OK,"[TRAFFIC-DIAGNOSIS] rows=5 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Diagnosis.csv
+[TRAFFIC-DIAGNOSIS] P100 Cover Gate is cleared; the current blocker is traffic/product-market fit.
+[TRAFFIC-DIAGNOSIS] P90 Promoted Listings Standard 2% is active but is not enough alone.
+[TRAFFIC-DIAGNOSIS] P85 Repeated or risky gallery images can suppress buyer trust and marketplace quality scoring.
+[TRAFFIC-DIAGNOSIS] P80 Poster/Acrylic currently show more early movement than Sticker.
+[TRAFFIC-DIAGNOSIS] P70 Title rewrite experiment has not produced a clear Sticker lift yet."
+2026-05-07T23:18:49-04:00,ebay_profile_packet.py,OK,[EBAY-PROFILE-PACKET] C:\AIprojects\openclaw_difi\Database\eBay_Profile_Update_Packet.md
+2026-05-07T23:18:50-04:00,product_blueprint_next_plan.py,OK,"[BLUEPRINT-NEXT-PLAN] rows=5 csv=C:\AIprojects\openclaw_difi\Database\Product_Blueprint_Next_Test_Plan.csv
+[BLUEPRINT-NEXT-PLAN] P1 Canvas blueprint=1936 variant=119906
+[BLUEPRINT-NEXT-PLAN] P2 Framed Poster blueprint=1236 variant=93818
+[BLUEPRINT-NEXT-PLAN] P3 Notebook/Journal blueprint=5634 variant=252281
+[BLUEPRINT-NEXT-PLAN] P4 Mug blueprint=478 variant=65216
+[BLUEPRINT-NEXT-PLAN] P5 Metal blueprint=1206 variant=91995"
+2026-05-07T23:18:51-04:00,etsy_app_status_probe.py,OK,"[ETSY-APP] status=PENDING_OR_INACTIVE http=403 next=WAIT_APP_APPROVAL_OR_VERIFY_SECRET
+[ETSY-APP] json=C:\AIprojects\openclaw_difi\Database\Etsy_API_Status.json"
+2026-05-07T23:18:51-04:00,factory_backlog.py,OK,"[FACTORY-BACKLOG] rows=11 csv=C:\AIprojects\openclaw_difi\Database\Factory_Backlog.csv
+[FACTORY-BACKLOG] READY=5
+[FACTORY-BACKLOG] READY_AFTER_IMAGE_QA=2
+[FACTORY-BACKLOG] READY_MONITOR=2
+[FACTORY-BACKLOG] WAIT_NETWORK=1
+[FACTORY-BACKLOG] READY_FOR_SCHOLAR_REVIEW=1"
+2026-05-07T23:18:53-04:00,factory_morning_report.py,OK,"[REPORT] C:\AIprojects\openclaw_difi\Reports\morning_report_20260507_2318.md
+[GEMINI] C:\AIprojects\openclaw_difi\Gemini_Advisor\gemini_review_queue_20260507_2318.md"

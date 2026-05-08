@@ -1,6 +1,6 @@
 # Factory Backlog
 
-Generated: 2026-05-07 22:29:27 -0400 America/New_York
+Generated: 2026-05-07 23:18:51 -0400 America/New_York
 
 ## Status Counts
 
@@ -56,14 +56,14 @@ Generated: 2026-05-07 22:29:27 -0400 America/New_York
 
 ### P68 publish - READY_AFTER_IMAGE_QA
 - Task: Publish small cooled batch after default-image and live-cover spot audit
-- Blocker: 13 stable drafts are candidates. Cover Gate is cleared; continue with cooled scheduler and post-publish live-cover spot checks.
+- Blocker: 10 stable drafts are candidates. Cover Gate is cleared; continue with cooled scheduler and post-publish live-cover spot checks.
 - Command: `py modules\printify_publish_scheduler.py --limit 3 --min-delay 180 --max-delay 420`
 - Done when: Published products are live-audited and added to 2% Standard/General ad coverage without PPC.
 - Risk/network: high / Printify API/eBay sync
 
 ### P63 supervisor:production_design_qa - READY
 - Task: Run a tiny Printify production-design audit before any larger online batch.
-- Blocker: This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 87.7%
+- Blocker: This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 83.9%
 - Command: `py modules\printify_design_audit.py --limit 2 --sleep-seconds 1`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: low / yes
@@ -84,7 +84,7 @@ Generated: 2026-05-07 22:29:27 -0400 America/New_York
 
 ### P55 supervisor:etsy - READY_MONITOR
 - Task: Monitor Etsy Digital first gray batch before spending more listing fees.
-- Blocker: Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 87.7%
+- Blocker: Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 83.9%
 - Command: `py modules\etsy_live_audit.py --limit 10`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: low / yes

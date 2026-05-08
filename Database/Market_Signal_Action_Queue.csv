@@ -90,9 +90,6 @@
 80,Poster-Academia-0020,Poster,Academia,Published_Zero_View_Copy_Ad_Review,WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST,"Published item has 0 visible views in last Seller Hub snapshot; 2% General ads are active, so wait for a cleaner baseline before editing online.",low,True,406903748661,0,False
 80,Poster-Academia-0022,Poster,Academia,Published_Zero_View_Copy_Ad_Review,WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST,"Published item has 0 visible views in last Seller Hub snapshot; 2% General ads are active, so wait for a cleaner baseline before editing online.",low,True,406903758348,0,False
 80,Sticker-Zen-0010,Sticker,Zen,Published_Zero_View_Copy_Ad_Review,WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST,"Published item has 0 visible views in last Seller Hub snapshot; 2% General ads are active, so wait for a cleaner baseline before editing online.",low,True,406892414116,0,False
-70,Sticker-Zen-0075,Sticker,Zen,Stable_Draft_Publish_When_Scheduled,PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK,Stable Printify mockups exist; publish only via cooled scheduler and audit image order afterward.,medium,False,,,False
-70,Sticker-Zen-0076,Sticker,Zen,Stable_Draft_Publish_When_Scheduled,PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK,Stable Printify mockups exist; publish only via cooled scheduler and audit image order afterward.,medium,False,,,False
-70,Sticker-Zen-0081,Sticker,Zen,Stable_Draft_Publish_When_Scheduled,PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK,Stable Printify mockups exist; publish only via cooled scheduler and audit image order afterward.,medium,False,,,False
 70,Sticker-Zen-0083,Sticker,Zen,Stable_Draft_Publish_When_Scheduled,PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK,Stable Printify mockups exist; publish only via cooled scheduler and audit image order afterward.,medium,False,,,False
 70,Sticker-Zen-0084,Sticker,Zen,Stable_Draft_Publish_When_Scheduled,PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK,Stable Printify mockups exist; publish only via cooled scheduler and audit image order afterward.,medium,False,,,False
 70,Sticker-Zen-0086,Sticker,Zen,Stable_Draft_Publish_When_Scheduled,PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK,Stable Printify mockups exist; publish only via cooled scheduler and audit image order afterward.,medium,False,,,False
@@ -298,3 +295,6 @@
 20,Sticker-Zen-0072,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406911942577,,False
 20,Sticker-Zen-0073,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406911955913,,False
 20,Sticker-Zen-0074,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406911953636,,False
+20,Sticker-Zen-0075,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406912077790,,False
+20,Sticker-Zen-0076,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
+20,Sticker-Zen-0081,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406912094146,,False

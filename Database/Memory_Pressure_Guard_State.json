@@ -1,64 +1,64 @@
 {
-  "timestamp": "2026-05-07 22:40:47 -0400",
+  "timestamp": "2026-05-07 23:55:20 -0400",
   "mode": "EXECUTE_CLEANUP",
   "execute": true,
   "cdp_port": 9223,
   "memory_soft_pct": 82.0,
   "memory_hard_pct": 92.0,
   "cpu_soft_pct": 85.0,
-  "memory_before": 85.4,
-  "memory_after": 90.1,
-  "cpu_before": 46.0,
-  "cpu_after": 100.0,
+  "memory_before": 86.0,
+  "memory_after": 85.9,
+  "cpu_before": 93.0,
+  "cpu_after": 20.0,
   "closed_tabs": [],
   "top_processes": [
     {
       "ProcessName": "chrome",
-      "Id": 26308,
-      "WorkingSetMB": 940.2,
-      "CPU": 1112.984375
+      "Id": 18944,
+      "WorkingSetMB": 2098.6,
+      "CPU": 991.25
     },
     {
       "ProcessName": "Codex",
       "Id": 27652,
-      "WorkingSetMB": 658.2,
-      "CPU": 25894.5625
-    },
-    {
-      "ProcessName": "chrome",
-      "Id": 28404,
-      "WorkingSetMB": 579.8,
-      "CPU": 139.125
-    },
-    {
-      "ProcessName": "chrome",
-      "Id": 9740,
-      "WorkingSetMB": 473.7,
-      "CPU": 54634.328125
-    },
-    {
-      "ProcessName": "chrome",
-      "Id": 28132,
-      "WorkingSetMB": 405.2,
-      "CPU": 2465.25
+      "WorkingSetMB": 611.9,
+      "CPU": 27440.8125
     },
     {
       "ProcessName": "chrome",
       "Id": 22720,
-      "WorkingSetMB": 371.6,
-      "CPU": 259.203125
+      "WorkingSetMB": 490.8,
+      "CPU": 762.875
     },
     {
       "ProcessName": "chrome",
-      "Id": 292,
-      "WorkingSetMB": 324,
-      "CPU": 144.390625
+      "Id": 12132,
+      "WorkingSetMB": 372.3,
+      "CPU": 197.5
+    },
+    {
+      "ProcessName": "msedge",
+      "Id": 10568,
+      "WorkingSetMB": 370.9,
+      "CPU": 49.90625
     },
     {
       "ProcessName": "chrome",
-      "Id": 27048,
-      "WorkingSetMB": 253,
-      "CPU": 1090.828125
+      "Id": 9740,
+      "WorkingSetMB": 360.9,
+      "CPU": 55113.875
+    },
+    {
+      "ProcessName": "msedge",
+      "Id": 15988,
+      "WorkingSetMB": 299.7,
+      "CPU": 28.453125
+    },
+    {
+      "ProcessName": "msedge",
+      "Id": 24516,
+      "WorkingSetMB": 237.7,
+      "CPU": 9.0625
     }
   ],
   "decision": "MEMORY_STILL_WARM_BUT_WORKABLE",

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-07T22:29:29-04:00",
+  "generated_at": "2026-05-07T23:54:50-04:00",
   "timezone": "America/New_York",
   "network_strategy": {
     "mode": "unknown",
@@ -9,93 +9,93 @@
   },
   "resource_strategy": {
     "allocation": {
-      "timestamp": "2026-05-07T22:23:23-04:00",
-      "window": "peak_rex_online",
-      "task_class": "single_browser_task",
+      "timestamp": "2026-05-07T23:54:49-04:00",
+      "window": "preflight_checkpoint",
+      "task_class": "report_batch",
       "priority": 50,
       "decision": "RUN_CONSERVATIVE",
-      "reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 83.9%",
+      "reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 89.6%",
       "max_parallel": 1,
-      "batch_size": 1,
+      "batch_size": 2,
       "cooldown_minutes": 0,
-      "cpu_load_pct": 71.0,
-      "memory_used_pct": 83.9,
+      "cpu_load_pct": 58.0,
+      "memory_used_pct": 89.6,
       "temperature_c": null,
       "power_status": "AC_CHARGING"
     },
     "snapshot": {
-      "timestamp": "2026-05-07T22:23:23-04:00",
-      "cpu_load_pct": 71.0,
-      "memory_used_pct": 83.9,
+      "timestamp": "2026-05-07T23:54:49-04:00",
+      "cpu_load_pct": 58.0,
+      "memory_used_pct": 89.6,
       "memory_total_gb": 11.75,
-      "memory_free_gb": 1.89,
+      "memory_free_gb": 1.22,
       "temperature_c": null,
       "temperature_status": "DENIED_OR_UNAVAILABLE",
-      "gpu_util_pct": 22.5,
+      "gpu_util_pct": 5.0,
       "battery_percent": 100.0,
       "power_status": "AC_CHARGING",
       "top_processes": [
         {
           "ProcessName": "chrome",
-          "Id": 28132,
-          "WorkingSetMB": 1905.7,
-          "CPU": 2426.796875
-        },
-        {
-          "ProcessName": "chrome",
-          "Id": 26308,
-          "WorkingSetMB": 847.6,
-          "CPU": 1099.578125
-        },
-        {
-          "ProcessName": "chrome",
-          "Id": 22720,
-          "WorkingSetMB": 635.2,
-          "CPU": 29.90625
+          "Id": 18944,
+          "WorkingSetMB": 2084.2,
+          "CPU": 990.875
         },
         {
           "ProcessName": "Codex",
           "Id": 27652,
-          "WorkingSetMB": 594,
-          "CPU": 25485.21875
+          "WorkingSetMB": 586.6,
+          "CPU": 27427.453125
+        },
+        {
+          "ProcessName": "chrome",
+          "Id": 22720,
+          "WorkingSetMB": 477.2,
+          "CPU": 762.6875
+        },
+        {
+          "ProcessName": "chrome",
+          "Id": 12132,
+          "WorkingSetMB": 379.7,
+          "CPU": 195.84375
+        },
+        {
+          "ProcessName": "msedge",
+          "Id": 10568,
+          "WorkingSetMB": 370.7,
+          "CPU": 49.28125
         },
         {
           "ProcessName": "chrome",
           "Id": 9740,
-          "WorkingSetMB": 446.4,
-          "CPU": 54468.421875
+          "WorkingSetMB": 360.3,
+          "CPU": 55112.484375
         },
         {
-          "ProcessName": "chrome",
-          "Id": 292,
-          "WorkingSetMB": 178.7,
-          "CPU": 53.125
+          "ProcessName": "msedge",
+          "Id": 15988,
+          "WorkingSetMB": 299.6,
+          "CPU": 28.4375
         },
         {
-          "ProcessName": "chrome",
-          "Id": 21820,
-          "WorkingSetMB": 176.7,
-          "CPU": 838.09375
-        },
-        {
-          "ProcessName": "chrome",
-          "Id": 19600,
-          "WorkingSetMB": 159.2,
-          "CPU": 15.140625
+          "ProcessName": "msedge",
+          "Id": 24516,
+          "WorkingSetMB": 237.7,
+          "CPU": 9.0625
         }
       ]
     }
   },
   "workbook_counts": {
     "rows": 299,
-    "stable": 139,
-    "published": 126,
-    "ready": 46,
+    "stable": 136,
+    "published": 127,
+    "ready": 47,
     "by_product": {
       "Sticker": {
-        "stable": 62,
-        "published": 49,
-        "ready": 46,
+        "stable": 59,
+        "published": 50,
+        "ready": 47,
         "rows": 195
       },
       "Poster": {
@@ -121,7 +121,7 @@
     "OK": 38,
     "CHECK": 123
   },
-  "performance_age_hours": 4.447327682222222,
+  "performance_age_hours": 5.869920626666667,
   "printify_ui_status": {
     "status": "LOGGED_IN",
     "reason": "Printify app page is available in CDP browser."
@@ -143,7 +143,7 @@
       "lane": "publish",
       "action": "Publish small cooled batch if network guard is healthy.",
       "status": "WAIT_NETWORK",
-      "reason": "Stable=139 published=126 ready=46; network=unknown.",
+      "reason": "Stable=136 published=127 ready=47; network=unknown.",
       "command": "py modules\\printify_publish_scheduler.py --limit 3 --min-delay 180 --max-delay 420",
       "requires_network": "yes",
       "requires_login": "Printify API",
@@ -154,7 +154,7 @@
       "lane": "production_design_qa",
       "action": "Run a tiny Printify production-design audit before any larger online batch.",
       "status": "READY",
-      "reason": "This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 83.9%",
+      "reason": "This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 89.6%",
       "command": "py modules\\printify_design_audit.py --limit 2 --sleep-seconds 1",
       "requires_network": "yes",
       "requires_login": "Printify API",
@@ -165,7 +165,7 @@
       "lane": "etsy",
       "action": "Monitor Etsy Digital first gray batch before spending more listing fees.",
       "status": "READY_MONITOR",
-      "reason": "Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 83.9%",
+      "reason": "Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 89.6%",
       "command": "py modules\\etsy_live_audit.py --limit 10",
       "requires_network": "yes",
       "requires_login": "Etsy UI/public",

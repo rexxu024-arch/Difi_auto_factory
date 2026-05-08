@@ -1576,3 +1576,19 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Added image-hash based cover-candidate scoring to `printify_gallery_source_repair.py` so future mixed-gallery selection uses the local Cover image rather than the topmost upload position.
 - Attempted to repair `Sticker-Zen-0081` source after this patch, but Printify UI did not expose the expected official sticker mockup cards in that session, so no safe save occurred.
 - Retired `Sticker-Zen-0081` / eBay `406912094146` and detached Printify external. Rule: a live U-image cover mismatch must be removed, not left as a test artifact.
+
+## 2026-05-07 23:34:33 -04:00 Sticker Gallery API/UI Boundary
+- Sticker-Zen-0083 was used as an unpublished safety sample for the hash-verified Cover + official mockup path.
+- UI one-phase and two-phase attempts could not safely replace the existing 5 custom sticker gallery images; they either preserved 5 custom images or stacked 3 official mockups on top of old custom images.
+- Printify product PUT images=[...] and is_selected_for_publishing=false were accepted with HTTP 200 but did not remove or deselect old mockup-library images.
+- The bad unpublished Printify draft for Sticker-Zen-0083 was deleted and the workbook row was reset to Ready_for_Printify; no eBay external existed.
+- New operating rule: do not try to repair old 5-custom Sticker gallery drafts in place. For future Sticker scale-up, change product creation/gallery upload so stickers are born with a safe gallery shape, then publish only after API and live cover/gallery audit pass.
+
+## 2026-05-07 23:53:10 -04:00 Sticker Source Rebuild Experiment Frozen
+- Sticker-Zen-0083 was rebuilt twice as an unpublished draft to test a safer Sticker gallery path.
+- Findings:
+  - API creation with --sticker-gallery-mode cover-only creates official mockups but does not inject the uploaded Cover into mockup library.
+  - UI cover-only upload can add Cover but may drop official mockups or leave only partial official coverage.
+  - Subsequent UI repair can mutate the draft before failing, so it is not safe for unattended scale-up yet.
+- The unpublished  083 Printify draft was deleted again and the workbook row reset to Ready_for_Printify with no eBay external.
+- Operational decision: freeze Sticker expansion from old/staged drafts; prioritize Poster/Acrylic, SEO, Etsy digital, and factory reporting until Sticker create-time gallery path is redesigned more cleanly.

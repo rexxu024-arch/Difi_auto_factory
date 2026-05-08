@@ -175,3 +175,5 @@
 2026-05-07T10:51:36-04:00,C:\AIprojects\openclaw_difi\Database\Etsy_Printify_Launch_Log.csv,basic,PASS,0,50,,ALLOW_REVIEW_QUEUE,
 2026-05-07T10:51:36-04:00,C:\AIprojects\openclaw_difi\Database\Etsy_Printify_Launch_State.json,basic,PASS,0,50,,ALLOW_REVIEW_QUEUE,
 2026-05-07T10:51:36-04:00,C:\AIprojects\openclaw_difi\Database\Etsy_shop_update_packet.md,basic,PASS,0,50,,ALLOW_REVIEW_QUEUE,
+2026-05-07T23:45:37-04:00,C:\AIprojects\openclaw_difi\Database\Multi_Track_Experiment_Plan.csv,log,PASS,0,50,,ALLOW_REVIEW_QUEUE,
+2026-05-07T23:45:37-04:00,C:\AIprojects\openclaw_difi\Database\Multi_Track_Experiment_State.json,log,PASS,0,50,,ALLOW_REVIEW_QUEUE,

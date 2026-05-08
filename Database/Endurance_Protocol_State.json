@@ -1,609 +1,1130 @@
 {
   "ui_session_running": true,
-  "updated_at": "2026-05-07T22:40:06-04:00",
-  "timestamp": "2026-05-07 22:41:00 -0400",
+  "updated_at": "2026-05-07T23:42:41-04:00",
+  "timestamp": "2026-05-07 23:44:06 -0400",
   "decision": "COOLDOWN_ENTERED",
   "execute": true,
-  "ui_session_seconds": 23411,
+  "ui_session_seconds": 27187,
   "snapshot": {
-    "timestamp": "2026-05-07T22:40:15-04:00",
-    "cpu_load_pct": 48.0,
-    "memory_used_pct": 86.2,
-    "memory_total_gb": 11.75,
-    "memory_free_gb": 1.62,
+    "timestamp": "2026-05-07T23:43:11-04:00",
+    "cpu_load_pct": null,
+    "memory_used_pct": null,
+    "memory_total_gb": null,
+    "memory_free_gb": null,
     "temperature_c": null,
-    "temperature_status": "DENIED_OR_UNAVAILABLE",
-    "gpu_util_pct": 7.1,
-    "battery_percent": 100.0,
-    "power_status": "AC_CHARGING",
-    "top_processes": [
-      {
-        "ProcessName": "chrome",
-        "Id": 26308,
-        "WorkingSetMB": 940.2,
-        "CPU": 1112.984375
-      },
-      {
-        "ProcessName": "Codex",
-        "Id": 27652,
-        "WorkingSetMB": 653,
-        "CPU": 25892
-      },
-      {
-        "ProcessName": "chrome",
-        "Id": 28404,
-        "WorkingSetMB": 579.8,
-        "CPU": 139.125
-      },
-      {
-        "ProcessName": "chrome",
-        "Id": 9740,
-        "WorkingSetMB": 473,
-        "CPU": 54632.40625
-      },
-      {
-        "ProcessName": "chrome",
-        "Id": 28132,
-        "WorkingSetMB": 405.2,
-        "CPU": 2465.21875
-      },
-      {
-        "ProcessName": "chrome",
-        "Id": 22720,
-        "WorkingSetMB": 357.2,
-        "CPU": 257.953125
-      },
-      {
-        "ProcessName": "chrome",
-        "Id": 292,
-        "WorkingSetMB": 330.4,
-        "CPU": 144.203125
-      },
-      {
-        "ProcessName": "chrome",
-        "Id": 27048,
-        "WorkingSetMB": 268.1,
-        "CPU": 1090.46875
-      }
-    ]
+    "temperature_status": "SAMPLE_ERROR:TimeoutExpired:Command '['powershell', '-NoProfile', '-Command', \"\\n$ErrorActionPreference='SilentlyContinue'\\n$cpu=(Get-CimInstance Win32_Processor | Select-Object -First 1)\\n$os=Get-CimInstance Win32_OperatingSystem\\n$total=[math]::Round($os.TotalVisibleMemorySize/1MB,2)\\n$free=[math]::Round($os.FreePhysicalMemory/1MB,2)\\n$usedPct=[math]::Round((($total-$free)/$total)*100,1)\\n$temp=$null\\n$tempStatus='UNAVAILABLE'\\ntry {\\n  $tz=Get-CimInstance -Namespace root/wmi -Class MSAcpi_ThermalZoneTemperature -ErrorAction Stop | Select-Object -First 1\\n  if($tz){ $temp=[math]::Round(($tz.CurrentTemperature/10)-273.15,1); $tempStatus='OK' }\\n} catch { $tempStatus='DENIED_OR_UNAVAILABLE' }\\n$gpu=$null\\ntry {\\n  $samples=(Get-Counter '\\\\GPU Engine(*)\\\\Utilization Percentage' -ErrorAction Stop).CounterSamples |\\n    Where-Object { $_.InstanceName -match 'engtype_3d|engtype_compute' }\\n  if($samples){ $gpu=[math]::Round(($samples | Measure-Object CookedValue -Sum).Sum,1) }\\n} catch {}\\n$battery=Get-CimInstance Win32_Battery | Select-Object -First 1\\n$batteryPct=$null\\n$power='AC_OR_NO_BATTERY'\\nif($battery){\\n  $batteryPct=[double]$battery.EstimatedChargeRemaining\\n  $power = switch ($battery.BatteryStatus) {\\n    1 {'BATTERY_DISCHARGING'}\\n    2 {'AC_CHARGING'}\\n    3 {'FULLY_CHARGED'}\\n    6 {'CHARGING'}\\n    7 {'CHARGING_HIGH'}\\n    8 {'CHARGING_LOW'}\\n    9 {'CHARGING_CRITICAL'}\\n    default {'BATTERY_STATUS_' + $battery.BatteryStatus}\\n  }\\n}\\n$top=Get-Process | Sort-Object WorkingSet64 -Descending | Select-Object -First 8 ProcessName,Id,@{n='WorkingSetMB';e={[math]::Round($_.WorkingSet64/1MB,1)}},CPU\\n[pscustomobject]@{\\n  CpuLoadPct=[double]$cpu.LoadPercentage\\n  MemoryUsedPct=[double]$usedPct\\n  MemoryTotalGB=[double]$total\\n  MemoryFreeGB=[double]$free\\n  TemperatureC=$temp\\n  TemperatureStatus=$tempStatus\\n  GpuUtilPct=$gpu\\n  BatteryPercent=$batteryPct\\n  PowerStatus=$power\\n  TopProcesses=$top\\n} | ConvertTo-Json -Depth 5\\n\"]' timed out after 30 seconds",
+    "gpu_util_pct": null,
+    "battery_percent": null,
+    "power_status": "UNKNOWN",
+    "top_processes": []
   },
   "reasons": [
-    "Edge CDP UI session exceeded 3h (23411s)"
+    "Edge CDP UI session exceeded 3h (27187s)"
   ],
   "cooldown": {
     "ui_session_running": true,
-    "updated_at": "2026-05-07T22:40:55-04:00",
-    "timestamp": "2026-05-07 22:11:52 -0400",
+    "updated_at": "2026-05-07T23:44:00-04:00",
+    "timestamp": "2026-05-07 23:11:08 -0400",
     "decision": "COOLDOWN_ENTERED",
     "execute": true,
-    "ui_session_seconds": 21642,
+    "ui_session_seconds": 25212,
     "snapshot": {
-      "timestamp": "2026-05-07T22:10:46-04:00",
-      "cpu_load_pct": 96.0,
-      "memory_used_pct": 90.6,
+      "timestamp": "2026-05-07T23:10:16-04:00",
+      "cpu_load_pct": 100.0,
+      "memory_used_pct": 80.8,
       "memory_total_gb": 11.75,
-      "memory_free_gb": 1.1,
+      "memory_free_gb": 2.26,
       "temperature_c": null,
       "temperature_status": "DENIED_OR_UNAVAILABLE",
-      "gpu_util_pct": 11.6,
+      "gpu_util_pct": 4.9,
       "battery_percent": 100.0,
       "power_status": "AC_CHARGING",
       "top_processes": [
         {
-          "ProcessName": "chrome",
-          "Id": 28132,
-          "WorkingSetMB": 2161,
-          "CPU": 2281.390625
-        },
-        {
-          "ProcessName": "chrome",
-          "Id": 26560,
-          "WorkingSetMB": 660.9,
-          "CPU": 273.96875
-        },
-        {
-          "ProcessName": "Codex",
-          "Id": 27652,
-          "WorkingSetMB": 612.5,
-          "CPU": 25128.078125
+          "ProcessName": "Memory Compression",
+          "Id": 2944,
+          "WorkingSetMB": 930.7,
+          "CPU": null
         },
         {
           "ProcessName": "chrome",
           "Id": 28404,
-          "WorkingSetMB": 483,
-          "CPU": 103.78125
+          "WorkingSetMB": 691.3,
+          "CPU": 169.4375
+        },
+        {
+          "ProcessName": "Codex",
+          "Id": 27652,
+          "WorkingSetMB": 659.4,
+          "CPU": 26676.578125
+        },
+        {
+          "ProcessName": "chrome",
+          "Id": 22720,
+          "WorkingSetMB": 471.9,
+          "CPU": 621.90625
+        },
+        {
+          "ProcessName": "chrome",
+          "Id": 28132,
+          "WorkingSetMB": 468,
+          "CPU": 2560.546875
         },
         {
           "ProcessName": "chrome",
           "Id": 9740,
-          "WorkingSetMB": 393.4,
-          "CPU": 54361.140625
+          "WorkingSetMB": 387.8,
+          "CPU": 54875.90625
         },
         {
-          "ProcessName": "MsMpEng",
-          "Id": 4564,
-          "WorkingSetMB": 220,
-          "CPU": null
+          "ProcessName": "chrome",
+          "Id": 292,
+          "WorkingSetMB": 348.3,
+          "CPU": 263.84375
         },
         {
-          "ProcessName": "msedge",
-          "Id": 14496,
-          "WorkingSetMB": 208.6,
-          "CPU": 36.0625
-        },
-        {
-          "ProcessName": "msedge",
-          "Id": 28696,
-          "WorkingSetMB": 163.3,
-          "CPU": 172
+          "ProcessName": "chrome",
+          "Id": 12132,
+          "WorkingSetMB": 226.7,
+          "CPU": 61.015625
         }
       ]
     },
     "reasons": [
-      "Edge CDP UI session exceeded 3h (21642s)",
-      "memory elevated 90.6%",
-      "cpu high 96.0%"
+      "Edge CDP UI session exceeded 3h (25212s)",
+      "cpu high 100.0%"
     ],
     "cooldown": {
       "ui_session_running": true,
-      "updated_at": "2026-05-07T22:11:44-04:00",
-      "timestamp": "2026-05-07 21:41:06 -0400",
+      "updated_at": "2026-05-07T23:10:58-04:00",
+      "timestamp": "2026-05-07 22:41:00 -0400",
       "decision": "COOLDOWN_ENTERED",
       "execute": true,
-      "ui_session_seconds": 19827,
+      "ui_session_seconds": 23411,
       "snapshot": {
-        "timestamp": "2026-05-07T21:40:31-04:00",
-        "cpu_load_pct": 100.0,
-        "memory_used_pct": 94.5,
+        "timestamp": "2026-05-07T22:40:15-04:00",
+        "cpu_load_pct": 48.0,
+        "memory_used_pct": 86.2,
         "memory_total_gb": 11.75,
-        "memory_free_gb": 0.65,
+        "memory_free_gb": 1.62,
         "temperature_c": null,
         "temperature_status": "DENIED_OR_UNAVAILABLE",
-        "gpu_util_pct": 4.6,
+        "gpu_util_pct": 7.1,
         "battery_percent": 100.0,
         "power_status": "AC_CHARGING",
         "top_processes": [
           {
             "ProcessName": "chrome",
-            "Id": 28132,
-            "WorkingSetMB": 1292,
-            "CPU": 1987.640625
-          },
-          {
-            "ProcessName": "chrome",
             "Id": 26308,
-            "WorkingSetMB": 775.2,
-            "CPU": 1057.21875
+            "WorkingSetMB": 940.2,
+            "CPU": 1112.984375
           },
           {
             "ProcessName": "Codex",
             "Id": 27652,
-            "WorkingSetMB": 610.4,
-            "CPU": 24377.59375
-          },
-          {
-            "ProcessName": "chrome",
-            "Id": 26560,
-            "WorkingSetMB": 448.6,
-            "CPU": 142.21875
+            "WorkingSetMB": 653,
+            "CPU": 25892
           },
           {
             "ProcessName": "chrome",
             "Id": 28404,
-            "WorkingSetMB": 414.3,
-            "CPU": 89.578125
+            "WorkingSetMB": 579.8,
+            "CPU": 139.125
           },
           {
             "ProcessName": "chrome",
             "Id": 9740,
-            "WorkingSetMB": 255.3,
-            "CPU": 54126.265625
-          },
-          {
-            "ProcessName": "Memory Compression",
-            "Id": 2944,
-            "WorkingSetMB": 217.2,
-            "CPU": null
+            "WorkingSetMB": 473,
+            "CPU": 54632.40625
           },
           {
             "ProcessName": "chrome",
-            "Id": 21820,
-            "WorkingSetMB": 192.3,
-            "CPU": 769.203125
+            "Id": 28132,
+            "WorkingSetMB": 405.2,
+            "CPU": 2465.21875
+          },
+          {
+            "ProcessName": "chrome",
+            "Id": 22720,
+            "WorkingSetMB": 357.2,
+            "CPU": 257.953125
+          },
+          {
+            "ProcessName": "chrome",
+            "Id": 292,
+            "WorkingSetMB": 330.4,
+            "CPU": 144.203125
+          },
+          {
+            "ProcessName": "chrome",
+            "Id": 27048,
+            "WorkingSetMB": 268.1,
+            "CPU": 1090.46875
           }
         ]
       },
       "reasons": [
-        "Edge CDP UI session exceeded 3h (19827s)",
-        "memory elevated 94.5%",
-        "cpu high 100.0%"
+        "Edge CDP UI session exceeded 3h (23411s)"
       ],
       "cooldown": {
         "ui_session_running": true,
-        "updated_at": "2026-05-07T21:41:00-04:00",
-        "timestamp": "2026-05-07 21:10:38 -0400",
+        "updated_at": "2026-05-07T22:40:55-04:00",
+        "timestamp": "2026-05-07 22:11:52 -0400",
         "decision": "COOLDOWN_ENTERED",
         "execute": true,
-        "ui_session_seconds": 18010,
+        "ui_session_seconds": 21642,
         "snapshot": {
-          "timestamp": "2026-05-07T21:10:14-04:00",
-          "cpu_load_pct": 51.0,
-          "memory_used_pct": 83.1,
+          "timestamp": "2026-05-07T22:10:46-04:00",
+          "cpu_load_pct": 96.0,
+          "memory_used_pct": 90.6,
           "memory_total_gb": 11.75,
-          "memory_free_gb": 1.98,
+          "memory_free_gb": 1.1,
           "temperature_c": null,
           "temperature_status": "DENIED_OR_UNAVAILABLE",
-          "gpu_util_pct": 1.8,
+          "gpu_util_pct": 11.6,
           "battery_percent": 100.0,
           "power_status": "AC_CHARGING",
           "top_processes": [
             {
               "ProcessName": "chrome",
-              "Id": 18944,
-              "WorkingSetMB": 1694.5,
-              "CPU": 819.859375
-            },
-            {
-              "ProcessName": "Memory Compression",
-              "Id": 2944,
-              "WorkingSetMB": 747.6,
-              "CPU": null
-            },
-            {
-              "ProcessName": "Codex",
-              "Id": 27652,
-              "WorkingSetMB": 433.1,
-              "CPU": 23737.015625
+              "Id": 28132,
+              "WorkingSetMB": 2161,
+              "CPU": 2281.390625
             },
             {
               "ProcessName": "chrome",
               "Id": 26560,
-              "WorkingSetMB": 392.8,
-              "CPU": 89.109375
+              "WorkingSetMB": 660.9,
+              "CPU": 273.96875
+            },
+            {
+              "ProcessName": "Codex",
+              "Id": 27652,
+              "WorkingSetMB": 612.5,
+              "CPU": 25128.078125
             },
             {
               "ProcessName": "chrome",
               "Id": 28404,
-              "WorkingSetMB": 360.2,
-              "CPU": 71.4375
+              "WorkingSetMB": 483,
+              "CPU": 103.78125
             },
             {
               "ProcessName": "chrome",
               "Id": 9740,
-              "WorkingSetMB": 286.3,
-              "CPU": 53984.875
+              "WorkingSetMB": 393.4,
+              "CPU": 54361.140625
             },
             {
               "ProcessName": "MsMpEng",
               "Id": 4564,
-              "WorkingSetMB": 231.7,
+              "WorkingSetMB": 220,
               "CPU": null
             },
             {
-              "ProcessName": "chrome",
-              "Id": 4500,
-              "WorkingSetMB": 222.4,
-              "CPU": 164.5625
+              "ProcessName": "msedge",
+              "Id": 14496,
+              "WorkingSetMB": 208.6,
+              "CPU": 36.0625
+            },
+            {
+              "ProcessName": "msedge",
+              "Id": 28696,
+              "WorkingSetMB": 163.3,
+              "CPU": 172
             }
           ]
         },
         "reasons": [
-          "Edge CDP UI session exceeded 3h (18010s)"
+          "Edge CDP UI session exceeded 3h (21642s)",
+          "memory elevated 90.6%",
+          "cpu high 96.0%"
         ],
         "cooldown": {
           "ui_session_running": true,
-          "updated_at": "2026-05-07T21:10:33-04:00",
-          "timestamp": "2026-05-07 20:40:33 -0400",
+          "updated_at": "2026-05-07T22:11:44-04:00",
+          "timestamp": "2026-05-07 21:41:06 -0400",
           "decision": "COOLDOWN_ENTERED",
           "execute": true,
-          "ui_session_seconds": 16206,
+          "ui_session_seconds": 19827,
           "snapshot": {
-            "timestamp": "2026-05-07T20:40:10-04:00",
-            "cpu_load_pct": 64.0,
-            "memory_used_pct": 82.4,
+            "timestamp": "2026-05-07T21:40:31-04:00",
+            "cpu_load_pct": 100.0,
+            "memory_used_pct": 94.5,
             "memory_total_gb": 11.75,
-            "memory_free_gb": 2.07,
+            "memory_free_gb": 0.65,
             "temperature_c": null,
             "temperature_status": "DENIED_OR_UNAVAILABLE",
-            "gpu_util_pct": 1.2,
+            "gpu_util_pct": 4.6,
             "battery_percent": 100.0,
             "power_status": "AC_CHARGING",
             "top_processes": [
               {
                 "ProcessName": "chrome",
-                "Id": 26308,
-                "WorkingSetMB": 633.4,
-                "CPU": 1014.328125
+                "Id": 28132,
+                "WorkingSetMB": 1292,
+                "CPU": 1987.640625
               },
               {
                 "ProcessName": "chrome",
-                "Id": 21820,
-                "WorkingSetMB": 604.4,
-                "CPU": 637.015625
-              },
-              {
-                "ProcessName": "msedge",
-                "Id": 32532,
-                "WorkingSetMB": 419.6,
-                "CPU": 88.125
+                "Id": 26308,
+                "WorkingSetMB": 775.2,
+                "CPU": 1057.21875
               },
               {
                 "ProcessName": "Codex",
                 "Id": 27652,
-                "WorkingSetMB": 381,
-                "CPU": 23494.984375
-              },
-              {
-                "ProcessName": "chrome",
-                "Id": 9740,
-                "WorkingSetMB": 374.7,
-                "CPU": 53888.96875
+                "WorkingSetMB": 610.4,
+                "CPU": 24377.59375
               },
               {
                 "ProcessName": "chrome",
                 "Id": 26560,
-                "WorkingSetMB": 298,
-                "CPU": 62.40625
+                "WorkingSetMB": 448.6,
+                "CPU": 142.21875
               },
               {
                 "ProcessName": "chrome",
                 "Id": 28404,
-                "WorkingSetMB": 275.1,
-                "CPU": 47.234375
+                "WorkingSetMB": 414.3,
+                "CPU": 89.578125
               },
               {
                 "ProcessName": "chrome",
-                "Id": 27048,
-                "WorkingSetMB": 246.1,
-                "CPU": 862.328125
+                "Id": 9740,
+                "WorkingSetMB": 255.3,
+                "CPU": 54126.265625
+              },
+              {
+                "ProcessName": "Memory Compression",
+                "Id": 2944,
+                "WorkingSetMB": 217.2,
+                "CPU": null
+              },
+              {
+                "ProcessName": "chrome",
+                "Id": 21820,
+                "WorkingSetMB": 192.3,
+                "CPU": 769.203125
               }
             ]
           },
           "reasons": [
-            "Edge CDP UI session exceeded 3h (16206s)"
+            "Edge CDP UI session exceeded 3h (19827s)",
+            "memory elevated 94.5%",
+            "cpu high 100.0%"
           ],
           "cooldown": {
             "ui_session_running": true,
-            "updated_at": "2026-05-07T20:40:29-04:00",
-            "timestamp": "2026-05-07 20:10:39 -0400",
+            "updated_at": "2026-05-07T21:41:00-04:00",
+            "timestamp": "2026-05-07 21:10:38 -0400",
             "decision": "COOLDOWN_ENTERED",
             "execute": true,
-            "ui_session_seconds": 14409,
+            "ui_session_seconds": 18010,
             "snapshot": {
-              "timestamp": "2026-05-07T20:10:13-04:00",
-              "cpu_load_pct": 12.0,
-              "memory_used_pct": 82.0,
+              "timestamp": "2026-05-07T21:10:14-04:00",
+              "cpu_load_pct": 51.0,
+              "memory_used_pct": 83.1,
               "memory_total_gb": 11.75,
-              "memory_free_gb": 2.12,
+              "memory_free_gb": 1.98,
               "temperature_c": null,
               "temperature_status": "DENIED_OR_UNAVAILABLE",
-              "gpu_util_pct": 10.4,
+              "gpu_util_pct": 1.8,
               "battery_percent": 100.0,
               "power_status": "AC_CHARGING",
               "top_processes": [
                 {
                   "ProcessName": "chrome",
-                  "Id": 28132,
-                  "WorkingSetMB": 1302,
-                  "CPU": 1861.875
+                  "Id": 18944,
+                  "WorkingSetMB": 1694.5,
+                  "CPU": 819.859375
                 },
                 {
-                  "ProcessName": "chrome",
-                  "Id": 26452,
-                  "WorkingSetMB": 519.7,
-                  "CPU": 107.25
+                  "ProcessName": "Memory Compression",
+                  "Id": 2944,
+                  "WorkingSetMB": 747.6,
+                  "CPU": null
                 },
                 {
                   "ProcessName": "Codex",
                   "Id": 27652,
-                  "WorkingSetMB": 509.8,
-                  "CPU": 23143.78125
-                },
-                {
-                  "ProcessName": "chrome",
-                  "Id": 21820,
-                  "WorkingSetMB": 508.6,
-                  "CPU": 571.71875
-                },
-                {
-                  "ProcessName": "chrome",
-                  "Id": 9740,
-                  "WorkingSetMB": 370.1,
-                  "CPU": 53625.34375
-                },
-                {
-                  "ProcessName": "MsMpEng",
-                  "Id": 4564,
-                  "WorkingSetMB": 231.2,
-                  "CPU": null
-                },
-                {
-                  "ProcessName": "msedge",
-                  "Id": 1812,
-                  "WorkingSetMB": 217.4,
-                  "CPU": 9.875
+                  "WorkingSetMB": 433.1,
+                  "CPU": 23737.015625
                 },
                 {
                   "ProcessName": "chrome",
                   "Id": 26560,
-                  "WorkingSetMB": 183.5,
-                  "CPU": 26.640625
+                  "WorkingSetMB": 392.8,
+                  "CPU": 89.109375
+                },
+                {
+                  "ProcessName": "chrome",
+                  "Id": 28404,
+                  "WorkingSetMB": 360.2,
+                  "CPU": 71.4375
+                },
+                {
+                  "ProcessName": "chrome",
+                  "Id": 9740,
+                  "WorkingSetMB": 286.3,
+                  "CPU": 53984.875
+                },
+                {
+                  "ProcessName": "MsMpEng",
+                  "Id": 4564,
+                  "WorkingSetMB": 231.7,
+                  "CPU": null
+                },
+                {
+                  "ProcessName": "chrome",
+                  "Id": 4500,
+                  "WorkingSetMB": 222.4,
+                  "CPU": 164.5625
                 }
               ]
             },
             "reasons": [
-              "Edge CDP UI session exceeded 3h (14409s)"
+              "Edge CDP UI session exceeded 3h (18010s)"
             ],
             "cooldown": {
               "ui_session_running": true,
-              "updated_at": "2026-05-07T20:10:34-04:00",
-              "timestamp": "2026-05-07 19:41:03 -0400",
+              "updated_at": "2026-05-07T21:10:33-04:00",
+              "timestamp": "2026-05-07 20:40:33 -0400",
               "decision": "COOLDOWN_ENTERED",
               "execute": true,
-              "ui_session_seconds": 12623,
+              "ui_session_seconds": 16206,
               "snapshot": {
-                "timestamp": "2026-05-07T19:40:27-04:00",
-                "cpu_load_pct": 100.0,
-                "memory_used_pct": 92.4,
+                "timestamp": "2026-05-07T20:40:10-04:00",
+                "cpu_load_pct": 64.0,
+                "memory_used_pct": 82.4,
                 "memory_total_gb": 11.75,
-                "memory_free_gb": 0.89,
+                "memory_free_gb": 2.07,
                 "temperature_c": null,
                 "temperature_status": "DENIED_OR_UNAVAILABLE",
-                "gpu_util_pct": 7.7,
+                "gpu_util_pct": 1.2,
                 "battery_percent": 100.0,
                 "power_status": "AC_CHARGING",
                 "top_processes": [
                   {
                     "ProcessName": "chrome",
-                    "Id": 28132,
-                    "WorkingSetMB": 1502.7,
-                    "CPU": 1553.765625
-                  },
-                  {
-                    "ProcessName": "chrome",
-                    "Id": 18944,
-                    "WorkingSetMB": 885.5,
-                    "CPU": 702.328125
-                  },
-                  {
-                    "ProcessName": "chrome",
                     "Id": 26308,
-                    "WorkingSetMB": 550.3,
-                    "CPU": 859.53125
-                  },
-                  {
-                    "ProcessName": "Codex",
-                    "Id": 27652,
-                    "WorkingSetMB": 491.3,
-                    "CPU": 22981.09375
-                  },
-                  {
-                    "ProcessName": "chrome",
-                    "Id": 26452,
-                    "WorkingSetMB": 404.2,
-                    "CPU": 72.40625
-                  },
-                  {
-                    "ProcessName": "msedge",
-                    "Id": 23696,
-                    "WorkingSetMB": 297.2,
-                    "CPU": 26.421875
-                  },
-                  {
-                    "ProcessName": "chrome",
-                    "Id": 9740,
-                    "WorkingSetMB": 288.9,
-                    "CPU": 53418.8125
+                    "WorkingSetMB": 633.4,
+                    "CPU": 1014.328125
                   },
                   {
                     "ProcessName": "chrome",
                     "Id": 21820,
-                    "WorkingSetMB": 245.4,
-                    "CPU": 508.078125
+                    "WorkingSetMB": 604.4,
+                    "CPU": 637.015625
+                  },
+                  {
+                    "ProcessName": "msedge",
+                    "Id": 32532,
+                    "WorkingSetMB": 419.6,
+                    "CPU": 88.125
+                  },
+                  {
+                    "ProcessName": "Codex",
+                    "Id": 27652,
+                    "WorkingSetMB": 381,
+                    "CPU": 23494.984375
+                  },
+                  {
+                    "ProcessName": "chrome",
+                    "Id": 9740,
+                    "WorkingSetMB": 374.7,
+                    "CPU": 53888.96875
+                  },
+                  {
+                    "ProcessName": "chrome",
+                    "Id": 26560,
+                    "WorkingSetMB": 298,
+                    "CPU": 62.40625
+                  },
+                  {
+                    "ProcessName": "chrome",
+                    "Id": 28404,
+                    "WorkingSetMB": 275.1,
+                    "CPU": 47.234375
+                  },
+                  {
+                    "ProcessName": "chrome",
+                    "Id": 27048,
+                    "WorkingSetMB": 246.1,
+                    "CPU": 862.328125
                   }
                 ]
               },
               "reasons": [
-                "Edge CDP UI session exceeded 3h (12623s)",
-                "memory elevated 92.4%",
-                "cpu high 100.0%"
+                "Edge CDP UI session exceeded 3h (16206s)"
               ],
               "cooldown": {
                 "ui_session_running": true,
-                "updated_at": "2026-05-07T19:40:56-04:00",
-                "timestamp": "2026-05-07 19:11:20 -0400",
+                "updated_at": "2026-05-07T20:40:29-04:00",
+                "timestamp": "2026-05-07 20:10:39 -0400",
                 "decision": "COOLDOWN_ENTERED",
                 "execute": true,
-                "ui_session_seconds": 10836,
+                "ui_session_seconds": 14409,
                 "snapshot": {
-                  "timestamp": "2026-05-07T19:10:40-04:00",
-                  "cpu_load_pct": null,
-                  "memory_used_pct": null,
-                  "memory_total_gb": null,
-                  "memory_free_gb": null,
+                  "timestamp": "2026-05-07T20:10:13-04:00",
+                  "cpu_load_pct": 12.0,
+                  "memory_used_pct": 82.0,
+                  "memory_total_gb": 11.75,
+                  "memory_free_gb": 2.12,
                   "temperature_c": null,
-                  "temperature_status": "SAMPLE_ERROR:TimeoutExpired:Command '['powershell', '-NoProfile', '-Command', \"\\n$ErrorActionPreference='SilentlyContinue'\\n$cpu=(Get-CimInstance Win32_Processor | Select-Object -First 1)\\n$os=Get-CimInstance Win32_OperatingSystem\\n$total=[math]::Round($os.TotalVisibleMemorySize/1MB,2)\\n$free=[math]::Round($os.FreePhysicalMemory/1MB,2)\\n$usedPct=[math]::Round((($total-$free)/$total)*100,1)\\n$temp=$null\\n$tempStatus='UNAVAILABLE'\\ntry {\\n  $tz=Get-CimInstance -Namespace root/wmi -Class MSAcpi_ThermalZoneTemperature -ErrorAction Stop | Select-Object -First 1\\n  if($tz){ $temp=[math]::Round(($tz.CurrentTemperature/10)-273.15,1); $tempStatus='OK' }\\n} catch { $tempStatus='DENIED_OR_UNAVAILABLE' }\\n$gpu=$null\\ntry {\\n  $samples=(Get-Counter '\\\\GPU Engine(*)\\\\Utilization Percentage' -ErrorAction Stop).CounterSamples |\\n    Where-Object { $_.InstanceName -match 'engtype_3d|engtype_compute' }\\n  if($samples){ $gpu=[math]::Round(($samples | Measure-Object CookedValue -Sum).Sum,1) }\\n} catch {}\\n$battery=Get-CimInstance Win32_Battery | Select-Object -First 1\\n$batteryPct=$null\\n$power='AC_OR_NO_BATTERY'\\nif($battery){\\n  $batteryPct=[double]$battery.EstimatedChargeRemaining\\n  $power = switch ($battery.BatteryStatus) {\\n    1 {'BATTERY_DISCHARGING'}\\n    2 {'AC_CHARGING'}\\n    3 {'FULLY_CHARGED'}\\n    6 {'CHARGING'}\\n    7 {'CHARGING_HIGH'}\\n    8 {'CHARGING_LOW'}\\n    9 {'CHARGING_CRITICAL'}\\n    default {'BATTERY_STATUS_' + $battery.BatteryStatus}\\n  }\\n}\\n$top=Get-Process | Sort-Object WorkingSet64 -Descending | Select-Object -First 8 ProcessName,Id,@{n='WorkingSetMB';e={[math]::Round($_.WorkingSet64/1MB,1)}},CPU\\n[pscustomobject]@{\\n  CpuLoadPct=[double]$cpu.LoadPercentage\\n  MemoryUsedPct=[double]$usedPct\\n  MemoryTotalGB=[double]$total\\n  MemoryFreeGB=[double]$free\\n  TemperatureC=$temp\\n  TemperatureStatus=$tempStatus\\n  GpuUtilPct=$gpu\\n  BatteryPercent=$batteryPct\\n  PowerStatus=$power\\n  TopProcesses=$top\\n} | ConvertTo-Json -Depth 5\\n\"]' timed out after 30 seconds",
-                  "gpu_util_pct": null,
-                  "battery_percent": null,
-                  "power_status": "UNKNOWN",
-                  "top_processes": []
+                  "temperature_status": "DENIED_OR_UNAVAILABLE",
+                  "gpu_util_pct": 10.4,
+                  "battery_percent": 100.0,
+                  "power_status": "AC_CHARGING",
+                  "top_processes": [
+                    {
+                      "ProcessName": "chrome",
+                      "Id": 28132,
+                      "WorkingSetMB": 1302,
+                      "CPU": 1861.875
+                    },
+                    {
+                      "ProcessName": "chrome",
+                      "Id": 26452,
+                      "WorkingSetMB": 519.7,
+                      "CPU": 107.25
+                    },
+                    {
+                      "ProcessName": "Codex",
+                      "Id": 27652,
+                      "WorkingSetMB": 509.8,
+                      "CPU": 23143.78125
+                    },
+                    {
+                      "ProcessName": "chrome",
+                      "Id": 21820,
+                      "WorkingSetMB": 508.6,
+                      "CPU": 571.71875
+                    },
+                    {
+                      "ProcessName": "chrome",
+                      "Id": 9740,
+                      "WorkingSetMB": 370.1,
+                      "CPU": 53625.34375
+                    },
+                    {
+                      "ProcessName": "MsMpEng",
+                      "Id": 4564,
+                      "WorkingSetMB": 231.2,
+                      "CPU": null
+                    },
+                    {
+                      "ProcessName": "msedge",
+                      "Id": 1812,
+                      "WorkingSetMB": 217.4,
+                      "CPU": 9.875
+                    },
+                    {
+                      "ProcessName": "chrome",
+                      "Id": 26560,
+                      "WorkingSetMB": 183.5,
+                      "CPU": 26.640625
+                    }
+                  ]
                 },
                 "reasons": [
-                  "Edge CDP UI session exceeded 3h (10836s)"
+                  "Edge CDP UI session exceeded 3h (14409s)"
                 ],
                 "cooldown": {
                   "ui_session_running": true,
-                  "updated_at": "2026-05-07T19:11:14-04:00",
-                  "timestamp": "2026-05-07 18:40:12 -0400",
-                  "decision": "CONTINUE",
+                  "updated_at": "2026-05-07T20:10:34-04:00",
+                  "timestamp": "2026-05-07 19:41:03 -0400",
+                  "decision": "COOLDOWN_ENTERED",
                   "execute": true,
-                  "ui_session_seconds": 9008,
+                  "ui_session_seconds": 12623,
                   "snapshot": {
-                    "timestamp": "2026-05-07T18:40:12-04:00",
-                    "cpu_load_pct": 85.0,
-                    "memory_used_pct": 86.5,
+                    "timestamp": "2026-05-07T19:40:27-04:00",
+                    "cpu_load_pct": 100.0,
+                    "memory_used_pct": 92.4,
                     "memory_total_gb": 11.75,
-                    "memory_free_gb": 1.59,
+                    "memory_free_gb": 0.89,
                     "temperature_c": null,
                     "temperature_status": "DENIED_OR_UNAVAILABLE",
-                    "gpu_util_pct": 0.8,
+                    "gpu_util_pct": 7.7,
                     "battery_percent": 100.0,
                     "power_status": "AC_CHARGING",
                     "top_processes": [
                       {
                         "ProcessName": "chrome",
                         "Id": 28132,
-                        "WorkingSetMB": 1387.5,
-                        "CPU": 1390.46875
+                        "WorkingSetMB": 1502.7,
+                        "CPU": 1553.765625
                       },
                       {
                         "ProcessName": "chrome",
                         "Id": 18944,
-                        "WorkingSetMB": 1166.4,
-                        "CPU": 596.53125
-                      },
-                      {
-                        "ProcessName": "Codex",
-                        "Id": 27652,
-                        "WorkingSetMB": 521.1,
-                        "CPU": 22504.8125
-                      },
-                      {
-                        "ProcessName": "chrome",
-                        "Id": 9740,
-                        "WorkingSetMB": 444.8,
-                        "CPU": 53110.71875
+                        "WorkingSetMB": 885.5,
+                        "CPU": 702.328125
                       },
                       {
                         "ProcessName": "chrome",
                         "Id": 26308,
-                        "WorkingSetMB": 256.8,
-                        "CPU": 93.09375
+                        "WorkingSetMB": 550.3,
+                        "CPU": 859.53125
+                      },
+                      {
+                        "ProcessName": "Codex",
+                        "Id": 27652,
+                        "WorkingSetMB": 491.3,
+                        "CPU": 22981.09375
                       },
                       {
                         "ProcessName": "chrome",
                         "Id": 26452,
-                        "WorkingSetMB": 244.4,
-                        "CPU": 20.46875
+                        "WorkingSetMB": 404.2,
+                        "CPU": 72.40625
+                      },
+                      {
+                        "ProcessName": "msedge",
+                        "Id": 23696,
+                        "WorkingSetMB": 297.2,
+                        "CPU": 26.421875
+                      },
+                      {
+                        "ProcessName": "chrome",
+                        "Id": 9740,
+                        "WorkingSetMB": 288.9,
+                        "CPU": 53418.8125
                       },
                       {
                         "ProcessName": "chrome",
                         "Id": 21820,
-                        "WorkingSetMB": 216.4,
-                        "CPU": 370.4375
-                      },
-                      {
-                        "ProcessName": "Code",
-                        "Id": 19100,
-                        "WorkingSetMB": 184.1,
-                        "CPU": 1406.5625
+                        "WorkingSetMB": 245.4,
+                        "CPU": 508.078125
                       }
                     ]
                   },
-                  "reasons": [],
-                  "cooldown": null,
+                  "reasons": [
+                    "Edge CDP UI session exceeded 3h (12623s)",
+                    "memory elevated 92.4%",
+                    "cpu high 100.0%"
+                  ],
+                  "cooldown": {
+                    "ui_session_running": true,
+                    "updated_at": "2026-05-07T19:40:56-04:00",
+                    "timestamp": "2026-05-07 19:11:20 -0400",
+                    "decision": "COOLDOWN_ENTERED",
+                    "execute": true,
+                    "ui_session_seconds": 10836,
+                    "snapshot": {
+                      "timestamp": "2026-05-07T19:10:40-04:00",
+                      "cpu_load_pct": null,
+                      "memory_used_pct": null,
+                      "memory_total_gb": null,
+                      "memory_free_gb": null,
+                      "temperature_c": null,
+                      "temperature_status": "SAMPLE_ERROR:TimeoutExpired:Command '['powershell', '-NoProfile', '-Command', \"\\n$ErrorActionPreference='SilentlyContinue'\\n$cpu=(Get-CimInstance Win32_Processor | Select-Object -First 1)\\n$os=Get-CimInstance Win32_OperatingSystem\\n$total=[math]::Round($os.TotalVisibleMemorySize/1MB,2)\\n$free=[math]::Round($os.FreePhysicalMemory/1MB,2)\\n$usedPct=[math]::Round((($total-$free)/$total)*100,1)\\n$temp=$null\\n$tempStatus='UNAVAILABLE'\\ntry {\\n  $tz=Get-CimInstance -Namespace root/wmi -Class MSAcpi_ThermalZoneTemperature -ErrorAction Stop | Select-Object -First 1\\n  if($tz){ $temp=[math]::Round(($tz.CurrentTemperature/10)-273.15,1); $tempStatus='OK' }\\n} catch { $tempStatus='DENIED_OR_UNAVAILABLE' }\\n$gpu=$null\\ntry {\\n  $samples=(Get-Counter '\\\\GPU Engine(*)\\\\Utilization Percentage' -ErrorAction Stop).CounterSamples |\\n    Where-Object { $_.InstanceName -match 'engtype_3d|engtype_compute' }\\n  if($samples){ $gpu=[math]::Round(($samples | Measure-Object CookedValue -Sum).Sum,1) }\\n} catch {}\\n$battery=Get-CimInstance Win32_Battery | Select-Object -First 1\\n$batteryPct=$null\\n$power='AC_OR_NO_BATTERY'\\nif($battery){\\n  $batteryPct=[double]$battery.EstimatedChargeRemaining\\n  $power = switch ($battery.BatteryStatus) {\\n    1 {'BATTERY_DISCHARGING'}\\n    2 {'AC_CHARGING'}\\n    3 {'FULLY_CHARGED'}\\n    6 {'CHARGING'}\\n    7 {'CHARGING_HIGH'}\\n    8 {'CHARGING_LOW'}\\n    9 {'CHARGING_CRITICAL'}\\n    default {'BATTERY_STATUS_' + $battery.BatteryStatus}\\n  }\\n}\\n$top=Get-Process | Sort-Object WorkingSet64 -Descending | Select-Object -First 8 ProcessName,Id,@{n='WorkingSetMB';e={[math]::Round($_.WorkingSet64/1MB,1)}},CPU\\n[pscustomobject]@{\\n  CpuLoadPct=[double]$cpu.LoadPercentage\\n  MemoryUsedPct=[double]$usedPct\\n  MemoryTotalGB=[double]$total\\n  MemoryFreeGB=[double]$free\\n  TemperatureC=$temp\\n  TemperatureStatus=$tempStatus\\n  GpuUtilPct=$gpu\\n  BatteryPercent=$batteryPct\\n  PowerStatus=$power\\n  TopProcesses=$top\\n} | ConvertTo-Json -Depth 5\\n\"]' timed out after 30 seconds",
+                      "gpu_util_pct": null,
+                      "battery_percent": null,
+                      "power_status": "UNKNOWN",
+                      "top_processes": []
+                    },
+                    "reasons": [
+                      "Edge CDP UI session exceeded 3h (10836s)"
+                    ],
+                    "cooldown": {
+                      "ui_session_running": true,
+                      "updated_at": "2026-05-07T19:11:14-04:00",
+                      "timestamp": "2026-05-07 18:40:12 -0400",
+                      "decision": "CONTINUE",
+                      "execute": true,
+                      "ui_session_seconds": 9008,
+                      "snapshot": {
+                        "timestamp": "2026-05-07T18:40:12-04:00",
+                        "cpu_load_pct": 85.0,
+                        "memory_used_pct": 86.5,
+                        "memory_total_gb": 11.75,
+                        "memory_free_gb": 1.59,
+                        "temperature_c": null,
+                        "temperature_status": "DENIED_OR_UNAVAILABLE",
+                        "gpu_util_pct": 0.8,
+                        "battery_percent": 100.0,
+                        "power_status": "AC_CHARGING",
+                        "top_processes": [
+                          {
+                            "ProcessName": "chrome",
+                            "Id": 28132,
+                            "WorkingSetMB": 1387.5,
+                            "CPU": 1390.46875
+                          },
+                          {
+                            "ProcessName": "chrome",
+                            "Id": 18944,
+                            "WorkingSetMB": 1166.4,
+                            "CPU": 596.53125
+                          },
+                          {
+                            "ProcessName": "Codex",
+                            "Id": 27652,
+                            "WorkingSetMB": 521.1,
+                            "CPU": 22504.8125
+                          },
+                          {
+                            "ProcessName": "chrome",
+                            "Id": 9740,
+                            "WorkingSetMB": 444.8,
+                            "CPU": 53110.71875
+                          },
+                          {
+                            "ProcessName": "chrome",
+                            "Id": 26308,
+                            "WorkingSetMB": 256.8,
+                            "CPU": 93.09375
+                          },
+                          {
+                            "ProcessName": "chrome",
+                            "Id": 26452,
+                            "WorkingSetMB": 244.4,
+                            "CPU": 20.46875
+                          },
+                          {
+                            "ProcessName": "chrome",
+                            "Id": 21820,
+                            "WorkingSetMB": 216.4,
+                            "CPU": 370.4375
+                          },
+                          {
+                            "ProcessName": "Code",
+                            "Id": 19100,
+                            "WorkingSetMB": 184.1,
+                            "CPU": 1406.5625
+                          }
+                        ]
+                      },
+                      "reasons": [],
+                      "cooldown": null,
+                      "mode": "COOLDOWN",
+                      "reason": "Edge CDP UI session exceeded 3h (10836s)",
+                      "strong_write": {
+                        "active": false,
+                        "matches": [],
+                        "grunt_lock_active": false
+                      },
+                      "startup_recovery": "scripts\\run_codex.bat after Windows login",
+                      "new_task_policy": "Only local optimization, reports, queue planning, memory cleanup, and checkpointing. No new marketplace writes or browser UI tasks.",
+                      "target_shutdown": "06:00 America/New_York",
+                      "memory_guard": {
+                        "timestamp": "2026-05-07 19:11:04 -0400",
+                        "mode": "EXECUTE_CLEANUP",
+                        "execute": true,
+                        "cdp_port": 9223,
+                        "memory_soft_pct": 82.0,
+                        "memory_hard_pct": 92.0,
+                        "cpu_soft_pct": 85.0,
+                        "memory_before": 88.7,
+                        "memory_after": 82.6,
+                        "cpu_before": 100.0,
+                        "cpu_after": 31.0,
+                        "closed_tabs": [],
+                        "top_processes": [
+                          {
+                            "ProcessName": "chrome",
+                            "Id": 18944,
+                            "WorkingSetMB": 1297.9,
+                            "CPU": 668.09375
+                          },
+                          {
+                            "ProcessName": "chrome",
+                            "Id": 28132,
+                            "WorkingSetMB": 958.6,
+                            "CPU": 1503.671875
+                          },
+                          {
+                            "ProcessName": "Codex",
+                            "Id": 27652,
+                            "WorkingSetMB": 493.5,
+                            "CPU": 22861.890625
+                          },
+                          {
+                            "ProcessName": "Memory Compression",
+                            "Id": 2944,
+                            "WorkingSetMB": 454.9,
+                            "CPU": null
+                          },
+                          {
+                            "ProcessName": "chrome",
+                            "Id": 26308,
+                            "WorkingSetMB": 403.3,
+                            "CPU": 264.578125
+                          },
+                          {
+                            "ProcessName": "chrome",
+                            "Id": 9740,
+                            "WorkingSetMB": 324.7,
+                            "CPU": 53263.953125
+                          },
+                          {
+                            "ProcessName": "Code",
+                            "Id": 17544,
+                            "WorkingSetMB": 222.5,
+                            "CPU": 1201.046875
+                          },
+                          {
+                            "ProcessName": "msedge",
+                            "Id": 17272,
+                            "WorkingSetMB": 187.7,
+                            "CPU": 93.765625
+                          }
+                        ],
+                        "decision": "MEMORY_STILL_WARM_BUT_WORKABLE",
+                        "reason": "continue light work; avoid browser/image-heavy tasks",
+                        "privacy_rule": "Only closes project automation Edge tabs through CDP 9223. Does not inspect or close Rex's daily Chrome tabs.",
+                        "optimization_rule": "Cleanup first, then resample. Pause only if pressure remains high after closing safe idle project tabs and reducing concurrency.",
+                        "rest_rule": "Do not shutdown/restart by default; if pressure stays high after cleanup, write rest-cycle recommendation unless Rex explicitly requests immediate power action."
+                      },
+                      "stopped_ui_processes": [],
+                      "stopped_write_processes": [],
+                      "terminated_processes": [
+                        {
+                          "pid": 7220,
+                          "name": "msedge.exe",
+                          "action": "TERMINATE"
+                        },
+                        {
+                          "pid": 14624,
+                          "name": "msedge.exe",
+                          "action": "TERMINATE"
+                        },
+                        {
+                          "pid": 1468,
+                          "name": "msedge.exe",
+                          "action": "TERMINATE"
+                        },
+                        {
+                          "pid": 25252,
+                          "name": "msedge.exe",
+                          "action": "TERMINATE"
+                        },
+                        {
+                          "pid": 5068,
+                          "name": "msedge.exe",
+                          "action": "TERMINATE"
+                        },
+                        {
+                          "pid": 17272,
+                          "name": "msedge.exe",
+                          "action": "TERMINATE"
+                        },
+                        {
+                          "pid": 17160,
+                          "name": "msedge.exe",
+                          "action": "TERMINATE"
+                        },
+                        {
+                          "pid": 26436,
+                          "name": "msedge.exe",
+                          "action": "TERMINATE"
+                        },
+                        {
+                          "pid": 8908,
+                          "name": "msedge.exe",
+                          "action": "TERMINATE"
+                        },
+                        {
+                          "pid": 10544,
+                          "name": "msedge.exe",
+                          "action": "TERMINATE"
+                        },
+                        {
+                          "pid": 25388,
+                          "name": "msedge.exe",
+                          "action": "TERMINATE"
+                        },
+                        {
+                          "pid": 28624,
+                          "name": "msedge.exe",
+                          "action": "TERMINATE"
+                        },
+                        {
+                          "pid": 10896,
+                          "name": "msedge.exe",
+                          "action": "TERMINATE"
+                        },
+                        {
+                          "pid": 30508,
+                          "name": "msedge.exe",
+                          "action": "TERMINATE"
+                        },
+                        {
+                          "pid": 19628,
+                          "name": "msedge.exe",
+                          "action": "TERMINATE"
+                        },
+                        {
+                          "pid": 29816,
+                          "name": "msedge.exe",
+                          "action": "TERMINATE"
+                        },
+                        {
+                          "pid": 22904,
+                          "name": "msedge.exe",
+                          "action": "TERMINATE"
+                        },
+                        {
+                          "pid": 16300,
+                          "name": "msedge.exe",
+                          "action": "TERMINATE"
+                        },
+                        {
+                          "pid": 16032,
+                          "name": "msedge.exe",
+                          "action": "TERMINATE"
+                        },
+                        {
+                          "pid": 28292,
+                          "name": "msedge.exe",
+                          "action": "TERMINATE"
+                        },
+                        {
+                          "pid": 19052,
+                          "name": "msedge.exe",
+                          "action": "TERMINATE"
+                        },
+                        {
+                          "pid": 14072,
+                          "name": "msedge.exe",
+                          "action": "TERMINATE"
+                        }
+                      ],
+                      "allowed_work": [
+                        "local CSV/XLSX planning",
+                        "report generation",
+                        "Printify API read/write when no browser needed",
+                        "risk/QA code"
+                      ],
+                      "blocked_work": [
+                        "Edge CDP UI automation",
+                        "image-heavy batch generation",
+                        "broad marketplace RPA"
+                      ]
+                    },
+                    "mode": "COOLDOWN",
+                    "reason": "Edge CDP UI session exceeded 3h (12623s); memory elevated 92.4%; cpu high 100.0%",
+                    "strong_write": {
+                      "active": false,
+                      "matches": [],
+                      "grunt_lock_active": false
+                    },
+                    "startup_recovery": "scripts\\run_codex.bat after Windows login",
+                    "new_task_policy": "Only local optimization, reports, queue planning, memory cleanup, and checkpointing. No new marketplace writes or browser UI tasks.",
+                    "target_shutdown": "06:00 America/New_York",
+                    "memory_guard": {
+                      "timestamp": "2026-05-07 19:40:44 -0400",
+                      "mode": "EXECUTE_CLEANUP",
+                      "execute": true,
+                      "cdp_port": 9223,
+                      "memory_soft_pct": 82.0,
+                      "memory_hard_pct": 92.0,
+                      "cpu_soft_pct": 85.0,
+                      "memory_before": 87.0,
+                      "memory_after": 84.5,
+                      "cpu_before": 100.0,
+                      "cpu_after": 32.0,
+                      "closed_tabs": [],
+                      "top_processes": [
+                        {
+                          "ProcessName": "chrome",
+                          "Id": 28132,
+                          "WorkingSetMB": 1502.8,
+                          "CPU": 1553.78125
+                        },
+                        {
+                          "ProcessName": "chrome",
+                          "Id": 18944,
+                          "WorkingSetMB": 886.7,
+                          "CPU": 702.359375
+                        },
+                        {
+                          "ProcessName": "chrome",
+                          "Id": 26308,
+                          "WorkingSetMB": 556.3,
+                          "CPU": 861.609375
+                        },
+                        {
+                          "ProcessName": "Codex",
+                          "Id": 27652,
+                          "WorkingSetMB": 461.7,
+                          "CPU": 22982.734375
+                        },
+                        {
+                          "ProcessName": "chrome",
+                          "Id": 26452,
+                          "WorkingSetMB": 395.8,
+                          "CPU": 75.96875
+                        },
+                        {
+                          "ProcessName": "chrome",
+                          "Id": 9740,
+                          "WorkingSetMB": 289.3,
+                          "CPU": 53419.625
+                        },
+                        {
+                          "ProcessName": "msedge",
+                          "Id": 23696,
+                          "WorkingSetMB": 270.3,
+                          "CPU": 26.765625
+                        },
+                        {
+                          "ProcessName": "chrome",
+                          "Id": 21820,
+                          "WorkingSetMB": 249.9,
+                          "CPU": 508.3125
+                        }
+                      ],
+                      "decision": "MEMORY_STILL_WARM_BUT_WORKABLE",
+                      "reason": "continue light work; avoid browser/image-heavy tasks",
+                      "privacy_rule": "Only closes project automation Edge tabs through CDP 9223. Does not inspect or close Rex's daily Chrome tabs.",
+                      "optimization_rule": "Cleanup first, then resample. Pause only if pressure remains high after closing safe idle project tabs and reducing concurrency.",
+                      "rest_rule": "Do not shutdown/restart by default; if pressure stays high after cleanup, write rest-cycle recommendation unless Rex explicitly requests immediate power action."
+                    },
+                    "stopped_ui_processes": [],
+                    "stopped_write_processes": [],
+                    "terminated_processes": [
+                      {
+                        "pid": 25856,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 6680,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 23652,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 21348,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 28044,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 27932,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 13936,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 26232,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 27960,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 23984,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 24852,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 14016,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 22856,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 18536,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 31240,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 18452,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 17688,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 32076,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 25308,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 23696,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 27832,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 22056,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 18408,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 8120,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      },
+                      {
+                        "pid": 16628,
+                        "name": "msedge.exe",
+                        "action": "TERMINATE"
+                      }
+                    ],
+                    "allowed_work": [
+                      "local CSV/XLSX planning",
+                      "report generation",
+                      "Printify API read/write when no browser needed",
+                      "risk/QA code"
+                    ],
+                    "blocked_work": [
+                      "Edge CDP UI automation",
+                      "image-heavy batch generation",
+                      "broad marketplace RPA"
+                    ]
+                  },
                   "mode": "COOLDOWN",
-                  "reason": "Edge CDP UI session exceeded 3h (10836s)",
+                  "reason": "Edge CDP UI session exceeded 3h (14409s)",
                   "strong_write": {
                     "active": false,
                     "matches": [],
@@ -613,66 +1134,73 @@
                   "new_task_policy": "Only local optimization, reports, queue planning, memory cleanup, and checkpointing. No new marketplace writes or browser UI tasks.",
                   "target_shutdown": "06:00 America/New_York",
                   "memory_guard": {
-                    "timestamp": "2026-05-07 19:11:04 -0400",
+                    "timestamp": "2026-05-07 20:10:30 -0400",
                     "mode": "EXECUTE_CLEANUP",
                     "execute": true,
                     "cdp_port": 9223,
                     "memory_soft_pct": 82.0,
                     "memory_hard_pct": 92.0,
                     "cpu_soft_pct": 85.0,
-                    "memory_before": 88.7,
-                    "memory_after": 82.6,
-                    "cpu_before": 100.0,
-                    "cpu_after": 31.0,
-                    "closed_tabs": [],
+                    "memory_before": 83.0,
+                    "memory_after": 83.4,
+                    "cpu_before": 79.0,
+                    "cpu_after": 79.0,
+                    "closed_tabs": [
+                      {
+                        "action": "CLOSE_EDGE_PROJECT_TAB",
+                        "id": "9D079CB1102BA5664A1AD58ECD0A0C28",
+                        "title": "Printify Drop Shipping Print on Demand for Ecommerce",
+                        "url": "https://printify.com/app/dashboard"
+                      }
+                    ],
                     "top_processes": [
                       {
                         "ProcessName": "chrome",
-                        "Id": 18944,
-                        "WorkingSetMB": 1297.9,
-                        "CPU": 668.09375
-                      },
-                      {
-                        "ProcessName": "chrome",
                         "Id": 28132,
-                        "WorkingSetMB": 958.6,
-                        "CPU": 1503.671875
+                        "WorkingSetMB": 1332.4,
+                        "CPU": 1862.296875
                       },
                       {
                         "ProcessName": "Codex",
                         "Id": 27652,
-                        "WorkingSetMB": 493.5,
-                        "CPU": 22861.890625
-                      },
-                      {
-                        "ProcessName": "Memory Compression",
-                        "Id": 2944,
-                        "WorkingSetMB": 454.9,
-                        "CPU": null
+                        "WorkingSetMB": 525.2,
+                        "CPU": 23146.46875
                       },
                       {
                         "ProcessName": "chrome",
-                        "Id": 26308,
-                        "WorkingSetMB": 403.3,
-                        "CPU": 264.578125
+                        "Id": 26452,
+                        "WorkingSetMB": 519.7,
+                        "CPU": 107.265625
+                      },
+                      {
+                        "ProcessName": "chrome",
+                        "Id": 21820,
+                        "WorkingSetMB": 508.6,
+                        "CPU": 571.875
                       },
                       {
                         "ProcessName": "chrome",
                         "Id": 9740,
-                        "WorkingSetMB": 324.7,
-                        "CPU": 53263.953125
-                      },
-                      {
-                        "ProcessName": "Code",
-                        "Id": 17544,
-                        "WorkingSetMB": 222.5,
-                        "CPU": 1201.046875
+                        "WorkingSetMB": 372.7,
+                        "CPU": 53626.25
                       },
                       {
                         "ProcessName": "msedge",
-                        "Id": 17272,
-                        "WorkingSetMB": 187.7,
-                        "CPU": 93.765625
+                        "Id": 1812,
+                        "WorkingSetMB": 206.8,
+                        "CPU": 10.421875
+                      },
+                      {
+                        "ProcessName": "MsMpEng",
+                        "Id": 4564,
+                        "WorkingSetMB": 193.1,
+                        "CPU": null
+                      },
+                      {
+                        "ProcessName": "chrome",
+                        "Id": 26560,
+                        "WorkingSetMB": 181.1,
+                        "CPU": 28.234375
                       }
                     ],
                     "decision": "MEMORY_STILL_WARM_BUT_WORKABLE",
@@ -685,112 +1213,102 @@
                   "stopped_write_processes": [],
                   "terminated_processes": [
                     {
-                      "pid": 7220,
+                      "pid": 8260,
                       "name": "msedge.exe",
                       "action": "TERMINATE"
                     },
                     {
-                      "pid": 14624,
+                      "pid": 21856,
                       "name": "msedge.exe",
                       "action": "TERMINATE"
                     },
                     {
-                      "pid": 1468,
+                      "pid": 28652,
                       "name": "msedge.exe",
                       "action": "TERMINATE"
                     },
                     {
-                      "pid": 25252,
+                      "pid": 19664,
                       "name": "msedge.exe",
                       "action": "TERMINATE"
                     },
                     {
-                      "pid": 5068,
+                      "pid": 13996,
                       "name": "msedge.exe",
                       "action": "TERMINATE"
                     },
                     {
-                      "pid": 17272,
+                      "pid": 26000,
                       "name": "msedge.exe",
                       "action": "TERMINATE"
                     },
                     {
-                      "pid": 17160,
+                      "pid": 30796,
                       "name": "msedge.exe",
                       "action": "TERMINATE"
                     },
                     {
-                      "pid": 26436,
+                      "pid": 23052,
                       "name": "msedge.exe",
                       "action": "TERMINATE"
                     },
                     {
-                      "pid": 8908,
+                      "pid": 14460,
                       "name": "msedge.exe",
                       "action": "TERMINATE"
                     },
                     {
-                      "pid": 10544,
+                      "pid": 24980,
                       "name": "msedge.exe",
                       "action": "TERMINATE"
                     },
                     {
-                      "pid": 25388,
+                      "pid": 12692,
                       "name": "msedge.exe",
                       "action": "TERMINATE"
                     },
                     {
-                      "pid": 28624,
+                      "pid": 21456,
                       "name": "msedge.exe",
                       "action": "TERMINATE"
                     },
                     {
-                      "pid": 10896,
+                      "pid": 9052,
                       "name": "msedge.exe",
                       "action": "TERMINATE"
                     },
                     {
-                      "pid": 30508,
+                      "pid": 27260,
                       "name": "msedge.exe",
                       "action": "TERMINATE"
                     },
                     {
-                      "pid": 19628,
+                      "pid": 32228,
                       "name": "msedge.exe",
                       "action": "TERMINATE"
                     },
                     {
-                      "pid": 29816,
+                      "pid": 28408,
                       "name": "msedge.exe",
                       "action": "TERMINATE"
                     },
                     {
-                      "pid": 22904,
+                      "pid": 23712,
                       "name": "msedge.exe",
                       "action": "TERMINATE"
                     },
                     {
-                      "pid": 16300,
+                      "pid": 32732,
                       "name": "msedge.exe",
                       "action": "TERMINATE"
                     },
                     {
-                      "pid": 16032,
+                      "pid": 16932,
                       "name": "msedge.exe",
                       "action": "TERMINATE"
                     },
                     {
-                      "pid": 28292,
-                      "name": "msedge.exe",
-                      "action": "TERMINATE"
-                    },
-                    {
-                      "pid": 19052,
-                      "name": "msedge.exe",
-                      "action": "TERMINATE"
-                    },
-                    {
-                      "pid": 14072,
+                      "pid": 18784,
                       "name": "msedge.exe",
                       "action": "TERMINATE"
                     }
@@ -808,7 +1326,7 @@
                   ]
                 },
                 "mode": "COOLDOWN",
-                "reason": "Edge CDP UI session exceeded 3h (12623s); memory elevated 92.4%; cpu high 100.0%",
+                "reason": "Edge CDP UI session exceeded 3h (16206s)",
                 "strong_write": {
                   "active": false,
                   "matches": [],
@@ -818,66 +1336,66 @@
                 "new_task_policy": "Only local optimization, reports, queue planning, memory cleanup, and checkpointing. No new marketplace writes or browser UI tasks.",
                 "target_shutdown": "06:00 America/New_York",
                 "memory_guard": {
-                  "timestamp": "2026-05-07 19:40:44 -0400",
-                  "mode": "EXECUTE_CLEANUP",
+                  "timestamp": "2026-05-07 20:40:24 -0400",
+                  "mode": "NOOP_BELOW_THRESHOLD",
                   "execute": true,
                   "cdp_port": 9223,
                   "memory_soft_pct": 82.0,
                   "memory_hard_pct": 92.0,
                   "cpu_soft_pct": 85.0,
-                  "memory_before": 87.0,
-                  "memory_after": 84.5,
-                  "cpu_before": 100.0,
-                  "cpu_after": 32.0,
+                  "memory_before": 81.9,
+                  "memory_after": 82.0,
+                  "cpu_before": 13.0,
+                  "cpu_after": 17.0,
                   "closed_tabs": [],
                   "top_processes": [
                     {
                       "ProcessName": "chrome",
-                      "Id": 28132,
-                      "WorkingSetMB": 1502.8,
-                      "CPU": 1553.78125
-                    },
-                    {
-                      "ProcessName": "chrome",
-                      "Id": 18944,
-                      "WorkingSetMB": 886.7,
-                      "CPU": 702.359375
-                    },
-                    {
-                      "ProcessName": "chrome",
                       "Id": 26308,
-                      "WorkingSetMB": 556.3,
-                      "CPU": 861.609375
-                    },
-                    {
-                      "ProcessName": "Codex",
-                      "Id": 27652,
-                      "WorkingSetMB": 461.7,
-                      "CPU": 22982.734375
-                    },
-                    {
-                      "ProcessName": "chrome",
-                      "Id": 26452,
-                      "WorkingSetMB": 395.8,
-                      "CPU": 75.96875
-                    },
-                    {
-                      "ProcessName": "chrome",
-                      "Id": 9740,
-                      "WorkingSetMB": 289.3,
-                      "CPU": 53419.625
-                    },
-                    {
-                      "ProcessName": "msedge",
-                      "Id": 23696,
-                      "WorkingSetMB": 270.3,
-                      "CPU": 26.765625
+                      "WorkingSetMB": 633.4,
+                      "CPU": 1014.328125
                     },
                     {
                       "ProcessName": "chrome",
                       "Id": 21820,
-                      "WorkingSetMB": 249.9,
-                      "CPU": 508.3125
+                      "WorkingSetMB": 604.4,
+                      "CPU": 637.109375
+                    },
+                    {
+                      "ProcessName": "msedge",
+                      "Id": 32532,
+                      "WorkingSetMB": 442.8,
+                      "CPU": 90.546875
+                    },
+                    {
+                      "ProcessName": "Codex",
+                      "Id": 27652,
+                      "WorkingSetMB": 381,
+                      "CPU": 23494.984375
+                    },
+                    {
+                      "ProcessName": "chrome",
+                      "Id": 9740,
+                      "WorkingSetMB": 374.7,
+                      "CPU": 53889.3125
+                    },
+                    {
+                      "ProcessName": "chrome",
+                      "Id": 26560,
+                      "WorkingSetMB": 298,
+                      "CPU": 62.40625
+                    },
+                    {
+                      "ProcessName": "chrome",
+                      "Id": 28404,
+                      "WorkingSetMB": 275.1,
+                      "CPU": 47.234375
+                    },
+                    {
+                      "ProcessName": "chrome",
+                      "Id": 27048,
+                      "WorkingSetMB": 242.8,
+                      "CPU": 862.5
                     }
                   ],
                   "decision": "MEMORY_STILL_WARM_BUT_WORKABLE",
@@ -890,82 +1408,27 @@
                 "stopped_write_processes": [],
                 "terminated_processes": [
                   {
-                    "pid": 25856,
+                    "pid": 5700,
                     "name": "msedge.exe",
                     "action": "TERMINATE"
                   },
                   {
-                    "pid": 6680,
+                    "pid": 22336,
                     "name": "msedge.exe",
                     "action": "TERMINATE"
                   },
                   {
-                    "pid": 23652,
+                    "pid": 8544,
                     "name": "msedge.exe",
                     "action": "TERMINATE"
                   },
                   {
-                    "pid": 21348,
+                    "pid": 31704,
                     "name": "msedge.exe",
                     "action": "TERMINATE"
                   },
                   {
-                    "pid": 28044,
-                    "name": "msedge.exe",
-                    "action": "TERMINATE"
-                  },
-                  {
-                    "pid": 27932,
-                    "name": "msedge.exe",
-                    "action": "TERMINATE"
-                  },
-                  {
-                    "pid": 13936,
-                    "name": "msedge.exe",
-                    "action": "TERMINATE"
-                  },
-                  {
-                    "pid": 26232,
-                    "name": "msedge.exe",
-                    "action": "TERMINATE"
-                  },
-                  {
-                    "pid": 27960,
-                    "name": "msedge.exe",
-                    "action": "TERMINATE"
-                  },
-                  {
-                    "pid": 23984,
-                    "name": "msedge.exe",
-                    "action": "TERMINATE"
-                  },
-                  {
-                    "pid": 24852,
-                    "name": "msedge.exe",
-                    "action": "TERMINATE"
-                  },
-                  {
-                    "pid": 14016,
-                    "name": "msedge.exe",
-                    "action": "TERMINATE"
-                  },
-                  {
-                    "pid": 22856,
-                    "name": "msedge.exe",
-                    "action": "TERMINATE"
-                  },
-                  {
-                    "pid": 18536,
-                    "name": "msedge.exe",
-                    "action": "TERMINATE"
-                  },
-                  {
-                    "pid": 31240,
-                    "name": "msedge.exe",
-                    "action": "TERMINATE"
-                  },
-                  {
-                    "pid": 18452,
+                    "pid": 16068,
                     "name": "msedge.exe",
                     "action": "TERMINATE"
                   },
@@ -975,22 +1438,27 @@
                     "action": "TERMINATE"
                   },
                   {
-                    "pid": 32076,
+                    "pid": 14024,
                     "name": "msedge.exe",
                     "action": "TERMINATE"
                   },
                   {
-                    "pid": 25308,
+                    "pid": 16668,
                     "name": "msedge.exe",
                     "action": "TERMINATE"
                   },
                   {
-                    "pid": 23696,
+                    "pid": 11604,
                     "name": "msedge.exe",
                     "action": "TERMINATE"
                   },
                   {
-                    "pid": 27832,
+                    "pid": 10204,
+                    "name": "msedge.exe",
+                    "action": "TERMINATE"
+                  },
+                  {
+                    "pid": 9700,
                     "name": "msedge.exe",
                     "action": "TERMINATE"
                   },
@@ -1000,17 +1468,57 @@
                     "action": "TERMINATE"
                   },
                   {
-                    "pid": 18408,
+                    "pid": 16520,
                     "name": "msedge.exe",
                     "action": "TERMINATE"
                   },
                   {
-                    "pid": 8120,
+                    "pid": 30132,
                     "name": "msedge.exe",
                     "action": "TERMINATE"
                   },
                   {
-                    "pid": 16628,
+                    "pid": 32532,
+                    "name": "msedge.exe",
+                    "action": "TERMINATE"
+                  },
+                  {
+                    "pid": 5868,
+                    "name": "msedge.exe",
+                    "action": "TERMINATE"
+                  },
+                  {
+                    "pid": 24316,
+                    "name": "msedge.exe",
+                    "action": "TERMINATE"
+                  },
+                  {
+                    "pid": 15908,
+                    "name": "msedge.exe",
+                    "action": "TERMINATE"
+                  },
+                  {
+                    "pid": 22880,
+                    "name": "msedge.exe",
+                    "action": "TERMINATE"
+                  },
+                  {
+                    "pid": 31184,
+                    "name": "msedge.exe",
+                    "action": "TERMINATE"
+                  },
+                  {
+                    "pid": 26584,
+                    "name": "msedge.exe",
+                    "action": "TERMINATE"
+                  },
+                  {
+                    "pid": 31856,
+                    "name": "msedge.exe",
+                    "action": "TERMINATE"
+                  },
+                  {
+                    "pid": 25580,
                     "name": "msedge.exe",
                     "action": "TERMINATE"
                   }
@@ -1028,7 +1536,7 @@
                 ]
               },
               "mode": "COOLDOWN",
-              "reason": "Edge CDP UI session exceeded 3h (14409s)",
+              "reason": "Edge CDP UI session exceeded 3h (18010s)",
               "strong_write": {
                 "active": false,
                 "matches": [],
@@ -1038,21 +1546,21 @@
               "new_task_policy": "Only local optimization, reports, queue planning, memory cleanup, and checkpointing. No new marketplace writes or browser UI tasks.",
               "target_shutdown": "06:00 America/New_York",
               "memory_guard": {
-                "timestamp": "2026-05-07 20:10:30 -0400",
+                "timestamp": "2026-05-07 21:10:28 -0400",
                 "mode": "EXECUTE_CLEANUP",
                 "execute": true,
                 "cdp_port": 9223,
                 "memory_soft_pct": 82.0,
                 "memory_hard_pct": 92.0,
                 "cpu_soft_pct": 85.0,
-                "memory_before": 83.0,
-                "memory_after": 83.4,
-                "cpu_before": 79.0,
-                "cpu_after": 79.0,
+                "memory_before": 84.9,
+                "memory_after": 85.8,
+                "cpu_before": 18.0,
+                "cpu_after": 32.0,
                 "closed_tabs": [
                   {
                     "action": "CLOSE_EDGE_PROJECT_TAB",
-                    "id": "9D079CB1102BA5664A1AD58ECD0A0C28",
+                    "id": "3B389524E3C42062F860EB99BE8568F6",
                     "title": "Printify Drop Shipping Print on Demand for Ecommerce",
                     "url": "https://printify.com/app/dashboard"
                   }
@@ -1060,51 +1568,51 @@
                 "top_processes": [
                   {
                     "ProcessName": "chrome",
-                    "Id": 28132,
-                    "WorkingSetMB": 1332.4,
-                    "CPU": 1862.296875
+                    "Id": 18944,
+                    "WorkingSetMB": 1694.5,
+                    "CPU": 819.859375
+                  },
+                  {
+                    "ProcessName": "Memory Compression",
+                    "Id": 2944,
+                    "WorkingSetMB": 744.7,
+                    "CPU": null
                   },
                   {
                     "ProcessName": "Codex",
                     "Id": 27652,
-                    "WorkingSetMB": 525.2,
-                    "CPU": 23146.46875
-                  },
-                  {
-                    "ProcessName": "chrome",
-                    "Id": 26452,
-                    "WorkingSetMB": 519.7,
-                    "CPU": 107.265625
-                  },
-                  {
-                    "ProcessName": "chrome",
-                    "Id": 21820,
-                    "WorkingSetMB": 508.6,
-                    "CPU": 571.875
-                  },
-                  {
-                    "ProcessName": "chrome",
-                    "Id": 9740,
-                    "WorkingSetMB": 372.7,
-                    "CPU": 53626.25
-                  },
-                  {
-                    "ProcessName": "msedge",
-                    "Id": 1812,
-                    "WorkingSetMB": 206.8,
-                    "CPU": 10.421875
-                  },
-                  {
-                    "ProcessName": "MsMpEng",
-                    "Id": 4564,
-                    "WorkingSetMB": 193.1,
-                    "CPU": null
+                    "WorkingSetMB": 445.5,
+                    "CPU": 23737.359375
                   },
                   {
                     "ProcessName": "chrome",
                     "Id": 26560,
-                    "WorkingSetMB": 181.1,
-                    "CPU": 28.234375
+                    "WorkingSetMB": 392.8,
+                    "CPU": 89.109375
+                  },
+                  {
+                    "ProcessName": "chrome",
+                    "Id": 28404,
+                    "WorkingSetMB": 360.2,
+                    "CPU": 71.4375
+                  },
+                  {
+                    "ProcessName": "chrome",
+                    "Id": 9740,
+                    "WorkingSetMB": 286,
+                    "CPU": 53985.09375
+                  },
+                  {
+                    "ProcessName": "MsMpEng",
+                    "Id": 4564,
+                    "WorkingSetMB": 232.6,
+                    "CPU": null
+                  },
+                  {
+                    "ProcessName": "chrome",
+                    "Id": 4500,
+                    "WorkingSetMB": 222.4,
+                    "CPU": 164.59375
                   }
                 ],
                 "decision": "MEMORY_STILL_WARM_BUT_WORKABLE",
@@ -1117,102 +1625,92 @@
               "stopped_write_processes": [],
               "terminated_processes": [
                 {
-                  "pid": 8260,
+                  "pid": 23944,
                   "name": "msedge.exe",
                   "action": "TERMINATE"
                 },
                 {
-                  "pid": 21856,
+                  "pid": 17168,
                   "name": "msedge.exe",
                   "action": "TERMINATE"
                 },
                 {
-                  "pid": 28652,
+                  "pid": 31548,
                   "name": "msedge.exe",
                   "action": "TERMINATE"
                 },
                 {
-                  "pid": 19664,
+                  "pid": 13424,
                   "name": "msedge.exe",
                   "action": "TERMINATE"
                 },
                 {
-                  "pid": 13996,
+                  "pid": 24144,
                   "name": "msedge.exe",
                   "action": "TERMINATE"
                 },
                 {
-                  "pid": 26000,
+                  "pid": 29488,
                   "name": "msedge.exe",
                   "action": "TERMINATE"
                 },
                 {
-                  "pid": 30796,
+                  "pid": 28736,
                   "name": "msedge.exe",
                   "action": "TERMINATE"
                 },
                 {
-                  "pid": 23052,
+                  "pid": 7852,
                   "name": "msedge.exe",
                   "action": "TERMINATE"
                 },
                 {
-                  "pid": 14460,
+                  "pid": 21060,
                   "name": "msedge.exe",
                   "action": "TERMINATE"
                 },
                 {
-                  "pid": 24980,
+                  "pid": 30824,
                   "name": "msedge.exe",
                   "action": "TERMINATE"
                 },
                 {
-                  "pid": 12692,
+                  "pid": 21492,
                   "name": "msedge.exe",
                   "action": "TERMINATE"
                 },
                 {
-                  "pid": 21456,
+                  "pid": 29404,
                   "name": "msedge.exe",
                   "action": "TERMINATE"
                 },
                 {
-                  "pid": 9052,
+                  "pid": 14568,
                   "name": "msedge.exe",
                   "action": "TERMINATE"
                 },
                 {
-                  "pid": 27260,
+                  "pid": 11240,
                   "name": "msedge.exe",
                   "action": "TERMINATE"
                 },
                 {
-                  "pid": 32228,
+                  "pid": 25244,
                   "name": "msedge.exe",
                   "action": "TERMINATE"
                 },
                 {
-                  "pid": 28408,
+                  "pid": 14972,
                   "name": "msedge.exe",
                   "action": "TERMINATE"
                 },
                 {
-                  "pid": 23712,
+                  "pid": 30448,
                   "name": "msedge.exe",
                   "action": "TERMINATE"
                 },
                 {
-                  "pid": 32732,
-                  "name": "msedge.exe",
-                  "action": "TERMINATE"
-                },
-                {
-                  "pid": 16932,
-                  "name": "msedge.exe",
-                  "action": "TERMINATE"
-                },
-                {
-                  "pid": 18784,
+                  "pid": 11068,
                   "name": "msedge.exe",
                   "action": "TERMINATE"
                 }
@@ -1230,7 +1728,7 @@
               ]
             },
             "mode": "COOLDOWN",
-            "reason": "Edge CDP UI session exceeded 3h (16206s)",
+            "reason": "Edge CDP UI session exceeded 3h (19827s); memory elevated 94.5%; cpu high 100.0%",
             "strong_write": {
               "active": false,
               "matches": [],
@@ -1240,66 +1738,73 @@
             "new_task_policy": "Only local optimization, reports, queue planning, memory cleanup, and checkpointing. No new marketplace writes or browser UI tasks.",
             "target_shutdown": "06:00 America/New_York",
             "memory_guard": {
-              "timestamp": "2026-05-07 20:40:24 -0400",
-              "mode": "NOOP_BELOW_THRESHOLD",
+              "timestamp": "2026-05-07 21:40:51 -0400",
+              "mode": "EXECUTE_CLEANUP",
               "execute": true,
               "cdp_port": 9223,
               "memory_soft_pct": 82.0,
               "memory_hard_pct": 92.0,
               "cpu_soft_pct": 85.0,
-              "memory_before": 81.9,
-              "memory_after": 82.0,
-              "cpu_before": 13.0,
-              "cpu_after": 17.0,
-              "closed_tabs": [],
+              "memory_before": 84.6,
+              "memory_after": 86.1,
+              "cpu_before": 51.0,
+              "cpu_after": 100.0,
+              "closed_tabs": [
+                {
+                  "action": "CLOSE_EDGE_PROJECT_TAB",
+                  "id": "8C8EC13A0FE80B8B2E6961DC71401B79",
+                  "title": "Printify Drop Shipping Print on Demand for Ecommerce",
+                  "url": "https://printify.com/app/dashboard"
+                }
+              ],
               "top_processes": [
                 {
                   "ProcessName": "chrome",
-                  "Id": 26308,
-                  "WorkingSetMB": 633.4,
-                  "CPU": 1014.328125
+                  "Id": 28132,
+                  "WorkingSetMB": 1292,
+                  "CPU": 1987.640625
                 },
                 {
                   "ProcessName": "chrome",
-                  "Id": 21820,
-                  "WorkingSetMB": 604.4,
-                  "CPU": 637.109375
-                },
-                {
-                  "ProcessName": "msedge",
-                  "Id": 32532,
-                  "WorkingSetMB": 442.8,
-                  "CPU": 90.546875
+                  "Id": 26308,
+                  "WorkingSetMB": 756.9,
+                  "CPU": 1060.703125
                 },
                 {
                   "ProcessName": "Codex",
                   "Id": 27652,
-                  "WorkingSetMB": 381,
-                  "CPU": 23494.984375
-                },
-                {
-                  "ProcessName": "chrome",
-                  "Id": 9740,
-                  "WorkingSetMB": 374.7,
-                  "CPU": 53889.3125
+                  "WorkingSetMB": 611.3,
+                  "CPU": 24379.71875
                 },
                 {
                   "ProcessName": "chrome",
                   "Id": 26560,
-                  "WorkingSetMB": 298,
-                  "CPU": 62.40625
+                  "WorkingSetMB": 446.5,
+                  "CPU": 142.453125
                 },
                 {
                   "ProcessName": "chrome",
                   "Id": 28404,
-                  "WorkingSetMB": 275.1,
-                  "CPU": 47.234375
+                  "WorkingSetMB": 414.3,
+                  "CPU": 89.578125
                 },
                 {
                   "ProcessName": "chrome",
-                  "Id": 27048,
-                  "WorkingSetMB": 242.8,
-                  "CPU": 862.5
+                  "Id": 9740,
+                  "WorkingSetMB": 257.9,
+                  "CPU": 54126.59375
+                },
+                {
+                  "ProcessName": "Memory Compression",
+                  "Id": 2944,
+                  "WorkingSetMB": 248.6,
+                  "CPU": null
+                },
+                {
+                  "ProcessName": "chrome",
+                  "Id": 21820,
+                  "WorkingSetMB": 192.3,
+                  "CPU": 769.375
                 }
               ],
               "decision": "MEMORY_STILL_WARM_BUT_WORKABLE",
@@ -1312,117 +1817,122 @@
             "stopped_write_processes": [],
             "terminated_processes": [
               {
-                "pid": 5700,
+                "pid": 19272,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               },
               {
-                "pid": 22336,
+                "pid": 7692,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               },
               {
-                "pid": 8544,
+                "pid": 30568,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               },
               {
-                "pid": 31704,
+                "pid": 21196,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               },
               {
-                "pid": 16068,
+                "pid": 27592,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               },
               {
-                "pid": 17688,
+                "pid": 15132,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               },
               {
-                "pid": 14024,
+                "pid": 1852,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               },
               {
-                "pid": 16668,
+                "pid": 2432,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               },
               {
-                "pid": 11604,
+                "pid": 25692,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               },
               {
-                "pid": 10204,
+                "pid": 24004,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               },
               {
-                "pid": 9700,
+                "pid": 22724,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               },
               {
-                "pid": 22056,
+                "pid": 636,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               },
               {
-                "pid": 16520,
+                "pid": 19664,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               },
               {
-                "pid": 30132,
+                "pid": 28160,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               },
               {
-                "pid": 32532,
+                "pid": 4544,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               },
               {
-                "pid": 5868,
+                "pid": 32232,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               },
               {
-                "pid": 24316,
+                "pid": 25020,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               },
               {
-                "pid": 15908,
+                "pid": 2768,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               },
               {
-                "pid": 22880,
+                "pid": 32364,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               },
               {
-                "pid": 31184,
+                "pid": 11000,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               },
               {
-                "pid": 26584,
+                "pid": 28180,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               },
               {
-                "pid": 31856,
+                "pid": 15324,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               },
               {
-                "pid": 25580,
+                "pid": 3340,
+                "name": "msedge.exe",
+                "action": "TERMINATE"
+              },
+              {
+                "pid": 19068,
                 "name": "msedge.exe",
                 "action": "TERMINATE"
               }
@@ -1440,7 +1950,7 @@
             ]
           },
           "mode": "COOLDOWN",
-          "reason": "Edge CDP UI session exceeded 3h (18010s)",
+          "reason": "Edge CDP UI session exceeded 3h (21642s); memory elevated 90.6%; cpu high 96.0%",
           "strong_write": {
             "active": false,
             "matches": [],
@@ -1450,77 +1960,70 @@
           "new_task_policy": "Only local optimization, reports, queue planning, memory cleanup, and checkpointing. No new marketplace writes or browser UI tasks.",
           "target_shutdown": "06:00 America/New_York",
           "memory_guard": {
-            "timestamp": "2026-05-07 21:10:28 -0400",
+            "timestamp": "2026-05-07 22:11:35 -0400",
             "mode": "EXECUTE_CLEANUP",
             "execute": true,
             "cdp_port": 9223,
             "memory_soft_pct": 82.0,
             "memory_hard_pct": 92.0,
             "cpu_soft_pct": 85.0,
-            "memory_before": 84.9,
-            "memory_after": 85.8,
-            "cpu_before": 18.0,
-            "cpu_after": 32.0,
-            "closed_tabs": [
-              {
-                "action": "CLOSE_EDGE_PROJECT_TAB",
-                "id": "3B389524E3C42062F860EB99BE8568F6",
-                "title": "Printify Drop Shipping Print on Demand for Ecommerce",
-                "url": "https://printify.com/app/dashboard"
-              }
-            ],
+            "memory_before": 89.1,
+            "memory_after": null,
+            "cpu_before": 34.0,
+            "cpu_after": null,
+            "closed_tabs": [],
             "top_processes": [
               {
                 "ProcessName": "chrome",
-                "Id": 18944,
-                "WorkingSetMB": 1694.5,
-                "CPU": 819.859375
-              },
-              {
-                "ProcessName": "Memory Compression",
-                "Id": 2944,
-                "WorkingSetMB": 744.7,
-                "CPU": null
-              },
-              {
-                "ProcessName": "Codex",
-                "Id": 27652,
-                "WorkingSetMB": 445.5,
-                "CPU": 23737.359375
+                "Id": 28132,
+                "WorkingSetMB": 2163.4,
+                "CPU": 2282.703125
               },
               {
                 "ProcessName": "chrome",
                 "Id": 26560,
-                "WorkingSetMB": 392.8,
-                "CPU": 89.109375
+                "WorkingSetMB": 668.9,
+                "CPU": 274.4375
+              },
+              {
+                "ProcessName": "Codex",
+                "Id": 27652,
+                "WorkingSetMB": 541.9,
+                "CPU": 25132.375
               },
               {
                 "ProcessName": "chrome",
                 "Id": 28404,
-                "WorkingSetMB": 360.2,
-                "CPU": 71.4375
+                "WorkingSetMB": 483,
+                "CPU": 103.78125
               },
               {
                 "ProcessName": "chrome",
                 "Id": 9740,
-                "WorkingSetMB": 286,
-                "CPU": 53985.09375
+                "WorkingSetMB": 394.2,
+                "CPU": 54363.421875
               },
               {
                 "ProcessName": "MsMpEng",
                 "Id": 4564,
-                "WorkingSetMB": 232.6,
+                "WorkingSetMB": 211.3,
                 "CPU": null
               },
               {
-                "ProcessName": "chrome",
-                "Id": 4500,
-                "WorkingSetMB": 222.4,
-                "CPU": 164.59375
+                "ProcessName": "msedge",
+                "Id": 14496,
+                "WorkingSetMB": 208.7,
+                "CPU": 36.171875
+              },
+              {
+                "ProcessName": "WindowsTerminal",
+                "Id": 22112,
+                "WorkingSetMB": 159.2,
+                "CPU": 1.53125
               }
             ],
-            "decision": "MEMORY_STILL_WARM_BUT_WORKABLE",
-            "reason": "continue light work; avoid browser/image-heavy tasks",
+            "decision": "MEMORY_OK_CONTINUE",
+            "reason": "normal work may continue under marketplace risk guards",
             "privacy_rule": "Only closes project automation Edge tabs through CDP 9223. Does not inspect or close Rex's daily Chrome tabs.",
             "optimization_rule": "Cleanup first, then resample. Pause only if pressure remains high after closing safe idle project tabs and reducing concurrency.",
             "rest_rule": "Do not shutdown/restart by default; if pressure stays high after cleanup, write rest-cycle recommendation unless Rex explicitly requests immediate power action."
@@ -1529,92 +2032,72 @@
           "stopped_write_processes": [],
           "terminated_processes": [
             {
-              "pid": 23944,
+              "pid": 28696,
               "name": "msedge.exe",
               "action": "TERMINATE"
             },
             {
-              "pid": 17168,
+              "pid": 14588,
               "name": "msedge.exe",
               "action": "TERMINATE"
             },
             {
-              "pid": 31548,
+              "pid": 17336,
               "name": "msedge.exe",
               "action": "TERMINATE"
             },
             {
-              "pid": 13424,
+              "pid": 7420,
               "name": "msedge.exe",
               "action": "TERMINATE"
             },
             {
-              "pid": 24144,
+              "pid": 26584,
               "name": "msedge.exe",
               "action": "TERMINATE"
             },
             {
-              "pid": 29488,
+              "pid": 31564,
               "name": "msedge.exe",
               "action": "TERMINATE"
             },
             {
-              "pid": 28736,
+              "pid": 23000,
               "name": "msedge.exe",
               "action": "TERMINATE"
             },
             {
-              "pid": 7852,
+              "pid": 13592,
               "name": "msedge.exe",
               "action": "TERMINATE"
             },
             {
-              "pid": 21060,
+              "pid": 15896,
               "name": "msedge.exe",
               "action": "TERMINATE"
             },
             {
-              "pid": 30824,
+              "pid": 7700,
               "name": "msedge.exe",
               "action": "TERMINATE"
             },
             {
-              "pid": 21492,
+              "pid": 28980,
               "name": "msedge.exe",
               "action": "TERMINATE"
             },
             {
-              "pid": 29404,
+              "pid": 16628,
               "name": "msedge.exe",
               "action": "TERMINATE"
             },
             {
-              "pid": 14568,
+              "pid": 27592,
               "name": "msedge.exe",
               "action": "TERMINATE"
             },
             {
-              "pid": 11240,
-              "name": "msedge.exe",
-              "action": "TERMINATE"
-            },
-            {
-              "pid": 25244,
-              "name": "msedge.exe",
-              "action": "TERMINATE"
-            },
-            {
-              "pid": 14972,
-              "name": "msedge.exe",
-              "action": "TERMINATE"
-            },
-            {
-              "pid": 30448,
-              "name": "msedge.exe",
-              "action": "TERMINATE"
-            },
-            {
-              "pid": 11068,
+              "pid": 13376,
               "name": "msedge.exe",
               "action": "TERMINATE"
             }
@@ -1632,7 +2115,7 @@
           ]
         },
         "mode": "COOLDOWN",
-        "reason": "Edge CDP UI session exceeded 3h (19827s); memory elevated 94.5%; cpu high 100.0%",
+        "reason": "Edge CDP UI session exceeded 3h (23411s)",
         "strong_write": {
           "active": false,
           "matches": [],
@@ -1642,73 +2125,66 @@
         "new_task_policy": "Only local optimization, reports, queue planning, memory cleanup, and checkpointing. No new marketplace writes or browser UI tasks.",
         "target_shutdown": "06:00 America/New_York",
         "memory_guard": {
-          "timestamp": "2026-05-07 21:40:51 -0400",
+          "timestamp": "2026-05-07 22:40:47 -0400",
           "mode": "EXECUTE_CLEANUP",
           "execute": true,
           "cdp_port": 9223,
           "memory_soft_pct": 82.0,
           "memory_hard_pct": 92.0,
           "cpu_soft_pct": 85.0,
-          "memory_before": 84.6,
-          "memory_after": 86.1,
-          "cpu_before": 51.0,
+          "memory_before": 85.4,
+          "memory_after": 90.1,
+          "cpu_before": 46.0,
           "cpu_after": 100.0,
-          "closed_tabs": [
-            {
-              "action": "CLOSE_EDGE_PROJECT_TAB",
-              "id": "8C8EC13A0FE80B8B2E6961DC71401B79",
-              "title": "Printify Drop Shipping Print on Demand for Ecommerce",
-              "url": "https://printify.com/app/dashboard"
-            }
-          ],
+          "closed_tabs": [],
           "top_processes": [
             {
               "ProcessName": "chrome",
-              "Id": 28132,
-              "WorkingSetMB": 1292,
-              "CPU": 1987.640625
-            },
-            {
-              "ProcessName": "chrome",
               "Id": 26308,
-              "WorkingSetMB": 756.9,
-              "CPU": 1060.703125
+              "WorkingSetMB": 940.2,
+              "CPU": 1112.984375
             },
             {
               "ProcessName": "Codex",
               "Id": 27652,
-              "WorkingSetMB": 611.3,
-              "CPU": 24379.71875
-            },
-            {
-              "ProcessName": "chrome",
-              "Id": 26560,
-              "WorkingSetMB": 446.5,
-              "CPU": 142.453125
+              "WorkingSetMB": 658.2,
+              "CPU": 25894.5625
             },
             {
               "ProcessName": "chrome",
               "Id": 28404,
-              "WorkingSetMB": 414.3,
-              "CPU": 89.578125
+              "WorkingSetMB": 579.8,
+              "CPU": 139.125
             },
             {
               "ProcessName": "chrome",
               "Id": 9740,
-              "WorkingSetMB": 257.9,
-              "CPU": 54126.59375
-            },
-            {
-              "ProcessName": "Memory Compression",
-              "Id": 2944,
-              "WorkingSetMB": 248.6,
-              "CPU": null
+              "WorkingSetMB": 473.7,
+              "CPU": 54634.328125
             },
             {
               "ProcessName": "chrome",
-              "Id": 21820,
-              "WorkingSetMB": 192.3,
-              "CPU": 769.375
+              "Id": 28132,
+              "WorkingSetMB": 405.2,
+              "CPU": 2465.25
+            },
+            {
+              "ProcessName": "chrome",
+              "Id": 22720,
+              "WorkingSetMB": 371.6,
+              "CPU": 259.203125
+            },
+            {
+              "ProcessName": "chrome",
+              "Id": 292,
+              "WorkingSetMB": 324,
+              "CPU": 144.390625
+            },
+            {
+              "ProcessName": "chrome",
+              "Id": 27048,
+              "WorkingSetMB": 253,
+              "CPU": 1090.828125
             }
           ],
           "decision": "MEMORY_STILL_WARM_BUT_WORKABLE",
@@ -1721,122 +2197,112 @@
         "stopped_write_processes": [],
         "terminated_processes": [
           {
-            "pid": 19272,
+            "pid": 29784,
             "name": "msedge.exe",
             "action": "TERMINATE"
           },
           {
-            "pid": 7692,
+            "pid": 8228,
             "name": "msedge.exe",
             "action": "TERMINATE"
           },
           {
-            "pid": 30568,
+            "pid": 28980,
             "name": "msedge.exe",
             "action": "TERMINATE"
           },
           {
-            "pid": 21196,
+            "pid": 15432,
             "name": "msedge.exe",
             "action": "TERMINATE"
           },
           {
-            "pid": 27592,
+            "pid": 8144,
             "name": "msedge.exe",
             "action": "TERMINATE"
           },
           {
-            "pid": 15132,
+            "pid": 22048,
             "name": "msedge.exe",
             "action": "TERMINATE"
           },
           {
-            "pid": 1852,
+            "pid": 14932,
             "name": "msedge.exe",
             "action": "TERMINATE"
           },
           {
-            "pid": 2432,
+            "pid": 25700,
             "name": "msedge.exe",
             "action": "TERMINATE"
           },
           {
-            "pid": 25692,
+            "pid": 32136,
             "name": "msedge.exe",
             "action": "TERMINATE"
           },
           {
-            "pid": 24004,
+            "pid": 28220,
             "name": "msedge.exe",
             "action": "TERMINATE"
           },
           {
-            "pid": 22724,
+            "pid": 18852,
             "name": "msedge.exe",
             "action": "TERMINATE"
           },
           {
-            "pid": 636,
+            "pid": 16512,
             "name": "msedge.exe",
             "action": "TERMINATE"
           },
           {
-            "pid": 19664,
+            "pid": 14628,
             "name": "msedge.exe",
             "action": "TERMINATE"
           },
           {
-            "pid": 28160,
+            "pid": 25468,
             "name": "msedge.exe",
             "action": "TERMINATE"
           },
           {
-            "pid": 4544,
+            "pid": 16524,
             "name": "msedge.exe",
             "action": "TERMINATE"
           },
           {
-            "pid": 32232,
+            "pid": 6004,
             "name": "msedge.exe",
             "action": "TERMINATE"
           },
           {
-            "pid": 25020,
+            "pid": 19052,
             "name": "msedge.exe",
             "action": "TERMINATE"
           },
           {
-            "pid": 2768,
+            "pid": 30392,
             "name": "msedge.exe",
             "action": "TERMINATE"
           },
           {
-            "pid": 32364,
+            "pid": 29536,
             "name": "msedge.exe",
             "action": "TERMINATE"
           },
           {
-            "pid": 11000,
+            "pid": 21048,
             "name": "msedge.exe",
             "action": "TERMINATE"
           },
           {
-            "pid": 28180,
+            "pid": 21428,
             "name": "msedge.exe",
             "action": "TERMINATE"
           },
           {
-            "pid": 15324,
-            "name": "msedge.exe",
-            "action": "TERMINATE"
-          },
-          {
-            "pid": 3340,
-            "name": "msedge.exe",
-            "action": "TERMINATE"
-          },
-          {
-            "pid": 19068,
+            "pid": 22212,
             "name": "msedge.exe",
             "action": "TERMINATE"
           }
@@ -1854,7 +2320,7 @@
         ]
       },
       "mode": "COOLDOWN",
-      "reason": "Edge CDP UI session exceeded 3h (21642s); memory elevated 90.6%; cpu high 96.0%",
+      "reason": "Edge CDP UI session exceeded 3h (25212s); cpu high 100.0%",
       "strong_write": {
         "active": false,
         "matches": [],
@@ -1864,70 +2330,70 @@
       "new_task_policy": "Only local optimization, reports, queue planning, memory cleanup, and checkpointing. No new marketplace writes or browser UI tasks.",
       "target_shutdown": "06:00 America/New_York",
       "memory_guard": {
-        "timestamp": "2026-05-07 22:11:35 -0400",
+        "timestamp": "2026-05-07 23:10:49 -0400",
         "mode": "EXECUTE_CLEANUP",
         "execute": true,
         "cdp_port": 9223,
         "memory_soft_pct": 82.0,
         "memory_hard_pct": 92.0,
         "cpu_soft_pct": 85.0,
-        "memory_before": 89.1,
-        "memory_after": null,
-        "cpu_before": 34.0,
-        "cpu_after": null,
+        "memory_before": 84.3,
+        "memory_after": 88.8,
+        "cpu_before": 74.0,
+        "cpu_after": 88.0,
         "closed_tabs": [],
         "top_processes": [
           {
-            "ProcessName": "chrome",
-            "Id": 28132,
-            "WorkingSetMB": 2163.4,
-            "CPU": 2282.703125
-          },
-          {
-            "ProcessName": "chrome",
-            "Id": 26560,
-            "WorkingSetMB": 668.9,
-            "CPU": 274.4375
-          },
-          {
-            "ProcessName": "Codex",
-            "Id": 27652,
-            "WorkingSetMB": 541.9,
-            "CPU": 25132.375
+            "ProcessName": "Memory Compression",
+            "Id": 2944,
+            "WorkingSetMB": 940.3,
+            "CPU": null
           },
           {
             "ProcessName": "chrome",
             "Id": 28404,
-            "WorkingSetMB": 483,
-            "CPU": 103.78125
+            "WorkingSetMB": 691.3,
+            "CPU": 169.4375
+          },
+          {
+            "ProcessName": "Codex",
+            "Id": 27652,
+            "WorkingSetMB": 652.8,
+            "CPU": 26683.5
+          },
+          {
+            "ProcessName": "chrome",
+            "Id": 22720,
+            "WorkingSetMB": 479.7,
+            "CPU": 622.921875
+          },
+          {
+            "ProcessName": "chrome",
+            "Id": 28132,
+            "WorkingSetMB": 468.1,
+            "CPU": 2560.5625
           },
           {
             "ProcessName": "chrome",
             "Id": 9740,
-            "WorkingSetMB": 394.2,
-            "CPU": 54363.421875
+            "WorkingSetMB": 388.2,
+            "CPU": 54877.15625
           },
           {
-            "ProcessName": "MsMpEng",
-            "Id": 4564,
-            "WorkingSetMB": 211.3,
-            "CPU": null
+            "ProcessName": "chrome",
+            "Id": 292,
+            "WorkingSetMB": 344.8,
+            "CPU": 267.078125
           },
           {
-            "ProcessName": "msedge",
-            "Id": 14496,
-            "WorkingSetMB": 208.7,
-            "CPU": 36.171875
-          },
-          {
-            "ProcessName": "WindowsTerminal",
-            "Id": 22112,
-            "WorkingSetMB": 159.2,
-            "CPU": 1.53125
+            "ProcessName": "chrome",
+            "Id": 21820,
+            "WorkingSetMB": 292.4,
+            "CPU": 936.09375
           }
         ],
-        "decision": "MEMORY_OK_CONTINUE",
-        "reason": "normal work may continue under marketplace risk guards",
+        "decision": "MEMORY_STILL_WARM_BUT_WORKABLE",
+        "reason": "continue light work; avoid browser/image-heavy tasks",
         "privacy_rule": "Only closes project automation Edge tabs through CDP 9223. Does not inspect or close Rex's daily Chrome tabs.",
         "optimization_rule": "Cleanup first, then resample. Pause only if pressure remains high after closing safe idle project tabs and reducing concurrency.",
         "rest_rule": "Do not shutdown/restart by default; if pressure stays high after cleanup, write rest-cycle recommendation unless Rex explicitly requests immediate power action."
@@ -1936,72 +2402,92 @@
       "stopped_write_processes": [],
       "terminated_processes": [
         {
-          "pid": 28696,
+          "pid": 29508,
           "name": "msedge.exe",
           "action": "TERMINATE"
         },
         {
-          "pid": 14588,
+          "pid": 10696,
           "name": "msedge.exe",
           "action": "TERMINATE"
         },
         {
-          "pid": 17336,
+          "pid": 11140,
           "name": "msedge.exe",
           "action": "TERMINATE"
         },
         {
-          "pid": 7420,
+          "pid": 28716,
           "name": "msedge.exe",
           "action": "TERMINATE"
         },
         {
-          "pid": 26584,
+          "pid": 8204,
           "name": "msedge.exe",
           "action": "TERMINATE"
         },
         {
-          "pid": 31564,
+          "pid": 29632,
           "name": "msedge.exe",
           "action": "TERMINATE"
         },
         {
-          "pid": 23000,
+          "pid": 12416,
           "name": "msedge.exe",
           "action": "TERMINATE"
         },
         {
-          "pid": 13592,
+          "pid": 25000,
           "name": "msedge.exe",
           "action": "TERMINATE"
         },
         {
-          "pid": 15896,
+          "pid": 20296,
           "name": "msedge.exe",
           "action": "TERMINATE"
         },
         {
-          "pid": 7700,
+          "pid": 15324,
           "name": "msedge.exe",
           "action": "TERMINATE"
         },
         {
-          "pid": 28980,
+          "pid": 3896,
           "name": "msedge.exe",
           "action": "TERMINATE"
         },
         {
-          "pid": 16628,
+          "pid": 12480,
           "name": "msedge.exe",
           "action": "TERMINATE"
         },
         {
-          "pid": 27592,
+          "pid": 7944,
           "name": "msedge.exe",
           "action": "TERMINATE"
         },
         {
-          "pid": 13376,
+          "pid": 25964,
+          "name": "msedge.exe",
+          "action": "TERMINATE"
+        },
+        {
+          "pid": 10668,
+          "name": "msedge.exe",
+          "action": "TERMINATE"
+        },
+        {
+          "pid": 12220,
+          "name": "msedge.exe",
+          "action": "TERMINATE"
+        },
+        {
+          "pid": 23768,
+          "name": "msedge.exe",
+          "action": "TERMINATE"
+        },
+        {
+          "pid": 27136,
           "name": "msedge.exe",
           "action": "TERMINATE"
         }
@@ -2019,7 +2505,7 @@
       ]
     },
     "mode": "COOLDOWN",
-    "reason": "Edge CDP UI session exceeded 3h (23411s)",
+    "reason": "Edge CDP UI session exceeded 3h (27187s)",
     "strong_write": {
       "active": false,
       "matches": [],
@@ -2029,70 +2515,21 @@
     "new_task_policy": "Only local optimization, reports, queue planning, memory cleanup, and checkpointing. No new marketplace writes or browser UI tasks.",
     "target_shutdown": "06:00 America/New_York",
     "memory_guard": {
-      "timestamp": "2026-05-07 22:40:47 -0400",
-      "mode": "EXECUTE_CLEANUP",
+      "timestamp": "2026-05-07 23:43:53 -0400",
+      "mode": "NOOP_BELOW_THRESHOLD",
       "execute": true,
       "cdp_port": 9223,
       "memory_soft_pct": 82.0,
       "memory_hard_pct": 92.0,
       "cpu_soft_pct": 85.0,
-      "memory_before": 85.4,
-      "memory_after": 90.1,
-      "cpu_before": 46.0,
-      "cpu_after": 100.0,
+      "memory_before": null,
+      "memory_after": 79.3,
+      "cpu_before": null,
+      "cpu_after": 34.0,
       "closed_tabs": [],
-      "top_processes": [
-        {
-          "ProcessName": "chrome",
-          "Id": 26308,
-          "WorkingSetMB": 940.2,
-          "CPU": 1112.984375
-        },
-        {
-          "ProcessName": "Codex",
-          "Id": 27652,
-          "WorkingSetMB": 658.2,
-          "CPU": 25894.5625
-        },
-        {
-          "ProcessName": "chrome",
-          "Id": 28404,
-          "WorkingSetMB": 579.8,
-          "CPU": 139.125
-        },
-        {
-          "ProcessName": "chrome",
-          "Id": 9740,
-          "WorkingSetMB": 473.7,
-          "CPU": 54634.328125
-        },
-        {
-          "ProcessName": "chrome",
-          "Id": 28132,
-          "WorkingSetMB": 405.2,
-          "CPU": 2465.25
-        },
-        {
-          "ProcessName": "chrome",
-          "Id": 22720,
-          "WorkingSetMB": 371.6,
-          "CPU": 259.203125
-        },
-        {
-          "ProcessName": "chrome",
-          "Id": 292,
-          "WorkingSetMB": 324,
-          "CPU": 144.390625
-        },
-        {
-          "ProcessName": "chrome",
-          "Id": 27048,
-          "WorkingSetMB": 253,
-          "CPU": 1090.828125
-        }
-      ],
-      "decision": "MEMORY_STILL_WARM_BUT_WORKABLE",
-      "reason": "continue light work; avoid browser/image-heavy tasks",
+      "top_processes": [],
+      "decision": "MEMORY_OK_CONTINUE",
+      "reason": "normal work may continue under marketplace risk guards",
       "privacy_rule": "Only closes project automation Edge tabs through CDP 9223. Does not inspect or close Rex's daily Chrome tabs.",
       "optimization_rule": "Cleanup first, then resample. Pause only if pressure remains high after closing safe idle project tabs and reducing concurrency.",
       "rest_rule": "Do not shutdown/restart by default; if pressure stays high after cleanup, write rest-cycle recommendation unless Rex explicitly requests immediate power action."
@@ -2101,112 +2538,87 @@
     "stopped_write_processes": [],
     "terminated_processes": [
       {
-        "pid": 29784,
+        "pid": 20892,
         "name": "msedge.exe",
         "action": "TERMINATE"
       },
       {
-        "pid": 8228,
+        "pid": 3636,
         "name": "msedge.exe",
         "action": "TERMINATE"
       },
       {
-        "pid": 28980,
+        "pid": 6148,
         "name": "msedge.exe",
         "action": "TERMINATE"
       },
       {
-        "pid": 15432,
+        "pid": 20672,
         "name": "msedge.exe",
         "action": "TERMINATE"
       },
       {
-        "pid": 8144,
+        "pid": 21464,
         "name": "msedge.exe",
         "action": "TERMINATE"
       },
       {
-        "pid": 22048,
+        "pid": 30224,
         "name": "msedge.exe",
         "action": "TERMINATE"
       },
       {
-        "pid": 14932,
+        "pid": 8232,
         "name": "msedge.exe",
         "action": "TERMINATE"
       },
       {
-        "pid": 25700,
+        "pid": 24188,
         "name": "msedge.exe",
         "action": "TERMINATE"
       },
       {
-        "pid": 32136,
+        "pid": 32692,
         "name": "msedge.exe",
         "action": "TERMINATE"
       },
       {
-        "pid": 28220,
+        "pid": 32508,
         "name": "msedge.exe",
         "action": "TERMINATE"
       },
       {
-        "pid": 18852,
+        "pid": 23400,
         "name": "msedge.exe",
         "action": "TERMINATE"
       },
       {
-        "pid": 16512,
+        "pid": 13376,
         "name": "msedge.exe",
         "action": "TERMINATE"
       },
       {
-        "pid": 14628,
+        "pid": 24668,
         "name": "msedge.exe",
         "action": "TERMINATE"
       },
       {
-        "pid": 25468,
+        "pid": 6204,
         "name": "msedge.exe",
         "action": "TERMINATE"
       },
       {
-        "pid": 16524,
+        "pid": 31392,
         "name": "msedge.exe",
         "action": "TERMINATE"
       },
       {
-        "pid": 6004,
+        "pid": 25648,
         "name": "msedge.exe",
         "action": "TERMINATE"
       },
       {
-        "pid": 19052,
-        "name": "msedge.exe",
-        "action": "TERMINATE"
-      },
-      {
-        "pid": 30392,
-        "name": "msedge.exe",
-        "action": "TERMINATE"
-      },
-      {
-        "pid": 29536,
-        "name": "msedge.exe",
-        "action": "TERMINATE"
-      },
-      {
-        "pid": 21048,
-        "name": "msedge.exe",
-        "action": "TERMINATE"
-      },
-      {
-        "pid": 21428,
-        "name": "msedge.exe",
-        "action": "TERMINATE"
-      },
-      {
-        "pid": 22212,
+        "pid": 28884,
         "name": "msedge.exe",
         "action": "TERMINATE"
       }

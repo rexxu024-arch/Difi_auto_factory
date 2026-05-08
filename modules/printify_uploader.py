@@ -106,9 +106,10 @@ def _image_upload(path, file_name, allow_jpeg=False):
     raise last_error
 
 
-def _load_rows():
+def _load_rows(ids=None):
     if not EBAY_BOOK.exists():
         raise FileNotFoundError(f"Missing listing database: {EBAY_BOOK}")
+    wanted_ids = {str(value).strip() for value in (ids or []) if str(value).strip()}
     wb = load_workbook(EBAY_BOOK)
     ws = wb.active
     headers = [cell.value for cell in ws[1]]
@@ -116,6 +117,8 @@ def _load_rows():
     for row_idx in range(2, ws.max_row + 1):
         data = {headers[col - 1]: ws.cell(row=row_idx, column=col).value for col in range(1, len(headers) + 1)}
         data["_row_idx"] = row_idx
+        if wanted_ids and str(data.get("ID") or "").strip() not in wanted_ids:
+            continue
         if data.get("ID") and data.get("Status") in {"Ready_for_Printify", "Printify_Failed"}:
             rows.append(data)
     return wb, ws, headers, rows
@@ -157,11 +160,13 @@ def _wait_for_selected_mockups(product_id, timeout_seconds=90):
     return last_product or _fetch_product(product_id), _selected_mockup_count(last_product or {})
 
 
-def _gallery_paths(row):
+def _gallery_paths(row, sticker_gallery_mode="full"):
     paths = []
     cover = row.get("Cover_Path")
     if cover:
         paths.append(("Cover", Path(cover)))
+    if _product_type(row) == "Sticker" and sticker_gallery_mode == "cover-only":
+        return paths
     for index in range(1, 5):
         value = row.get(f"Gallery_U{index}_Path")
         if value:
@@ -220,18 +225,18 @@ def _build_payload(row, stock_image_ids, production_id):
     }
 
 
-def _validate_row_assets(row):
+def _validate_row_assets(row, sticker_gallery_mode="full"):
     item_id = row["ID"]
     spec = _spec(row)
     production_path = Path(row["Production_Path"])
-    stock_paths = _gallery_paths(row)
+    stock_paths = _gallery_paths(row, sticker_gallery_mode=sticker_gallery_mode)
     missing = []
     if not production_path.exists():
         missing.append(str(production_path))
     for _, path in stock_paths:
         if not path.exists():
             missing.append(str(path))
-    if len(stock_paths) < 5:
+    if not (_product_type(row) == "Sticker" and sticker_gallery_mode == "cover-only") and len(stock_paths) < 5:
         missing.append(f"{item_id}: expected Cover + U1-U4 stock photos, found {len(stock_paths)}")
     checks = [(production_path, spec["production_min"], "Production_Design")]
     for label, path in stock_paths:
@@ -251,17 +256,25 @@ def _validate_row_assets(row):
     return production_path, stock_paths, missing
 
 
-def stage_printify_products(limit=0, dry_run=False, auto_proceed=False, batch_size=BATCH_SIZE, batch_delay=BATCH_DELAY_SECONDS):
+def stage_printify_products(
+    limit=0,
+    dry_run=False,
+    auto_proceed=False,
+    batch_size=BATCH_SIZE,
+    batch_delay=BATCH_DELAY_SECONDS,
+    sticker_gallery_mode="full",
+    ids=None,
+):
     if not Config.Printify_API_KEY:
         raise RuntimeError("Printify_API_KEY is missing")
-    wb, ws, headers, rows = _load_rows()
+    wb, ws, headers, rows = _load_rows(ids=ids)
     if limit:
         rows = rows[:limit]
     staged = 0
     try:
         for row in rows:
             item_id = row["ID"]
-            production_path, stock_paths, missing = _validate_row_assets(row)
+            production_path, stock_paths, missing = _validate_row_assets(row, sticker_gallery_mode=sticker_gallery_mode)
             if missing:
                 print(f"[SKIP] Missing image assets: {item_id} | {'; '.join(missing)}")
                 _set_status(ws, headers, row["_row_idx"], "Printify_Failed")
@@ -270,7 +283,8 @@ def stage_printify_products(limit=0, dry_run=False, auto_proceed=False, batch_si
             if dry_run:
                 print(
                     f"[DRY-RUN] {item_id} | title={len(str(row['Title']))} chars | "
-                    f"production=1 stock_photos={len(stock_paths)} price={row.get('Price')}"
+                    f"production=1 stock_photos={len(stock_paths)} price={row.get('Price')} "
+                    f"sticker_gallery_mode={sticker_gallery_mode}"
                 )
                 continue
             version = str(int(time.time()))
@@ -308,6 +322,8 @@ def stage_printify_products(limit=0, dry_run=False, auto_proceed=False, batch_si
                 )
             else:
                 status = "Printify_Staged"
+                if _product_type(row) == "Sticker" and sticker_gallery_mode == "cover-only":
+                    status = "Printify_StickerCoverOnly_Staged"
             _set_status(ws, headers, row["_row_idx"], status, product_id)
             wb.save(EBAY_BOOK)
             staged += 1
@@ -348,11 +364,21 @@ if __name__ == "__main__":
     parser.add_argument("--auto-proceed", action="store_true")
     parser.add_argument("--batch-size", type=int, default=BATCH_SIZE)
     parser.add_argument("--batch-delay", type=int, default=BATCH_DELAY_SECONDS)
+    parser.add_argument(
+        "--sticker-gallery-mode",
+        choices=["full", "cover-only"],
+        default="full",
+        help="For Sticker rows, upload either Cover+U1-U4 (legacy) or only Cover so official mockups can be added safely later.",
+    )
+    parser.add_argument("--ids", default="", help="Comma-separated workbook IDs to stage.")
     args = parser.parse_args()
+    ids = {value.strip() for value in args.ids.split(",") if value.strip()}
     stage_printify_products(
         limit=args.limit,
         dry_run=args.dry_run,
         auto_proceed=args.auto_proceed,
         batch_size=args.batch_size,
         batch_delay=args.batch_delay,
+        sticker_gallery_mode=args.sticker_gallery_mode,
+        ids=ids,
     )

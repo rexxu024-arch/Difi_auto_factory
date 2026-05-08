@@ -110,6 +110,33 @@ def publish_images(product_id: str) -> int:
     return response.status_code
 
 
+def api_gallery_mix(product_id: str) -> dict[str, str]:
+    response = requests.get(
+        f"{Config.Printify_API_URL.rstrip('/')}/shops/{Config.Printify_SHOP_ID}/products/{product_id}.json",
+        headers={"Authorization": f"Bearer {Config.Printify_API_KEY}"},
+        timeout=180,
+    )
+    response.raise_for_status()
+    images = response.json().get("images") or []
+    official = 0
+    custom = 0
+    other = 0
+    for image in images:
+        src = clean(image.get("src"))
+        if "images.printify.com/mockup/" in src:
+            official += 1
+        elif "pfy-prod-products-mockup-media" in src:
+            custom += 1
+        else:
+            other += 1
+    return {
+        "Api_Image_Count": str(len(images)),
+        "Api_Official_Count": str(official),
+        "Api_Custom_Count": str(custom),
+        "Api_Other_Count": str(other),
+    }
+
+
 def ensure_edge_cdp() -> None:
     status = cdp_status(CDP_PORT)
     if status.get("status") == "RUNNING":
@@ -257,14 +284,15 @@ async def select_official_mockups(product_id: str, product_type: str, wait_secon
             select_box = await center(
                 r"""(() => {
                     const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
-                    const clean=s=>(s||'').replace(/\s+/g,' ').trim();
-                    const e=[...document.querySelectorAll('[role="checkbox"], pfy-checkbox, .select-all-checkbox')]
+                    const e=[...document.querySelectorAll('button.mockup-container,.mockup-container')]
                       .filter(visible)
-                      .find(e=>clean(e.innerText||e.textContent||e.ariaLabel||'')==='Select all'
-                        && e.getBoundingClientRect().x < 1020);
+                      .find(e=>{
+                        const r=e.getBoundingClientRect();
+                        return r.width>180 && r.height>180 && r.x < 540 && r.y > 340;
+                      });
                     if(!e)return null;
                     const r=e.getBoundingClientRect();
-                    return {x:r.x+r.width/2,y:r.y+r.height/2};
+                    return {x:r.x+24,y:r.y+24};
                 })()"""
             )
             if not select_box:
@@ -356,6 +384,19 @@ async def select_sticker_cover_plus_official(product_id: str, cover_path: str = 
         if uploads_tab:
             await page.click(uploads_tab["x"], uploads_tab["y"])
             await asyncio.sleep(1)
+        for _ in range(15):
+            has_uploads = await page.eval(
+                r"""(() => [...document.querySelectorAll('button.mockup-container,.mockup-container img,img')]
+                  .some(e => {
+                    const img = e.tagName === 'IMG' ? e : e.querySelector?.('img');
+                    return img && /pfy-prod-products-mockup-media/.test(img.src || '');
+                  }))()"""
+            )
+            if has_uploads:
+                break
+            if uploads_tab:
+                await page.click(uploads_tab["x"], uploads_tab["y"])
+            await asyncio.sleep(1)
 
         upload_candidates = await page.eval(
             r"""(() => {
@@ -370,10 +411,12 @@ async def select_sticker_cover_plus_official(product_id: str, cover_path: str = 
                   .slice(0,24)
                   .map((e,i)=>{
                     const r=e.getBoundingClientRect();
-                    return {
+                   return {
                       i,
                       x:r.x+r.width/2,
                       y:r.y+r.height/2,
+                      checkX:r.x+24,
+                      checkY:r.y+24,
                       src:e.querySelector('img')?.src||''
                     };
                   });
@@ -382,11 +425,40 @@ async def select_sticker_cover_plus_official(product_id: str, cover_path: str = 
         best_cover = best_cover_candidate(upload_candidates or [], cover_path)
         if not best_cover:
             raise RuntimeError("Could not locate uploaded cover mockup candidates")
-        await page.click(best_cover["x"], best_cover["y"])
+        # Printify recently changed this grid so clicking the card center can
+        # open a preview dialog instead of selecting the image. The top-left
+        # checkbox area is the stable intent: select exactly this mockup.
+        await page.click(best_cover.get("checkX") or best_cover["x"], best_cover.get("checkY") or best_cover["y"])
         await asyncio.sleep(0.8)
         cover_selected = True
         if not cover_selected:
             raise RuntimeError("Could not select uploaded cover mockup")
+
+        cover_save_box = await center(
+            r"""(() => {
+                const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
+                const clean=s=>(s||'').replace(/\s+/g,' ').trim();
+                const e=[...document.querySelectorAll('button')]
+                  .filter(visible)
+                  .find(e=>clean(e.innerText||'')==='Save selection' && !e.disabled);
+                if(!e)return null;
+                const r=e.getBoundingClientRect();
+                return {x:r.x+r.width/2,y:r.y+r.height/2};
+            })()"""
+        )
+        if not cover_save_box:
+            raise RuntimeError("Could not save sticker cover-only phase")
+        await page.click(cover_save_box["x"], cover_save_box["y"])
+        await asyncio.sleep(max(3, wait_seconds))
+        await page.navigate(
+            f"https://printify.com/app/mockup-library/shops/{Config.Printify_SHOP_ID}/products/{product_id}?revealUploads=true"
+        )
+        for _ in range(35):
+            if await page.eval("!!location.href && /\\/auth\\/login/.test(location.href)"):
+                raise RuntimeError("Printify login required in Edge project browser")
+            if await page.eval("!!document.body && /Mockup library/.test(document.body.innerText || '')"):
+                break
+            await asyncio.sleep(1)
 
         tab_box = await center(
             r"""(() => {
@@ -454,6 +526,29 @@ async def select_sticker_cover_plus_official(product_id: str, cover_path: str = 
             clicked.append(label)
             await asyncio.sleep(0.8)
         if len(clicked) < 3:
+            direct_cards = await page.eval(
+                r"""(() => {
+                    const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
+                    return [...document.querySelectorAll('button.mockup-container,.mockup-container')]
+                      .filter(visible)
+                      .filter(e=>{
+                        const r=e.getBoundingClientRect();
+                        return r.width>180 && r.height>180 && r.x < 540;
+                      })
+                      .sort((a,b)=>a.getBoundingClientRect().y-b.getBoundingClientRect().y)
+                      .slice(0,3)
+                      .map((e,i)=>{
+                        const r=e.getBoundingClientRect();
+                        return {i, x:r.x+r.width/2, y:r.y+r.height/2, checkX:r.x+24, checkY:r.y+24};
+                      });
+                })()"""
+            )
+            clicked = []
+            for idx, card in enumerate(direct_cards or [], start=1):
+                await page.click(card.get("checkX") or card["x"], card.get("checkY") or card["y"])
+                clicked.append(f"Grid {idx}")
+                await asyncio.sleep(0.8)
+        if len(clicked) < 3:
             raise RuntimeError(f"Could not select 3 official sticker mockups: {clicked}")
 
         selected = await page.eval(
@@ -513,6 +608,10 @@ def append_log(rows: list[dict[str, str]]) -> None:
         "Post_Result",
         "Post_Selected_Count",
         "Post_Unique_Visual_Count",
+        "Api_Image_Count",
+        "Api_Official_Count",
+        "Api_Custom_Count",
+        "Api_Other_Count",
         "Publish_Status",
         "Error",
     ]
@@ -571,6 +670,20 @@ def run(
             record["Post_Result"] = clean(post.get("Result"))
             record["Post_Selected_Count"] = clean(post.get("Selected_Count"))
             record["Post_Unique_Visual_Count"] = clean(post.get("Unique_Visual_Count"))
+            if sticker_cover_plus_official and clean(row.get("Product_Type")) == "Sticker":
+                mix = api_gallery_mix(product_id)
+                record.update(mix)
+                if not (
+                    mix["Api_Image_Count"] == "4"
+                    and mix["Api_Official_Count"] == "3"
+                    and mix["Api_Custom_Count"] == "1"
+                    and mix["Api_Other_Count"] == "0"
+                ):
+                    raise RuntimeError(
+                        "Unsafe sticker gallery mix after save: "
+                        f"images={mix['Api_Image_Count']} official={mix['Api_Official_Count']} "
+                        f"custom={mix['Api_Custom_Count']} other={mix['Api_Other_Count']}"
+                    )
             if publish:
                 code = publish_images(product_id)
                 record["Publish_Status"] = f"images_publish_http_{code}"

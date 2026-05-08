@@ -381,3 +381,13 @@ Guardrails:
 - `Sticker-Zen-0081` proved position-based Cover selection can still select a U image; it was retired immediately after live U4 mismatch.
 - `printify_gallery_source_repair.py` now scores My Uploads candidates against the local Cover image hash before selecting.
 - Next safe move: test the hash-based selector on one unpublished Sticker only; do not publish unless API reports 3 official + 1 custom and eBay cover audit after publish returns `LIKELY_COVER`.
+
+## 2026-05-07 23:34:33 -04:00 Sticker Gallery Creation Rule
+- In-place repair of old 5-custom Sticker gallery drafts is not production-safe: Printify UI can stack official mockups without removing U images, and Printify product PUT does not deselect old gallery images.
+- Future Sticker expansion should modify product creation so new Sticker drafts are created with the intended safe gallery shape from the beginning, or be rebuilt rather than repaired.
+- Current known-good live mixed sample remains Sticker-Zen-0075; do not scale from old 5-custom drafts until the create-time gallery path is fixed and re-audited.
+
+## 2026-05-07 23:53:10 -04:00 Sticker Expansion Freeze Until Create-Time Gallery Is Solved
+- Do not publish additional Sticker rows from old 5-custom or experimental cover-only drafts.
+- Sticker-Zen-0083 proved current UI/API methods can mutate unpublished drafts before failing. It was deleted and reset.
+- Next revenue work should focus on stable product types and low-risk metadata/market tasks while Sticker gallery generation is redesigned.
