@@ -261,7 +261,22 @@ async def audit_one(row: dict[str, str], port: int, wait_seconds: float) -> dict
                 pass
 
 
-async def run_async(limit: int, ids: set[str] | None, port: int, wait_seconds: float, sleep_seconds: float) -> list[dict[str, str]]:
+def merge_with_existing(records: list[dict[str, str]]) -> list[dict[str, str]]:
+    existing = read_csv(OUT_CSV)
+    by_id = {clean(record.get("ID")): record for record in existing if clean(record.get("ID"))}
+    for record in records:
+        by_id[clean(record.get("ID"))] = record
+    return list(by_id.values())
+
+
+async def run_async(
+    limit: int,
+    ids: set[str] | None,
+    port: int,
+    wait_seconds: float,
+    sleep_seconds: float,
+    merge_existing: bool,
+) -> list[dict[str, str]]:
     rows = candidates(limit=limit, ids=ids)
     records = []
     for row in rows:
@@ -273,12 +288,13 @@ async def run_async(limit: int, ids: set[str] | None, port: int, wait_seconds: f
             flush=True,
         )
         await asyncio.sleep(max(0.0, sleep_seconds))
+    output_records = merge_with_existing(records) if merge_existing else records
     with OUT_CSV.open("w", encoding="utf-8-sig", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=HEADERS)
         writer.writeheader()
-        writer.writerows(records)
-    checks = sum(1 for record in records if record["Result"] != "OK")
-    print(f"[EBAY-LIVE-GALLERY-DONE] rows={len(records)} checks={checks} csv={OUT_CSV}")
+        writer.writerows(output_records)
+    checks = sum(1 for record in output_records if record["Result"] != "OK")
+    print(f"[EBAY-LIVE-GALLERY-DONE] rows={len(output_records)} checks={checks} csv={OUT_CSV}")
     return records
 
 
@@ -289,6 +305,7 @@ def main() -> None:
     parser.add_argument("--port", type=int, default=int(os.environ.get("OPENCLAW_EDGE_CDP_PORT", "9223")))
     parser.add_argument("--wait-seconds", type=float, default=6.0)
     parser.add_argument("--sleep-seconds", type=float, default=1.5)
+    parser.add_argument("--merge-existing", action="store_true")
     args = parser.parse_args()
     ids = {part.strip() for part in args.ids.split(",") if part.strip()} or None
     asyncio.run(
@@ -298,6 +315,7 @@ def main() -> None:
             port=args.port,
             wait_seconds=args.wait_seconds,
             sleep_seconds=args.sleep_seconds,
+            merge_existing=args.merge_existing,
         )
     )
 

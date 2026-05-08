@@ -117,3 +117,4 @@
 2026-05-07T21:34:37-04:00,peak_rex_online,single_browser_task,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 99.0%; memory elevated 86.0%,1,1,0,99.0,86.0,,AC_CHARGING
 2026-05-07T21:41:11-04:00,peak_rex_online,single_browser_task,50,RUN,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy,1,1,0,31.0,76.0,,AC_CHARGING
 2026-05-07T21:41:22-04:00,peak_rex_online,single_browser_task,50,RUN,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy,1,1,0,27.0,76.9,,AC_CHARGING
+2026-05-07T22:12:16-04:00,peak_rex_online,single_browser_task,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 100.0%; memory elevated 87.3%,1,1,0,100.0,87.3,,AC_CHARGING

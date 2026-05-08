@@ -362,3 +362,8 @@ Guardrails:
 - Gallery Integrity publish blocker is cleared after buyer-visible slot audit refinement.
 - Diagnostic replacement sample `Acrylic-Academia-0003-GALLERYFIX1` has been retired and detached from Printify to avoid duplicate listing/spam signals.
 - Next: production-design QA spot check, then small jittered publish batch if account/network/resource guards stay green.
+
+## 2026-05-07 22:05 -04:00 Sticker Publish Guard Update
+- Published a 3-listing official-mockup sticker probe (`Sticker-Zen-0072..0074`) after Production_Design QA.
+- All 3 passed cover audit, but eBay live gallery repeats the first official sticker mockup across picture slots 1/2.
+- Do not scale more Sticker publishes using 3 official mockups only. Build or verify a 4+ image mixed Cover + official mockup path before the next Sticker publish expansion.

@@ -122,8 +122,11 @@ def _preflight(row):
         return False, f"selected gallery contains duplicate image URLs: selected={selected}, unique={len(set(selected_srcs))}"
     defaults = [image for image in selected_images if image.get("is_default")]
     product_type = _product_type(row.get("Product_Type"))
-    if product_type == "Sticker" and selected < 3:
-        return False, f"selected mockups={selected}, expected >=3 official cover mockups"
+    if product_type == "Sticker" and selected < 4:
+        return False, (
+            f"selected mockups={selected}, expected >=4 distinct buyer-facing images; "
+            "3 official sticker mockups create repeated eBay picture slots"
+        )
     if product_type == "Sticker":
         custom_gallery = [
             image for image in selected_images

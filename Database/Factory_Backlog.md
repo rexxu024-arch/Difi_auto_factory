@@ -1,6 +1,6 @@
 # Factory Backlog
 
-Generated: 2026-05-07 21:40:56 -0400 America/New_York
+Generated: 2026-05-07 22:11:25 -0400 America/New_York
 
 ## Status Counts
 
@@ -49,7 +49,7 @@ Generated: 2026-05-07 21:40:56 -0400 America/New_York
 
 ### P70 supervisor:publish - WAIT_NETWORK
 - Task: Publish small cooled batch if network guard is healthy.
-- Blocker: Stable=140 published=124 ready=46; network=unknown.
+- Blocker: Stable=139 published=123 ready=46; network=unknown.
 - Command: `py modules\printify_publish_scheduler.py --limit 3 --min-delay 180 --max-delay 420`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: high / yes
@@ -63,7 +63,7 @@ Generated: 2026-05-07 21:40:56 -0400 America/New_York
 
 ### P63 supervisor:production_design_qa - READY
 - Task: Run a tiny Printify production-design audit before any larger online batch.
-- Blocker: This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 99.0%; memory elevated 86.0%
+- Blocker: This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi.
 - Command: `py modules\printify_design_audit.py --limit 2 --sleep-seconds 1`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: low / yes
@@ -84,7 +84,7 @@ Generated: 2026-05-07 21:40:56 -0400 America/New_York
 
 ### P55 supervisor:etsy - READY_MONITOR
 - Task: Monitor Etsy Digital first gray batch before spending more listing fees.
-- Blocker: Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 99.0%; memory elevated 86.0%
+- Blocker: Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout.
 - Command: `py modules\etsy_live_audit.py --limit 10`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: low / yes

@@ -1,75 +1,68 @@
 {
-  "timestamp": "2026-05-07 21:40:51 -0400",
+  "timestamp": "2026-05-07 22:11:35 -0400",
   "mode": "EXECUTE_CLEANUP",
   "execute": true,
   "cdp_port": 9223,
   "memory_soft_pct": 82.0,
   "memory_hard_pct": 92.0,
   "cpu_soft_pct": 85.0,
-  "memory_before": 84.6,
-  "memory_after": 86.1,
-  "cpu_before": 51.0,
-  "cpu_after": 100.0,
-  "closed_tabs": [
-    {
-      "action": "CLOSE_EDGE_PROJECT_TAB",
-      "id": "8C8EC13A0FE80B8B2E6961DC71401B79",
-      "title": "Printify Drop Shipping Print on Demand for Ecommerce",
-      "url": "https://printify.com/app/dashboard"
-    }
-  ],
+  "memory_before": 89.1,
+  "memory_after": null,
+  "cpu_before": 34.0,
+  "cpu_after": null,
+  "closed_tabs": [],
   "top_processes": [
     {
       "ProcessName": "chrome",
       "Id": 28132,
-      "WorkingSetMB": 1292,
-      "CPU": 1987.640625
-    },
-    {
-      "ProcessName": "chrome",
-      "Id": 26308,
-      "WorkingSetMB": 756.9,
-      "CPU": 1060.703125
-    },
-    {
-      "ProcessName": "Codex",
-      "Id": 27652,
-      "WorkingSetMB": 611.3,
-      "CPU": 24379.71875
+      "WorkingSetMB": 2163.4,
+      "CPU": 2282.703125
     },
     {
       "ProcessName": "chrome",
       "Id": 26560,
-      "WorkingSetMB": 446.5,
-      "CPU": 142.453125
+      "WorkingSetMB": 668.9,
+      "CPU": 274.4375
+    },
+    {
+      "ProcessName": "Codex",
+      "Id": 27652,
+      "WorkingSetMB": 541.9,
+      "CPU": 25132.375
     },
     {
       "ProcessName": "chrome",
       "Id": 28404,
-      "WorkingSetMB": 414.3,
-      "CPU": 89.578125
+      "WorkingSetMB": 483,
+      "CPU": 103.78125
     },
     {
       "ProcessName": "chrome",
       "Id": 9740,
-      "WorkingSetMB": 257.9,
-      "CPU": 54126.59375
+      "WorkingSetMB": 394.2,
+      "CPU": 54363.421875
     },
     {
-      "ProcessName": "Memory Compression",
-      "Id": 2944,
-      "WorkingSetMB": 248.6,
+      "ProcessName": "MsMpEng",
+      "Id": 4564,
+      "WorkingSetMB": 211.3,
       "CPU": null
     },
     {
-      "ProcessName": "chrome",
-      "Id": 21820,
-      "WorkingSetMB": 192.3,
-      "CPU": 769.375
+      "ProcessName": "msedge",
+      "Id": 14496,
+      "WorkingSetMB": 208.7,
+      "CPU": 36.171875
+    },
+    {
+      "ProcessName": "WindowsTerminal",
+      "Id": 22112,
+      "WorkingSetMB": 159.2,
+      "CPU": 1.53125
     }
   ],
-  "decision": "MEMORY_STILL_WARM_BUT_WORKABLE",
-  "reason": "continue light work; avoid browser/image-heavy tasks",
+  "decision": "MEMORY_OK_CONTINUE",
+  "reason": "normal work may continue under marketplace risk guards",
   "privacy_rule": "Only closes project automation Edge tabs through CDP 9223. Does not inspect or close Rex's daily Chrome tabs.",
   "optimization_rule": "Cleanup first, then resample. Pause only if pressure remains high after closing safe idle project tabs and reducing concurrency.",
   "rest_rule": "Do not shutdown/restart by default; if pressure stays high after cleanup, write rest-cycle recommendation unless Rex explicitly requests immediate power action."

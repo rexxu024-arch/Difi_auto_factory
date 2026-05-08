@@ -17,7 +17,7 @@ from config import Config
 EBAY_BOOK = PROJECT_ROOT / "Database" / "eBay_listing.xlsx"
 FIX_STATUS = "Printify_PrimaryFix_Needed"
 EXPECTED_MOCKUPS = {
-    "Sticker": 3,
+    "Sticker": 4,
     "Poster": 4,
     "Acrylic": 4,
 }

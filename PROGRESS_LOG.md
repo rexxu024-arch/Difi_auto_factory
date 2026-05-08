@@ -1542,3 +1542,11 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - `Printify_Gallery_Repair_Queue` is now empty and `factory_supervisor --skip-network` no longer blocks publish expansion on Gallery Integrity.
 - Retired diagnostic sample `Acrylic-Academia-0003-GALLERYFIX1` / eBay `406911883288` because the original listing passed live buyer-gallery slot audit and keeping the sample would create duplicate-inventory risk.
 - Current next mainline: run tiny production-design QA, then publish a small cooled batch with jitter. During 17:00-23:00 ET keep network use neighbor-friendly; daytime can be more aggressive.
+
+## 2026-05-07 22:05 -04:00 Sticker Official-Mockup Publish Probe
+- Repaired `Sticker-Zen-0072..0074` from custom selected galleries to 3 Printify official mockups, verified Production_Design visual match, then published the 3-row probe:
+  - `Sticker-Zen-0072` -> eBay `406911942577`
+  - `Sticker-Zen-0073` -> eBay `406911955913`
+  - `Sticker-Zen-0074` -> eBay `406911953636`
+- Post-publish cover audit passed for all 3 (`LIKELY_COVER_OFFICIAL`), but live gallery audit showed `CHECK_LIVE_PRIMARY_DUPLICATE_REVIEW`: eBay repeats the first official sticker mockup into picture slots 1/2.
+- New rule: do not scale official-only sticker publish with only 3 selected mockups. Tightened `printify_publish_scheduler.py` so Sticker publish requires at least 4 distinct buyer-facing images. Next sticker path must be a mixed Cover + official mockup strategy or a verified replacement flow with no repeated live slots.

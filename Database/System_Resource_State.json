@@ -1,82 +1,82 @@
 {
-  "hot_streak": 0,
-  "last_decision": "RUN",
-  "updated_at": "2026-05-07T21:41:22-04:00",
-  "last_reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy",
+  "hot_streak": 1,
+  "last_decision": "RUN_CONSERVATIVE",
+  "updated_at": "2026-05-07T22:12:16-04:00",
+  "last_reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 100.0%; memory elevated 87.3%",
   "last_snapshot": {
-    "timestamp": "2026-05-07T21:41:22-04:00",
-    "cpu_load_pct": 27.0,
-    "memory_used_pct": 76.9,
+    "timestamp": "2026-05-07T22:12:16-04:00",
+    "cpu_load_pct": 100.0,
+    "memory_used_pct": 87.3,
     "memory_total_gb": 11.75,
-    "memory_free_gb": 2.71,
+    "memory_free_gb": 1.49,
     "temperature_c": null,
     "temperature_status": "DENIED_OR_UNAVAILABLE",
-    "gpu_util_pct": null,
+    "gpu_util_pct": 14.7,
     "battery_percent": 100.0,
     "power_status": "AC_CHARGING",
     "top_processes": [
       {
         "ProcessName": "chrome",
         "Id": 28132,
-        "WorkingSetMB": 1308.4,
-        "CPU": 1987.921875
-      },
-      {
-        "ProcessName": "chrome",
-        "Id": 26308,
-        "WorkingSetMB": 779.1,
-        "CPU": 1064.28125
+        "WorkingSetMB": 2335.9,
+        "CPU": 2331.203125
       },
       {
         "ProcessName": "Codex",
         "Id": 27652,
-        "WorkingSetMB": 655.6,
-        "CPU": 24401.140625
+        "WorkingSetMB": 663.9,
+        "CPU": 25177.390625
       },
       {
         "ProcessName": "chrome",
         "Id": 26560,
-        "WorkingSetMB": 472.3,
-        "CPU": 144
-      },
-      {
-        "ProcessName": "chrome",
-        "Id": 28404,
-        "WorkingSetMB": 435.3,
-        "CPU": 89.8125
+        "WorkingSetMB": 541.2,
+        "CPU": 280.515625
       },
       {
         "ProcessName": "chrome",
         "Id": 9740,
-        "WorkingSetMB": 268.7,
-        "CPU": 54128.875
+        "WorkingSetMB": 459.2,
+        "CPU": 54379.640625
       },
       {
         "ProcessName": "chrome",
-        "Id": 21820,
-        "WorkingSetMB": 210.9,
-        "CPU": 770.328125
+        "Id": 28404,
+        "WorkingSetMB": 322.3,
+        "CPU": 103.984375
       },
       {
-        "ProcessName": "Code",
-        "Id": 19100,
-        "WorkingSetMB": 163.9,
-        "CPU": 1437.75
+        "ProcessName": "chrome",
+        "Id": 292,
+        "WorkingSetMB": 296.6,
+        "CPU": 10.3125
+      },
+      {
+        "ProcessName": "chrome",
+        "Id": 27048,
+        "WorkingSetMB": 262.7,
+        "CPU": 1003.546875
+      },
+      {
+        "ProcessName": "chrome",
+        "Id": 18944,
+        "WorkingSetMB": 215.9,
+        "CPU": 850.421875
       }
     ]
   },
   "last_allocation": {
-    "timestamp": "2026-05-07T21:41:22-04:00",
+    "timestamp": "2026-05-07T22:12:16-04:00",
     "window": "peak_rex_online",
     "task_class": "single_browser_task",
     "priority": 50,
-    "decision": "RUN",
-    "reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy",
+    "decision": "RUN_CONSERVATIVE",
+    "reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 100.0%; memory elevated 87.3%",
     "max_parallel": 1,
     "batch_size": 1,
     "cooldown_minutes": 0,
-    "cpu_load_pct": 27.0,
-    "memory_used_pct": 76.9,
+    "cpu_load_pct": 100.0,
+    "memory_used_pct": 87.3,
     "temperature_c": null,
     "power_status": "AC_CHARGING"
   }
