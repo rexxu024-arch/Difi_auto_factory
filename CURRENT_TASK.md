@@ -391,3 +391,16 @@ Guardrails:
 - Do not publish additional Sticker rows from old 5-custom or experimental cover-only drafts.
 - Sticker-Zen-0083 proved current UI/API methods can mutate unpublished drafts before failing. It was deleted and reset.
 - Next revenue work should focus on stable product types and low-risk metadata/market tasks while Sticker gallery generation is redesigned.
+
+## 2026-05-08 00:01:57 -04:00 eBay Brand Naming Rule
+- Rex authorized changing the eBay seller/shop-facing name later if it improves brand fit.
+- The name does not need to include Rex's personal name. Prefer a premium, memorable, non-personal brand shell aligned with quiet luxury, jade, study room decor, wall art, acrylic blocks, and future scalable product lines.
+- Do not change the live eBay name opportunistically during unrelated tasks; bundle it with the next Seller Hub profile/branding update and record the exact before/after.
+
+## 2026-05-08 07:21:05 -04:00 Boot/Shutdown Boundary Correction
+- Rex reported abnormal manual boot attempts: first/second boot showed near-black screen with _ cursor or no laptop logo, third boot succeeded.
+- Audit found no BIOS/UEFI/boot-order/auto-power-on changes from OpenClaw. Windows-level items found and corrected:
+  - Removed Startup shortcut OpenClaw Resume After Login.lnk that launched scripts\run_codex.bat after Windows login.
+  - Disabled Windows tasks OpenClaw 0530 Winddown, OpenClaw 0550 Force Stop, and OpenClaw Cruise Every 30 Min.
+  - Kept only OpenClaw Daily 6AM Shutdown enabled.
+- New rule: OpenClaw may schedule daily shutdown only. Rex manually powers on, logs into Windows, and opens Codex. Do not create startup/resume/reboot/auto-login automation unless Rex explicitly reauthorizes it.

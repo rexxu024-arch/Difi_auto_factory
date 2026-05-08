@@ -1592,3 +1592,16 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
   - Subsequent UI repair can mutate the draft before failing, so it is not safe for unattended scale-up yet.
 - The unpublished  083 Printify draft was deleted again and the workbook row reset to Ready_for_Printify with no eBay external.
 - Operational decision: freeze Sticker expansion from old/staged drafts; prioritize Poster/Acrylic, SEO, Etsy digital, and factory reporting until Sticker create-time gallery path is redesigned more cleanly.
+
+## 2026-05-08 00:01:57 -04:00 eBay Naming Permission
+- Rex confirmed future eBay naming can be adjusted to a better brand name and does not need to include his personal name. Added to durable profile/branding rules.
+
+## 2026-05-08 02:11:29 -04:00 Cruise Heartbeat Cooldown Preserved
+- Repo/package heartbeat scripts were reached through `npm.cmd`, but `.venv\Scripts\python.exe` still failed with `Access is denied`; PyManager/system Python and CIM/WMI sampling were also denied in this sandbox.
+- Fallback process-level resource check showed memory still warm after cleanup: 84.5% before, 83.9% after; thermal state remains `DENIED_OR_UNAVAILABLE`.
+- Closed only one safe idle Edge CDP 9223 automation tab (`about:blank`); did not inspect or close Rex's daily Chrome/private tabs.
+- Hardware/resource state files and logs were refreshed; cooldown is active until 02:31 ET. Grunt Engine tasks were skipped because the resource/Python state is warm or unknown.
+
+
+## 2026-05-08 07:21:05 -04:00 Shutdown Automation Reduced To Shutdown Only
+- Investigated Rex's abnormal boot report. No firmware/boot setting changes were found. Removed the OpenClaw Startup resume shortcut and disabled all non-shutdown OpenClaw Windows tasks. Only OpenClaw Daily 6AM Shutdown remains enabled.

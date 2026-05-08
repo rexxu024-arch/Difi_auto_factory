@@ -358,8 +358,8 @@ def daily_shutdown_due(check_time: datetime | None = None) -> bool:
 def daily_shutdown_check(execute: bool = False, force: bool = False) -> dict:
     """Daily 06:00 ET hardware rest.
 
-    This intentionally does not bypass Windows login. Rex powers the machine on
-    and logs in; Startup then restores Codex/OpenClaw automation.
+    This intentionally does not bypass Windows login. Rex powers the machine on,
+    logs in, and opens Codex manually.
     """
     write_state = strong_write_active()
     due = force or daily_shutdown_due()
@@ -375,7 +375,7 @@ def daily_shutdown_check(execute: bool = False, force: bool = False) -> dict:
                 "mode": "DAILY_SHUTDOWN_PREP",
                 "reason": "06:00 ET hardware rest; Rex will power on manually",
                 "strong_write": write_state,
-                "startup_recovery": "scripts\\run_codex.bat after Windows login",
+                "startup_recovery": "manual: Rex powers on, logs into Windows, and opens Codex",
             }
         )
         _write_state(state)
@@ -410,7 +410,7 @@ def daily_shutdown_check(execute: bool = False, force: bool = False) -> dict:
         "strong_write": write_state,
         "snapshot": asdict(snapshot),
         "detail": detail,
-        "password_boundary": "Windows password is not bypassed; recovery resumes after Rex logs in.",
+        "password_boundary": "Windows password is not bypassed; Rex opens Codex manually after login.",
     }
     SHUTDOWN_DECISION_PATH.write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
     _append_log(
