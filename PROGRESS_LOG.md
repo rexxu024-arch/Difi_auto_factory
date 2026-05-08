@@ -1543,6 +1543,12 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Retired diagnostic sample `Acrylic-Academia-0003-GALLERYFIX1` / eBay `406911883288` because the original listing passed live buyer-gallery slot audit and keeping the sample would create duplicate-inventory risk.
 - Current next mainline: run tiny production-design QA, then publish a small cooled batch with jitter. During 17:00-23:00 ET keep network use neighbor-friendly; daytime can be more aggressive.
 
+## 2026-05-07 22:12 -04:00 Cruise Heartbeat Cooldown Activated
+- `npm.cmd run hardware:heartbeat` reached the repo script but the repo-local `.venv` Python process failed with `Access is denied`; PyManager Python also failed on `C:\Users\Rex\AppData\Local\Python`.
+- Native fallback checks found CPU/memory warm and thermal sensors unavailable: final sample CPU ~79.8%, memory ~86.4%, temperature `DENIED_OR_UNAVAILABLE`.
+- Closed safe idle Edge CDP 9223 automation tabs only: Edge new tab, `about:blank`, and one idle Printify product-detail page. Did not inspect or close Rex's daily Chrome/private tabs.
+- Refreshed heartbeat, memory guard, cooldown, and system-resource state/log files; hardware cooldown is active until 22:32 ET. Grunt Engine tasks were skipped for this run.
+
 ## 2026-05-07 22:05 -04:00 Sticker Official-Mockup Publish Probe
 - Repaired `Sticker-Zen-0072..0074` from custom selected galleries to 3 Printify official mockups, verified Production_Design visual match, then published the 3-row probe:
   - `Sticker-Zen-0072` -> eBay `406911942577`

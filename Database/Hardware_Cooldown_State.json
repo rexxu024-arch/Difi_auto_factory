@@ -1,15 +1,15 @@
 ﻿{
-    "timestamp":  "2026-05-07T18:08:29-04:00",
-    "active":  false,
-    "cooldown_until":  "2026-05-07T18:08:29-04:00",
-    "cooldown_minutes":  0,
+    "timestamp":  "2026-05-07T22:12:46-04:00",
+    "active":  true,
+    "cooldown_until":  "2026-05-07T22:32:46-04:00",
+    "cooldown_minutes":  20,
     "health_state":  "WARM",
-    "reason":  "temperature DENIED_OR_UNAVAILABLE; memory elevated 84.7%; Python/npm entrypoints blocked; CIM denied; PowerShell counter fallback; conservative work only; Grunt skipped because Python entrypoints are blocked",
-    "hot_streak":  0,
+    "reason":  "temperature DENIED_OR_UNAVAILABLE; cpu elevated 79.8%; memory elevated 86.4%; Python/npm entrypoints blocked by Access denied; closed safe idle Edge CDP 9223 tabs; Grunt skipped during warm/unstable resource state",
+    "hot_streak":  1,
     "heartbeat":  {
-                      "timestamp":  "2026-05-07T18:08:29-04:00",
-                      "cpu_load_pct":  42.8,
-                      "memory_used_pct":  84.7,
+                      "timestamp":  "2026-05-07T22:12:46-04:00",
+                      "cpu_load_pct":  79.8,
+                      "memory_used_pct":  86.4,
                       "temperature_c":  null,
                       "temperature_status":  "DENIED_OR_UNAVAILABLE",
                       "fan_rpm":  null,
@@ -18,25 +18,112 @@
                       "battery_percent":  null,
                       "power_status":  "UNKNOWN_CIM_DENIED",
                       "health_state":  "WARM",
-                      "reason":  "temperature DENIED_OR_UNAVAILABLE; memory elevated 84.7%; Python/npm entrypoints blocked; CIM denied; PowerShell counter fallback",
-                      "committed_bytes_pct":  65.2,
-                      "memory_available_mb":  1836,
-                      "counter_fallback_note":  "Python executables and CIM were denied; performance counters were used."
+                      "reason":  "temperature DENIED_OR_UNAVAILABLE; cpu elevated 79.8%; memory elevated 86.4%; Python/npm entrypoints blocked by Access denied; closed safe idle Edge CDP 9223 tabs; Grunt skipped during warm/unstable resource state"
                   },
-    "resource_policy":  "run conservative only while memory is elevated and thermal sensors are unavailable",
-    "allowed_during_warm":  [
-                                "hardware_heartbeat",
-                                "memory_cleanup",
-                                "report_batch",
-                                "local_light",
-                                "queue_planning",
-                                "api_read"
-                            ],
-    "blocked_during_warm":  [
-                                "image_batch",
-                                "asset_build",
-                                "market_research",
-                                "browser_heavy",
-                                "payment_billing_order_customer_message_changes"
-                            ]
+    "memory_guard":  {
+                         "timestamp":  "2026-05-07T22:12:46-04:00",
+                         "mode":  "EXECUTE_CLEANUP_FALLBACK",
+                         "execute":  true,
+                         "cdp_port":  9223,
+                         "memory_soft_pct":  82,
+                         "memory_hard_pct":  92,
+                         "cpu_soft_pct":  85,
+                         "memory_before":  89.6,
+                         "memory_after":  86.4,
+                         "cpu_before":  65.2,
+                         "cpu_after":  79.8,
+                         "closed_tabs":  [
+                                             {
+                                                 "action":  "CLOSE_EDGE_PROJECT_TAB",
+                                                 "id":  "838968574D288500D6DBA007E1BB2313",
+                                                 "title":  "New tab",
+                                                 "url":  "edge://newtab/"
+                                             },
+                                             {
+                                                 "action":  "CLOSE_EDGE_PROJECT_TAB",
+                                                 "id":  "29C8695CA7035D5B6A7696BF5678203A",
+                                                 "title":  "about:blank",
+                                                 "url":  "about:blank"
+                                             },
+                                             {
+                                                 "action":  "CLOSE_EDGE_PROJECT_TAB",
+                                                 "id":  "7E498D5E52E95038DE0F4C8D348A450D",
+                                                 "title":  "Printify Drop Shipping Print on Demand for Ecommerce",
+                                                 "url":  "https://printify.com/app/product-details/69f262db5269e3325904b893"
+                                             }
+                                         ],
+                         "top_processes":  [
+                                               {
+                                                   "ProcessName":  "chrome",
+                                                   "Id":  28132,
+                                                   "WorkingSetMB":  2362.6,
+                                                   "CPU":  null
+                                               },
+                                               {
+                                                   "ProcessName":  "chrome",
+                                                   "Id":  18944,
+                                                   "WorkingSetMB":  1224.1,
+                                                   "CPU":  null
+                                               },
+                                               {
+                                                   "ProcessName":  "Codex",
+                                                   "Id":  27652,
+                                                   "WorkingSetMB":  631.2,
+                                                   "CPU":  null
+                                               },
+                                               {
+                                                   "ProcessName":  "chrome",
+                                                   "Id":  9740,
+                                                   "WorkingSetMB":  459.2,
+                                                   "CPU":  54385.859375
+                                               },
+                                               {
+                                                   "ProcessName":  "chrome",
+                                                   "Id":  28404,
+                                                   "WorkingSetMB":  322.5,
+                                                   "CPU":  null
+                                               },
+                                               {
+                                                   "ProcessName":  "chrome",
+                                                   "Id":  292,
+                                                   "WorkingSetMB":  289.1,
+                                                   "CPU":  null
+                                               },
+                                               {
+                                                   "ProcessName":  "chrome",
+                                                   "Id":  27048,
+                                                   "WorkingSetMB":  267.9,
+                                                   "CPU":  null
+                                               },
+                                               {
+                                                   "ProcessName":  "MsMpEng",
+                                                   "Id":  4564,
+                                                   "WorkingSetMB":  200.7,
+                                                   "CPU":  null
+                                               }
+                                           ],
+                         "decision":  "MEMORY_STILL_WARM_ACTIVATE_COOLDOWN",
+                         "reason":  "continue only guard/report/local-light work; skip Grunt and browser-heavy tasks",
+                         "privacy_rule":  "Only closed targets exposed by Edge CDP 9223. Did not inspect or close Rex\u0027s daily Chrome/private tabs.",
+                         "optimization_rule":  "Cleanup first, then resample; cooldown active because memory/CPU stayed warm and thermal sensors are unavailable.",
+                         "rest_rule":  "No shutdown/restart armed by default."
+                     },
+    "resource_policy":  "optimize first, pause only after cleanup fails to bring pressure back under guardrails",
+    "allowed_during_cooldown":  [
+                                    "hardware_heartbeat",
+                                    "memory_cleanup",
+                                    "report_batch",
+                                    "local_light",
+                                    "queue_planning",
+                                    "api_read",
+                                    "online_publish_safe"
+                                ],
+    "blocked_during_cooldown":  [
+                                    "image_batch",
+                                    "asset_build",
+                                    "market_research",
+                                    "single_browser_task",
+                                    "grunt_task",
+                                    "payment_billing_order_customer_message_changes"
+                                ]
 }
