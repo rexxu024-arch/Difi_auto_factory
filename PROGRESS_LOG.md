@@ -1605,3 +1605,12 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 
 ## 2026-05-08 07:21:05 -04:00 Shutdown Automation Reduced To Shutdown Only
 - Investigated Rex's abnormal boot report. No firmware/boot setting changes were found. Removed the OpenClaw Startup resume shortcut and disabled all non-shutdown OpenClaw Windows tasks. Only OpenClaw Daily 6AM Shutdown remains enabled.
+
+## 2026-05-08 07:35:00 -04:00 Monthly Task Cycle Resumed After Manual Boot
+- Resource check after Rex's manual boot: CPU about 49%, memory about 58%, Python path functional again.
+- Ran local factory supervisor cycle with 0 failures. Printify login guard reports `LOGGED_IN`.
+- Refreshed local QA, unified registry, market signal queue, eBay traffic diagnosis, multi-track copy monitor, product blueprint next-test plan, and morning report.
+- Production design integrity audit passed: Sticker 6/6, Poster 4/4, Acrylic 4/4 visually match local production designs.
+- Printify primary/gallery audit still flags old gallery/default-image risk. This affects buyer-facing trust/duplicate perception, not the actual print file. Keep Sticker expansion frozen and prioritize gallery-safe Poster/Acrylic plus SEO/traffic learning.
+- Gemini free API smoke test passed (`gemini-flash-latest`, status 200, generate OK). Grey bridge produced 4 review tasks into `Database/Grey_Bridge_Tasks.csv`; no live edits were executed from Grey output.
+- Etsy phase-one read-only live audit passed for 10/10 active listings. No extra listing fee spend.
