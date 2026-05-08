@@ -376,3 +376,8 @@ Guardrails:
 ## 2026-05-07 23:02 -04:00 Sticker Mixed Gallery Breakthrough
 - Safe Sticker path is now verified on `Sticker-Zen-0075`: API confirmed 3 official mockups + 1 custom Cover, publish succeeded, live cover audit passed as `LIKELY_COVER`, and live gallery audit passed as `OK_DOM_DUPLICATE_ONLY`.
 - Preferred next action after checkpoint: repair 2 more Sticker stable drafts with `printify_gallery_source_repair.py --sticker-cover-plus-official`, production-design audit, dry-run publish, then publish only if gates pass.
+
+## 2026-05-07 23:16 -04:00 Sticker Mixed Gallery Caution
+- `Sticker-Zen-0081` proved position-based Cover selection can still select a U image; it was retired immediately after live U4 mismatch.
+- `printify_gallery_source_repair.py` now scores My Uploads candidates against the local Cover image hash before selecting.
+- Next safe move: test the hash-based selector on one unpublished Sticker only; do not publish unless API reports 3 official + 1 custom and eBay cover audit after publish returns `LIKELY_COVER`.

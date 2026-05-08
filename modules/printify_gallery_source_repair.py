@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import csv
+import io
 import json
 import os
 import sys
@@ -19,6 +20,7 @@ from datetime import datetime
 from pathlib import Path
 
 import requests
+from PIL import Image
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
@@ -38,6 +40,41 @@ CDP_PORT = int(os.getenv("OPENCLAW_PRINTIFY_CDP_PORT") or os.getenv("OPENCLAW_CD
 
 def clean(value: object) -> str:
     return str(value or "").strip()
+
+
+def ahash(image: Image.Image) -> str:
+    image = image.convert("L").resize((16, 16), Image.Resampling.LANCZOS)
+    pixels = list(image.getdata())
+    avg = sum(pixels) / len(pixels)
+    return "".join("1" if pixel > avg else "0" for pixel in pixels)
+
+
+def hash_distance(left: str, right: str) -> int:
+    return sum(a != b for a, b in zip(left, right))
+
+
+def best_cover_candidate(candidates: list[dict], cover_path: str) -> dict | None:
+    if not cover_path or not Path(cover_path).exists():
+        return candidates[0] if candidates else None
+    local_hash = ahash(Image.open(cover_path))
+    scored = []
+    for candidate in candidates:
+        src = clean(candidate.get("src"))
+        if not src:
+            continue
+        try:
+            response = requests.get(src, timeout=30)
+            response.raise_for_status()
+            remote_hash = ahash(Image.open(io.BytesIO(response.content)))
+            scored.append((hash_distance(local_hash, remote_hash), candidate))
+        except Exception:
+            continue
+    if not scored:
+        return candidates[0] if candidates else None
+    scored.sort(key=lambda item: item[0])
+    best_score, best = scored[0]
+    best["Cover_Distance"] = str(best_score)
+    return best
 
 
 def read_repair_queue() -> list[dict[str, str]]:
@@ -263,7 +300,7 @@ async def select_official_mockups(product_id: str, product_type: str, wait_secon
         }
 
 
-async def select_sticker_cover_plus_official(product_id: str, wait_seconds: int = 10) -> dict[str, str]:
+async def select_sticker_cover_plus_official(product_id: str, cover_path: str = "", wait_seconds: int = 10) -> dict[str, str]:
     """Select one uploaded cover mockup plus official Printify sticker mockups.
 
     The sticker official-only probe showed eBay can repeat the first official
@@ -320,26 +357,34 @@ async def select_sticker_cover_plus_official(product_id: str, wait_seconds: int 
             await page.click(uploads_tab["x"], uploads_tab["y"])
             await asyncio.sleep(1)
 
-        cover_selected = await page.eval(
-            r"""(async () => {
+        upload_candidates = await page.eval(
+            r"""(() => {
                 const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
-                const items=[...document.querySelectorAll('button.mockup-container,.mockup-container')]
+                return [...document.querySelectorAll('button.mockup-container,.mockup-container')]
                   .filter(visible)
                   .filter(e=>{
                     const r=e.getBoundingClientRect();
                     return r.width>180 && r.height>180 && r.x < 540;
                   })
-                  .sort((a,b)=>a.getBoundingClientRect().y-b.getBoundingClientRect().y);
-                const e=items[0];
-                if(!e)return false;
-                const ctrl=e.querySelector('[data-testid="checkboxWrapper"], [role="checkbox"], input[type="checkbox"]');
-                const target=ctrl||e;
-                target.dispatchEvent(new MouseEvent('mousedown',{bubbles:true}));
-                target.click();
-                await new Promise(r=>setTimeout(r,500));
-                return true;
+                  .sort((a,b)=>a.getBoundingClientRect().y-b.getBoundingClientRect().y)
+                  .slice(0,24)
+                  .map((e,i)=>{
+                    const r=e.getBoundingClientRect();
+                    return {
+                      i,
+                      x:r.x+r.width/2,
+                      y:r.y+r.height/2,
+                      src:e.querySelector('img')?.src||''
+                    };
+                  });
             })()"""
         )
+        best_cover = best_cover_candidate(upload_candidates or [], cover_path)
+        if not best_cover:
+            raise RuntimeError("Could not locate uploaded cover mockup candidates")
+        await page.click(best_cover["x"], best_cover["y"])
+        await asyncio.sleep(0.8)
+        cover_selected = True
         if not cover_selected:
             raise RuntimeError("Could not select uploaded cover mockup")
 
@@ -433,7 +478,7 @@ async def select_sticker_cover_plus_official(product_id: str, wait_seconds: int 
         return {
             "UI_Selected_Text": clean(selected),
             "UI_Selected_Items": str(1 + len(clicked)),
-            "UI_Variant_Text": "Cover|" + "|".join(clicked),
+            "UI_Variant_Text": f"Cover(distance={best_cover.get('Cover_Distance', 'NA')})|" + "|".join(clicked),
             "Save_Clicked": "Yes",
         }
 
@@ -509,7 +554,7 @@ def run(
                 try:
                     if sticker_cover_plus_official:
                         record["Action"] = "SELECT_STICKER_COVER_PLUS_OFFICIAL"
-                        record.update(asyncio.run(select_sticker_cover_plus_official(product_id)))
+                        record.update(asyncio.run(select_sticker_cover_plus_official(product_id, clean(row.get("Cover_Path")))))
                     elif official_only:
                         record["Action"] = "SELECT_OFFICIAL_ONLY"
                         record.update(asyncio.run(select_official_mockups(product_id, record["Product_Type"])))

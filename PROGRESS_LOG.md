@@ -1570,3 +1570,9 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Published `Sticker-Zen-0075` -> eBay `406912077790`; cover audit passed as `LIKELY_COVER`, meaning buyer-facing first image matches local Cover.
 - Live gallery audit passed as `OK_DOM_DUPLICATE_ONLY`: repeated DOM image tags exist, but buyer-visible numbered gallery slots are not duplicated.
 - This is now the preferred Sticker publish path. Next step: repair/publish additional Sticker rows in small batches using `--sticker-cover-plus-official`, with post-publish live cover/gallery spot audit.
+
+## 2026-05-07 23:16 -04:00 Sticker Mixed Gallery Safety Correction
+- Second sample `Sticker-Zen-0081` initially reached API-confirmed 3 official + 1 custom, but live buyer-page cover audit showed `LIKELY_SINGLE_U_MISMATCH` against U4. The custom image selected from My Uploads was not the true Cover.
+- Added image-hash based cover-candidate scoring to `printify_gallery_source_repair.py` so future mixed-gallery selection uses the local Cover image rather than the topmost upload position.
+- Attempted to repair `Sticker-Zen-0081` source after this patch, but Printify UI did not expose the expected official sticker mockup cards in that session, so no safe save occurred.
+- Retired `Sticker-Zen-0081` / eBay `406912094146` and detached Printify external. Rule: a live U-image cover mismatch must be removed, not left as a test artifact.
