@@ -1,6 +1,6 @@
 # OpenClaw Morning Report
 
-Generated: 2026-05-07 20:57 -0400 America/New_York
+Generated: 2026-05-07 21:40 -0400 America/New_York
 
 ## Current Factory State
 
@@ -32,7 +32,7 @@ Generated: 2026-05-07 20:57 -0400 America/New_York
 
 - Listing copy optimization candidates: 161
 - Pricing matrix scenarios: 6
-- Unified registry rows bucketed: 298
+- Unified registry rows bucketed: 299
 - Etsy digital printable upload queue: 20 listings, max file 3.42MB, under 20MB limit: True
 - Etsy digital previews: 20 listings x 3 preview images
 - Etsy digital final upload packet: 20 listings, QA bad=0, missing=0
@@ -48,7 +48,7 @@ Generated: 2026-05-07 20:57 -0400 America/New_York
 
 - Etsy_Draft_Prepared: 14
 - Fix_Gallery_First: 1
-- Hold: 193
+- Hold: 194
 - Published_Zero_View_Copy_Ad_Review: 28
 - Ready_For_Printify_When_Network_OK: 46
 - Stable_Draft_Publish_When_Scheduled: 16
@@ -79,40 +79,39 @@ Generated: 2026-05-07 20:57 -0400 America/New_York
 - Printify image-default audit rows: 161
 - Printify image-default audit CHECK: 123
 - Printify image-default audit OK: 38
-- Printify gallery duplicate audit rows: 145
+- Printify gallery duplicate audit rows: 146
 - Printify gallery duplicate audit CHECK_CUSTOM_GALLERY_REPEATS_RISK: 22
-- Printify gallery duplicate audit OK: 123
-- eBay live gallery duplicate audit rows: 3
-- eBay live gallery duplicate audit CHECK_LIVE_DUPLICATE: 3
+- Printify gallery duplicate audit OK: 124
+- eBay live gallery duplicate audit rows: 22
+- eBay live gallery duplicate audit OK_DOM_DUPLICATE_ONLY: 22
 
 ## Factory Backlog
 
-- Backlog BLOCKING_PUBLISH: 2
 - Backlog READY: 5
 - Backlog READY_AFTER_IMAGE_QA: 2
 - Backlog READY_FOR_SCHOLAR_REVIEW: 1
 - Backlog READY_MONITOR: 2
+- Backlog WAIT_NETWORK: 1
 
 Top tasks:
 - P100 control / READY: Run local supervisor maintenance cycle
 - P100 supervisor:local / READY: Refresh local QA, registry, market queue, cover decisions, experiment report, and morning report.
-- P94 gallery_integrity / BLOCKING_PUBLISH: Repair repeated/risky Printify gallery images before more public publish
-- P93 supervisor:gallery_integrity / BLOCKING_PUBLISH: Resolve repeated/risky Printify gallery images before public publishing resumes.
 - P72 production / READY_AFTER_IMAGE_QA: Resume Ready_for_Printify uploads in audited single-item batches
+- P70 supervisor:publish / WAIT_NETWORK: Publish small cooled batch if network guard is healthy.
+- P68 publish / READY_AFTER_IMAGE_QA: Publish small cooled batch after default-image and live-cover spot audit
 
 Lane counts:
 - control: 1
 - etsy: 1
-- gallery_integrity: 1
 - market_learning: 1
 - production: 1
 - publish: 1
 - r_and_d: 1
 - supervisor:copy_experiment: 1
 - supervisor:etsy: 1
-- supervisor:gallery_integrity: 1
 - supervisor:local: 1
 - supervisor:production_design_qa: 1
+- supervisor:publish: 1
 
 ## Current Guardrails
 

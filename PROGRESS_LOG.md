@@ -1535,3 +1535,10 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Added eBay_Gallery_Replacement_Queue for the remaining 22 non-sticker custom-gallery risk rows: Acrylic=10, Poster=12.
 - Exact duplicate selected-gallery issues are now zero; remaining issue is buyer-trust custom/detail gallery risk, not URL duplication.
 - Factory backlog now exposes a READY_FOR_SAMPLE task so the next safe move is one GalleryFix sample, then scale only after Printify source + eBay live-gallery audit pass.
+
+## 2026-05-07 21:43 -04:00 Gallery Integrity Blocker Cleared
+- Refined the live eBay gallery audit to count buyer-visible numbered picture slots instead of raw DOM image tags. This prevents hidden carousel/thumbnail duplicates from being misclassified as public duplicate galleries.
+- Re-audited the 22 remaining non-sticker custom-gallery risk rows; all 22 are now `OK_DOM_DUPLICATE_ONLY`, meaning source/DOM duplication exists but buyer-visible picture slots are not duplicated.
+- `Printify_Gallery_Repair_Queue` is now empty and `factory_supervisor --skip-network` no longer blocks publish expansion on Gallery Integrity.
+- Retired diagnostic sample `Acrylic-Academia-0003-GALLERYFIX1` / eBay `406911883288` because the original listing passed live buyer-gallery slot audit and keeping the sample would create duplicate-inventory risk.
+- Current next mainline: run tiny production-design QA, then publish a small cooled batch with jitter. During 17:00-23:00 ET keep network use neighbor-friendly; daytime can be more aggressive.

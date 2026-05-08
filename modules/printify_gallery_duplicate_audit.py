@@ -133,7 +133,9 @@ def workbook_rows(limit: int = 0, ids: set[str] | None = None) -> list[dict[str,
             product_id = clean(values[cols.get("Printify_Product_ID")])
             ebay_id = clean(values[cols.get("eBay_Item_ID")])
             status = clean(values[cols.get("Status")])
-            if not product_id or not ebay_id:
+            if not product_id:
+                continue
+            if not ebay_id and not ids:
                 continue
             if ebay_id in retired_ids:
                 continue

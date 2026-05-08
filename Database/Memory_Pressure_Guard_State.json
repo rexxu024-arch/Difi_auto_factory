@@ -1,64 +1,71 @@
 {
-  "timestamp": "2026-05-07 12:49:39 -0400",
+  "timestamp": "2026-05-07 21:40:51 -0400",
   "mode": "EXECUTE_CLEANUP",
   "execute": true,
   "cdp_port": 9223,
   "memory_soft_pct": 82.0,
   "memory_hard_pct": 92.0,
   "cpu_soft_pct": 85.0,
-  "memory_before": 86.6,
-  "memory_after": 86.3,
-  "cpu_before": 40.0,
-  "cpu_after": 23.0,
-  "closed_tabs": [],
+  "memory_before": 84.6,
+  "memory_after": 86.1,
+  "cpu_before": 51.0,
+  "cpu_after": 100.0,
+  "closed_tabs": [
+    {
+      "action": "CLOSE_EDGE_PROJECT_TAB",
+      "id": "8C8EC13A0FE80B8B2E6961DC71401B79",
+      "title": "Printify Drop Shipping Print on Demand for Ecommerce",
+      "url": "https://printify.com/app/dashboard"
+    }
+  ],
   "top_processes": [
     {
       "ProcessName": "chrome",
-      "Id": 21384,
-      "WorkingSetMB": 1853.3,
-      "CPU": 570.546875
+      "Id": 28132,
+      "WorkingSetMB": 1292,
+      "CPU": 1987.640625
+    },
+    {
+      "ProcessName": "chrome",
+      "Id": 26308,
+      "WorkingSetMB": 756.9,
+      "CPU": 1060.703125
     },
     {
       "ProcessName": "Codex",
       "Id": 27652,
-      "WorkingSetMB": 547.8,
-      "CPU": 18943.140625
+      "WorkingSetMB": 611.3,
+      "CPU": 24379.71875
     },
     {
       "ProcessName": "chrome",
-      "Id": 28132,
-      "WorkingSetMB": 447.2,
-      "CPU": 564.0625
+      "Id": 26560,
+      "WorkingSetMB": 446.5,
+      "CPU": 142.453125
     },
     {
       "ProcessName": "chrome",
-      "Id": 18944,
-      "WorkingSetMB": 428.2,
-      "CPU": 223.53125
-    },
-    {
-      "ProcessName": "chrome",
-      "Id": 21820,
-      "WorkingSetMB": 352.5,
-      "CPU": 56.25
+      "Id": 28404,
+      "WorkingSetMB": 414.3,
+      "CPU": 89.578125
     },
     {
       "ProcessName": "chrome",
       "Id": 9740,
-      "WorkingSetMB": 307.6,
-      "CPU": 51872.078125
+      "WorkingSetMB": 257.9,
+      "CPU": 54126.59375
+    },
+    {
+      "ProcessName": "Memory Compression",
+      "Id": 2944,
+      "WorkingSetMB": 248.6,
+      "CPU": null
     },
     {
       "ProcessName": "chrome",
-      "Id": 15484,
-      "WorkingSetMB": 263.6,
-      "CPU": 74.1875
-    },
-    {
-      "ProcessName": "msedge",
-      "Id": 31072,
-      "WorkingSetMB": 199.5,
-      "CPU": 6.0625
+      "Id": 21820,
+      "WorkingSetMB": 192.3,
+      "CPU": 769.375
     }
   ],
   "decision": "MEMORY_STILL_WARM_BUT_WORKABLE",

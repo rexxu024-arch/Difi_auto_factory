@@ -1,2 +1,11 @@
 2026-05-07T09:20:43.8393763-04:00 checkpoint blocked: git add could not create .git/index.lock due to permission denied, so no checkpoint commit or push was made.
 2026-05-07T13:24:00-04:00 checkpoint blocked again: git add failed to create .git/index.lock with permission denied, so no safe checkpoint commit or push was made.
+2026-05-07 13:22:16 -04:00: checkpoint blocked by `.git/index.lock` permission denied during `git add` after confirming `main` matched `origin/main`; no commit or push performed.
+2026-05-07T17:21:08Z - Checkpoint blocked: `git fetch origin` failed with `Permission denied` on `.git/FETCH_HEAD`, so I did not stage, commit, or push anything.
+
+[2026-05-07 16:14:08 -0400] Printify UI observed for Sticker-Zen-0061: publish banner says sorry, could not publish product, try later/support. Combined with live audit LIKELY_SINGLE_U_MISMATCH after source repair, do not retry source repair/publish loop blindly; route 0061 to replacement listing path.
+## 2026-05-07 checkpoint attempt
+- `git fetch origin` failed with `Permission denied` on `.git/FETCH_HEAD`.
+- No staging, commit, rebase, or push was performed to avoid unsafe overwrite.
+2026-05-07T17:40:00-04:00 - Git checkpoint blocked: `git add` failed with repeated `C:/AIprojects/openclaw_difi/.git/index.lock: Permission denied` errors. Repo ACLs on `.git` include an explicit deny affecting the current sandbox identity, so no commit/push was attempted and no local work was overwritten.
+2026-05-07T21:25:53-04:00 - Git checkpoint blocked again: `git fetch origin` failed with `Permission denied` on `.git/FETCH_HEAD`. Repo remains on `main`, but `.git` is not writable under the current sandbox identity, so no staging, commit, rebase, or push was attempted.

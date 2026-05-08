@@ -353,3 +353,12 @@ Guardrails:
   - Quality Floor documentation scan passes.
   - Old debug screenshot/empty log artifacts were quarantined.
   - Grunt Engine live state now cleanly reports `NO_TASK` when the queue is empty instead of preserving stale failure state.
+
+## 2026-05-07 20:30 -04:00 Household Network Courtesy Update
+- Rex clarified daytime network can be aggressive because household usage is mostly Rex; 17:00-23:00 ET should be neighbor-friendly.
+- Operational default: use daytime and post-23:00 ET for bulk uploads/heavier audits; during 17:00-23:00 ET prefer API reads, small publish batches, local QA, reports, and no stacked high-bandwidth tasks.
+
+## 2026-05-07 21:43 -04:00 Active Mainline
+- Gallery Integrity publish blocker is cleared after buyer-visible slot audit refinement.
+- Diagnostic replacement sample `Acrylic-Academia-0003-GALLERYFIX1` has been retired and detached from Printify to avoid duplicate listing/spam signals.
+- Next: production-design QA spot check, then small jittered publish batch if account/network/resource guards stay green.

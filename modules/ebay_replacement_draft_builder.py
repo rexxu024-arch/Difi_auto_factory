@@ -24,6 +24,7 @@ if str(PROJECT_ROOT) not in sys.path:
 DATABASE_DIR = PROJECT_ROOT / "Database"
 EBAY_BOOK = DATABASE_DIR / "eBay_listing.xlsx"
 REPLACEMENT_QUEUE = DATABASE_DIR / "eBay_Cover_Replacement_Queue.csv"
+GALLERY_REPLACEMENT_QUEUE = DATABASE_DIR / "eBay_Gallery_Replacement_Queue.csv"
 LOG_CSV = DATABASE_DIR / "eBay_Replacement_Draft_Log.csv"
 
 
@@ -48,10 +49,10 @@ def now_text() -> str:
     return datetime.now(ZoneInfo("America/New_York")).strftime("%Y-%m-%d %H:%M:%S %z")
 
 
-def read_queue() -> list[dict[str, str]]:
-    if not REPLACEMENT_QUEUE.exists():
+def read_queue(path: Path) -> list[dict[str, str]]:
+    if not path.exists():
         return []
-    with REPLACEMENT_QUEUE.open("r", encoding="utf-8-sig", newline="") as handle:
+    with path.open("r", encoding="utf-8-sig", newline="") as handle:
         return list(csv.DictReader(handle))
 
 
@@ -65,10 +66,20 @@ def append_log(row: dict[str, str]) -> None:
         writer.writerow(row)
 
 
-def build(limit: int = 1, dry_run: bool = False) -> list[str]:
-    ready = [row for row in read_queue() if row.get("Replacement_Status") == "READY_TO_REPLACE_VERIFIED"]
+def build(limit: int = 1, dry_run: bool = False, queue_type: str = "cover") -> list[str]:
+    if queue_type == "gallery":
+        queue_path = GALLERY_REPLACEMENT_QUEUE
+        ready_statuses = {"READY_FOR_LOCAL_DRAFT_WHEN_APPROVED"}
+        created_status = "GALLERY_LOCAL_DRAFT_CREATED"
+        detail = "Ready_for_Printify gallery replacement row created; public publish waits for official-mockup QA and old-listing retire sequencing."
+    else:
+        queue_path = REPLACEMENT_QUEUE
+        ready_statuses = {"READY_TO_REPLACE_VERIFIED"}
+        created_status = "LOCAL_DRAFT_CREATED"
+        detail = "Ready_for_Printify replacement row created; public publish still requires QA and retire sequencing."
+    ready = [row for row in read_queue(queue_path) if row.get("Replacement_Status") in ready_statuses]
     if not ready:
-        print("[REPLACEMENT-DRAFT] no READY_TO_REPLACE_VERIFIED rows")
+        print(f"[REPLACEMENT-DRAFT] no ready rows in {queue_path.name}")
         return []
 
     wb = load_workbook(EBAY_BOOK)
@@ -121,8 +132,8 @@ def build(limit: int = 1, dry_run: bool = False) -> list[str]:
                     "Timestamp": now_text(),
                     "Old_ID": old_id,
                     "Replacement_ID": replacement_id,
-                    "Status": "LOCAL_DRAFT_CREATED",
-                    "Detail": "Ready_for_Printify replacement row created; public publish still requires QA and retire sequencing.",
+                    "Status": created_status,
+                    "Detail": detail,
                 }
             )
             print(f"[REPLACEMENT-DRAFT] {old_id} -> {replacement_id}")
@@ -140,8 +151,9 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--limit", type=int, default=1)
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--queue", choices=["cover", "gallery"], default="cover")
     args = parser.parse_args()
-    build(limit=args.limit, dry_run=args.dry_run)
+    build(limit=args.limit, dry_run=args.dry_run, queue_type=args.queue)
 
 
 if __name__ == "__main__":

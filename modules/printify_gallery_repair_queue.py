@@ -8,6 +8,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATABASE_DIR = PROJECT_ROOT / "Database"
 AUDIT_CSV = DATABASE_DIR / "Printify_Gallery_Duplicate_Audit.csv"
+LIVE_AUDIT_CSV = DATABASE_DIR / "eBay_Live_Gallery_Duplicate_Audit.csv"
 OUT_CSV = DATABASE_DIR / "Printify_Gallery_Repair_Queue.csv"
 OUT_MD = DATABASE_DIR / "Printify_Gallery_Repair_Queue.md"
 
@@ -25,6 +26,7 @@ HEADERS = [
     "Next_Command",
     "Notes",
 ]
+LIVE_OK_RESULTS = {"OK", "OK_DOM_DUPLICATE_ONLY"}
 
 
 def clean(value: object) -> str:
@@ -36,6 +38,10 @@ def read_csv(path: Path) -> list[dict[str, str]]:
         return []
     with path.open("r", encoding="utf-8-sig", newline="") as handle:
         return list(csv.DictReader(handle))
+
+
+def live_audit_by_id() -> dict[str, dict[str, str]]:
+    return {clean(row.get("ID")): row for row in read_csv(LIVE_AUDIT_CSV) if clean(row.get("ID"))}
 
 
 def plan(row: dict[str, str]) -> dict[str, str]:
@@ -69,24 +75,31 @@ def plan(row: dict[str, str]) -> dict[str, str]:
 
 def build_rows() -> list[dict[str, str]]:
     rows = []
+    live = live_audit_by_id()
     for row in read_csv(AUDIT_CSV):
-        if clean(row.get("Result")) in {"", "OK"}:
+        issue = clean(row.get("Result"))
+        item_id = clean(row.get("ID"))
+        live_row = live.get(item_id) or {}
+        live_result = clean(live_row.get("Result"))
+        if issue in {"", "OK"}:
+            continue
+        if issue == "CHECK_CUSTOM_GALLERY_REPEATS_RISK" and live_result in LIVE_OK_RESULTS:
             continue
         action = plan(row)
         rows.append(
             {
                 "Priority": action["Priority"],
-                "ID": clean(row.get("ID")),
+                "ID": item_id,
                 "Product_Type": clean(row.get("Product_Type")),
                 "eBay_Item_ID": clean(row.get("eBay_Item_ID")),
                 "Printify_Product_ID": clean(row.get("Printify_Product_ID")),
-                "Issue": clean(row.get("Result")),
+                "Issue": issue,
                 "Selected_Count": clean(row.get("Selected_Count")),
                 "Unique_Visual_Count": clean(row.get("Unique_Visual_Count")),
                 "Repair_Strategy": action["Repair_Strategy"],
                 "Can_Auto_Repair": action["Can_Auto_Repair"],
                 "Next_Command": action["Next_Command"],
-                "Notes": action["Notes"],
+                "Notes": f"{action['Notes']} Live_Gallery_Result={live_result or 'not_checked'}",
             }
         )
     rows.sort(key=lambda item: (-int(item["Priority"]), item["Product_Type"], item["ID"]))

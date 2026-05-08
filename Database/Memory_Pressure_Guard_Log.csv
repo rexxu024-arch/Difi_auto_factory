@@ -15,3 +15,23 @@
 2026-05-07 12:22:47 -0400,NOOP_BELOW_THRESHOLD,True,81.3,80.9,50.0,22.0,0,MEMORY_OK_CONTINUE,normal work may continue under marketplace risk guards
 2026-05-07 12:48:21 -0400,EXECUTE_CLEANUP,True,85.6,87.0,48.0,62.0,1,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
 2026-05-07 12:49:39 -0400,EXECUTE_CLEANUP,True,86.6,86.3,40.0,23.0,0,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
+"2026-05-07 14:09:06 -04:00","EXECUTE_CLEANUP","True","91.4","91.6","21.9","22.6","0","MEMORY_STILL_HARD_PRESSURE","available physical memory remains under 1GB; preserve cooldown and avoid Grunt work"
+2026-05-07 14:10:26 -0400,EXECUTE_CLEANUP,True,92.3,92.1,39.0,37.0,0,MEMORY_STILL_HARD_PRESSURE,keep only local/report/API-read tasks; consider longer rest cycle if repeated
+2026-05-07 14:40:24 -0400,EXECUTE_CLEANUP,True,92.5,92.3,16.0,6.0,1,MEMORY_STILL_HARD_PRESSURE,keep only local/report/API-read tasks; consider longer rest cycle if repeated
+2026-05-07 15:10:28 -0400,EXECUTE_CLEANUP,True,94.3,90.5,100.0,77.0,1,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
+2026-05-07 15:40:24 -0400,NOOP_BELOW_THRESHOLD,True,80.3,80.1,52.0,60.0,0,MEMORY_OK_CONTINUE,normal work may continue under marketplace risk guards
+2026-05-07 15:58:07 -0400,DRY_RUN_CLEANUP,False,83.9,83.9,25.0,25.0,1,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
+2026-05-07 16:44:31 -0400,DRY_RUN_CLEANUP,False,85.9,85.9,47.0,47.0,0,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
+2026-05-07 16:55:40 -0400,EXECUTE_CLEANUP,True,89.7,88.7,80.0,28.0,1,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
+2026-05-07 17:03:56 -0400,EXECUTE_CLEANUP,True,91.1,90.8,24.0,47.0,1,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
+2026-05-07 17:35:09 -0400,EXECUTE_CLEANUP,True,89.8,92.2,22.0,74.0,1,MEMORY_STILL_HARD_PRESSURE,keep only local/report/API-read tasks; consider longer rest cycle if repeated
+"2026-05-07 18:08:29 -04:00","NOOP_FALLBACK_SAMPLE","False","84.7","84.7","42.8","42.8","0","MEMORY_ELEVATED_CONSERVATIVE_ONLY","available physical memory is above 1GB but still soft-pressure; avoid browser/image-heavy tasks"
+2026-05-07 19:11:04 -0400,EXECUTE_CLEANUP,True,88.7,82.6,100.0,31.0,0,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
+2026-05-07 19:11:51 -0400,DRY_RUN_CLEANUP,False,82.7,82.7,43.0,43.0,1,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
+2026-05-07 19:40:44 -0400,EXECUTE_CLEANUP,True,87.0,84.5,100.0,32.0,0,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
+2026-05-07 19:59:39 -0400,EXECUTE_CLEANUP,True,87.8,90.2,51.0,100.0,1,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
+2026-05-07 20:10:30 -0400,EXECUTE_CLEANUP,True,83.0,83.4,79.0,79.0,1,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
+2026-05-07 20:12:30 -0400,DRY_RUN_CLEANUP,False,82.0,82.0,37.0,37.0,1,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
+2026-05-07 20:40:24 -0400,NOOP_BELOW_THRESHOLD,True,81.9,82.0,13.0,17.0,0,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
+2026-05-07 21:10:28 -0400,EXECUTE_CLEANUP,True,84.9,85.8,18.0,32.0,1,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
+2026-05-07 21:40:51 -0400,EXECUTE_CLEANUP,True,84.6,86.1,51.0,100.0,1,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks

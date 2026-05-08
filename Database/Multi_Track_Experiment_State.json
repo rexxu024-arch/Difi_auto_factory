@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-07 17:05:01 -0400",
+  "timestamp": "2026-05-07 20:16:56 -0400",
   "timezone": "America/New_York",
   "slot_target_total": 165,
   "track_targets": {
@@ -13,15 +13,15 @@
     "C_DIGITAL_PURE_PROFIT": 55
   },
   "action_counts": {
-    "COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING": 80,
-    "BUILD_ASSET_OR_METADATA_ONLY": 49,
+    "COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING": 82,
+    "BUILD_ASSET_OR_METADATA_ONLY": 47,
     "NEXT_ETSY_GRAY_BATCH_UNDER_FEE_CAP": 28,
     "MONITOR_LIVE_DIGITAL_TRAFFIC": 8,
     "HOLD_DO_NOT_PUBLISH": 60
   },
   "qa_counts": {
-    "READY": 116,
-    "NOT_READY": 49,
+    "READY": 118,
+    "NOT_READY": 47,
     "HOLD": 60
   },
   "etsy_fee_caps": {

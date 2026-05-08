@@ -1,6 +1,6 @@
 # Multi-Track Experiment Plan
 
-Generated: 2026-05-07 17:05:01 -0400
+Generated: 2026-05-07 20:16:56 -0400
 
 ## Guardrails Now Active
 - 165 experiment slots are split equally: 55 low-competition niche, 55 high-volume value, 55 digital pure-profit.
@@ -14,28 +14,28 @@ Objective: Force non-zero traffic through long-tail room-use and buyer-scene ter
 
 | ID | Action | Intent | QA | Price |
 |---|---|---|---|---|
-| Poster-Academia-0036 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | dark academia reading nook | READY | $34.99 |
-| Acrylic-Zen-0007 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | meditation room wall art | READY | $89.99 |
-| Acrylic-Zen-0006 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | tea room accent | READY | $89.99 |
-| Acrylic-Grimdark-0085 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | dark study room decor | READY | $89.99 |
-| Acrylic-Grimdark-0038 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | collector shelf object | READY | $89.99 |
-| Acrylic-Grimdark-0014 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | smoky jade relic | READY | $89.99 |
-| Poster-Academia-0019 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | dark academia reading nook | READY | $34.99 |
-| Acrylic-Grimdark-0019 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | moody desk display | READY | $89.99 |
+| Acrylic-Zen-0003 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | reading nook decor | READY | $89.99 |
+| Poster-Academia-0023 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | home library wall art | READY | $34.99 |
+| Acrylic-Zen-0005 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | tea room accent | READY | $89.99 |
+| Acrylic-Grimdark-0001 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | dark study room decor | READY | $89.99 |
+| Acrylic-Grimdark-0032 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | collector shelf object | READY | $89.99 |
+| Acrylic-Grimdark-0031 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | smoky jade relic | READY | $89.99 |
+| Acrylic-Grimdark-0017 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | gothic shelf decor | READY | $89.99 |
+| Acrylic-Grimdark-0009 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | moody desk display | READY | $89.99 |
 
 ## Track B - High-Volume Value
 Objective: Test broad-volume value terms with Rex-grade visuals and safe pricing.
 
 | ID | Action | Intent | QA | Price |
 |---|---|---|---|---|
-| Poster-Academia-0008 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | wall art poster | READY | $29.99-$34.99 |
-| Acrylic-Grimdark-0030 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | desk display | READY | $79.99-$89.99 |
-| Acrylic-Grimdark-0010 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | shelf decor | READY | $79.99-$89.99 |
-| Poster-Zen-0005 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | poster print | READY | $29.99-$34.99 |
-| Acrylic-Grimdark-0039 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | office decor | READY | $79.99-$89.99 |
-| Acrylic-Grimdark-0016 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | acrylic photo block | READY | $79.99-$89.99 |
+| Poster-Academia-0003-FIX1 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | wall art poster | READY | $29.99-$34.99 |
+| Poster-Academia-0020 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | gallery wall decor | READY | $29.99-$34.99 |
+| Poster-Zen-0005 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | apartment wall art | READY | $29.99-$34.99 |
+| Poster-Academia-0008 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | poster print | READY | $29.99-$34.99 |
+| Acrylic-Grimdark-0016 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | office decor | READY | $79.99-$89.99 |
+| Acrylic-Grimdark-0081-FIX1 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | acrylic photo block | READY | $79.99-$89.99 |
 | Acrylic-Grimdark-0008 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | desk display | READY | $79.99-$89.99 |
-| Acrylic-Grimdark-0005 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | shelf decor | READY | $79.99-$89.99 |
+| Acrylic-Grimdark-0037 | COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING | shelf decor | READY | $79.99-$89.99 |
 
 ## Track C - Digital Pure Profit
 Objective: Use zero-production-cost Etsy digital downloads to test SEO templates cheaply.
@@ -56,7 +56,7 @@ Objective: Use zero-production-cost Etsy digital downloads to test SEO templates
 - HOLD count in this run: 60.
 
 ## Executed Experiment Batches
-- Synced `B_HIGH_VOLUME_VALUE` copy rows: 10
+- Synced `A_LOW_COMPETITION_NICHE` copy rows: 5
 
 Latest copy-monitor report, when present: `Review_Packets/MULTI_TRACK_COPY_MONITOR_20260507.md`.
 

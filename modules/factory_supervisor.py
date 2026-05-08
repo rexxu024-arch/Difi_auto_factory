@@ -36,6 +36,7 @@ REPAIR_DECISIONS = DATABASE_DIR / "eBay_Cover_Repair_Decisions.csv"
 REPLACEMENT_QUEUE = DATABASE_DIR / "eBay_Cover_Replacement_Queue.csv"
 DEFAULT_AUDIT = DATABASE_DIR / "Printify_Image_Default_Audit.csv"
 GALLERY_DUPLICATE_AUDIT = DATABASE_DIR / "Printify_Gallery_Duplicate_Audit.csv"
+LIVE_GALLERY_AUDIT = DATABASE_DIR / "eBay_Live_Gallery_Duplicate_Audit.csv"
 ACTION_QUEUE = DATABASE_DIR / "Factory_Autopilot_Action_Queue.csv"
 ACTION_SUMMARY = DATABASE_DIR / "Factory_Autopilot_Action_Queue.md"
 STATE_JSON = DATABASE_DIR / "Factory_Autopilot_State.json"
@@ -52,7 +53,7 @@ LOCAL_MODULES = [
     ("ebay_gallery_replacement_queue.py", 120),
     ("ebay_title_repair_queue.py", 120),
     ("unified_listing_registry.py", 180),
-    ("printify_gallery_duplicate_audit.py", 240),
+    ("printify_gallery_duplicate_audit.py", 420),
     ("printify_gallery_repair_queue.py", 120),
     ("market_signal_planner.py", 180),
     ("ebay_experiment_report.py", 120),
@@ -141,9 +142,14 @@ def default_insufficiency_count() -> int:
 
 
 def gallery_duplicate_count() -> int:
+    live_by_id = {clean(row.get("ID")): row for row in read_csv(LIVE_GALLERY_AUDIT) if clean(row.get("ID"))}
     count = 0
     for row in read_csv(GALLERY_DUPLICATE_AUDIT):
-        if clean(row.get("Result")) not in {"", "OK"}:
+        result = clean(row.get("Result"))
+        live_result = clean((live_by_id.get(clean(row.get("ID"))) or {}).get("Result"))
+        if result == "CHECK_CUSTOM_GALLERY_REPEATS_RISK" and live_result in {"OK", "OK_DOM_DUPLICATE_ONLY"}:
+            continue
+        if result not in {"", "OK"}:
             count += 1
     return count
 

@@ -42,6 +42,10 @@ HEADERS = [
     "Unique_Source_Count",
     "Duplicate_Source_Count",
     "Duplicate_Source_Keys",
+    "Picture_Slot_Count",
+    "Unique_Slot_Source_Count",
+    "Duplicate_Slot_Count",
+    "Duplicate_Slot_Keys",
     "Result",
     "Title",
     "Error",
@@ -122,6 +126,47 @@ def normalize_ebay_image(src: str) -> str:
     return match.group(1) if match else src.split("?", 1)[0]
 
 
+def picture_number(alt: str) -> int | None:
+    match = re.search(r"Picture\s+(\d+)\s+of\s+\d+", alt or "")
+    return int(match.group(1)) if match else None
+
+
+def classify_live_gallery(pictures: list[dict], keys: list[str], duplicates: dict[str, int]) -> str:
+    if not duplicates:
+        return "OK"
+    numbered = []
+    for picture, key in zip(pictures, keys):
+        number = picture_number(clean(picture.get("alt")))
+        if number is not None:
+            numbered.append((number, key))
+    by_number: dict[int, str] = {}
+    for number, key in sorted(numbered):
+        by_number.setdefault(number, key)
+    numbered_counts = Counter(by_number.values())
+    numbered_duplicates = {key: count for key, count in numbered_counts.items() if count > 1}
+    duplicate_slots = sum(count - 1 for count in numbered_duplicates.values())
+    if duplicate_slots == 0:
+        return "OK_DOM_DUPLICATE_ONLY"
+    if duplicate_slots == 1 and len(numbered_duplicates) == 1:
+        repeated_key = next(iter(numbered_duplicates))
+        repeated_numbers = [number for number, key in by_number.items() if key == repeated_key]
+        if repeated_numbers == [1, 2]:
+            return "CHECK_LIVE_PRIMARY_DUPLICATE_REVIEW"
+    return "CHECK_LIVE_DUPLICATE"
+
+
+def numbered_slot_counts(pictures: list[dict], keys: list[str]) -> tuple[int, int, int, dict[str, int]]:
+    by_number: dict[int, str] = {}
+    for picture, key in zip(pictures, keys):
+        number = picture_number(clean(picture.get("alt")))
+        if number is not None:
+            by_number.setdefault(number, key)
+    counts = Counter(by_number.values())
+    duplicates = {key: count for key, count in counts.items() if count > 1}
+    duplicate_slots = sum(count - 1 for count in duplicates.values())
+    return len(by_number), len(counts), duplicate_slots, duplicates
+
+
 async def cdp_eval(ws, seq_state: dict[str, int], method: str, params: dict | None = None) -> dict:
     seq_state["seq"] += 1
     message = {"id": seq_state["seq"], "method": method}
@@ -169,6 +214,8 @@ async def audit_one(row: dict[str, str], port: int, wait_seconds: float) -> dict
             keys = [normalize_ebay_image(clean(picture.get("src"))) for picture in pictures]
             counts = Counter(keys)
             duplicates = {key: count for key, count in counts.items() if count > 1}
+            result = classify_live_gallery(pictures, keys, duplicates)
+            slot_count, unique_slot_count, slot_duplicates, slot_duplicate_keys = numbered_slot_counts(pictures, keys)
             return {
                 "Timestamp": now_text(),
                 "ID": row["ID"],
@@ -179,7 +226,11 @@ async def audit_one(row: dict[str, str], port: int, wait_seconds: float) -> dict
                 "Unique_Source_Count": str(len(counts)),
                 "Duplicate_Source_Count": str(sum(count - 1 for count in duplicates.values())),
                 "Duplicate_Source_Keys": "|".join(f"{key}:{count}" for key, count in duplicates.items()),
-                "Result": "CHECK_LIVE_DUPLICATE" if duplicates else "OK",
+                "Picture_Slot_Count": str(slot_count),
+                "Unique_Slot_Source_Count": str(unique_slot_count),
+                "Duplicate_Slot_Count": str(slot_duplicates),
+                "Duplicate_Slot_Keys": "|".join(f"{key}:{count}" for key, count in slot_duplicate_keys.items()),
+                "Result": result,
                 "Title": clean(value.get("title")) or row.get("Title", ""),
                 "Error": "",
             }
@@ -194,6 +245,10 @@ async def audit_one(row: dict[str, str], port: int, wait_seconds: float) -> dict
             "Unique_Source_Count": "",
             "Duplicate_Source_Count": "",
             "Duplicate_Source_Keys": "",
+            "Picture_Slot_Count": "",
+            "Unique_Slot_Source_Count": "",
+            "Duplicate_Slot_Count": "",
+            "Duplicate_Slot_Keys": "",
             "Result": "ERROR",
             "Title": row.get("Title", ""),
             "Error": f"{type(exc).__name__}: {exc}"[:500],

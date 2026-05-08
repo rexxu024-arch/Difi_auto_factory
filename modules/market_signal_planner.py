@@ -14,6 +14,7 @@ COVER_FIX_QUEUE = DATABASE_DIR / "eBay_Online_Cover_Fix_Queue.csv"
 RETIRE_QUEUE = DATABASE_DIR / "eBay_Retire_Queue.csv"
 PRINTIFY_DEFAULT_AUDIT = DATABASE_DIR / "Printify_Image_Default_Audit.csv"
 GALLERY_DUPLICATE_AUDIT = DATABASE_DIR / "Printify_Gallery_Duplicate_Audit.csv"
+LIVE_GALLERY_AUDIT = DATABASE_DIR / "eBay_Live_Gallery_Duplicate_Audit.csv"
 OUTPUT_CSV = DATABASE_DIR / "Market_Signal_Action_Queue.csv"
 OUTPUT_XLSX = DATABASE_DIR / "Market_Signal_Action_Queue.xlsx"
 
@@ -86,6 +87,14 @@ def _gallery_duplicate_needs_action(gallery_row):
     if not gallery_row:
         return False
     return (gallery_row.get("Result") or "").strip() not in {"", "OK"}
+
+
+def _live_gallery_clears_source_risk(gallery_row, live_row):
+    if not gallery_row or not live_row:
+        return False
+    if (gallery_row.get("Result") or "").strip() != "CHECK_CUSTOM_GALLERY_REPEATS_RISK":
+        return False
+    return (live_row.get("Result") or "").strip() in {"OK", "OK_DOM_DUPLICATE_ONLY"}
 
 
 def _priority(row, qa, cover_fix, default_check, gallery_duplicate):
@@ -208,6 +217,7 @@ def build_rows():
     }
     default_audit_by_id = _by_id(_read_csv(PRINTIFY_DEFAULT_AUDIT))
     gallery_duplicate_by_id = _by_id(_read_csv(GALLERY_DUPLICATE_AUDIT))
+    live_gallery_by_id = _by_id(_read_csv(LIVE_GALLERY_AUDIT))
     rows = []
     for item in registry:
         copy = copy_by_id.get(item.get("ID"))
@@ -216,6 +226,8 @@ def build_rows():
         default_row = default_audit_by_id.get(item.get("ID"))
         gallery_duplicate = gallery_duplicate_by_id.get(item.get("ID"))
         default_check = _default_needs_action(default_row)
+        if _live_gallery_clears_source_risk(gallery_duplicate, live_gallery_by_id.get(item.get("ID"))):
+            gallery_duplicate = None
         gallery_check = gallery_duplicate if _gallery_duplicate_needs_action(gallery_duplicate) else None
         action, reason, dependency, can_do_now = _recommend(item, copy, qa, cover_fix, default_check, gallery_check)
         rows.append(

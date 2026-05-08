@@ -1,26 +1,6 @@
 ﻿Priority,ID,Product_Type,Category,Action_Bucket,Recommended_Action,Reason,Network_Dependency,Can_Do_Now,eBay_Item_ID,Latest_Views_30_Days,Etsy_Planned
-91,Acrylic-Academia-0003,Acrylic,Academia,Hold,FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC,Printify selected gallery has repeated or risky buyer-facing images: CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=5 unique=5 notes=custom=5,medium,False,406902703464,0,False
-91,Acrylic-Grimdark-0082,Acrylic,Grimdark,Hold,FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC,Printify selected gallery has repeated or risky buyer-facing images: CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=5 unique=5 notes=custom=5,medium,False,406902633400,0,False
-91,Acrylic-Grimdark-0083,Acrylic,Grimdark,Hold,FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC,Printify selected gallery has repeated or risky buyer-facing images: CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=5 unique=5 notes=custom=5,medium,False,406902885214,0,False
-91,Acrylic-Zen-0002,Acrylic,Zen,Etsy_Draft_Prepared,FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC,Printify selected gallery has repeated or risky buyer-facing images: CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=5 unique=5 notes=custom=5,medium,False,406902657898,0,True
-91,Acrylic-Zen-0003,Acrylic,Zen,Hold,FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC,Printify selected gallery has repeated or risky buyer-facing images: CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=5 unique=5 notes=custom=5,medium,False,406902673249,0,False
-91,Acrylic-Zen-0004,Acrylic,Zen,Hold,FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC,Printify selected gallery has repeated or risky buyer-facing images: CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=5 unique=5 notes=custom=5,medium,False,406902888077,1,False
-91,Acrylic-Zen-0005,Acrylic,Zen,Hold,FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC,Printify selected gallery has repeated or risky buyer-facing images: CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=5 unique=5 notes=custom=5,medium,False,406902893289,0,False
-91,Acrylic-Zen-0006,Acrylic,Zen,Etsy_Draft_Prepared,FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC,Printify selected gallery has repeated or risky buyer-facing images: CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=5 unique=5 notes=custom=5,medium,False,406902898909,2,True
-91,Acrylic-Zen-0007,Acrylic,Zen,Etsy_Draft_Prepared,FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC,Printify selected gallery has repeated or risky buyer-facing images: CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=5 unique=5 notes=custom=5,medium,False,406903028253,0,True
-91,Acrylic-Zen-0008,Acrylic,Zen,Hold,FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC,Printify selected gallery has repeated or risky buyer-facing images: CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=5 unique=5 notes=custom=5,medium,False,406903036452,0,False
-91,Poster-Academia-0002,Poster,Academia,Published_Zero_View_Copy_Ad_Review,FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC,Printify selected gallery has repeated or risky buyer-facing images: CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=9 unique=9 notes=custom=5; official:close-up=1; official:context-1=1; official:front=1; official:front-2=1,medium,False,406902600741,0,False
-91,Poster-Academia-0006,Poster,Academia,Published_Zero_View_Copy_Ad_Review,FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC,Printify selected gallery has repeated or risky buyer-facing images: CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=9 unique=8 notes=custom=4; official:close-up=1; official:context-1=2; official:front=1; official:front-2=1,medium,False,406903042690,0,True
-91,Poster-Academia-0081,Poster,Academia,Etsy_Draft_Prepared,FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC,Printify selected gallery has repeated or risky buyer-facing images: CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=5 unique=5 notes=custom=5,medium,False,406902627420,2,True
-91,Poster-Academia-0082,Poster,Academia,Hold,FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC,Printify selected gallery has repeated or risky buyer-facing images: CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=5 unique=5 notes=custom=5,medium,False,406902648209,3,False
-91,Poster-Academia-0083,Poster,Academia,Etsy_Draft_Prepared,FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC,Printify selected gallery has repeated or risky buyer-facing images: CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=5 unique=5 notes=custom=5,medium,False,406902669660,0,True
-91,Poster-Academia-0084,Poster,Academia,Hold,FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC,Printify selected gallery has repeated or risky buyer-facing images: CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=5 unique=5 notes=custom=5,medium,False,406902691983,0,False
-91,Poster-Academia-0085,Poster,Academia,Hold,FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC,Printify selected gallery has repeated or risky buyer-facing images: CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=5 unique=5 notes=custom=5,medium,False,406902882943,1,False
-91,Poster-Academia-0091,Poster,Academia,Etsy_Draft_Prepared,FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC,Printify selected gallery has repeated or risky buyer-facing images: CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=5 unique=5 notes=custom=5,medium,False,406902887127,0,True
-91,Poster-Zen-0001,Poster,Zen,Hold,FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC,Printify selected gallery has repeated or risky buyer-facing images: CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=5 unique=5 notes=custom=5,medium,False,406902890971,0,False
-91,Poster-Zen-0002,Poster,Zen,Etsy_Draft_Prepared,FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC,Printify selected gallery has repeated or risky buyer-facing images: CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=5 unique=5 notes=custom=5,medium,False,406902897663,0,True
-91,Poster-Zen-0004,Poster,Zen,Etsy_Draft_Prepared,FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC,Printify selected gallery has repeated or risky buyer-facing images: CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=5 unique=5 notes=custom=5,medium,False,406903026999,0,True
-91,Poster-Zen-0005,Poster,Zen,Hold,FIX_PRINTIFY_DUPLICATE_GALLERY_BEFORE_MORE_SYNC,Printify selected gallery has repeated or risky buyer-facing images: CHECK_CUSTOM_GALLERY_REPEATS_RISK selected=5 unique=5 notes=custom=5,medium,False,406903033377,0,False
+90,Acrylic-Academia-0003,Acrylic,Academia,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406902703464,0,False
+90,Acrylic-Academia-0003-GALLERYFIX1,Acrylic,Academia,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406911883288,,False
 90,Acrylic-Academia-0005,Acrylic,Academia,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903039716,0,True
 90,Acrylic-Grimdark-0001,Acrylic,Grimdark,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903249745,0,False
 90,Acrylic-Grimdark-0004,Acrylic,Grimdark,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903250705,0,False
@@ -40,14 +20,24 @@
 90,Acrylic-Grimdark-0040,Acrylic,Grimdark,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406910076542,,False
 90,Acrylic-Grimdark-0081,Acrylic,Grimdark,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406902606976,0,False
 90,Acrylic-Grimdark-0081-FIX1,Acrylic,Grimdark,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406911568594,,False
+90,Acrylic-Grimdark-0082,Acrylic,Grimdark,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406902633400,0,False
+90,Acrylic-Grimdark-0083,Acrylic,Grimdark,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406902885214,0,False
 90,Acrylic-Grimdark-0085,Acrylic,Grimdark,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903043482,0,False
 90,Acrylic-Zen-0001,Acrylic,Zen,Etsy_Draft_Prepared,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406902620519,0,True
 90,Acrylic-Zen-0001-FIX1,Acrylic,Zen,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406911574121,,False
+90,Acrylic-Zen-0002,Acrylic,Zen,Etsy_Draft_Prepared,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406902657898,0,True
+90,Acrylic-Zen-0003,Acrylic,Zen,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406902673249,0,False
+90,Acrylic-Zen-0005,Acrylic,Zen,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406902893289,0,False
+90,Acrylic-Zen-0006,Acrylic,Zen,Etsy_Draft_Prepared,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406902898909,2,True
+90,Acrylic-Zen-0007,Acrylic,Zen,Etsy_Draft_Prepared,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903028253,0,True
+90,Acrylic-Zen-0008,Acrylic,Zen,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903036452,0,False
 90,Acrylic-Zen-0009,Acrylic,Zen,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903047385,0,False
 90,Acrylic-Zen-0010,Acrylic,Zen,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903213858,0,False
+90,Poster-Academia-0002,Poster,Academia,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406902600741,0,False
 90,Poster-Academia-0003,Poster,Academia,Etsy_Draft_Prepared,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406902616799,0,True
 90,Poster-Academia-0003-FIX1,Poster,Academia,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406911598735,,False
 90,Poster-Academia-0005,Poster,Academia,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903038850,0,False
+90,Poster-Academia-0006,Poster,Academia,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903042690,0,True
 90,Poster-Academia-0008,Poster,Academia,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903046097,0,True
 90,Poster-Academia-0009,Poster,Academia,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903209258,0,False
 90,Poster-Academia-0010,Poster,Academia,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903249496,0,False
@@ -56,6 +46,13 @@
 90,Poster-Academia-0019,Poster,Academia,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903744471,0,False
 90,Poster-Academia-0021,Poster,Academia,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: corrupt_production,local,True,406903754696,0,True
 90,Poster-Academia-0036,Poster,Academia,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406909472775,,False
+90,Poster-Academia-0083,Poster,Academia,Etsy_Draft_Prepared,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406902669660,0,True
+90,Poster-Academia-0084,Poster,Academia,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406902691983,0,False
+90,Poster-Academia-0091,Poster,Academia,Etsy_Draft_Prepared,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406902887127,0,True
+90,Poster-Zen-0001,Poster,Zen,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406902890971,0,False
+90,Poster-Zen-0002,Poster,Zen,Etsy_Draft_Prepared,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406902897663,0,True
+90,Poster-Zen-0004,Poster,Zen,Etsy_Draft_Prepared,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903026999,0,True
+90,Poster-Zen-0005,Poster,Zen,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903033377,0,False
 90,Sticker-Academia-0001,Sticker,Academia,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_cover; missing_gallery,local,True,,,False
 90,Sticker-Academia-0002,Sticker,Academia,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_cover; missing_gallery,local,True,,,False
 90,Sticker-Academia-0003,Sticker,Academia,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_cover; missing_gallery,local,True,,,False
@@ -159,6 +156,7 @@
 50,Poster-Academia-0026,Poster,Academia,Etsy_Draft_Prepared,KEEP_FOR_ETSY_PHASE1,Candidate already selected for Etsy relaunch; wait for shop/OAuth readiness and listing-fee confirmation.,medium,False,406909164941,,True
 50,Poster-Academia-0027,Poster,Academia,Etsy_Draft_Prepared,KEEP_FOR_ETSY_PHASE1,Candidate already selected for Etsy relaunch; wait for shop/OAuth readiness and listing-fee confirmation.,medium,False,406909216787,,True
 50,Poster-Academia-0028,Poster,Academia,Etsy_Draft_Prepared,KEEP_FOR_ETSY_PHASE1,Candidate already selected for Etsy relaunch; wait for shop/OAuth readiness and listing-fee confirmation.,medium,False,406909220927,,True
+50,Poster-Academia-0081,Poster,Academia,Etsy_Draft_Prepared,KEEP_FOR_ETSY_PHASE1,Candidate already selected for Etsy relaunch; wait for shop/OAuth readiness and listing-fee confirmation.,medium,False,406902627420,2,True
 20,Acrylic-Grimdark-0012,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909148324,,False
 20,Acrylic-Grimdark-0013,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909151733,,False
 20,Acrylic-Grimdark-0015,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909166683,,False
@@ -175,6 +173,7 @@
 20,Acrylic-Grimdark-0034,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909242546,,False
 20,Acrylic-Grimdark-0036,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909244688,,False
 20,Acrylic-Grimdark-0037,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909247161,,False
+20,Acrylic-Zen-0004,Acrylic,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406902888077,1,False
 20,Poster-Academia-0001,Poster,Academia,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406902584620,1,False
 20,Poster-Academia-0001-FIX1,Poster,Academia,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406911589289,,False
 20,Poster-Academia-0023,Poster,Academia,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909147173,,False
@@ -192,6 +191,8 @@
 20,Poster-Academia-0040,Poster,Academia,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406910058626,,False
 20,Poster-Academia-0041,Poster,Academia,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406910059060,,False
 20,Poster-Academia-0042,Poster,Academia,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406910060084,,False
+20,Poster-Academia-0082,Poster,Academia,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406902648209,3,False
+20,Poster-Academia-0085,Poster,Academia,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406902882943,1,False
 20,Poster-Zen-0003,Poster,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
 20,Sticker-Academia-0004,Sticker,Academia,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406892408950,0,False
 20,Sticker-Academia-0005,Sticker,Academia,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False

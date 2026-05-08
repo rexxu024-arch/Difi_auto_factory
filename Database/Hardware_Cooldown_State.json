@@ -1,113 +1,42 @@
-{
-  "timestamp": "2026-05-07T10:49:42-04:00",
-  "active": false,
-  "cooldown_until": "2026-05-07T10:49:42-04:00",
-  "cooldown_minutes": 0,
-  "health_state": "WARM",
-  "reason": "temperature DENIED_OR_UNAVAILABLE; memory elevated 86.4%",
-  "hot_streak": 0,
-  "heartbeat": {
-    "timestamp": "2026-05-07T10:49:42-04:00",
-    "cpu_load_pct": 45.0,
-    "memory_used_pct": 86.4,
-    "temperature_c": null,
-    "temperature_status": "DENIED_OR_UNAVAILABLE",
-    "fan_rpm": 0.0,
-    "fan_status": "OK_WIN32_FAN",
-    "gpu_util_pct": 0.4,
-    "battery_percent": 100.0,
-    "power_status": "AC_CHARGING",
-    "health_state": "WARM",
-    "reason": "temperature DENIED_OR_UNAVAILABLE; memory elevated 86.4%"
-  },
-  "memory_guard": {
-    "timestamp": "2026-05-07 10:49:37 -0400",
-    "mode": "EXECUTE_CLEANUP",
-    "execute": true,
-    "cdp_port": 9223,
-    "memory_soft_pct": 82,
-    "memory_hard_pct": 92.0,
-    "cpu_soft_pct": 85,
-    "memory_before": 85.4,
-    "memory_after": 85.4,
-    "cpu_before": 72.0,
-    "cpu_after": 52.0,
-    "closed_tabs": [
-      {
-        "action": "EDGE_CDP_UNAVAILABLE",
-        "error": "URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>"
-      }
-    ],
-    "top_processes": [
-      {
-        "ProcessName": "chrome",
-        "Id": 3280,
-        "WorkingSetMB": 2713.9,
-        "CPU": 9739.796875
-      },
-      {
-        "ProcessName": "chrome",
-        "Id": 9740,
-        "WorkingSetMB": 507,
-        "CPU": 51174.328125
-      },
-      {
-        "ProcessName": "Codex",
-        "Id": 27652,
-        "WorkingSetMB": 426.6,
-        "CPU": 16662.734375
-      },
-      {
-        "ProcessName": "chrome",
-        "Id": 18944,
-        "WorkingSetMB": 268.1,
-        "CPU": 17.03125
-      },
-      {
-        "ProcessName": "chrome",
-        "Id": 21384,
-        "WorkingSetMB": 246.7,
-        "CPU": 473.125
-      },
-      {
-        "ProcessName": "chrome",
-        "Id": 24452,
-        "WorkingSetMB": 214.4,
-        "CPU": 6888.234375
-      },
-      {
-        "ProcessName": "MsMpEng",
-        "Id": 4564,
-        "WorkingSetMB": 200.8,
-        "CPU": null
-      },
-      {
-        "ProcessName": "Code",
-        "Id": 19100,
-        "WorkingSetMB": 194.4,
-        "CPU": 1331.796875
-      }
-    ],
-    "decision": "MEMORY_STILL_WARM_BUT_WORKABLE",
-    "reason": "continue light work; avoid browser/image-heavy tasks",
-    "privacy_rule": "Only closes project automation Edge tabs through CDP 9223. Does not inspect or close Rex's daily Chrome tabs.",
-    "optimization_rule": "Cleanup first, then resample. Pause only if pressure remains high after closing safe idle project tabs and reducing concurrency.",
-    "rest_rule": "Do not shutdown/restart by default; if pressure stays high after cleanup, write rest-cycle recommendation unless Rex explicitly requests immediate power action."
-  },
-  "resource_policy": "optimize first, pause only after cleanup fails to bring pressure back under guardrails",
-  "allowed_during_cooldown": [
-    "hardware_heartbeat",
-    "memory_cleanup",
-    "report_batch",
-    "local_light",
-    "queue_planning",
-    "api_read",
-    "online_publish_safe"
-  ],
-  "blocked_during_cooldown": [
-    "image_batch",
-    "asset_build",
-    "market_research",
-    "single_browser_task"
-  ]
+﻿{
+    "timestamp":  "2026-05-07T18:08:29-04:00",
+    "active":  false,
+    "cooldown_until":  "2026-05-07T18:08:29-04:00",
+    "cooldown_minutes":  0,
+    "health_state":  "WARM",
+    "reason":  "temperature DENIED_OR_UNAVAILABLE; memory elevated 84.7%; Python/npm entrypoints blocked; CIM denied; PowerShell counter fallback; conservative work only; Grunt skipped because Python entrypoints are blocked",
+    "hot_streak":  0,
+    "heartbeat":  {
+                      "timestamp":  "2026-05-07T18:08:29-04:00",
+                      "cpu_load_pct":  42.8,
+                      "memory_used_pct":  84.7,
+                      "temperature_c":  null,
+                      "temperature_status":  "DENIED_OR_UNAVAILABLE",
+                      "fan_rpm":  null,
+                      "fan_status":  "UNAVAILABLE",
+                      "gpu_util_pct":  null,
+                      "battery_percent":  null,
+                      "power_status":  "UNKNOWN_CIM_DENIED",
+                      "health_state":  "WARM",
+                      "reason":  "temperature DENIED_OR_UNAVAILABLE; memory elevated 84.7%; Python/npm entrypoints blocked; CIM denied; PowerShell counter fallback",
+                      "committed_bytes_pct":  65.2,
+                      "memory_available_mb":  1836,
+                      "counter_fallback_note":  "Python executables and CIM were denied; performance counters were used."
+                  },
+    "resource_policy":  "run conservative only while memory is elevated and thermal sensors are unavailable",
+    "allowed_during_warm":  [
+                                "hardware_heartbeat",
+                                "memory_cleanup",
+                                "report_batch",
+                                "local_light",
+                                "queue_planning",
+                                "api_read"
+                            ],
+    "blocked_during_warm":  [
+                                "image_batch",
+                                "asset_build",
+                                "market_research",
+                                "browser_heavy",
+                                "payment_billing_order_customer_message_changes"
+                            ]
 }

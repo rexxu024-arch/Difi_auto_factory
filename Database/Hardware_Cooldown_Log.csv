@@ -28,3 +28,6 @@
 2026-05-07T10:43:44-04:00,True,2026-05-07T11:03:44-04:00,20,WARM,57.0,83.2,,temperature DENIED_OR_UNAVAILABLE; memory elevated 83.2%; sustained warm streak=6,6
 2026-05-07T10:47:39-04:00,True,2026-05-07T11:17:39-04:00,30,COOLDOWN,100.0,87.0,,temperature DENIED_OR_UNAVAILABLE; cpu 100.0%; cooldown heartbeat,6
 2026-05-07T10:49:42-04:00,False,2026-05-07T10:49:42-04:00,0,WARM,45.0,86.4,,temperature DENIED_OR_UNAVAILABLE; memory elevated 86.4%,0
+"2026-05-07T14:07:14-04:00","False","2026-05-07T14:07:14-04:00","0","OK","0","0",,"temperature DENIED_OR_UNAVAILABLE; fan UNAVAILABLE","0"
+"2026-05-07T14:09:06-04:00","True","2026-05-07T14:39:06-04:00","30","COOLDOWN","22.6","91.6","","temperature DENIED_OR_UNAVAILABLE; fan UNAVAILABLE; memory available 1013MB (estimated physical used 91.6%); cooldown heartbeat; Python/CIM sampling unstable","1"
+"2026-05-07T18:08:29-04:00","False","2026-05-07T18:08:29-04:00","0","WARM","42.8","84.7",,"temperature DENIED_OR_UNAVAILABLE; memory elevated 84.7%; Python/npm entrypoints blocked; CIM denied; PowerShell counter fallback; conservative work only","0"
