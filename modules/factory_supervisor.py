@@ -49,6 +49,7 @@ LOCAL_MODULES = [
     ("local_listing_qa.py", 180),
     ("ebay_cover_repair_decision.py", 120),
     ("ebay_cover_replacement_queue.py", 120),
+    ("ebay_gallery_replacement_queue.py", 120),
     ("ebay_title_repair_queue.py", 120),
     ("unified_listing_registry.py", 180),
     ("printify_gallery_duplicate_audit.py", 240),

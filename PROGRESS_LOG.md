@@ -1530,3 +1530,8 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Printify selected-gallery exact duplicates reduced to zero through source re-save workflow and targeted merge-audit refresh.
 - Current Printify_Gallery_Repair_Queue: 22 rows, all CHECK_CUSTOM_GALLERY_REPEATS_RISK. These are non-sticker custom/detail galleries and require a separate official-mockup selection or replacement strategy.
 - Added local audit merge mode and Edge CDP self-heal retry so future small-batch repairs do not corrupt the full audit CSV or stop on transient port loss.
+
+## 2026-05-07 21:08 -04:00 Gallery Replacement Queue Added
+- Added eBay_Gallery_Replacement_Queue for the remaining 22 non-sticker custom-gallery risk rows: Acrylic=10, Poster=12.
+- Exact duplicate selected-gallery issues are now zero; remaining issue is buyer-trust custom/detail gallery risk, not URL duplication.
+- Factory backlog now exposes a READY_FOR_SAMPLE task so the next safe move is one GalleryFix sample, then scale only after Printify source + eBay live-gallery audit pass.

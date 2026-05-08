@@ -23,6 +23,7 @@ ACTION_QUEUE = DATABASE_DIR / "Factory_Autopilot_Action_Queue.csv"
 MARKET_QUEUE = DATABASE_DIR / "Market_Signal_Action_Queue.csv"
 COVER_REPAIR_DECISIONS = DATABASE_DIR / "eBay_Cover_Repair_Decisions.csv"
 COVER_REPLACEMENT_QUEUE = DATABASE_DIR / "eBay_Cover_Replacement_Queue.csv"
+GALLERY_REPLACEMENT_QUEUE = DATABASE_DIR / "eBay_Gallery_Replacement_Queue.csv"
 TRAFFIC_DIAGNOSIS = DATABASE_DIR / "eBay_Traffic_Diagnosis.csv"
 BLUEPRINT_PLAN = DATABASE_DIR / "Product_Blueprint_Next_Test_Plan.csv"
 ETSY_DIGITAL_PACKET = DATABASE_DIR / "Etsy_Digital_Final_Upload_Packet.csv"
@@ -131,6 +132,7 @@ def build_rows() -> list[dict[str, str]]:
     market_actions = count_by(MARKET_QUEUE, "Recommended_Action")
     repair_methods = count_by(COVER_REPAIR_DECISIONS, "Repair_Method")
     replacement_status = count_by(COVER_REPLACEMENT_QUEUE, "Replacement_Status")
+    gallery_replacement_status = count_by(GALLERY_REPLACEMENT_QUEUE, "Replacement_Status")
     diagnosis_count = csv_count(TRAFFIC_DIAGNOSIS)
     blueprint_count = csv_count(BLUEPRINT_PLAN)
     etsy_digital_count = csv_count(ETSY_DIGITAL_PACKET)
@@ -176,6 +178,20 @@ def build_rows() -> list[dict[str, str]]:
             "All live/staged products in duplicate audit are OK, or risky rows are queued for source repair/replacement.",
             "medium",
             "Printify API",
+        )
+
+    if gallery_replacement_status.get("READY_FOR_LOCAL_DRAFT_WHEN_APPROVED", 0):
+        add(
+            rows,
+            93,
+            "gallery_replacement",
+            "Prepare clean replacement path for non-sticker custom-gallery risk",
+            "READY_FOR_SAMPLE",
+            f"{gallery_replacement_status['READY_FOR_LOCAL_DRAFT_WHEN_APPROVED']} Poster/Acrylic rows have risky custom/detail galleries after exact duplicates were cleared.",
+            "py modules\\ebay_gallery_replacement_queue.py",
+            "One GalleryFix sample is created, Printify source audit passes with official mockups, eBay live-gallery audit passes, then batch replacement can proceed.",
+            "medium",
+            "local first, then single online item",
         )
 
     if image_insufficiency:

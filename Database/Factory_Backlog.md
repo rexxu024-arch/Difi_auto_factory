@@ -1,6 +1,6 @@
 # Factory Backlog
 
-Generated: 2026-05-07 20:57:46 -0400 America/New_York
+Generated: 2026-05-07 21:03:00 -0400 America/New_York
 
 ## Status Counts
 
@@ -8,6 +8,7 @@ Generated: 2026-05-07 20:57:46 -0400 America/New_York
 - BLOCKING_PUBLISH: 2
 - READY_AFTER_IMAGE_QA: 2
 - READY_MONITOR: 2
+- READY_FOR_SAMPLE: 1
 - READY_FOR_SCHOLAR_REVIEW: 1
 
 ## Lane Counts
@@ -15,6 +16,7 @@ Generated: 2026-05-07 20:57:46 -0400 America/New_York
 - control: 1
 - supervisor:local: 1
 - gallery_integrity: 1
+- gallery_replacement: 1
 - supervisor:gallery_integrity: 1
 - production: 1
 - publish: 1
@@ -48,9 +50,16 @@ Generated: 2026-05-07 20:57:46 -0400 America/New_York
 - Done when: All live/staged products in duplicate audit are OK, or risky rows are queued for source repair/replacement.
 - Risk/network: medium / Printify API
 
+### P93 gallery_replacement - READY_FOR_SAMPLE
+- Task: Prepare clean replacement path for non-sticker custom-gallery risk
+- Blocker: 22 Poster/Acrylic rows have risky custom/detail galleries after exact duplicates were cleared.
+- Command: `py modules\ebay_gallery_replacement_queue.py`
+- Done when: One GalleryFix sample is created, Printify source audit passes with official mockups, eBay live-gallery audit passes, then batch replacement can proceed.
+- Risk/network: medium / local first, then single online item
+
 ### P93 supervisor:gallery_integrity - BLOCKING_PUBLISH
 - Task: Resolve repeated/risky Printify gallery images before public publishing resumes.
-- Blocker: 52 live or staged products have exact duplicate selected images or custom gallery repeat risk.
+- Blocker: 22 live or staged products have exact duplicate selected images or custom gallery repeat risk.
 - Command: `py modules\printify_gallery_duplicate_audit.py --sleep-seconds 0.1`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: medium / yes
@@ -71,7 +80,7 @@ Generated: 2026-05-07 20:57:46 -0400 America/New_York
 
 ### P63 supervisor:production_design_qa - READY
 - Task: Run a tiny Printify production-design audit before any larger online batch.
-- Blocker: This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 88.8%
+- Blocker: This checks whether Printify front print-area art visually matches local Production_Design files; keep it small under weak Wi-Fi. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.7%
 - Command: `py modules\printify_design_audit.py --limit 2 --sleep-seconds 1`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: low / yes
@@ -92,7 +101,7 @@ Generated: 2026-05-07 20:57:46 -0400 America/New_York
 
 ### P55 supervisor:etsy - READY_MONITOR
 - Task: Monitor Etsy Digital first gray batch before spending more listing fees.
-- Blocker: Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 88.8%
+- Blocker: Live=10 ready=0 confirmed_spend=$2.00; hold scale until first traffic readout. Resource guard says conservative: temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.7%
 - Command: `py modules\etsy_live_audit.py --limit 10`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: low / yes
