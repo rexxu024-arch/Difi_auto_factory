@@ -1,43 +1,43 @@
 {
-  "updated_at": "2026-05-07T22:12:36-04:00",
+  "updated_at": "2026-05-07T22:41:15-04:00",
   "last_run": {
-    "Timestamp": "2026-05-07T22:12:36-04:00",
+    "Timestamp": "2026-05-07T22:41:15-04:00",
     "Task_ID": "",
     "Action": "",
     "Status": "NO_TASK",
     "Decision": "RUN_CONSERVATIVE",
     "Resource_Window": "peak_rex_online",
-    "Resource_Reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 100.0%; memory elevated 87.3%",
+    "Resource_Reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.8%",
     "ReturnCode": 0,
     "Detail": "allowed_classes=api_read,local_light,online_publish_safe,single_browser_task"
   },
   "allocation": {
-    "timestamp": "2026-05-07T22:12:16-04:00",
+    "timestamp": "2026-05-07T22:41:07-04:00",
     "window": "peak_rex_online",
     "task_class": "single_browser_task",
     "priority": 50,
     "decision": "RUN_CONSERVATIVE",
-    "reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 100.0%; memory elevated 87.3%",
+    "reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.8%",
     "max_parallel": 1,
     "batch_size": 1,
     "cooldown_minutes": 0,
-    "cpu_load_pct": 100.0,
-    "memory_used_pct": 87.3,
+    "cpu_load_pct": 39.0,
+    "memory_used_pct": 82.8,
     "temperature_c": null,
     "power_status": "AC_CHARGING"
   },
   "heartbeat": {
-    "timestamp": "2026-05-07T22:12:36-04:00",
-    "cpu_load_pct": 74.0,
-    "memory_used_pct": 91.1,
+    "timestamp": "2026-05-07T22:41:15-04:00",
+    "cpu_load_pct": 82.0,
+    "memory_used_pct": 83.7,
     "temperature_c": null,
     "temperature_status": "DENIED_OR_UNAVAILABLE",
     "fan_rpm": 0.0,
     "fan_status": "OK_WIN32_FAN",
-    "gpu_util_pct": 7.2,
+    "gpu_util_pct": 6.5,
     "battery_percent": 100.0,
     "power_status": "AC_CHARGING",
     "health_state": "WARM",
-    "reason": "temperature DENIED_OR_UNAVAILABLE; memory elevated 91.1%"
+    "reason": "temperature DENIED_OR_UNAVAILABLE; cpu elevated 82.0%"
   }
 }

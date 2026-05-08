@@ -1562,3 +1562,11 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - First sample `Sticker-Zen-0075` did not pass API truth check: the Printify UI appeared to report 4 selected, but API still returned 5 selected custom gallery images and 0 official mockups.
 - Hardened uploader verification so `--cover-only` Sticker only passes if API reports at least 3 official mockups and at most 1 custom gallery image.
 - Marked `Sticker-Zen-0075` as `Printify_StickerMixedGallery_Hold`. Do not publish it until the mixed gallery selector is fixed and API-confirmed.
+
+## 2026-05-07 23:02 -04:00 Sticker Mixed Gallery Path Verified
+- Added `--sticker-cover-plus-official` to `printify_gallery_source_repair.py`: Clear all -> select one uploaded Cover from My Uploads -> select three Printify official mockups -> save -> API truth check.
+- Repaired `Sticker-Zen-0075` to API-confirmed 4 images: 3 official mockups + 1 custom Cover, all unique.
+- Updated `printify_publish_scheduler.py` to allow exactly this safe Sticker pattern while still rejecting U1-U4 custom gallery sets.
+- Published `Sticker-Zen-0075` -> eBay `406912077790`; cover audit passed as `LIKELY_COVER`, meaning buyer-facing first image matches local Cover.
+- Live gallery audit passed as `OK_DOM_DUPLICATE_ONLY`: repeated DOM image tags exist, but buyer-visible numbered gallery slots are not duplicated.
+- This is now the preferred Sticker publish path. Next step: repair/publish additional Sticker rows in small batches using `--sticker-cover-plus-official`, with post-publish live cover/gallery spot audit.

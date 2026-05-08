@@ -1,64 +1,64 @@
 {
-  "timestamp": "2026-05-07 22:21:30 -0400",
+  "timestamp": "2026-05-07 22:40:47 -0400",
   "mode": "EXECUTE_CLEANUP",
   "execute": true,
   "cdp_port": 9223,
   "memory_soft_pct": 82.0,
   "memory_hard_pct": 92.0,
   "cpu_soft_pct": 85.0,
-  "memory_before": 87.8,
-  "memory_after": 87.6,
-  "cpu_before": 96.0,
-  "cpu_after": 31.0,
+  "memory_before": 85.4,
+  "memory_after": 90.1,
+  "cpu_before": 46.0,
+  "cpu_after": 100.0,
   "closed_tabs": [],
   "top_processes": [
     {
       "ProcessName": "chrome",
-      "Id": 28132,
-      "WorkingSetMB": 2010,
-      "CPU": 2425.6875
-    },
-    {
-      "ProcessName": "chrome",
-      "Id": 21820,
-      "WorkingSetMB": 854.5,
-      "CPU": 835.40625
+      "Id": 26308,
+      "WorkingSetMB": 940.2,
+      "CPU": 1112.984375
     },
     {
       "ProcessName": "Codex",
       "Id": 27652,
-      "WorkingSetMB": 626.6,
-      "CPU": 25425.1875
+      "WorkingSetMB": 658.2,
+      "CPU": 25894.5625
     },
     {
       "ProcessName": "chrome",
       "Id": 28404,
-      "WorkingSetMB": 543.9,
-      "CPU": 115.046875
+      "WorkingSetMB": 579.8,
+      "CPU": 139.125
     },
     {
       "ProcessName": "chrome",
       "Id": 9740,
-      "WorkingSetMB": 351,
-      "CPU": 54448.625
+      "WorkingSetMB": 473.7,
+      "CPU": 54634.328125
+    },
+    {
+      "ProcessName": "chrome",
+      "Id": 28132,
+      "WorkingSetMB": 405.2,
+      "CPU": 2465.25
+    },
+    {
+      "ProcessName": "chrome",
+      "Id": 22720,
+      "WorkingSetMB": 371.6,
+      "CPU": 259.203125
     },
     {
       "ProcessName": "chrome",
       "Id": 292,
-      "WorkingSetMB": 237,
-      "CPU": 47.171875
+      "WorkingSetMB": 324,
+      "CPU": 144.390625
     },
     {
-      "ProcessName": "Memory Compression",
-      "Id": 2944,
-      "WorkingSetMB": 157,
-      "CPU": null
-    },
-    {
-      "ProcessName": "msedge",
-      "Id": 29784,
-      "WorkingSetMB": 156.4,
-      "CPU": 46.75
+      "ProcessName": "chrome",
+      "Id": 27048,
+      "WorkingSetMB": 253,
+      "CPU": 1090.828125
     }
   ],
   "decision": "MEMORY_STILL_WARM_BUT_WORKABLE",

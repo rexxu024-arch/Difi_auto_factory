@@ -121,3 +121,4 @@
 "2026-05-07T22:12:46-04:00","peak_rex_online","auto","50","PAUSE_COOLDOWN","temperature DENIED_OR_UNAVAILABLE; cpu elevated 79.8%; memory elevated 86.4%; Python/npm entrypoints blocked by Access denied; closed safe idle Edge CDP 9223 tabs; Grunt skipped during warm/unstable resource state","0","0","20","79.8","86.4",,"UNKNOWN_CIM_DENIED"
 2026-05-07T22:21:54-04:00,peak_rex_online,single_browser_task,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 87.7%,1,1,0,68.0,87.7,,AC_CHARGING
 2026-05-07T22:23:23-04:00,peak_rex_online,single_browser_task,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 83.9%,1,1,0,71.0,83.9,,AC_CHARGING
+2026-05-07T22:41:07-04:00,peak_rex_online,single_browser_task,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 82.8%,1,1,0,39.0,82.8,,AC_CHARGING

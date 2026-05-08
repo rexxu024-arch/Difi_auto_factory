@@ -293,7 +293,7 @@ async def run_async(
         writer = csv.DictWriter(handle, fieldnames=HEADERS)
         writer.writeheader()
         writer.writerows(output_records)
-    checks = sum(1 for record in output_records if record["Result"] != "OK")
+    checks = sum(1 for record in output_records if record["Result"].startswith("CHECK") or record["Result"] == "ERROR")
     print(f"[EBAY-LIVE-GALLERY-DONE] rows={len(output_records)} checks={checks} csv={OUT_CSV}")
     return records
 

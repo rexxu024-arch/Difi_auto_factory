@@ -372,3 +372,7 @@ Guardrails:
 - `--cover-only` uploader prototype exists but is not yet production-safe.
 - API truth check overrides UI text: `Sticker-Zen-0075` still had 5 custom selected images, so it is held as `Printify_StickerMixedGallery_Hold`.
 - Next sticker engineering task: improve selector so API confirms 1 Cover/custom + 3 official mockups before any further Sticker publish.
+
+## 2026-05-07 23:02 -04:00 Sticker Mixed Gallery Breakthrough
+- Safe Sticker path is now verified on `Sticker-Zen-0075`: API confirmed 3 official mockups + 1 custom Cover, publish succeeded, live cover audit passed as `LIKELY_COVER`, and live gallery audit passed as `OK_DOM_DUPLICATE_ONLY`.
+- Preferred next action after checkpoint: repair 2 more Sticker stable drafts with `printify_gallery_source_repair.py --sticker-cover-plus-official`, production-design audit, dry-run publish, then publish only if gates pass.

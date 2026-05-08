@@ -263,6 +263,181 @@ async def select_official_mockups(product_id: str, product_type: str, wait_secon
         }
 
 
+async def select_sticker_cover_plus_official(product_id: str, wait_seconds: int = 10) -> dict[str, str]:
+    """Select one uploaded cover mockup plus official Printify sticker mockups.
+
+    The sticker official-only probe showed eBay can repeat the first official
+    image into picture slots 1/2. This path keeps one custom Cover selected and
+    adds official context mockups, then API verification decides whether the
+    result is safe.
+    """
+
+    ensure_edge_cdp()
+    ws_url = _target_ws(product_id)
+    async with CdpPage(ws_url) as page:
+        await page.navigate(
+            f"https://printify.com/app/mockup-library/shops/{Config.Printify_SHOP_ID}/products/{product_id}?revealUploads=true"
+        )
+        for _ in range(35):
+            if await page.eval("!!location.href && /\\/auth\\/login/.test(location.href)"):
+                raise RuntimeError("Printify login required in Edge project browser")
+            if await page.eval("!!document.body && /Mockup library/.test(document.body.innerText || '')"):
+                break
+            await asyncio.sleep(1)
+
+        async def center(expression: str) -> dict | None:
+            return await page.eval(expression)
+
+        clear_box = await center(
+            r"""(() => {
+                const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
+                const clean=s=>(s||'').replace(/\s+/g,' ').trim();
+                const e=[...document.querySelectorAll('button,[role="button"]')]
+                  .filter(visible)
+                  .find(e=>clean(e.innerText||e.ariaLabel||'')==='Clear all');
+                if(!e)return null;
+                const r=e.getBoundingClientRect();
+                return {x:r.x+r.width/2,y:r.y+r.height/2};
+            })()"""
+        )
+        if clear_box:
+            await page.click(clear_box["x"], clear_box["y"])
+            await asyncio.sleep(1.5)
+
+        uploads_tab = await center(
+            r"""(() => {
+                const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
+                const clean=s=>(s||'').replace(/\s+/g,' ').trim();
+                const e=[...document.querySelectorAll('button,[role="button"]')]
+                  .filter(visible)
+                  .find(e=>clean(e.innerText||e.ariaLabel||'')==='My Uploads');
+                if(!e)return null;
+                const r=e.getBoundingClientRect();
+                return {x:r.x+r.width/2,y:r.y+r.height/2};
+            })()"""
+        )
+        if uploads_tab:
+            await page.click(uploads_tab["x"], uploads_tab["y"])
+            await asyncio.sleep(1)
+
+        cover_selected = await page.eval(
+            r"""(async () => {
+                const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
+                const items=[...document.querySelectorAll('button.mockup-container,.mockup-container')]
+                  .filter(visible)
+                  .filter(e=>{
+                    const r=e.getBoundingClientRect();
+                    return r.width>180 && r.height>180 && r.x < 540;
+                  })
+                  .sort((a,b)=>a.getBoundingClientRect().y-b.getBoundingClientRect().y);
+                const e=items[0];
+                if(!e)return false;
+                const ctrl=e.querySelector('[data-testid="checkboxWrapper"], [role="checkbox"], input[type="checkbox"]');
+                const target=ctrl||e;
+                target.dispatchEvent(new MouseEvent('mousedown',{bubbles:true}));
+                target.click();
+                await new Promise(r=>setTimeout(r,500));
+                return true;
+            })()"""
+        )
+        if not cover_selected:
+            raise RuntimeError("Could not select uploaded cover mockup")
+
+        tab_box = await center(
+            r"""(() => {
+                const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
+                const clean=s=>(s||'').replace(/\s+/g,' ').trim();
+                const e=[...document.querySelectorAll('button,[role="button"]')]
+                  .filter(visible)
+                  .find(e=>clean(e.innerText||e.ariaLabel||'')==='Printify mockups');
+                if(!e)return null;
+                const r=e.getBoundingClientRect();
+                return {x:r.x+r.width/2,y:r.y+r.height/2};
+            })()"""
+        )
+        if not tab_box:
+            raise RuntimeError("Printify mockups tab not found")
+        await page.click(tab_box["x"], tab_box["y"])
+        await asyncio.sleep(1.5)
+
+        labels = await page.eval(
+            r"""(() => {
+                const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
+                const clean=s=>(s||'').replace(/\s+/g,' ').trim();
+                return [...document.querySelectorAll('button.view-type-card')]
+                  .filter(visible)
+                  .map(e=>clean(e.innerText||e.ariaLabel||''))
+                  .filter(Boolean)
+                  .slice(0,3);
+            })()"""
+        )
+        clicked = []
+        for label in labels[:3]:
+            card_box = await center(
+                r"""(() => {
+                    const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
+                    const clean=s=>(s||'').replace(/\s+/g,' ').trim();
+                    const label = """ + json.dumps(label) + r""";
+                    const e=[...document.querySelectorAll('button.view-type-card')]
+                      .filter(visible)
+                      .find(e=>clean(e.innerText||e.ariaLabel||'')===label);
+                    if(!e)return null;
+                    const r=e.getBoundingClientRect();
+                    return {x:r.x+r.width/2,y:r.y+r.height/2};
+                })()"""
+            )
+            if not card_box:
+                continue
+            await page.click(card_box["x"], card_box["y"])
+            await asyncio.sleep(0.8)
+            select_box = await center(
+                r"""(() => {
+                    const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
+                    const clean=s=>(s||'').replace(/\s+/g,' ').trim();
+                    const e=[...document.querySelectorAll('[role="checkbox"], pfy-checkbox, .select-all-checkbox')]
+                      .filter(visible)
+                      .find(e=>clean(e.innerText||e.textContent||e.ariaLabel||'')==='Select all'
+                        && e.getBoundingClientRect().x < 1020);
+                    if(!e)return null;
+                    const r=e.getBoundingClientRect();
+                    return {x:r.x+r.width/2,y:r.y+r.height/2};
+                })()"""
+            )
+            if not select_box:
+                continue
+            await page.click(select_box["x"], select_box["y"])
+            clicked.append(label)
+            await asyncio.sleep(0.8)
+        if len(clicked) < 3:
+            raise RuntimeError(f"Could not select 3 official sticker mockups: {clicked}")
+
+        selected = await page.eval(
+            r"""(() => ((((document.body&&document.body.innerText)||'').match(/(\d+)\s+selected/)||[])[1] || ''))()"""
+        )
+        save_box = await center(
+            r"""(() => {
+                const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
+                const clean=s=>(s||'').replace(/\s+/g,' ').trim();
+                const e=[...document.querySelectorAll('button')]
+                  .filter(visible)
+                  .find(e=>clean(e.innerText||'')==='Save selection' && !e.disabled);
+                if(!e)return null;
+                const r=e.getBoundingClientRect();
+                return {x:r.x+r.width/2,y:r.y+r.height/2};
+            })()"""
+        )
+        if not save_box:
+            raise RuntimeError(f"Could not save sticker cover+official selection: clicked={clicked}, selected={selected}")
+        await page.click(save_box["x"], save_box["y"])
+        await asyncio.sleep(wait_seconds)
+        return {
+            "UI_Selected_Text": clean(selected),
+            "UI_Selected_Items": str(1 + len(clicked)),
+            "UI_Variant_Text": "Cover|" + "|".join(clicked),
+            "Save_Clicked": "Yes",
+        }
+
+
 def candidate_rows(limit: int, ids: set[str], include_custom_risk: bool) -> list[dict[str, str]]:
     if ids:
         workbook = {row["ID"]: row for row in workbook_rows(ids=ids)}
@@ -304,7 +479,15 @@ def append_log(rows: list[dict[str, str]]) -> None:
         writer.writerows(rows)
 
 
-def run(limit: int, ids: set[str], include_custom_risk: bool, publish: bool, sleep_seconds: float, official_only: bool) -> int:
+def run(
+    limit: int,
+    ids: set[str],
+    include_custom_risk: bool,
+    publish: bool,
+    sleep_seconds: float,
+    official_only: bool,
+    sticker_cover_plus_official: bool,
+) -> int:
     rows = candidate_rows(limit=limit, ids=ids, include_custom_risk=include_custom_risk)
     log_rows = []
     done = 0
@@ -324,7 +507,10 @@ def run(limit: int, ids: set[str], include_custom_risk: bool, publish: bool, sle
         try:
             for attempt in range(2):
                 try:
-                    if official_only:
+                    if sticker_cover_plus_official:
+                        record["Action"] = "SELECT_STICKER_COVER_PLUS_OFFICIAL"
+                        record.update(asyncio.run(select_sticker_cover_plus_official(product_id)))
+                    elif official_only:
                         record["Action"] = "SELECT_OFFICIAL_ONLY"
                         record.update(asyncio.run(select_official_mockups(product_id, record["Product_Type"])))
                     else:
@@ -366,6 +552,7 @@ def main() -> None:
     parser.add_argument("--ids", default="", help="Comma-separated workbook IDs.")
     parser.add_argument("--include-custom-risk", action="store_true")
     parser.add_argument("--official-only", action="store_true")
+    parser.add_argument("--sticker-cover-plus-official", action="store_true")
     parser.add_argument("--publish-images", action="store_true")
     parser.add_argument("--sleep-seconds", type=float, default=2.0)
     args = parser.parse_args()
@@ -377,6 +564,7 @@ def main() -> None:
         publish=args.publish_images,
         sleep_seconds=args.sleep_seconds,
         official_only=args.official_only,
+        sticker_cover_plus_official=args.sticker_cover_plus_official,
     )
 
 

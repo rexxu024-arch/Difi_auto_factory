@@ -128,12 +128,19 @@ def _preflight(row):
             "3 official sticker mockups create repeated eBay picture slots"
         )
     if product_type == "Sticker":
+        official_gallery = [
+            image for image in selected_images
+            if "images.printify.com/mockup" in str(image.get("src") or "")
+        ]
         custom_gallery = [
             image for image in selected_images
             if "pfy-prod-products-mockup-media" in str(image.get("src") or "")
         ]
-        if custom_gallery:
-            return False, f"sticker custom gallery images selected={len(custom_gallery)}; use cover-only official mockups before publish"
+        if custom_gallery and not (len(custom_gallery) == 1 and len(official_gallery) >= 3 and selected >= 4):
+            return False, (
+                f"sticker custom gallery images selected={len(custom_gallery)}; "
+                "only 1 custom Cover plus at least 3 official mockups is allowed"
+            )
     if product_type == "Poster" and selected < 4:
         return False, f"selected mockups={selected}, expected >=4"
     if product_type == "Poster" and any("pfy-prod-products-mockup-media" in src for src in selected_srcs):
