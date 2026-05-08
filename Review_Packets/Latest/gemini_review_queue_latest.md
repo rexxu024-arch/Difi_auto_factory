@@ -1,6 +1,6 @@
 # Gemini Advisor Review Queue
 
-Generated: 2026-05-07 18:57 -0400 America/New_York
+Generated: 2026-05-07 20:04 -0400 America/New_York
 
 Rex is Commander, Gemini is Strategy Advisor, Codex is Executive Operator.
 
@@ -10,7 +10,7 @@ Please review the current OpenClaw plan as a strategy advisor. Do not request AP
 
 # OpenClaw Morning Report
 
-Generated: 2026-05-07 18:57 -0400 America/New_York
+Generated: 2026-05-07 20:04 -0400 America/New_York
 
 ## Current Factory State
 
@@ -90,11 +90,11 @@ Generated: 2026-05-07 18:57 -0400 America/New_York
 - Printify image-default audit CHECK: 123
 - Printify image-default audit OK: 38
 - Printify gallery duplicate audit rows: 145
-- Printify gallery duplicate audit CHECK_CUSTOM_GALLERY_REPEATS_RISK: 23
-- Printify gallery duplicate audit CHECK_EXACT_DUPLICATE: 51
-- Printify gallery duplicate audit OK: 71
-- eBay live gallery duplicate audit rows: 5
-- eBay live gallery duplicate audit CHECK_LIVE_DUPLICATE: 5
+- Printify gallery duplicate audit CHECK_CUSTOM_GALLERY_REPEATS_RISK: 22
+- Printify gallery duplicate audit CHECK_EXACT_DUPLICATE: 30
+- Printify gallery duplicate audit OK: 93
+- eBay live gallery duplicate audit rows: 3
+- eBay live gallery duplicate audit CHECK_LIVE_DUPLICATE: 3
 
 ## Factory Backlog
 

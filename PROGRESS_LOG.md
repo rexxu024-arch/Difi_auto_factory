@@ -1507,3 +1507,14 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Sampled 5 high-priority gallery-risk listings from eBay live pages. Result: 5/5 showed public duplicate galleries, each with 10 visible picture slots but only 5 unique image sources.
 - This confirms the Printify-side duplicate audit is not only an internal API artifact; buyers can actually see repeated thumbnails.
 - Publish expansion remains blocked. Next repair priority is the 23 non-sticker `CHECK_CUSTOM_GALLERY_REPEATS_RISK` rows, then the 51 exact duplicate selected-gallery rows.
+
+## 2026-05-07 19:20 ET - Gallery duplicate source repair probe
+- Confirmed Printify source can be re-saved to collapse API duplicate official mockups: Acrylic-Grimdark-0006 changed from 8 selected / 4 unique to 4 selected / 4 unique.
+- Ran first exact-duplicate source repair batch of 10: 9 collapsed to OK; Acrylic-Grimdark-0024 remains stubborn at 8 selected / 4 unique and is isolated for deeper UI inspection.
+- eBay live gallery still showed old duplicates after the first short sync window, so the current rule is: source clean first, delayed live re-audit, replacement only if eBay refuses to refresh after a longer observation window.
+
+## 2026-05-07 19:48 ET - Printify/eBay gallery sync conclusion
+- Official docs imply Printify changes need republish and can take minutes to sync to eBay; rapid back-and-forth updates may revert.
+- Empirical test: after source clean + image republish + 10-minute wait, Acrylic-Grimdark-0006/0007/0011 still showed duplicate buyer-page gallery images on eBay.
+- Updated operating rule: source clean prevents future pollution, but already-live duplicate eBay galleries need eBay revise API/UI or replacement if the marketplace gallery refuses to refresh.
+- Custom-gallery repair is harder than exact duplicate repair; do not bulk-run official-only UI repair until selectors are made more reliable.

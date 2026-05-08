@@ -103,6 +103,8 @@ def image_role(src: str) -> str:
 
 
 def expected_unique(product_type: str, selected_count: int) -> int:
+    if selected_count <= 0:
+        return 1
     product = clean(product_type)
     if product == "Sticker":
         return min(3, selected_count)
