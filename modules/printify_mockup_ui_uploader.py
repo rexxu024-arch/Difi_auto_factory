@@ -145,9 +145,10 @@ def _set_status(ws, cols, row_idx, status):
         ws.cell(row_idx, cols["Timestamp"]).value = time.strftime("%#m/%#d/%Y  %#I:%M:%S %p")
 
 
-def _assets(row):
+def _assets(row, cover_only=False):
     display_paths = [Path(row["Cover_Path"])]
-    display_paths.extend(Path(row[f"Gallery_U{i}_Path"]) for i in range(1, 5))
+    if not cover_only:
+        display_paths.extend(Path(row[f"Gallery_U{i}_Path"]) for i in range(1, 5))
     paths = display_paths
     missing = [str(path) for path in paths if not path.exists()]
     if missing:
@@ -438,8 +439,21 @@ async def _upload_mockups_once(product_id, files, keep_default_mockups=False, ex
             })()"""
         )
         if not confirmed:
-            raise RuntimeError("Confirm button not found")
-        await asyncio.sleep(8)
+            fallback_ready = await page.eval(
+                r"""((expectedCount) => {
+                    const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
+                    const text=(document.body&&document.body.innerText)||'';
+                    const selected=parseInt((((text.match(/Selected mockups\s+(\d+)\s+selected/)||text.match(/(\d+)\s+selected/))||[])[1]||'0'),10);
+                    const save=[...document.querySelectorAll('button')]
+                      .filter(visible)
+                      .some(e=>['Save as draft','Save selection'].includes((e.innerText||'').trim()) && !e.disabled);
+                    return selected >= expectedCount && save;
+                })(""" + str(expected_count) + """)"""
+            )
+            if not fallback_ready:
+                raise RuntimeError("Confirm button not found")
+        else:
+            await asyncio.sleep(8)
         selected = await page.eval(
             r"""(() => {
                 const text = (document.body && document.body.innerText) || '';
@@ -654,7 +668,7 @@ async def _upload_mockups(product_id, files, keep_default_mockups=False, expecte
     )
 
 
-def upload_from_open_page(limit=0, expected_count=5, publish=False, ids=None, allow_any_status=False):
+def upload_from_open_page(limit=0, expected_count=5, publish=False, ids=None, allow_any_status=False, cover_only=False):
     wb, ws, headers, cols, rows = _load_rows(limit, ids=ids, allow_any_status=allow_any_status)
     done = 0
     try:
@@ -664,8 +678,17 @@ def upload_from_open_page(limit=0, expected_count=5, publish=False, ids=None, al
                 continue
             item_id = row["ID"]
             try:
-                files = _assets(row)
-                asyncio.run(_upload_mockups(product_id, files, expected_count=expected_count, publish=publish, product_type=_product_type(row)))
+                files = _assets(row, cover_only=cover_only)
+                asyncio.run(
+                    _upload_mockups(
+                        product_id,
+                        files,
+                        keep_default_mockups=cover_only,
+                        expected_count=expected_count,
+                        publish=publish,
+                        product_type=_product_type(row),
+                    )
+                )
                 product = _fetch_product(product_id)
                 count = _selected_count(product)
                 if count < expected_count:
@@ -673,6 +696,19 @@ def upload_from_open_page(limit=0, expected_count=5, publish=False, ids=None, al
                 defaults = _default_count(product)
                 if defaults < 1:
                     raise RuntimeError("API default mockup count is 0, expected at least 1")
+                if cover_only and _product_type(row) == "Sticker":
+                    selected_images = _selected_images(product)
+                    official = _official_mockup_count(product)
+                    custom_gallery = [
+                        image
+                        for image in selected_images
+                        if "pfy-prod-products-mockup-media" in str(image.get("src") or "")
+                    ]
+                    if official < 3 or len(custom_gallery) > 1:
+                        raise RuntimeError(
+                            "cover-only sticker mix failed API verification: "
+                            f"selected={len(selected_images)}, official={official}, custom_gallery={len(custom_gallery)}"
+                        )
                 old_status = str(row.get("Status") or "")
                 if publish and old_status.startswith("Printify_Published"):
                     _set_status(ws, cols, row["_row_idx"], f"Printify_Published_Mockups{expected_count}")
@@ -701,6 +737,7 @@ if __name__ == "__main__":
     parser.add_argument("--publish", action="store_true")
     parser.add_argument("--ids", default="", help="Comma-separated workbook IDs to repair regardless of current status.")
     parser.add_argument("--allow-any-status", action="store_true")
+    parser.add_argument("--cover-only", action="store_true", help="Upload only Cover_Path while keeping Printify official mockups selected.")
     args = parser.parse_args()
     ids = [value.strip() for value in args.ids.split(",") if value.strip()]
     upload_from_open_page(
@@ -709,4 +746,5 @@ if __name__ == "__main__":
         publish=args.publish,
         ids=ids,
         allow_any_status=args.allow_any_status,
+        cover_only=args.cover_only,
     )

@@ -367,3 +367,8 @@ Guardrails:
 - Published a 3-listing official-mockup sticker probe (`Sticker-Zen-0072..0074`) after Production_Design QA.
 - All 3 passed cover audit, but eBay live gallery repeats the first official sticker mockup across picture slots 1/2.
 - Do not scale more Sticker publishes using 3 official mockups only. Build or verify a 4+ image mixed Cover + official mockup path before the next Sticker publish expansion.
+
+## 2026-05-07 22:45 -04:00 Sticker Mixed Gallery Workbench
+- `--cover-only` uploader prototype exists but is not yet production-safe.
+- API truth check overrides UI text: `Sticker-Zen-0075` still had 5 custom selected images, so it is held as `Printify_StickerMixedGallery_Hold`.
+- Next sticker engineering task: improve selector so API confirms 1 Cover/custom + 3 official mockups before any further Sticker publish.

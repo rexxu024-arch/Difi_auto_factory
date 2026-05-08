@@ -1556,3 +1556,9 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
   - `Sticker-Zen-0074` -> eBay `406911953636`
 - Post-publish cover audit passed for all 3 (`LIKELY_COVER_OFFICIAL`), but live gallery audit showed `CHECK_LIVE_PRIMARY_DUPLICATE_REVIEW`: eBay repeats the first official sticker mockup into picture slots 1/2.
 - New rule: do not scale official-only sticker publish with only 3 selected mockups. Tightened `printify_publish_scheduler.py` so Sticker publish requires at least 4 distinct buyer-facing images. Next sticker path must be a mixed Cover + official mockup strategy or a verified replacement flow with no repeated live slots.
+
+## 2026-05-07 22:45 -04:00 Sticker Mixed Gallery Prototype Held
+- Added `--cover-only` prototype to `printify_mockup_ui_uploader.py` to try Cover + Printify official mockups instead of Cover+U1-U4.
+- First sample `Sticker-Zen-0075` did not pass API truth check: the Printify UI appeared to report 4 selected, but API still returned 5 selected custom gallery images and 0 official mockups.
+- Hardened uploader verification so `--cover-only` Sticker only passes if API reports at least 3 official mockups and at most 1 custom gallery image.
+- Marked `Sticker-Zen-0075` as `Printify_StickerMixedGallery_Hold`. Do not publish it until the mixed gallery selector is fixed and API-confirmed.
