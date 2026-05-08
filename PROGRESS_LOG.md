@@ -1622,3 +1622,13 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Generated `Review_Packets/PRINTIFY_SOURCE_GALLERY_RISK_20260508.md`: 22 Printify source-gallery debt rows, all `P2_SOURCE_DEBT`; no current `P1_LIVE_VISIBLE` duplicate fire.
 - Refreshed multi-track experiment and monitor reports. Latest decision: keep 2% ads as baseline, but treat product-market fit, long-tail intent, and gallery trust as the growth levers.
 - Etsy Digital remains capped: 10 live/readable, total confirmed spend $2, today $0, API still pending/inactive.
+
+## 2026-05-08 09:31:00 -04:00 Forty-Minute Monthly Task Block
+- Applied Rex's Gemini Web routing rule: low-frequency Gemini Web sync must use the existing `Codex 自动化矩阵升级计划` thread only; API bridge remains file/API based and advisory.
+- Resource optimization succeeded: closed idle Edge automation tabs/session after account UI work; CPU dropped from about 100% to about 25% and memory freed to roughly 4.8GB. Chrome was not touched.
+- Read latest Grey/Gemini API feedback: recommendation remains SEO intent monitoring, Etsy Digital read-only monitoring, Poster/Acrylic priority, and no Sticker scale until the gallery path is safe.
+- Etsy live audit: first 10 listings remain `ACTIVE_READABLE`; no additional Etsy spend.
+- Printify production-design audit: Poster 4/4 and Acrylic 4/4 visual matches, no mismatches.
+- Local factory supervisor refreshed QA, unified registry, market queue, eBay traffic diagnosis, gallery duplicate audit, blueprint plan, Etsy API status, backlog, morning/Gemini reports. One expected failure: Printify login guard could not reach Edge CDP because Edge had been deliberately closed for resource cleanup.
+- eBay diagnosis remains unchanged: 2% General ads are active but not enough alone; current blocker is traffic/product-market fit plus gallery/source trust, not Cover Gate.
+- Gemini free API follow-up attempt returned HTTP 503 high demand; no retry loop was started. `TO_GREY_latest.md` is ready for the next low-demand retry.

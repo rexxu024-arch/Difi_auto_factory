@@ -1,12 +1,12 @@
 # Factory Backlog
 
-Generated: 2026-05-08 08:20:52 -0400 America/New_York
+Generated: 2026-05-08 09:29:36 -0400 America/New_York
 
 ## Status Counts
 
 - READY: 6
-- READY_AFTER_IMAGE_QA: 2
 - READY_MONITOR: 2
+- READY_AFTER_IMAGE_QA: 1
 - WAIT_NETWORK: 1
 - READY_FOR_SCHOLAR_REVIEW: 1
 
@@ -16,7 +16,6 @@ Generated: 2026-05-08 08:20:52 -0400 America/New_York
 - supervisor:local: 1
 - production: 1
 - supervisor:publish: 1
-- publish: 1
 - supervisor:read_only_market: 1
 - supervisor:production_design_qa: 1
 - market_learning: 1
@@ -54,13 +53,6 @@ Generated: 2026-05-08 08:20:52 -0400 America/New_York
 - Command: `py modules\printify_publish_scheduler.py --limit 3 --min-delay 180 --max-delay 420`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: high / yes
-
-### P68 publish - READY_AFTER_IMAGE_QA
-- Task: Publish small cooled batch after default-image and live-cover spot audit
-- Blocker: 9 stable drafts are candidates. Cover Gate is cleared; continue with cooled scheduler and post-publish live-cover spot checks.
-- Command: `py modules\printify_publish_scheduler.py --limit 3 --min-delay 180 --max-delay 420`
-- Done when: Published products are live-audited and added to 2% Standard/General ad coverage without PPC.
-- Risk/network: high / Printify API/eBay sync
 
 ### P65 supervisor:read_only_market - READY
 - Task: Refresh eBay Seller Hub performance snapshot.

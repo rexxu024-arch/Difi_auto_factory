@@ -126,3 +126,8 @@
 2026-05-07T23:12:00-04:00,preflight_checkpoint,report_batch,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 100.0%; memory elevated 90.6%,1,2,0,100.0,90.6,,AC_CHARGING
 2026-05-07T23:44:15-04:00,preflight_checkpoint,report_batch,50,RUN,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy,1,3,0,26.0,72.8,,AC_CHARGING
 2026-05-07T23:54:49-04:00,preflight_checkpoint,report_batch,50,RUN_CONSERVATIVE,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; memory elevated 89.6%,1,2,0,58.0,89.6,,AC_CHARGING
+2026-05-08T02:11:29-04:00,preflight_checkpoint,report_batch,50,COOLDOWN_LIGHT_ONLY,temperature sensor DENIED_OR_UNAVAILABLE; Python/CIM sampling blocked; memory elevated 83.9% after cleanup,1,1,20,,83.9,,UNKNOWN_CIM_DENIED
+2026-05-08T07:14:24-04:00,morning_reports,report_batch,50,RUN,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 100.0%,2,5,0,100.0,57.9,,AC_CHARGING
+2026-05-08T07:25:02-04:00,morning_reports,report_batch,50,RUN,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy,2,5,0,17.0,58.5,,AC_CHARGING
+2026-05-08T07:29:42-04:00,morning_reports,report_batch,50,RUN,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy,2,5,0,17.0,57.3,,AC_CHARGING
+2026-05-08T09:25:18-04:00,morning_reports,report_batch,50,RUN,temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy,2,5,0,47.0,59.7,,AC_CHARGING

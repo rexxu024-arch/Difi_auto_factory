@@ -65,6 +65,7 @@ def ensure_constitution() -> None:
 ## Browser Rule
 - Marketplace/account UI must use dedicated Edge CDP 9223 only.
 - Do not use Rex's daily Chrome for Etsy, Printify, eBay, Seller Hub, or account data gathering.
+- Gemini Web strategic sync must use the existing Gemini chat thread named `Codex 自动化矩阵升级计划` only. API bridge traffic remains file/API based; web chat sync is low-frequency and advisory.
 
 ## Product / QA Standards
 - Printify production design must match local Production_Design through visual QA.

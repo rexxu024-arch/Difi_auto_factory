@@ -1,3 +1,10 @@
 2026-05-07 23:26:09 -04:00 - Checkpoint blocked.
 Git status was cleanly readable on `main`, but `git add` failed with `fatal: Unable to create 'C:/AIprojects/openclaw_difi/.git/index.lock': Permission denied`.
 No force or cleanup was attempted. Durable pipeline files were identified, but the checkpoint could not be staged, committed, or pushed safely.
+2026-05-08 01:27:35 -04:00 - Checkpoint blocked again.
+`git add` still fails with `fatal: Unable to create 'C:/AIprojects/openclaw_difi/.git/index.lock': Permission denied`.
+Repo is on `main`; no safe path to stage, commit, or push without fixing the filesystem permission issue.
+2026-05-08 01:27:35 -04:00 - Safe checkpoint blocked: Git could not create `.git/index.lock` (`Permission denied`) while staging local changes, so no commit, pull/rebase, or push was performed.
+[2026-05-08 05:29:03 -04:00] Checkpoint blocked: git add/git status succeeded, but Git failed to create .git/index.lock with 'Permission denied'. No force or lock removal attempted.
+2026-05-08 07:29:44 America/New_York - Git checkpoint blocked: repo was already on `main`, but staging failed because Git could not create `.git/index.lock` (`Permission denied` on `.git`). No force actions were taken and no checkpoint commit/push was created.
+[2026-05-08 09:30:45 -04:00] Checkpoint blocked: git add failed because .git/index.lock could not be created (Permission denied). git pull --rebase origin main also refused due to the dirty worktree; HEAD is already aligned with origin/main (0 ahead, 0 behind). No files were staged or committed.

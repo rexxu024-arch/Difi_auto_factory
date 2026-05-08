@@ -6,15 +6,20 @@
 90,Acrylic-Grimdark-0004,Acrylic,Grimdark,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903250705,0,False
 90,Acrylic-Grimdark-0005,Acrylic,Grimdark,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903251829,0,False
 90,Acrylic-Grimdark-0008,Acrylic,Grimdark,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903746215,0,False
+90,Acrylic-Grimdark-0009,Acrylic,Grimdark,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903749989,0,False
 90,Acrylic-Grimdark-0010,Acrylic,Grimdark,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903756190,0,False
 90,Acrylic-Grimdark-0014,Acrylic,Grimdark,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406909159060,,False
 90,Acrylic-Grimdark-0016,Acrylic,Grimdark,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406909215172,,False
+90,Acrylic-Grimdark-0017,Acrylic,Grimdark,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406909219066,,False
 90,Acrylic-Grimdark-0019,Acrylic,Grimdark,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406909223875,,False
+90,Acrylic-Grimdark-0022,Acrylic,Grimdark,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406909226531,,False
 90,Acrylic-Grimdark-0027,Acrylic,Grimdark,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406909233684,,False
 90,Acrylic-Grimdark-0030,Acrylic,Grimdark,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406909235356,,False
 90,Acrylic-Grimdark-0031,Acrylic,Grimdark,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406909236640,,False
+90,Acrylic-Grimdark-0032,Acrylic,Grimdark,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406909238227,,False
 90,Acrylic-Grimdark-0033,Acrylic,Grimdark,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406909240724,,False
 90,Acrylic-Grimdark-0035,Acrylic,Grimdark,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406909243824,,False
+90,Acrylic-Grimdark-0036,Acrylic,Grimdark,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406909244688,,False
 90,Acrylic-Grimdark-0038,Acrylic,Grimdark,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406910074365,,False
 90,Acrylic-Grimdark-0039,Acrylic,Grimdark,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406910075457,,False
 90,Acrylic-Grimdark-0040,Acrylic,Grimdark,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406910076542,,False
@@ -33,7 +38,7 @@
 90,Acrylic-Zen-0008,Acrylic,Zen,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903036452,0,False
 90,Acrylic-Zen-0009,Acrylic,Zen,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903047385,0,False
 90,Acrylic-Zen-0010,Acrylic,Zen,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903213858,0,False
-90,Poster-Academia-0002,Poster,Academia,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406902600741,0,False
+90,Poster-Academia-0002,Poster,Academia,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406902600741,0,False
 90,Poster-Academia-0003,Poster,Academia,Etsy_Draft_Prepared,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406902616799,0,True
 90,Poster-Academia-0003-FIX1,Poster,Academia,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406911598735,,False
 90,Poster-Academia-0005,Poster,Academia,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903038850,0,False
@@ -45,6 +50,7 @@
 90,Poster-Academia-0013,Poster,Academia,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903251282,0,True
 90,Poster-Academia-0019,Poster,Academia,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406903744471,0,False
 90,Poster-Academia-0021,Poster,Academia,Published_Zero_View_Copy_Ad_Review,QA_HOLD_OR_REBUILD,Local QA issue: corrupt_production,local,True,406903754696,0,True
+90,Poster-Academia-0023,Poster,Academia,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406909147173,,False
 90,Poster-Academia-0036,Poster,Academia,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406909472775,,False
 90,Poster-Academia-0083,Poster,Academia,Etsy_Draft_Prepared,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406902669660,0,True
 90,Poster-Academia-0084,Poster,Academia,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_image_note,local,True,406902691983,0,False
@@ -83,23 +89,12 @@
 90,Sticker-Zen-0152,Sticker,Zen,Hold,QA_HOLD_OR_REBUILD,Local QA issue: missing_cover; missing_gallery,local,True,,,False
 80,Acrylic-Grimdark-0006,Acrylic,Grimdark,Published_Zero_View_Copy_Ad_Review,WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST,"Published item has 0 visible views in last Seller Hub snapshot; 2% General ads are active, so wait for a cleaner baseline before editing online.",low,True,406903252506,0,False
 80,Acrylic-Grimdark-0007,Acrylic,Grimdark,Published_Zero_View_Copy_Ad_Review,WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST,"Published item has 0 visible views in last Seller Hub snapshot; 2% General ads are active, so wait for a cleaner baseline before editing online.",low,True,406903731967,0,False
-80,Acrylic-Grimdark-0009,Acrylic,Grimdark,Published_Zero_View_Copy_Ad_Review,WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST,"Published item has 0 visible views in last Seller Hub snapshot; 2% General ads are active, so wait for a cleaner baseline before editing online.",low,True,406903749989,0,False
 80,Acrylic-Grimdark-0011,Acrylic,Grimdark,Published_Zero_View_Copy_Ad_Review,WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST,"Published item has 0 visible views in last Seller Hub snapshot; 2% General ads are active, so wait for a cleaner baseline before editing online.",low,True,406903760725,0,False
 80,Poster-Academia-0014,Poster,Academia,Published_Zero_View_Copy_Ad_Review,WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST,"Published item has 0 visible views in last Seller Hub snapshot; 2% General ads are active, so wait for a cleaner baseline before editing online.",low,True,406903252244,0,False
 80,Poster-Academia-0017,Poster,Academia,Published_Zero_View_Copy_Ad_Review,WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST,"Published item has 0 visible views in last Seller Hub snapshot; 2% General ads are active, so wait for a cleaner baseline before editing online.",low,True,406903730229,0,False
 80,Poster-Academia-0020,Poster,Academia,Published_Zero_View_Copy_Ad_Review,WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST,"Published item has 0 visible views in last Seller Hub snapshot; 2% General ads are active, so wait for a cleaner baseline before editing online.",low,True,406903748661,0,False
 80,Poster-Academia-0022,Poster,Academia,Published_Zero_View_Copy_Ad_Review,WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST,"Published item has 0 visible views in last Seller Hub snapshot; 2% General ads are active, so wait for a cleaner baseline before editing online.",low,True,406903758348,0,False
-80,Sticker-Zen-0010,Sticker,Zen,Published_Zero_View_Copy_Ad_Review,WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST,"Published item has 0 visible views in last Seller Hub snapshot; 2% General ads are active, so wait for a cleaner baseline before editing online.",low,True,406892414116,0,False
-70,Sticker-Zen-0083,Sticker,Zen,Stable_Draft_Publish_When_Scheduled,PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK,Stable Printify mockups exist; publish only via cooled scheduler and audit image order afterward.,medium,False,,,False
-70,Sticker-Zen-0084,Sticker,Zen,Stable_Draft_Publish_When_Scheduled,PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK,Stable Printify mockups exist; publish only via cooled scheduler and audit image order afterward.,medium,False,,,False
-70,Sticker-Zen-0086,Sticker,Zen,Stable_Draft_Publish_When_Scheduled,PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK,Stable Printify mockups exist; publish only via cooled scheduler and audit image order afterward.,medium,False,,,False
-70,Sticker-Zen-0087,Sticker,Zen,Stable_Draft_Publish_When_Scheduled,PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK,Stable Printify mockups exist; publish only via cooled scheduler and audit image order afterward.,medium,False,,,False
-70,Sticker-Zen-0088,Sticker,Zen,Stable_Draft_Publish_When_Scheduled,PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK,Stable Printify mockups exist; publish only via cooled scheduler and audit image order afterward.,medium,False,,,False
-70,Sticker-Zen-0089,Sticker,Zen,Stable_Draft_Publish_When_Scheduled,PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK,Stable Printify mockups exist; publish only via cooled scheduler and audit image order afterward.,medium,False,,,False
-70,Sticker-Zen-0091,Sticker,Zen,Stable_Draft_Publish_When_Scheduled,PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK,Stable Printify mockups exist; publish only via cooled scheduler and audit image order afterward.,medium,False,,,False
-70,Sticker-Zen-0092,Sticker,Zen,Stable_Draft_Publish_When_Scheduled,PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK,Stable Printify mockups exist; publish only via cooled scheduler and audit image order afterward.,medium,False,,,False
-70,Sticker-Zen-0093,Sticker,Zen,Stable_Draft_Publish_When_Scheduled,PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK,Stable Printify mockups exist; publish only via cooled scheduler and audit image order afterward.,medium,False,,,False
-70,Sticker-Zen-0094,Sticker,Zen,Stable_Draft_Publish_When_Scheduled,PUBLISH_IN_SMALL_BATCH_WHEN_NETWORK_OK,Stable Printify mockups exist; publish only via cooled scheduler and audit image order afterward.,medium,False,,,False
+60,Sticker-Zen-0083,Sticker,Zen,Ready_For_Printify_When_Network_OK,UPLOAD_TO_PRINTIFY_SINGLE_ITEM_BATCH,Local assets are ready but network-dependent upload remains pending.,high,False,,,False
 60,Sticker-Zen-0095,Sticker,Zen,Ready_For_Printify_When_Network_OK,UPLOAD_TO_PRINTIFY_SINGLE_ITEM_BATCH,Local assets are ready but network-dependent upload remains pending.,high,False,,,False
 60,Sticker-Zen-0096,Sticker,Zen,Ready_For_Printify_When_Network_OK,UPLOAD_TO_PRINTIFY_SINGLE_ITEM_BATCH,Local assets are ready but network-dependent upload remains pending.,high,False,,,False
 60,Sticker-Zen-0097,Sticker,Zen,Ready_For_Printify_When_Network_OK,UPLOAD_TO_PRINTIFY_SINGLE_ITEM_BATCH,Local assets are ready but network-dependent upload remains pending.,high,False,,,False
@@ -154,23 +149,18 @@
 20,Acrylic-Grimdark-0012,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909148324,,False
 20,Acrylic-Grimdark-0013,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909151733,,False
 20,Acrylic-Grimdark-0015,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909166683,,False
-20,Acrylic-Grimdark-0017,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909219066,,False
 20,Acrylic-Grimdark-0018,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909222169,,False
 20,Acrylic-Grimdark-0021,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909225478,,False
-20,Acrylic-Grimdark-0022,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909226531,,False
 20,Acrylic-Grimdark-0023,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909228840,,False
 20,Acrylic-Grimdark-0024,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909231370,,False
 20,Acrylic-Grimdark-0025,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909232068,,False
 20,Acrylic-Grimdark-0026,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909232951,,False
 20,Acrylic-Grimdark-0028,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909234435,,False
-20,Acrylic-Grimdark-0032,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909238227,,False
 20,Acrylic-Grimdark-0034,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909242546,,False
-20,Acrylic-Grimdark-0036,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909244688,,False
 20,Acrylic-Grimdark-0037,Acrylic,Grimdark,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909247161,,False
 20,Acrylic-Zen-0004,Acrylic,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406902888077,1,False
 20,Poster-Academia-0001,Poster,Academia,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406902584620,1,False
 20,Poster-Academia-0001-FIX1,Poster,Academia,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406911589289,,False
-20,Poster-Academia-0023,Poster,Academia,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909147173,,False
 20,Poster-Academia-0024,Poster,Academia,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909150037,,False
 20,Poster-Academia-0025,Poster,Academia,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909153504,,False
 20,Poster-Academia-0030,Poster,Academia,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909264998,,False
@@ -225,6 +215,7 @@
 20,Sticker-Zen-0008-FIX1,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909345291,,False
 20,Sticker-Zen-0009,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
 20,Sticker-Zen-0009-FIX1,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909353931,,False
+20,Sticker-Zen-0010,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406892414116,0,False
 20,Sticker-Zen-0022,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
 20,Sticker-Zen-0022-FIX1,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406909354903,,False
 20,Sticker-Zen-0024,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
@@ -298,3 +289,12 @@
 20,Sticker-Zen-0075,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406912077790,,False
 20,Sticker-Zen-0076,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
 20,Sticker-Zen-0081,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,406912094146,,False
+20,Sticker-Zen-0084,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
+20,Sticker-Zen-0086,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
+20,Sticker-Zen-0087,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
+20,Sticker-Zen-0088,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
+20,Sticker-Zen-0089,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
+20,Sticker-Zen-0091,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
+20,Sticker-Zen-0092,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
+20,Sticker-Zen-0093,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False
+20,Sticker-Zen-0094,Sticker,Zen,Hold,HOLD,No safe action under current weak-network protocol.,local,True,,,False

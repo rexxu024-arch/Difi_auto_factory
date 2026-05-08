@@ -1,18 +1,18 @@
 # Factory Autopilot Action Queue
 
-Generated: 2026-05-08T07:29:42-04:00 America/New_York
+Generated: 2026-05-08T09:29:40-04:00 America/New_York
 
-- Network mode: conservative (loss=0.0% avg=7ms jitter=9999ms)
+- Network mode: unknown (network guard skipped)
 - Resource mode: RUN (temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy)
 - Resource max parallel/batch: 2/5
 - eBay workbook rows: 299
-- Stable: 136
-- Published: 127
+- Stable: 121
+- Published: 121
 - Ready for Printify: 47
 - Live cover fix queue rows: 49
 - Repair decisions: {'RETIRED_REPLACED_DONE': 49}
 - Printify default audit: {'OK': 38, 'CHECK': 123}
-- Printify UI status: {'status': 'LOGGED_IN', 'reason': 'Printify app page is available in CDP browser.'}
+- Printify UI status: {'status': 'UNAVAILABLE', 'reason': '<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>'}
 
 ## Actions
 
@@ -24,15 +24,9 @@ Generated: 2026-05-08T07:29:42-04:00 America/New_York
 
 ### P70 publish: WAIT_NETWORK
 - Action: Publish small cooled batch if network guard is healthy.
-- Reason: Stable=136 published=127 ready=47; network=conservative.
+- Reason: Stable=121 published=121 ready=47; network=unknown.
 - Command: `py modules\printify_publish_scheduler.py --limit 3 --min-delay 180 --max-delay 420`
 - Network: yes; login: Printify API; risk: high
-
-### P65 read_only_market: READY
-- Action: Refresh eBay Seller Hub performance snapshot.
-- Reason: Performance data is stale or absent; this is read-only but browser/network dependent.
-- Command: `py modules\ebay_sellerhub_snapshot.py`
-- Network: yes; login: eBay Seller Hub; risk: low
 
 ### P63 production_design_qa: READY
 - Action: Run a tiny Printify production-design audit before any larger online batch.

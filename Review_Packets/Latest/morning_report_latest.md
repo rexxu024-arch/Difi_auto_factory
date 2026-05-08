@@ -1,6 +1,6 @@
 # OpenClaw Morning Report
 
-Generated: 2026-05-08 08:21 -0400 America/New_York
+Generated: 2026-05-08 09:29 -0400 America/New_York
 
 ## Current Factory State
 
@@ -48,10 +48,9 @@ Generated: 2026-05-08 08:21 -0400 America/New_York
 
 - Etsy_Draft_Prepared: 14
 - Fix_Gallery_First: 1
-- Hold: 200
-- Published_Zero_View_Copy_Ad_Review: 28
+- Hold: 211
+- Published_Zero_View_Copy_Ad_Review: 26
 - Ready_For_Printify_When_Network_OK: 47
-- Stable_Draft_Publish_When_Scheduled: 9
 
 ## eBay Traffic Experiment
 
@@ -90,7 +89,7 @@ Generated: 2026-05-08 08:21 -0400 America/New_York
 ## Factory Backlog
 
 - Backlog READY: 6
-- Backlog READY_AFTER_IMAGE_QA: 2
+- Backlog READY_AFTER_IMAGE_QA: 1
 - Backlog READY_FOR_SCHOLAR_REVIEW: 1
 - Backlog READY_MONITOR: 2
 - Backlog WAIT_NETWORK: 1
@@ -100,14 +99,13 @@ Top tasks:
 - P100 supervisor:local / READY: Refresh local QA, registry, market queue, cover decisions, experiment report, and morning report.
 - P72 production / READY_AFTER_IMAGE_QA: Resume Ready_for_Printify uploads in audited single-item batches
 - P70 supervisor:publish / WAIT_NETWORK: Publish small cooled batch if network guard is healthy.
-- P68 publish / READY_AFTER_IMAGE_QA: Publish small cooled batch after default-image and live-cover spot audit
+- P65 supervisor:read_only_market / READY: Refresh eBay Seller Hub performance snapshot.
 
 Lane counts:
 - control: 1
 - etsy: 1
 - market_learning: 1
 - production: 1
-- publish: 1
 - r_and_d: 1
 - supervisor:copy_experiment: 1
 - supervisor:etsy: 1

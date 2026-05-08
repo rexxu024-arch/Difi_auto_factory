@@ -1,76 +1,76 @@
 {
-  "timestamp": "2026-05-07 09:44:24 -0400",
-  "decision": "SKIP_NOT_DUE",
-  "execute": false,
-  "due": false,
-  "shutdown_delay_seconds": 0,
+  "timestamp": "2026-05-08 06:00:08 -0400",
+  "decision": "SHUTDOWN_SCHEDULED",
+  "execute": true,
+  "due": true,
+  "shutdown_delay_seconds": 60,
   "strong_write": {
     "active": false,
     "matches": [],
     "grunt_lock_active": false
   },
   "snapshot": {
-    "timestamp": "2026-05-07T09:44:24-04:00",
-    "cpu_load_pct": 49.0,
-    "memory_used_pct": 82.7,
+    "timestamp": "2026-05-08T06:00:08-04:00",
+    "cpu_load_pct": 22.0,
+    "memory_used_pct": 82.4,
     "memory_total_gb": 11.75,
-    "memory_free_gb": 2.03,
+    "memory_free_gb": 2.07,
     "temperature_c": null,
     "temperature_status": "DENIED_OR_UNAVAILABLE",
-    "gpu_util_pct": 3.6,
+    "gpu_util_pct": 0.8,
     "battery_percent": 100.0,
     "power_status": "AC_CHARGING",
     "top_processes": [
       {
         "ProcessName": "chrome",
-        "Id": 3280,
-        "WorkingSetMB": 2368.1,
-        "CPU": 7535.53125
+        "Id": 22720,
+        "WorkingSetMB": 1281.2,
+        "CPU": 940.046875
       },
       {
         "ProcessName": "chrome",
-        "Id": 21384,
-        "WorkingSetMB": 1459.3,
-        "CPU": 431.234375
+        "Id": 12132,
+        "WorkingSetMB": 1107,
+        "CPU": 392.203125
       },
       {
         "ProcessName": "Codex",
         "Id": 27652,
-        "WorkingSetMB": 421.9,
-        "CPU": 16209.140625
+        "WorkingSetMB": 426.5,
+        "CPU": 27648.921875
       },
       {
         "ProcessName": "chrome",
         "Id": 9740,
-        "WorkingSetMB": 406.9,
-        "CPU": 50580.953125
+        "WorkingSetMB": 389,
+        "CPU": 56026.625
       },
       {
-        "ProcessName": "Code",
-        "Id": 19100,
-        "WorkingSetMB": 182.9,
-        "CPU": 1323.6875
+        "ProcessName": "explorer",
+        "Id": 10468,
+        "WorkingSetMB": 278.7,
+        "CPU": 4875.46875
       },
       {
         "ProcessName": "MsMpEng",
         "Id": 4564,
-        "WorkingSetMB": 160,
+        "WorkingSetMB": 263.5,
         "CPU": null
       },
       {
-        "ProcessName": "Codex",
-        "Id": 26676,
-        "WorkingSetMB": 152.2,
-        "CPU": 6815.609375
+        "ProcessName": "Code",
+        "Id": 19100,
+        "WorkingSetMB": 184.5,
+        "CPU": 1472.5
       },
       {
-        "ProcessName": "codex",
-        "Id": 7580,
-        "WorkingSetMB": 126.4,
-        "CPU": 4307.296875
+        "ProcessName": "Memory Compression",
+        "Id": 2944,
+        "WorkingSetMB": 180.1,
+        "CPU": null
       }
     ]
   },
-  "detail": "outside 06:00-06:20 America/New_York",
+  "detail": "queues clear; daily hardware rest",
   "password_boundary": "Windows password is not bypassed; recovery resumes after Rex logs in."
 }

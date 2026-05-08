@@ -42,3 +42,6 @@
 2026-05-07 23:10:49 -0400,EXECUTE_CLEANUP,True,84.3,88.8,74.0,88.0,0,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
 2026-05-07 23:43:53 -0400,NOOP_BELOW_THRESHOLD,True,,79.3,,34.0,0,MEMORY_OK_CONTINUE,normal work may continue under marketplace risk guards
 2026-05-07 23:55:20 -0400,EXECUTE_CLEANUP,True,86.0,85.9,93.0,20.0,0,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
+2026-05-08 02:11:29 -0400,EXECUTE_CLEANUP_FALLBACK,True,84.5,83.9,,,1,MEMORY_STILL_WARM_ACTIVATE_COOLDOWN,continue only guard/report/local-light work; skip Grunt and browser-heavy tasks
+2026-05-08 05:30:24 -0400,EXECUTE_CLEANUP,True,88.7,88.8,9.0,20.0,0,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
+2026-05-08 05:50:23 -0400,EXECUTE_CLEANUP,True,91.8,91.7,5.0,9.0,0,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
