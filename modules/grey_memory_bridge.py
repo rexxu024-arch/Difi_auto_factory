@@ -69,6 +69,7 @@ def ensure_constitution() -> None:
 ## Product / QA Standards
 - Printify production design must match local Production_Design through visual QA.
 - Cover Gate: live buyer-page image must be verified before retiring old listings or scaling.
+- Gallery Integrity Gate: repeated buyer-facing gallery thumbnails and non-sticker custom detail galleries block publish/scale until repaired or isolated.
 - Official Printify default mockups are allowed and often preferred for buyer context.
 - Sticker custom U gallery mismatch is a blocker.
 - Poster/Acrylic use full-image designs, not sticker cut logic.
