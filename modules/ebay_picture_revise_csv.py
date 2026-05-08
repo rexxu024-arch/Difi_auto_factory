@@ -28,6 +28,8 @@ from modules.ebay_online_cover_audit import ahash, hamming, load_image
 DATABASE_DIR = PROJECT_ROOT / "Database"
 EBAY_BOOK = DATABASE_DIR / "eBay_listing.xlsx"
 FIX_QUEUE = DATABASE_DIR / "eBay_Online_Cover_Fix_Queue.csv"
+LIVE_GALLERY_AUDIT = DATABASE_DIR / "eBay_Live_Gallery_Duplicate_Audit.csv"
+GALLERY_REPAIR_QUEUE = DATABASE_DIR / "Printify_Gallery_Repair_Queue.csv"
 OUT_DIR = DATABASE_DIR / "eBay_Picture_Revise"
 
 
@@ -106,12 +108,73 @@ def printify_urls_for_row(row: dict[str, str]) -> tuple[list[str], str]:
     return [cover_url, *other_urls], f"cover_distance={cover_distance} urls={len(scored)}"
 
 
-def run(limit: int = 1, ids: set[str] | None = None) -> Path:
+def selected_printify_urls_for_row(row: dict[str, str]) -> tuple[list[str], str]:
+    product_id = row.get("Printify_Product_ID", "")
+    product = fetch_product(product_id)
+    urls = []
+    for image in product.get("images") or []:
+        if image.get("is_selected_for_publishing") is False:
+            continue
+        url = clean(image.get("src"))
+        if url and url not in urls:
+            urls.append(url)
+    if len(urls) < 3:
+        raise RuntimeError(f"selected Printify image URL count too low: {len(urls)}")
+    return urls, f"selected_unique_urls={len(urls)}"
+
+
+def ids_from_live_gallery(limit: int) -> list[str]:
+    if not LIVE_GALLERY_AUDIT.exists():
+        return []
+    rows = []
+    seen = set()
+    with LIVE_GALLERY_AUDIT.open("r", encoding="utf-8-sig", newline="") as handle:
+        for row in csv.DictReader(handle):
+            item_id = clean(row.get("ID"))
+            if row.get("Result") != "CHECK_LIVE_DUPLICATE" or not item_id or item_id in seen:
+                continue
+            rows.append(item_id)
+            seen.add(item_id)
+            if limit and len(rows) >= limit:
+                break
+    return rows
+
+
+def ids_from_gallery_repair(limit: int) -> list[str]:
+    if not GALLERY_REPAIR_QUEUE.exists():
+        return []
+    rows = []
+    with GALLERY_REPAIR_QUEUE.open("r", encoding="utf-8-sig", newline="") as handle:
+        for row in csv.DictReader(handle):
+            item_id = clean(row.get("ID"))
+            if not item_id:
+                continue
+            rows.append(item_id)
+            if limit and len(rows) >= limit:
+                break
+    return rows
+
+
+def run(
+    limit: int = 1,
+    ids: set[str] | None = None,
+    source: str = "cover-match",
+    from_live_gallery: bool = False,
+    from_gallery_repair: bool = False,
+) -> Path:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     rows_by_id = workbook_rows()
-    selected_ids = fix_ids(limit=limit, ids=ids)
-    out_path = OUT_DIR / f"ebay_picture_revise_{len(selected_ids)}.csv"
-    log_path = OUT_DIR / f"ebay_picture_revise_{len(selected_ids)}_log.csv"
+    if ids:
+        selected_ids = sorted(ids)
+    elif from_live_gallery:
+        selected_ids = ids_from_live_gallery(limit=limit)
+    elif from_gallery_repair:
+        selected_ids = ids_from_gallery_repair(limit=limit)
+    else:
+        selected_ids = fix_ids(limit=limit, ids=None)
+    suffix = source.replace("-", "_")
+    out_path = OUT_DIR / f"ebay_picture_revise_{suffix}_{len(selected_ids)}.csv"
+    log_path = OUT_DIR / f"ebay_picture_revise_{suffix}_{len(selected_ids)}_log.csv"
     fieldnames = ["Action", "Item number", "Custom label (SKU)", "Item photo URL"]
     log_fields = ["ID", "eBay_Item_ID", "Printify_Product_ID", "Result", "Note"]
     out_rows = []
@@ -122,7 +185,10 @@ def run(limit: int = 1, ids: set[str] | None = None) -> Path:
             log_rows.append({"ID": local_id, "Result": "ERROR", "Note": "missing workbook row"})
             continue
         try:
-            urls, note = printify_urls_for_row(row)
+            if source == "printify-selected":
+                urls, note = selected_printify_urls_for_row(row)
+            else:
+                urls, note = printify_urls_for_row(row)
             out_rows.append(
                 {
                     "Action": "Revise",
@@ -166,9 +232,18 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--limit", type=int, default=1)
     parser.add_argument("--ids", default="", help="Comma-separated local IDs to include.")
+    parser.add_argument("--source", choices=["cover-match", "printify-selected"], default="cover-match")
+    parser.add_argument("--from-live-gallery-audit", action="store_true")
+    parser.add_argument("--from-gallery-repair", action="store_true")
     args = parser.parse_args()
     ids = {part.strip() for part in args.ids.split(",") if part.strip()} or None
-    run(limit=args.limit, ids=ids)
+    run(
+        limit=args.limit,
+        ids=ids,
+        source=args.source,
+        from_live_gallery=args.from_live_gallery_audit,
+        from_gallery_repair=args.from_gallery_repair,
+    )
 
 
 if __name__ == "__main__":
