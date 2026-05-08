@@ -1,6 +1,6 @@
 # OpenClaw Morning Report
 
-Generated: 2026-05-07 22:21 -0400 America/New_York
+Generated: 2026-05-07 22:29 -0400 America/New_York
 
 ## Current Factory State
 
@@ -48,10 +48,10 @@ Generated: 2026-05-07 22:21 -0400 America/New_York
 
 - Etsy_Draft_Prepared: 14
 - Fix_Gallery_First: 1
-- Hold: 194
+- Hold: 197
 - Published_Zero_View_Copy_Ad_Review: 28
 - Ready_For_Printify_When_Network_OK: 46
-- Stable_Draft_Publish_When_Scheduled: 16
+- Stable_Draft_Publish_When_Scheduled: 13
 
 ## eBay Traffic Experiment
 
@@ -79,9 +79,9 @@ Generated: 2026-05-07 22:21 -0400 America/New_York
 - Printify image-default audit rows: 161
 - Printify image-default audit CHECK: 123
 - Printify image-default audit OK: 38
-- Printify gallery duplicate audit rows: 146
+- Printify gallery duplicate audit rows: 148
 - Printify gallery duplicate audit CHECK_CUSTOM_GALLERY_REPEATS_RISK: 22
-- Printify gallery duplicate audit OK: 124
+- Printify gallery duplicate audit OK: 126
 - eBay live gallery duplicate audit rows: 25
 - eBay live gallery duplicate audit CHECK_LIVE_PRIMARY_DUPLICATE_REVIEW: 3
 - eBay live gallery duplicate audit OK_DOM_DUPLICATE_ONLY: 22

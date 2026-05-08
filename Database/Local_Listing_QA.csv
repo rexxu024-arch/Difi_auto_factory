@@ -70,9 +70,9 @@ Sticker-Zen-0068,Sticker,Quarantined_ExternalMissing,0,,True,1664x1664,True,1800
 Sticker-Zen-0069,Sticker,Retired_Replaced,0,,True,1664x1664,True,1800x1800,True,True,76,True,True
 Sticker-Zen-0070,Sticker,Retired_Replaced,0,,True,1664x1664,True,1800x1800,True,True,77,True,True
 Sticker-Zen-0071,Sticker,Retired_Replaced,0,,True,1664x1664,True,1800x1800,True,True,79,True,True
-Sticker-Zen-0072,Sticker,Printify_UI_Mockups5,0,,True,1664x1664,True,1800x1800,True,True,78,True,False
-Sticker-Zen-0073,Sticker,Printify_UI_Mockups5,0,,True,1664x1664,True,1800x1800,True,True,76,True,False
-Sticker-Zen-0074,Sticker,Printify_UI_Mockups5,0,,True,1664x1664,True,1800x1800,True,True,75,True,False
+Sticker-Zen-0072,Sticker,Printify_Published_Mockups5,0,,True,1664x1664,True,1800x1800,True,True,78,True,False
+Sticker-Zen-0073,Sticker,Printify_Published_Mockups5,0,,True,1664x1664,True,1800x1800,True,True,76,True,False
+Sticker-Zen-0074,Sticker,Printify_Published_Mockups5,0,,True,1664x1664,True,1800x1800,True,True,75,True,False
 Sticker-Zen-0075,Sticker,Printify_UI_Mockups5,0,,True,1664x1664,True,1800x1800,True,True,79,True,False
 Sticker-Zen-0076,Sticker,Printify_UI_Mockups5,0,,True,1664x1664,True,1800x1800,True,True,75,True,False
 Sticker-Zen-0078,Sticker,Quality_Hold_LowRes_U,2,missing_cover; missing_gallery,True,1664x1664,False,,False,True,75,True,True
@@ -297,4 +297,4 @@ Acrylic-Grimdark-0081-FIX1,Acrylic,Printify_Published_Mockups4,1,missing_image_n
 Acrylic-Zen-0001-FIX1,Acrylic,Printify_Published_Mockups4,1,missing_image_note,True,1538x2138,True,1500x2100,True,True,79,True,False
 Poster-Academia-0001-FIX1,Poster,Printify_Published,0,,True,3600x5400,True,1800x2700,True,True,79,True,True
 Poster-Academia-0003-FIX1,Poster,Printify_Published,1,missing_image_note,True,3600x5400,True,1800x2700,True,True,78,True,False
-Acrylic-Academia-0003-GALLERYFIX1,Acrylic,Printify_Published_Mockups4,1,missing_image_note,True,1538x2138,True,1500x2100,True,True,77,True,False
+Acrylic-Academia-0003-GALLERYFIX1,Acrylic,Retired_Replaced,1,missing_image_note,True,1538x2138,True,1500x2100,True,True,77,True,False
