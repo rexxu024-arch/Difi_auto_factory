@@ -1,68 +1,68 @@
 {
-  "timestamp": "2026-05-08 05:50:23 -0400",
-  "mode": "EXECUTE_CLEANUP",
+  "timestamp": "2026-05-08 21:51:35 -0400",
+  "mode": "NOOP_BELOW_THRESHOLD",
   "execute": true,
   "cdp_port": 9223,
   "memory_soft_pct": 82.0,
   "memory_hard_pct": 92.0,
   "cpu_soft_pct": 85.0,
-  "memory_before": 91.8,
-  "memory_after": 91.7,
-  "cpu_before": 5.0,
-  "cpu_after": 9.0,
+  "memory_before": 66.0,
+  "memory_after": 65.9,
+  "cpu_before": 37.0,
+  "cpu_after": 48.0,
   "closed_tabs": [],
   "top_processes": [
     {
       "ProcessName": "chrome",
-      "Id": 22720,
-      "WorkingSetMB": 1247.4,
-      "CPU": 938.75
-    },
-    {
-      "ProcessName": "chrome",
-      "Id": 12132,
-      "WorkingSetMB": 1190,
-      "CPU": 374.421875
+      "Id": 15016,
+      "WorkingSetMB": 642.3,
+      "CPU": 227.578125
     },
     {
       "ProcessName": "Codex",
-      "Id": 27652,
-      "WorkingSetMB": 456.1,
-      "CPU": 27640.90625
+      "Id": 10656,
+      "WorkingSetMB": 498.6,
+      "CPU": 1331.328125
     },
     {
       "ProcessName": "chrome",
-      "Id": 9740,
-      "WorkingSetMB": 381.2,
-      "CPU": 56003.15625
+      "Id": 14232,
+      "WorkingSetMB": 403.4,
+      "CPU": 149.796875
     },
     {
-      "ProcessName": "msedge",
-      "Id": 10568,
-      "WorkingSetMB": 331.7,
-      "CPU": 753.828125
-    },
-    {
-      "ProcessName": "explorer",
-      "Id": 10468,
-      "WorkingSetMB": 294.8,
-      "CPU": 4864.453125
-    },
-    {
-      "ProcessName": "MsMpEng",
-      "Id": 4564,
-      "WorkingSetMB": 273,
+      "ProcessName": "Memory Compression",
+      "Id": 2776,
+      "WorkingSetMB": 379,
       "CPU": null
     },
     {
-      "ProcessName": "msedge",
-      "Id": 10224,
-      "WorkingSetMB": 238.8,
-      "CPU": 11.1875
+      "ProcessName": "chrome",
+      "Id": 2256,
+      "WorkingSetMB": 378.8,
+      "CPU": 193.875
+    },
+    {
+      "ProcessName": "chrome",
+      "Id": 4112,
+      "WorkingSetMB": 327,
+      "CPU": 42.984375
+    },
+    {
+      "ProcessName": "MsMpEng",
+      "Id": 4240,
+      "WorkingSetMB": 296.5,
+      "CPU": null
+    },
+    {
+      "ProcessName": "explorer",
+      "Id": 7248,
+      "WorkingSetMB": 233.6,
+      "CPU": 90.78125
     }
   ],
-  "decision": "MEMORY_STILL_WARM_BUT_WORKABLE",
-  "reason": "continue light work; avoid browser/image-heavy tasks",
+  "decision": "MEMORY_OK_CONTINUE",
+  "reason": "normal work may continue under marketplace risk guards",
   "privacy_rule": "Only closes project automation Edge tabs through CDP 9223. Does not inspect or close Rex's daily Chrome tabs.",
   "optimization_rule": "Cleanup first, then resample. Pause only if pressure remains high after closing safe idle project tabs and reducing concurrency.",
   "rest_rule": "Do not shutdown/restart by default; if pressure stays high after cleanup, write rest-cycle recommendation unless Rex explicitly requests immediate power action."

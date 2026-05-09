@@ -1,6 +1,6 @@
 # Factory Backlog
 
-Generated: 2026-05-08 09:29:36 -0400 America/New_York
+Generated: 2026-05-08 21:56:41 -0400 America/New_York
 
 ## Status Counts
 
@@ -49,7 +49,7 @@ Generated: 2026-05-08 09:29:36 -0400 America/New_York
 
 ### P70 supervisor:publish - WAIT_NETWORK
 - Task: Publish small cooled batch if network guard is healthy.
-- Blocker: Stable=136 published=127 ready=47; network=conservative.
+- Blocker: Stable=121 published=121 ready=47; network=unknown.
 - Command: `py modules\printify_publish_scheduler.py --limit 3 --min-delay 180 --max-delay 420`
 - Done when: Supervisor action remains present until its status is completed or superseded.
 - Risk/network: high / yes

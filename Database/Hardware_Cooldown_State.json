@@ -1,17 +1,16 @@
 ﻿{
-    "timestamp":  "2026-05-08T02:11:29-04:00",
+    "timestamp":  "2026-05-08T21:50:36-04:00",
     "active":  true,
-    "cooldown_until":  "2026-05-08T02:31:29-04:00",
+    "cooldown_until":  "2026-05-08T22:10:36-04:00",
     "cooldown_minutes":  20,
-    "health_state":  "WARM",
-    "reason":  "temperature DENIED_OR_UNAVAILABLE; memory elevated 83.9%; Python/npm entrypoints blocked by Access denied; CIM denied; closed one safe idle Edge CDP 9223 tab; Grunt skipped during warm/unknown resource state",
+    "health_state":  "COOLDOWN",
+    "reason":  "temperature DENIED_OR_UNAVAILABLE; final CPU resample elevated/unstable up to 99.4%; memory 63.3% used; Python/npm entrypoints blocked by Access denied; cooldown activated; live Grunt skipped",
     "hot_streak":  1,
     "heartbeat":  {
-                      "timestamp":  "2026-05-08T02:11:29-04:00",
-                      "cpu_load_pct":  null,
-                      "cpu_proxy_busy_delta_sec":  3.51,
-                      "memory_used_pct":  83.9,
-                      "memory_free_gb":  1.89,
+                      "timestamp":  "2026-05-08T21:50:36-04:00",
+                      "cpu_load_pct":  99.4,
+                      "memory_used_pct":  63.3,
+                      "memory_free_gb":  4.31,
                       "temperature_c":  null,
                       "temperature_status":  "DENIED_OR_UNAVAILABLE",
                       "fan_rpm":  null,
@@ -19,87 +18,129 @@
                       "gpu_util_pct":  null,
                       "battery_percent":  null,
                       "power_status":  "UNKNOWN_CIM_DENIED",
-                      "health_state":  "WARM",
-                      "reason":  "temperature DENIED_OR_UNAVAILABLE; memory elevated 83.9%; Python/npm entrypoints blocked by Access denied; CIM denied; closed one safe idle Edge CDP 9223 tab; Grunt skipped during warm/unknown resource state"
+                      "health_state":  "COOLDOWN",
+                      "reason":  "temperature DENIED_OR_UNAVAILABLE; final CPU resample elevated/unstable up to 99.4%; memory 63.3% used; Python/npm entrypoints blocked by Access denied; cooldown activated; live Grunt skipped",
+                      "top_processes":  [
+                                            {
+                                                "ProcessName":  "chrome",
+                                                "Id":  15016,
+                                                "WorkingSetMB":  642.3,
+                                                "CPU":  null
+                                            },
+                                            {
+                                                "ProcessName":  "Codex",
+                                                "Id":  10656,
+                                                "WorkingSetMB":  486.5,
+                                                "CPU":  null
+                                            },
+                                            {
+                                                "ProcessName":  "Memory Compression",
+                                                "Id":  2776,
+                                                "WorkingSetMB":  442.2,
+                                                "CPU":  null
+                                            },
+                                            {
+                                                "ProcessName":  "chrome",
+                                                "Id":  14232,
+                                                "WorkingSetMB":  403.6,
+                                                "CPU":  149.328125
+                                            },
+                                            {
+                                                "ProcessName":  "chrome",
+                                                "Id":  2256,
+                                                "WorkingSetMB":  382.7,
+                                                "CPU":  null
+                                            },
+                                            {
+                                                "ProcessName":  "chrome",
+                                                "Id":  4112,
+                                                "WorkingSetMB":  327,
+                                                "CPU":  null
+                                            },
+                                            {
+                                                "ProcessName":  "MsMpEng",
+                                                "Id":  4240,
+                                                "WorkingSetMB":  296.9,
+                                                "CPU":  null
+                                            },
+                                            {
+                                                "ProcessName":  "explorer",
+                                                "Id":  7248,
+                                                "WorkingSetMB":  231.9,
+                                                "CPU":  85.453125
+                                            }
+                                        ]
                   },
     "memory_guard":  {
-                         "timestamp":  "2026-05-08T02:11:29-04:00",
-                         "mode":  "EXECUTE_CLEANUP_FALLBACK",
-                         "execute":  true,
+                         "timestamp":  "2026-05-08T21:50:36-04:00",
+                         "mode":  "COOLDOWN_FALLBACK",
+                         "execute":  false,
                          "cdp_port":  9223,
                          "memory_soft_pct":  82,
                          "memory_hard_pct":  92,
                          "cpu_soft_pct":  85,
-                         "memory_before":  84.5,
-                         "memory_after":  83.9,
-                         "cpu_before":  null,
-                         "cpu_after":  null,
-                         "cpu_proxy_busy_delta_sec":  3.51,
+                         "memory_before":  63.3,
+                         "memory_after":  63.3,
+                         "cpu_before":  99.4,
+                         "cpu_after":  99.4,
                          "closed_tabs":  [
-                                             {
-                                                 "action":  "CLOSE_EDGE_PROJECT_TAB",
-                                                 "id":  "F01353F370C157022D941D28CB670D60",
-                                                 "title":  "about:blank",
-                                                 "url":  "about:blank"
-                                             }
+
                                          ],
                          "top_processes":  [
                                                {
-                                                   "ProcessName":  "Memory Compression",
-                                                   "Id":  2944,
-                                                   "WorkingSetMB":  925.7,
-                                                   "CPU":  null
-                                               },
-                                               {
                                                    "ProcessName":  "chrome",
-                                                   "Id":  22720,
-                                                   "WorkingSetMB":  772,
-                                                   "CPU":  null
-                                               },
-                                               {
-                                                   "ProcessName":  "chrome",
-                                                   "Id":  12132,
-                                                   "WorkingSetMB":  648,
+                                                   "Id":  15016,
+                                                   "WorkingSetMB":  642.3,
                                                    "CPU":  null
                                                },
                                                {
                                                    "ProcessName":  "Codex",
-                                                   "Id":  27652,
-                                                   "WorkingSetMB":  444,
+                                                   "Id":  10656,
+                                                   "WorkingSetMB":  486.5,
+                                                   "CPU":  null
+                                               },
+                                               {
+                                                   "ProcessName":  "Memory Compression",
+                                                   "Id":  2776,
+                                                   "WorkingSetMB":  442.2,
                                                    "CPU":  null
                                                },
                                                {
                                                    "ProcessName":  "chrome",
-                                                   "Id":  9740,
-                                                   "WorkingSetMB":  384.2,
-                                                   "CPU":  55463.046875
+                                                   "Id":  14232,
+                                                   "WorkingSetMB":  403.6,
+                                                   "CPU":  149.328125
                                                },
                                                {
-                                                   "ProcessName":  "msedge",
-                                                   "Id":  10568,
-                                                   "WorkingSetMB":  331.6,
-                                                   "CPU":  368.09375
+                                                   "ProcessName":  "chrome",
+                                                   "Id":  2256,
+                                                   "WorkingSetMB":  382.7,
+                                                   "CPU":  null
+                                               },
+                                               {
+                                                   "ProcessName":  "chrome",
+                                                   "Id":  4112,
+                                                   "WorkingSetMB":  327,
+                                                   "CPU":  null
                                                },
                                                {
                                                    "ProcessName":  "MsMpEng",
-                                                   "Id":  4564,
-                                                   "WorkingSetMB":  265.6,
+                                                   "Id":  4240,
+                                                   "WorkingSetMB":  296.9,
                                                    "CPU":  null
                                                },
                                                {
                                                    "ProcessName":  "explorer",
-                                                   "Id":  10468,
-                                                   "WorkingSetMB":  228.6,
-                                                   "CPU":  4581.4375
+                                                   "Id":  7248,
+                                                   "WorkingSetMB":  231.9,
+                                                   "CPU":  85.453125
                                                }
                                            ],
-                         "decision":  "MEMORY_STILL_WARM_ACTIVATE_COOLDOWN",
-                         "reason":  "continue only guard/report/local-light work; skip Grunt and browser-heavy tasks",
-                         "privacy_rule":  "Only closed targets exposed by Edge CDP 9223. Did not inspect or close Rex daily Chrome/private tabs.",
-                         "optimization_rule":  "Cleanup first, then resample; cooldown active because memory stayed above soft guard and thermal sensors are unavailable.",
-                         "rest_rule":  "No shutdown/restart armed by default."
+                         "decision":  "CPU_UNSTABLE_COOLDOWN",
+                         "reason":  "CPU resample crossed soft guard; thermal unavailable; Python entrypoints blocked; no browser tab inspection performed",
+                         "privacy_rule":  "Did not inspect or close Rex daily Chrome/private tabs."
                      },
-    "resource_policy":  "optimize first, pause only after cleanup fails to bring pressure back under guardrails",
+    "resource_policy":  "cooldown active because CPU is unstable and thermal sensors are unavailable",
     "allowed_during_cooldown":  [
                                     "hardware_heartbeat",
                                     "memory_cleanup",
@@ -113,7 +154,7 @@
                                     "asset_build",
                                     "market_research",
                                     "single_browser_task",
-                                    "grunt_task",
+                                    "live_grunt_task",
                                     "payment_billing_order_customer_message_changes"
                                 ]
 }

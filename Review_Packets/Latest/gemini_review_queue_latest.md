@@ -1,6 +1,6 @@
 # Gemini Advisor Review Queue
 
-Generated: 2026-05-08 09:29 -0400 America/New_York
+Generated: 2026-05-08 21:56 -0400 America/New_York
 
 Rex is Commander, Gemini is Strategy Advisor, Codex is Executive Operator.
 
@@ -10,7 +10,7 @@ Please review the current OpenClaw plan as a strategy advisor. Do not request AP
 
 # OpenClaw Morning Report
 
-Generated: 2026-05-08 09:29 -0400 America/New_York
+Generated: 2026-05-08 21:56 -0400 America/New_York
 
 ## Current Factory State
 
@@ -98,7 +98,7 @@ Generated: 2026-05-08 09:29 -0400 America/New_York
 
 ## Factory Backlog
 
-- Backlog READY: 6
+- Backlog READY: 5
 - Backlog READY_AFTER_IMAGE_QA: 1
 - Backlog READY_FOR_SCHOLAR_REVIEW: 1
 - Backlog READY_MONITOR: 2
@@ -109,7 +109,7 @@ Top tasks:
 - P100 supervisor:local / READY: Refresh local QA, registry, market queue, cover decisions, experiment report, and morning report.
 - P72 production / READY_AFTER_IMAGE_QA: Resume Ready_for_Printify uploads in audited single-item batches
 - P70 supervisor:publish / WAIT_NETWORK: Publish small cooled batch if network guard is healthy.
-- P65 supervisor:read_only_market / READY: Refresh eBay Seller Hub performance snapshot.
+- P63 supervisor:production_design_qa / READY: Run a tiny Printify production-design audit before any larger online batch.
 
 Lane counts:
 - control: 1
@@ -122,7 +122,6 @@ Lane counts:
 - supervisor:local: 1
 - supervisor:production_design_qa: 1
 - supervisor:publish: 1
-- supervisor:read_only_market: 1
 
 ## Current Guardrails
 

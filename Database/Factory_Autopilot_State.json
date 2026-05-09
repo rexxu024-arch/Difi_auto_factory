@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-08T09:29:40-04:00",
+  "generated_at": "2026-05-08T21:56:24-04:00",
   "timezone": "America/New_York",
   "network_strategy": {
     "mode": "unknown",
@@ -9,79 +9,79 @@
   },
   "resource_strategy": {
     "allocation": {
-      "timestamp": "2026-05-08T09:25:18-04:00",
-      "window": "morning_reports",
-      "task_class": "report_batch",
+      "timestamp": "2026-05-08T21:51:50-04:00",
+      "window": "peak_rex_online",
+      "task_class": "single_browser_task",
       "priority": 50,
       "decision": "RUN",
       "reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy",
-      "max_parallel": 2,
-      "batch_size": 5,
+      "max_parallel": 1,
+      "batch_size": 1,
       "cooldown_minutes": 0,
-      "cpu_load_pct": 47.0,
-      "memory_used_pct": 59.7,
+      "cpu_load_pct": 52.0,
+      "memory_used_pct": 65.8,
       "temperature_c": null,
       "power_status": "AC_CHARGING"
     },
     "snapshot": {
-      "timestamp": "2026-05-08T09:25:18-04:00",
-      "cpu_load_pct": 47.0,
-      "memory_used_pct": 59.7,
+      "timestamp": "2026-05-08T21:51:50-04:00",
+      "cpu_load_pct": 52.0,
+      "memory_used_pct": 65.8,
       "memory_total_gb": 11.75,
-      "memory_free_gb": 4.73,
+      "memory_free_gb": 4.02,
       "temperature_c": null,
       "temperature_status": "DENIED_OR_UNAVAILABLE",
-      "gpu_util_pct": 8.7,
+      "gpu_util_pct": 7.1,
       "battery_percent": 100.0,
       "power_status": "AC_CHARGING",
       "top_processes": [
         {
+          "ProcessName": "chrome",
+          "Id": 15016,
+          "WorkingSetMB": 642.3,
+          "CPU": 227.578125
+        },
+        {
           "ProcessName": "Codex",
           "Id": 10656,
-          "WorkingSetMB": 489.5,
-          "CPU": 1020.8125
-        },
-        {
-          "ProcessName": "chrome",
-          "Id": 14232,
-          "WorkingSetMB": 444.9,
-          "CPU": 58.125
-        },
-        {
-          "ProcessName": "chrome",
-          "Id": 2256,
-          "WorkingSetMB": 368.9,
-          "CPU": 42.421875
-        },
-        {
-          "ProcessName": "MsMpEng",
-          "Id": 4240,
-          "WorkingSetMB": 287.8,
-          "CPU": null
+          "WorkingSetMB": 497.8,
+          "CPU": 1336.6875
         },
         {
           "ProcessName": "Memory Compression",
           "Id": 2776,
-          "WorkingSetMB": 287.4,
+          "WorkingSetMB": 417.5,
+          "CPU": null
+        },
+        {
+          "ProcessName": "chrome",
+          "Id": 14232,
+          "WorkingSetMB": 403.5,
+          "CPU": 150.015625
+        },
+        {
+          "ProcessName": "chrome",
+          "Id": 2256,
+          "WorkingSetMB": 378.8,
+          "CPU": 193.875
+        },
+        {
+          "ProcessName": "chrome",
+          "Id": 4112,
+          "WorkingSetMB": 327,
+          "CPU": 42.984375
+        },
+        {
+          "ProcessName": "MsMpEng",
+          "Id": 4240,
+          "WorkingSetMB": 316.8,
           "CPU": null
         },
         {
           "ProcessName": "explorer",
           "Id": 7248,
-          "WorkingSetMB": 282.3,
-          "CPU": 60.71875
-        },
-        {
-          "ProcessName": "Codex",
-          "Id": 12152,
-          "WorkingSetMB": 277.3,
-          "CPU": 265.609375
-        },
-        {
-          "ProcessName": "PhoneExperienceHost",
-          "Id": 12452,
-          "WorkingSetMB": 273.4,
-          "CPU": 13.875
+          "WorkingSetMB": 258,
+          "CPU": 91.28125
         }
       ]
     }
@@ -121,7 +121,7 @@
     "OK": 38,
     "CHECK": 123
   },
-  "performance_age_hours": 1.3365432780555557,
+  "performance_age_hours": 13.782205716388889,
   "printify_ui_status": {
     "status": "UNAVAILABLE",
     "reason": "<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>"
@@ -148,6 +148,17 @@
       "requires_network": "yes",
       "requires_login": "Printify API",
       "risk": "high"
+    },
+    {
+      "priority": 65,
+      "lane": "read_only_market",
+      "action": "Refresh eBay Seller Hub performance snapshot.",
+      "status": "READY",
+      "reason": "Performance data is stale or absent; this is read-only but browser/network dependent.",
+      "command": "py modules\\ebay_sellerhub_snapshot.py",
+      "requires_network": "yes",
+      "requires_login": "eBay Seller Hub",
+      "risk": "low"
     },
     {
       "priority": 63,

@@ -1,43 +1,94 @@
-{
-  "updated_at": "2026-05-08T07:14:39-04:00",
-  "last_run": {
-    "Timestamp": "2026-05-08T07:14:39-04:00",
-    "Task_ID": "grunt-hardware_heartbeat-8736729a",
-    "Action": "hardware_heartbeat",
-    "Status": "DONE",
-    "Decision": "RUN",
-    "Resource_Window": "morning_reports",
-    "Resource_Reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 100.0%",
-    "ReturnCode": 0,
-    "Detail": "{\"timestamp\": \"2026-05-08T07:14:39-04:00\", \"cpu_load_pct\": 100.0, \"memory_used_pct\": 61.9, \"temperature_c\": null, \"temperature_status\": \"DENIED_OR_UNAVAILABLE\", \"fan_rpm\": 0.0, \"fan_status\": \"OK_WIN32_FAN\", \"gpu_util_pct\": 1.3, \"battery_percent\": 100.0, \"power_status\": \"AC_CHARGING\", \"health_state\": \"COOLDOWN\", \"reason\": \"temperature DENIED_OR_UNAVAILABLE; cpu 100.0%\"}"
-  },
-  "allocation": {
-    "timestamp": "2026-05-08T07:14:24-04:00",
-    "window": "morning_reports",
-    "task_class": "report_batch",
-    "priority": 50,
-    "decision": "RUN",
-    "reason": "temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 100.0%",
-    "max_parallel": 2,
-    "batch_size": 5,
-    "cooldown_minutes": 0,
-    "cpu_load_pct": 100.0,
-    "memory_used_pct": 57.9,
-    "temperature_c": null,
-    "power_status": "AC_CHARGING"
-  },
-  "heartbeat": {
-    "timestamp": "2026-05-08T07:14:34-04:00",
-    "cpu_load_pct": 100.0,
-    "memory_used_pct": 60.7,
-    "temperature_c": null,
-    "temperature_status": "DENIED_OR_UNAVAILABLE",
-    "fan_rpm": 0.0,
-    "fan_status": "OK_WIN32_FAN",
-    "gpu_util_pct": 2.9,
-    "battery_percent": 100.0,
-    "power_status": "AC_CHARGING",
-    "health_state": "COOLDOWN",
-    "reason": "temperature DENIED_OR_UNAVAILABLE; cpu 100.0%"
-  }
+﻿{
+    "updated_at":  "2026-05-08T21:50:36-04:00",
+    "last_run":  {
+                     "Timestamp":  "2026-05-08T21:48:52-04:00",
+                     "Task_ID":  "grunt-dry-blocked-20260508_214852",
+                     "Action":  "grunt_dry_run",
+                     "Status":  "BLOCKED",
+                     "Decision":  "SKIP_LIVE",
+                     "Resource_Window":  "evening_guarded",
+                     "Resource_Reason":  "temperature DENIED_OR_UNAVAILABLE; CPU/memory PowerShell fallback safe (77% CPU, 62.7% memory); Python/npm entrypoints blocked by Access denied; Grunt dry-run blocked; live Grunt skipped",
+                     "ReturnCode":  0,
+                     "Detail":  "{\"attempted\":\"npm run grunt:dry\",\"result\":\"BLOCKED\",\"reason\":\"Python launcher failed before module execution: Access is denied\",\"resource_snapshot\":{\"timestamp\":\"2026-05-08T21:48:52-04:00\",\"window\":\"evening_guarded\",\"task_class\":\"local_light\",\"priority\":20,\"decision\":\"RUN_LIGHT\",\"reason\":\"temperature DENIED_OR_UNAVAILABLE; CPU/memory PowerShell fallback safe (77% CPU, 62.7% memory); Python/npm entrypoints blocked by Access denied; Grunt dry-run blocked; live Grunt skipped\",\"max_parallel\":1,\"batch_size\":1,\"cooldown_minutes\":0,\"cpu_load_pct\":77,\"memory_used_pct\":62.7,\"temperature_c\":null,\"power_status\":\"UNKNOWN_CIM_DENIED\"}}"
+                 },
+    "allocation":  {
+                       "timestamp":  "2026-05-08T21:50:36-04:00",
+                       "window":  "evening_cooldown",
+                       "task_class":  "cooldown_guard",
+                       "priority":  20,
+                       "decision":  "COOLDOWN",
+                       "reason":  "temperature DENIED_OR_UNAVAILABLE; final CPU resample elevated/unstable up to 99.4%; memory 63.3% used; Python/npm entrypoints blocked by Access denied; cooldown activated; live Grunt skipped",
+                       "max_parallel":  0,
+                       "batch_size":  0,
+                       "cooldown_minutes":  20,
+                       "cpu_load_pct":  99.4,
+                       "memory_used_pct":  63.3,
+                       "temperature_c":  null,
+                       "power_status":  "UNKNOWN_CIM_DENIED"
+                   },
+    "heartbeat":  {
+                      "timestamp":  "2026-05-08T21:50:36-04:00",
+                      "cpu_load_pct":  99.4,
+                      "memory_used_pct":  63.3,
+                      "memory_free_gb":  4.31,
+                      "temperature_c":  null,
+                      "temperature_status":  "DENIED_OR_UNAVAILABLE",
+                      "fan_rpm":  null,
+                      "fan_status":  "UNAVAILABLE",
+                      "gpu_util_pct":  null,
+                      "battery_percent":  null,
+                      "power_status":  "UNKNOWN_CIM_DENIED",
+                      "health_state":  "COOLDOWN",
+                      "reason":  "temperature DENIED_OR_UNAVAILABLE; final CPU resample elevated/unstable up to 99.4%; memory 63.3% used; Python/npm entrypoints blocked by Access denied; cooldown activated; live Grunt skipped",
+                      "top_processes":  [
+                                            {
+                                                "ProcessName":  "chrome",
+                                                "Id":  15016,
+                                                "WorkingSetMB":  642.3,
+                                                "CPU":  null
+                                            },
+                                            {
+                                                "ProcessName":  "Codex",
+                                                "Id":  10656,
+                                                "WorkingSetMB":  486.5,
+                                                "CPU":  null
+                                            },
+                                            {
+                                                "ProcessName":  "Memory Compression",
+                                                "Id":  2776,
+                                                "WorkingSetMB":  442.2,
+                                                "CPU":  null
+                                            },
+                                            {
+                                                "ProcessName":  "chrome",
+                                                "Id":  14232,
+                                                "WorkingSetMB":  403.6,
+                                                "CPU":  149.328125
+                                            },
+                                            {
+                                                "ProcessName":  "chrome",
+                                                "Id":  2256,
+                                                "WorkingSetMB":  382.7,
+                                                "CPU":  null
+                                            },
+                                            {
+                                                "ProcessName":  "chrome",
+                                                "Id":  4112,
+                                                "WorkingSetMB":  327,
+                                                "CPU":  null
+                                            },
+                                            {
+                                                "ProcessName":  "MsMpEng",
+                                                "Id":  4240,
+                                                "WorkingSetMB":  296.9,
+                                                "CPU":  null
+                                            },
+                                            {
+                                                "ProcessName":  "explorer",
+                                                "Id":  7248,
+                                                "WorkingSetMB":  231.9,
+                                                "CPU":  85.453125
+                                            }
+                                        ]
+                  }
 }

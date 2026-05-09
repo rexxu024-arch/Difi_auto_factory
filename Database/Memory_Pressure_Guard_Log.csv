@@ -45,3 +45,7 @@
 2026-05-08 02:11:29 -0400,EXECUTE_CLEANUP_FALLBACK,True,84.5,83.9,,,1,MEMORY_STILL_WARM_ACTIVATE_COOLDOWN,continue only guard/report/local-light work; skip Grunt and browser-heavy tasks
 2026-05-08 05:30:24 -0400,EXECUTE_CLEANUP,True,88.7,88.8,9.0,20.0,0,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
 2026-05-08 05:50:23 -0400,EXECUTE_CLEANUP,True,91.8,91.7,5.0,9.0,0,MEMORY_STILL_WARM_BUT_WORKABLE,continue light work; avoid browser/image-heavy tasks
+2026-05-08 21:48:05 -0400,NOOP_BELOW_THRESHOLD,False,62.5,62.5,33.0,33.0,0,MEMORY_OK_CONTINUE,normal work may continue under marketplace risk guards
+"2026-05-08T21:48:52-04:00","NOOP_BELOW_THRESHOLD_FALLBACK","False","62.7","62.7","77","77","0","MEMORY_OK_CONTINUE_LIGHT","memory and CPU below soft guard; thermal unavailable; Python entrypoints blocked"
+"2026-05-08T21:50:36-04:00","COOLDOWN_FALLBACK","False","63.3","63.3","99.4","99.4","0","CPU_UNSTABLE_COOLDOWN","CPU resample crossed soft guard; thermal unavailable; Python entrypoints blocked"
+2026-05-08 21:51:35 -0400,NOOP_BELOW_THRESHOLD,True,66.0,65.9,37.0,48.0,0,MEMORY_OK_CONTINUE,normal work may continue under marketplace risk guards

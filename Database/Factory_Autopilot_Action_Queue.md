@@ -1,10 +1,10 @@
 # Factory Autopilot Action Queue
 
-Generated: 2026-05-08T09:29:40-04:00 America/New_York
+Generated: 2026-05-08T21:56:24-04:00 America/New_York
 
 - Network mode: unknown (network guard skipped)
 - Resource mode: RUN (temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy)
-- Resource max parallel/batch: 2/5
+- Resource max parallel/batch: 1/1
 - eBay workbook rows: 299
 - Stable: 121
 - Published: 121
@@ -27,6 +27,12 @@ Generated: 2026-05-08T09:29:40-04:00 America/New_York
 - Reason: Stable=121 published=121 ready=47; network=unknown.
 - Command: `py modules\printify_publish_scheduler.py --limit 3 --min-delay 180 --max-delay 420`
 - Network: yes; login: Printify API; risk: high
+
+### P65 read_only_market: READY
+- Action: Refresh eBay Seller Hub performance snapshot.
+- Reason: Performance data is stale or absent; this is read-only but browser/network dependent.
+- Command: `py modules\ebay_sellerhub_snapshot.py`
+- Network: yes; login: eBay Seller Hub; risk: low
 
 ### P63 production_design_qa: READY
 - Action: Run a tiny Printify production-design audit before any larger online batch.

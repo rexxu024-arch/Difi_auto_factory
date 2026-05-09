@@ -1632,3 +1632,17 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Local factory supervisor refreshed QA, unified registry, market queue, eBay traffic diagnosis, gallery duplicate audit, blueprint plan, Etsy API status, backlog, morning/Gemini reports. One expected failure: Printify login guard could not reach Edge CDP because Edge had been deliberately closed for resource cleanup.
 - eBay diagnosis remains unchanged: 2% General ads are active but not enough alone; current blocker is traffic/product-market fit plus gallery/source trust, not Cover Gate.
 - Gemini free API follow-up attempt returned HTTP 503 high demand; no retry loop was started. `TO_GREY_latest.md` is ready for the next low-demand retry.
+
+## 2026-05-08 21:57:00 -04:00 One-Shot Night Shift Runner Armed
+- Rex requested roughly 10 hours of monthly tasks until the next 06:00 ET shutdown. Actual available window from current time is about 8 hours, ending with 05:30 winddown and 05:50 stop.
+- Added `modules/night_shift_runner.py` as a bounded one-shot loop for the current logged-in session only. It does not change startup/login/reboot behavior.
+- Trial cycle passed: memory guard, resource allocator, local factory supervisor, multi-track monitor, eBay experiment report, eBay traffic diagnosis, and backlog refresh all completed. CPU after trial was about 43%, memory about 70%.
+- Night runner strategy: before 23:00 ET, prioritize local/read-only/report work; after 23:00 ET, allow Edge read-only Seller Hub snapshots and very small Printify metadata syncs only if guards pass. No Etsy paid listings, no PPC/Priority ads, no order/payment/customer-message actions.
+- Logs/state: `Database/Night_Shift_Run_Log.csv` and `Database/Night_Shift_State.json`.
+
+## 2026-05-08 21:48:52 -04:00 Cruise Heartbeat Cooldown Activated
+- Checked git/worktree first; the workspace already had many untracked Database/Review_Packets artifacts, and heartbeat work left them untouched.
+- Repo npm heartbeat/cooldown/resource/memory scripts were attempted, but `.venv\Scripts\python.exe`, PyManager `python`, and `py` all failed with `Access is denied` before module execution.
+- PowerShell fallback resource sampling succeeded, but final CPU resample was unstable up to 99.4%; memory stayed workable around 63.3% used / 4.3GB free; thermal/fan/power sensors remain denied or unavailable.
+- Refreshed hardware heartbeat, cooldown, memory guard, system resource, and Grunt state/log files with cooldown active until 22:10 ET. No Edge/Chrome tabs were inspected or closed.
+- Attempted one low-risk `npm run grunt:dry`; it was blocked by the same Python access failure. Live Grunt work and any second Grunt attempt were skipped; no payment, billing, order, or customer-message settings were touched.

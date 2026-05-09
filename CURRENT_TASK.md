@@ -68,6 +68,7 @@ Active override: Grey/Gemini API file bridge is implemented and tested. `Gemnini
    - Track B: high-volume value copy experiments.
    - Track C: Etsy Digital pure-profit tests under strict fee caps.
    - Do not expand a track blindly when fresh Seller Hub/Etsy signal is missing.
+8. One-shot night shift mode may be used when Rex explicitly requests overnight monthly tasks. It must be bounded to the current logged-in session, avoid startup/login/reboot changes, enter winddown at 05:30 ET, stop work by 05:50 ET, and leave only the existing 06:00 ET shutdown task to power down the machine.
 
 Guardrails:
 - Do not rapid-publish new eBay listings while external sync and Sticker cover trust remain unresolved.

@@ -1,6 +1,6 @@
 # eBay Traffic Diagnosis
 
-Generated: 2026-05-08 09:29:34 -0400 America/New_York
+Generated: 2026-05-08 21:56:37 -0400 America/New_York
 
 ## P100 Cover Gate is cleared; the current blocker is traffic/product-market fit.
 - Evidence: Active cover fix queue is 0 after excluding 52 retired old eBay IDs; latest snapshot has 44/50 zero-view rows despite 50 promoted rows.
