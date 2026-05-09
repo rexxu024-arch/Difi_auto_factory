@@ -1646,6 +1646,11 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - New fill-work behavior: shorter default loop interval (`900s`), Grunt queue seed/one-shot execution, Quality Floor scans, morning report refresh, Daily Sitrep preparation, and Grey prepare-only packets.
 - Online writes remain guarded: only tiny metadata syncs after 23:00 ET, no paid Etsy spend, no PPC/Priority, no account/payment/order/customer-message actions.
 
+## 2026-05-08 23:35:00 -04:00 Autonomous Continuation Reinforced
+- Rex reminded that monthly tasks should continue without repeated prompts. Added durable rule: after any interruption, if no explicit stop/pause exists and guards are green, advance the highest-priority backlog item or safe local/report/QA work automatically.
+- Night shift runner is healthy at cycle 4 and continues toward 05:30 winddown / 05:50 stop.
+- Memory pressure cleanup closed idle Edge automation processes and Phone Link helpers, not Chrome. Memory improved from about 85.8% used to about 72.4%, CPU from about 56% to about 25%.
+
 ## 2026-05-08 21:48:52 -04:00 Cruise Heartbeat Cooldown Activated
 - Checked git/worktree first; the workspace already had many untracked Database/Review_Packets artifacts, and heartbeat work left them untouched.
 - Repo npm heartbeat/cooldown/resource/memory scripts were attempted, but `.venv\Scripts\python.exe`, PyManager `python`, and `py` all failed with `Access is denied` before module execution.
