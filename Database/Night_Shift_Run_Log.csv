@@ -386,3 +386,1264 @@ Timestamp,Cycle,Step,Status,ExitCode,ElapsedSeconds,Detail
 [FACTORY-BACKLOG] READY_AFTER_IMAGE_QA=1
 [FACTORY-BACKLOG] WAIT_NETWORK=1
 [FACTORY-BACKLOG] READY_FOR_SCHOLAR_REVIEW=1"
+2026-05-08 22:08:11 -0400,0,night_shift_start,START,0,0,stop_at=2026-05-09T05:50:00-04:00 winddown_at=2026-05-09T05:30:00-04:00 interval=900
+2026-05-08 22:08:22 -0400,1,memory_pressure_guard,OK,0,11.1,"{
+  ""timestamp"": ""2026-05-08 22:08:22 -0400"",
+  ""mode"": ""NOOP_BELOW_THRESHOLD"",
+  ""execute"": true,
+  ""cdp_port"": 9223,
+  ""memory_soft_pct"": 82.0,
+  ""memory_hard_pct"": 92.0,
+  ""cpu_soft_pct"": 85.0,
+  ""memory_before"": 71.5,
+  ""memory_after"": 71.6,
+  ""cpu_before"": 51.0,
+  ""cpu_after"": 76.0,
+  ""closed_tabs"": [],
+  ""top_processes"": [
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 15016,
+      ""WorkingSetMB"": 698,
+      ""CPU"": 236.4375
+    },
+    {
+      ""ProcessName"": ""Memory Compression"",
+      ""Id"": 2776,
+      ""WorkingSetMB"": 478.9,
+      ""CPU"": null
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 2256,
+      ""WorkingSetMB"": 468.5,
+      ""CPU"": 209.75
+    },
+    {
+      ""ProcessName"": ""Codex"",
+      ""Id"": 10656,
+      ""WorkingSetMB"": 421.1,
+      ""CPU"": 1412.828125
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 14232,
+      ""WorkingSetMB"": 400.6,
+      ""CPU"": 201.046875
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 4112,
+      ""WorkingSetMB"": 392.5,
+      ""CPU"": 59.15625
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 16144,
+      ""WorkingSetMB"": 389.6,
+      ""CPU"": 195.3125
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 1772,
+      ""WorkingSetMB"": 350,
+      ""CPU"": 111.0625
+    }
+  ],
+  ""decision"": ""MEMORY_OK_CONTINUE"",
+  ""reason"": ""normal work may continue under marketplace risk guards"",
+  ""privacy_rule"": ""Only closes project automation Edge tabs through CDP 9223. Does not inspect or close Rex's daily Chrome tabs."",
+  ""optimization_rule"": ""Cleanup first, then resample. Pause only if pressure remains high after closing safe idle project tabs and reducing concurrency."",
+  ""rest_rule"": ""Do not shutdown/restart by default; if pressure stays high after cleanup, write rest-cycle recommendation unless Rex explicitly requests immediate power action.""
+}"
+2026-05-08 22:08:30 -0400,1,system_resource_allocator,OK,0,4.3,"{
+  ""allocation"": {
+    ""timestamp"": ""2026-05-08T22:08:30-04:00"",
+    ""window"": ""peak_rex_online"",
+    ""task_class"": ""single_browser_task"",
+    ""priority"": 50,
+    ""decision"": ""RUN"",
+    ""reason"": ""temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy"",
+    ""max_parallel"": 1,
+    ""batch_size"": 1,
+    ""cooldown_minutes"": 0,
+    ""cpu_load_pct"": 65.0,
+    ""memory_used_pct"": 71.5,
+    ""temperature_c"": null,
+    ""power_status"": ""AC_CHARGING""
+  },
+  ""snapshot"": {
+    ""timestamp"": ""2026-05-08T22:08:30-04:00"",
+    ""cpu_load_pct"": 65.0,
+    ""memory_used_pct"": 71.5,
+    ""memory_total_gb"": 11.75,
+    ""memory_free_gb"": 3.35,
+    ""temperature_c"": null,
+    ""temperature_status"": ""DENIED_OR_UNAVAILABLE"",
+    ""gpu_util_pct"": 9.1,
+    ""battery_percent"": 100.0,
+    ""power_status"": ""AC_CHARGING"",
+    ""top_processes"": [
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 15016,
+        ""WorkingSetMB"": 698,
+        ""CPU"": 236.4375
+      },
+      {
+        ""ProcessName"": ""Memory Compression"",
+        ""Id"": 2776,
+        ""WorkingSetMB"": 478.9,
+        ""CPU"": null
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 2256,
+        ""WorkingSetMB"": 468.5,
+        ""CPU"": 209.75
+      },
+      {
+        ""ProcessName"": ""Codex"",
+        ""Id"": 10656,
+        ""WorkingSetMB"": 416.6,
+        ""CPU"": 1414.296875
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 14232,
+        ""WorkingSetMB"": 400.9,
+        ""CPU"": 201.53125
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 16144,
+        ""WorkingSetMB"": 398.9,
+        ""CPU"": 199.453125
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 4112,
+        ""WorkingSetMB"": 392.4,
+        ""CPU"": 59.15625
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 1772,
+        ""WorkingSetMB"": 350.8,
+        ""CPU"": 111.078125
+      }
+    ]
+  }
+}"
+2026-05-08 22:08:33 -0400,1,grunt_seed_if_empty,OK,0,0.3,"{
+  ""added"": [],
+  ""summary"": {
+    ""status_counts"": {
+      ""DONE"": 15,
+      ""FAILED"": 1,
+      ""PENDING"": 8,
+      ""RUNNING"": 1
+    },
+    ""resource_class_counts"": {
+      ""local_light"": 14,
+      ""report_batch"": 3,
+      ""qa_batch"": 3,
+      ""rest_maintenance"": 2,
+      ""queue_planning"": 3
+    },
+    ""queue"": ""C:\\AIprojects\\openclaw_difi\\Database\\Grunt_Task_Queue.jsonl""
+  }
+}"
+2026-05-08 22:08:50 -0400,1,grunt_once,OK,0,13.6,"[QUALITY-FLOOR] Hardware_Cooldown_State.json PASS failed=0
+{
+  ""Timestamp"": ""2026-05-08T22:08:50-04:00"",
+  ""Task_ID"": ""grunt-hardware_cooldown_guard-bd6c2171"",
+  ""Action"": ""hardware_cooldown_guard"",
+  ""Status"": ""DONE"",
+  ""Decision"": ""RUN"",
+  ""Resource_Window"": ""peak_rex_online"",
+  ""Resource_Reason"": ""temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy"",
+  ""ReturnCode"": 0,
+  ""Detail"": ""{\n  \""timestamp\"": \""2026-05-08T22:08:49-04:00\"",\n  \""active\"": false,\n  \""cooldown_until\"": \""2026-05-08T22:08:49-04:00\"",\n  \""cooldown_minutes\"": 0,\n  \""health_state\"": \""OK\"",\n  \""reason\"": \""temperature DENIED_OR_UNAVAILABLE\"",\n  \""hot_streak\"": 0,\n  \""heartbeat\"": {\n    \""timestamp\"": \""2026-05-08T22:08:49-04:00\"",\n    \""cpu_load_pct\"": 46.0,\n    \""memory_used_pct\"": 71.7,\n    \""temperature_c\"": null,\n    \""temperature_status\"": \""DENIED_OR_UNAVAILABLE\"",\n    \""fan_rpm\"": 0.0,\n    \""fan_status\"": \""OK_WIN32_FAN\"",\n    \""gpu_util_pct\"": 8.6,\n    \""battery_percent\"": 100.0,\n    \""power_status\"": \""AC_CHARGING\"",\n    \""health_state\"": \""OK\"",\n    \""reason\"": \""temperature DENIED_OR_UNAVAILABLE\""\n  },\n  \""memory_guard\"": null,\n  \""resource_policy\"": \""optimize first, pause only after cleanup fails to bring pressure back under guardrails\"",\n  \""allowed_during_cooldown\"": [\n    \""hardware_heartbeat\"",\n    \""memory_cleanup\"",\n    \""report_batch\"",\n    \""local_light\"",\n    \""queue_planning\"",\n    \""api_read\"",\n    \""online_publish_safe\""\n  ],\n  \""blocked_during_cooldown""
+}"
+2026-05-08 22:14:07 -0400,1,local_factory_supervisor,OK,0,314.1,"print=1936 variant=119906
+[BLUEPRINT-NEXT-PLAN] P2 Framed Poster blueprint=1236 variant=93818
+[BLUEPRINT-NEXT-PLAN] P3 Notebook/Journal blueprint=5634 variant=252281
+[BLUEPRINT-NEXT-PLAN] P4 Mug blueprint=478 variant=65216
+[BLUEPRINT-NEXT-PLAN] P5 Metal blueprint=1206 variant=91995
+[AUTOPILOT-LOCAL] start etsy_app_status_probe.py
+[AUTOPILOT-LOCAL] etsy_app_status_probe.py OK
+[ETSY-APP] status=PENDING_OR_INACTIVE http=403 next=WAIT_APP_APPROVAL_OR_VERIFY_SECRET
+[ETSY-APP] json=C:\AIprojects\openclaw_difi\Database\Etsy_API_Status.json
+[AUTOPILOT-LOCAL] start factory_backlog.py
+[AUTOPILOT-LOCAL] factory_backlog.py OK
+[FACTORY-BACKLOG] rows=11 csv=C:\AIprojects\openclaw_difi\Database\Factory_Backlog.csv
+[FACTORY-BACKLOG] READY=6
+[FACTORY-BACKLOG] READY_MONITOR=2
+[FACTORY-BACKLOG] READY_AFTER_IMAGE_QA=1
+[FACTORY-BACKLOG] WAIT_NETWORK=1
+[FACTORY-BACKLOG] READY_FOR_SCHOLAR_REVIEW=1
+[AUTOPILOT-LOCAL] start factory_morning_report.py
+[AUTOPILOT-LOCAL] factory_morning_report.py OK
+[REPORT] C:\AIprojects\openclaw_difi\Reports\morning_report_20260508_2214.md
+[GEMINI] C:\AIprojects\openclaw_difi\Gemini_Advisor\gemini_review_queue_20260508_2214.md
+[AUTOPILOT-LOCAL-DONE] failures=1
+[AUTOPILOT] state=C:\AIprojects\openclaw_difi\Database\Factory_Autopilot_State.json
+[AUTOPILOT] queue=C:\AIprojects\openclaw_difi\Database\Factory_Autopilot_Action_Queue.csv
+[AUTOPILOT] P100 local READY: Refresh local QA, registry, market queue, cover decisions, experiment report, and morning report.
+[AUTOPILOT] P70 publish WAIT_NETWORK: Publish small cooled batch if network guard is healthy.
+[AUTOPILOT] P65 read_only_market READY: Refresh eBay Seller Hub performance snapshot.
+[AUTOPILOT] P63 production_design_qa READY: Run a tiny Printify production-design audit before any larger online batch.
+[AUTOPILOT] P55 etsy READY_MONITOR: Monitor Etsy Digital first gray batch before spending more listing fees.
+[AUTOPILOT] P50 copy_experiment READY: Continue low-bandwidth SEO/title/description experiment analysis."
+2026-05-08 22:14:11 -0400,1,multi_track_monitor,OK,0,0.9,[MULTI-MONITOR] rows=29 csv=C:\AIprojects\openclaw_difi\Database\Multi_Track_Copy_Performance_Monitor.csv report=C:\AIprojects\openclaw_difi\Review_Packets\MULTI_TRACK_COPY_MONITOR_20260508.md
+2026-05-08 22:14:14 -0400,1,ebay_experiment_report,OK,0,0.3,[EXPERIMENT-REPORT] rows=44 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Experiment_Report.csv
+2026-05-08 22:14:18 -0400,1,ebay_traffic_diagnosis,OK,0,0.9,"[TRAFFIC-DIAGNOSIS] rows=5 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Diagnosis.csv
+[TRAFFIC-DIAGNOSIS] P100 Cover Gate is cleared; the current blocker is traffic/product-market fit.
+[TRAFFIC-DIAGNOSIS] P90 Promoted Listings Standard 2% is active but is not enough alone.
+[TRAFFIC-DIAGNOSIS] P85 Repeated or risky gallery images can suppress buyer trust and marketplace quality scoring.
+[TRAFFIC-DIAGNOSIS] P80 Poster/Acrylic currently show more early movement than Sticker.
+[TRAFFIC-DIAGNOSIS] P70 Title rewrite experiment has not produced a clear Sticker lift yet."
+2026-05-08 22:14:21 -0400,1,factory_backlog,OK,0,0.3,"[FACTORY-BACKLOG] rows=11 csv=C:\AIprojects\openclaw_difi\Database\Factory_Backlog.csv
+[FACTORY-BACKLOG] READY=6
+[FACTORY-BACKLOG] READY_MONITOR=2
+[FACTORY-BACKLOG] READY_AFTER_IMAGE_QA=1
+[FACTORY-BACKLOG] WAIT_NETWORK=1
+[FACTORY-BACKLOG] READY_FOR_SCHOLAR_REVIEW=1"
+2026-05-08 22:29:37 -0400,2,memory_pressure_guard,OK,0,12.9,"{
+  ""timestamp"": ""2026-05-08 22:29:37 -0400"",
+  ""mode"": ""NOOP_BELOW_THRESHOLD"",
+  ""execute"": true,
+  ""cdp_port"": 9223,
+  ""memory_soft_pct"": 82.0,
+  ""memory_hard_pct"": 92.0,
+  ""cpu_soft_pct"": 85.0,
+  ""memory_before"": 70.4,
+  ""memory_after"": 70.5,
+  ""cpu_before"": 14.0,
+  ""cpu_after"": 14.0,
+  ""closed_tabs"": [],
+  ""top_processes"": [
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 15016,
+      ""WorkingSetMB"": 753.6,
+      ""CPU"": 244.078125
+    },
+    {
+      ""ProcessName"": ""Memory Compression"",
+      ""Id"": 2776,
+      ""WorkingSetMB"": 610.2,
+      ""CPU"": null
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 2256,
+      ""WorkingSetMB"": 522.9,
+      ""CPU"": 237.390625
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 4112,
+      ""WorkingSetMB"": 457.4,
+      ""CPU"": 71.375
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 16144,
+      ""WorkingSetMB"": 441.2,
+      ""CPU"": 469.9375
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 1772,
+      ""WorkingSetMB"": 373.7,
+      ""CPU"": 133.625
+    },
+    {
+      ""ProcessName"": ""MsMpEng"",
+      ""Id"": 4240,
+      ""WorkingSetMB"": 360.2,
+      ""CPU"": null
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 14232,
+      ""WorkingSetMB"": 344.4,
+      ""CPU"": 241.875
+    }
+  ],
+  ""decision"": ""MEMORY_OK_CONTINUE"",
+  ""reason"": ""normal work may continue under marketplace risk guards"",
+  ""privacy_rule"": ""Only closes project automation Edge tabs through CDP 9223. Does not inspect or close Rex's daily Chrome tabs."",
+  ""optimization_rule"": ""Cleanup first, then resample. Pause only if pressure remains high after closing safe idle project tabs and reducing concurrency."",
+  ""rest_rule"": ""Do not shutdown/restart by default; if pressure stays high after cleanup, write rest-cycle recommendation unless Rex explicitly requests immediate power action.""
+}"
+2026-05-08 22:29:44 -0400,2,system_resource_allocator,OK,0,3.6,"{
+  ""allocation"": {
+    ""timestamp"": ""2026-05-08T22:29:44-04:00"",
+    ""window"": ""peak_rex_online"",
+    ""task_class"": ""single_browser_task"",
+    ""priority"": 50,
+    ""decision"": ""RUN"",
+    ""reason"": ""temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy"",
+    ""max_parallel"": 1,
+    ""batch_size"": 1,
+    ""cooldown_minutes"": 0,
+    ""cpu_load_pct"": 11.0,
+    ""memory_used_pct"": 70.4,
+    ""temperature_c"": null,
+    ""power_status"": ""AC_CHARGING""
+  },
+  ""snapshot"": {
+    ""timestamp"": ""2026-05-08T22:29:44-04:00"",
+    ""cpu_load_pct"": 11.0,
+    ""memory_used_pct"": 70.4,
+    ""memory_total_gb"": 11.75,
+    ""memory_free_gb"": 3.48,
+    ""temperature_c"": null,
+    ""temperature_status"": ""DENIED_OR_UNAVAILABLE"",
+    ""gpu_util_pct"": 4.0,
+    ""battery_percent"": 100.0,
+    ""power_status"": ""AC_CHARGING"",
+    ""top_processes"": [
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 15016,
+        ""WorkingSetMB"": 753.6,
+        ""CPU"": 244.078125
+      },
+      {
+        ""ProcessName"": ""Memory Compression"",
+        ""Id"": 2776,
+        ""WorkingSetMB"": 610.2,
+        ""CPU"": null
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 2256,
+        ""WorkingSetMB"": 522.9,
+        ""CPU"": 237.390625
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 4112,
+        ""WorkingSetMB"": 457.4,
+        ""CPU"": 71.375
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 16144,
+        ""WorkingSetMB"": 441.4,
+        ""CPU"": 470.78125
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 1772,
+        ""WorkingSetMB"": 373.8,
+        ""CPU"": 133.625
+      },
+      {
+        ""ProcessName"": ""MsMpEng"",
+        ""Id"": 4240,
+        ""WorkingSetMB"": 356.5,
+        ""CPU"": null
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 14232,
+        ""WorkingSetMB"": 344.9,
+        ""CPU"": 241.96875
+      }
+    ]
+  }
+}"
+2026-05-08 22:29:47 -0400,2,grunt_seed_if_empty,OK,0,0.3,"{
+  ""added"": [],
+  ""summary"": {
+    ""status_counts"": {
+      ""DONE"": 16,
+      ""FAILED"": 1,
+      ""PENDING"": 7,
+      ""RUNNING"": 1
+    },
+    ""resource_class_counts"": {
+      ""local_light"": 14,
+      ""report_batch"": 3,
+      ""qa_batch"": 3,
+      ""rest_maintenance"": 2,
+      ""queue_planning"": 3
+    },
+    ""queue"": ""C:\\AIprojects\\openclaw_difi\\Database\\Grunt_Task_Queue.jsonl""
+  }
+}"
+2026-05-08 22:29:58 -0400,2,grunt_once,OK,0,7.9,"[QUALITY-FLOOR] eBay_Traffic_Experiment_Report.csv PASS failed=0
+{
+  ""Timestamp"": ""2026-05-08T22:29:58-04:00"",
+  ""Task_ID"": ""grunt-copy_signal_refresh-2043c713"",
+  ""Action"": ""copy_signal_refresh"",
+  ""Status"": ""DONE"",
+  ""Decision"": ""RUN"",
+  ""Resource_Window"": ""peak_rex_online"",
+  ""Resource_Reason"": ""temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy"",
+  ""ReturnCode"": 0,
+  ""Detail"": ""[EXPERIMENT-REPORT] rows=44 csv=C:\\AIprojects\\openclaw_difi\\Database\\eBay_Traffic_Experiment_Report.csv\n""
+}"
+2026-05-08 22:34:30 -0400,2,local_factory_supervisor,OK,0,269.3,"print=1936 variant=119906
+[BLUEPRINT-NEXT-PLAN] P2 Framed Poster blueprint=1236 variant=93818
+[BLUEPRINT-NEXT-PLAN] P3 Notebook/Journal blueprint=5634 variant=252281
+[BLUEPRINT-NEXT-PLAN] P4 Mug blueprint=478 variant=65216
+[BLUEPRINT-NEXT-PLAN] P5 Metal blueprint=1206 variant=91995
+[AUTOPILOT-LOCAL] start etsy_app_status_probe.py
+[AUTOPILOT-LOCAL] etsy_app_status_probe.py OK
+[ETSY-APP] status=PENDING_OR_INACTIVE http=403 next=WAIT_APP_APPROVAL_OR_VERIFY_SECRET
+[ETSY-APP] json=C:\AIprojects\openclaw_difi\Database\Etsy_API_Status.json
+[AUTOPILOT-LOCAL] start factory_backlog.py
+[AUTOPILOT-LOCAL] factory_backlog.py OK
+[FACTORY-BACKLOG] rows=11 csv=C:\AIprojects\openclaw_difi\Database\Factory_Backlog.csv
+[FACTORY-BACKLOG] READY=6
+[FACTORY-BACKLOG] READY_MONITOR=2
+[FACTORY-BACKLOG] READY_AFTER_IMAGE_QA=1
+[FACTORY-BACKLOG] WAIT_NETWORK=1
+[FACTORY-BACKLOG] READY_FOR_SCHOLAR_REVIEW=1
+[AUTOPILOT-LOCAL] start factory_morning_report.py
+[AUTOPILOT-LOCAL] factory_morning_report.py OK
+[REPORT] C:\AIprojects\openclaw_difi\Reports\morning_report_20260508_2234.md
+[GEMINI] C:\AIprojects\openclaw_difi\Gemini_Advisor\gemini_review_queue_20260508_2234.md
+[AUTOPILOT-LOCAL-DONE] failures=1
+[AUTOPILOT] state=C:\AIprojects\openclaw_difi\Database\Factory_Autopilot_State.json
+[AUTOPILOT] queue=C:\AIprojects\openclaw_difi\Database\Factory_Autopilot_Action_Queue.csv
+[AUTOPILOT] P100 local READY: Refresh local QA, registry, market queue, cover decisions, experiment report, and morning report.
+[AUTOPILOT] P70 publish WAIT_NETWORK: Publish small cooled batch if network guard is healthy.
+[AUTOPILOT] P65 read_only_market READY: Refresh eBay Seller Hub performance snapshot.
+[AUTOPILOT] P63 production_design_qa READY: Run a tiny Printify production-design audit before any larger online batch.
+[AUTOPILOT] P55 etsy READY_MONITOR: Monitor Etsy Digital first gray batch before spending more listing fees.
+[AUTOPILOT] P50 copy_experiment READY: Continue low-bandwidth SEO/title/description experiment analysis."
+2026-05-08 22:34:35 -0400,2,quality_floor_scan,OK,0,1.9,"LOOR] eBay_Traffic_Experiment_Report.md PASS failed=0
+[QUALITY-FLOOR] eBay_Traffic_Experiment_Rollback.csv PASS failed=0
+[QUALITY-FLOOR] eBay_UI_Title_Revise_Log.csv PASS failed=0
+[QUALITY-FLOOR] Endurance_Protocol_Log.csv PASS failed=0
+[QUALITY-FLOOR] Endurance_Protocol_State.json PASS failed=0
+[QUALITY-FLOOR] Etsy_API_Status.json PASS failed=0
+[QUALITY-FLOOR] Etsy_API_Status_Log.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_brand_design_options.md PASS failed=0
+[QUALITY-FLOOR] etsy_brand_mj_jobs.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_brand_shell.md PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Bundle_Queue.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Bundle_Strategy.md PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Candidates.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Final_Upload_Packet.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Final_Upload_Packet.md PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Gray_Launch_Queue.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Live_Audit.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Next_Batch_Candidates.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Next_Batch_State.json PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Pilot_Packs.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Preview_Assets.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Product_Blueprints.md PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Product_RnD.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Product_RnD.md PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_QA.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_QA_Report.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_QA_Report.md PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_UI_Publish_Log.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Upload_Queue.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Fee_Kill_Switch.json PASS failed=0
+[QUALITY-FLOOR] Etsy_Fee_Ledger.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Fee_Reconciliation_Log.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Gray_Launch_Sequence.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_launch_plan.csv PASS failed=0"
+2026-05-08 22:35:08 -0400,2,poster_design_audit,OK,0,29.7,"[DESIGN-OK] Poster-Academia-0002 visual_match=True exact_sha=False size=(3600, 5400) remote=(3600, 5400) declared=(3600, 5400) ahash_distance=0
+[DESIGN-OK] Poster-Academia-0081 visual_match=True exact_sha=False size=(3600, 5400) remote=(3600, 5400) declared=(3600, 5400) ahash_distance=0
+[DESIGN-OK] Poster-Academia-0082 visual_match=True exact_sha=False size=(3600, 5400) remote=(3600, 5400) declared=(3600, 5400) ahash_distance=0
+[DONE] design audit checked=3 mismatches=0 report=C:\AIprojects\openclaw_difi\Database\printify_design_audit_20260508_223439.csv"
+2026-05-08 22:35:26 -0400,2,acrylic_design_audit,OK,0,15.5,"[DESIGN-OK] Acrylic-Academia-0001 visual_match=True exact_sha=False size=(1538, 2138) remote=(1538, 2138) declared=(1538, 2138) ahash_distance=0
+[DESIGN-OK] Acrylic-Grimdark-0082 visual_match=True exact_sha=False size=(1538, 2138) remote=(1538, 2138) declared=(1538, 2138) ahash_distance=0
+[DESIGN-OK] Acrylic-Zen-0002 visual_match=True exact_sha=False size=(1538, 2138) remote=(1538, 2138) declared=(1538, 2138) ahash_distance=0
+[DONE] design audit checked=3 mismatches=0 report=C:\AIprojects\openclaw_difi\Database\printify_design_audit_20260508_223512.csv"
+2026-05-08 22:35:30 -0400,2,etsy_api_status,OK,0,1.1,"[ETSY-APP] status=PENDING_OR_INACTIVE http=403 next=WAIT_APP_APPROVAL_OR_VERIFY_SECRET
+[ETSY-APP] json=C:\AIprojects\openclaw_difi\Database\Etsy_API_Status.json"
+2026-05-08 22:35:34 -0400,2,multi_track_monitor,OK,0,0.9,[MULTI-MONITOR] rows=29 csv=C:\AIprojects\openclaw_difi\Database\Multi_Track_Copy_Performance_Monitor.csv report=C:\AIprojects\openclaw_difi\Review_Packets\MULTI_TRACK_COPY_MONITOR_20260508.md
+2026-05-08 22:35:37 -0400,2,ebay_experiment_report,OK,0,0.1,[EXPERIMENT-REPORT] rows=44 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Experiment_Report.csv
+2026-05-08 22:35:42 -0400,2,ebay_traffic_diagnosis,OK,0,1.1,"[TRAFFIC-DIAGNOSIS] rows=5 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Diagnosis.csv
+[TRAFFIC-DIAGNOSIS] P100 Cover Gate is cleared; the current blocker is traffic/product-market fit.
+[TRAFFIC-DIAGNOSIS] P90 Promoted Listings Standard 2% is active but is not enough alone.
+[TRAFFIC-DIAGNOSIS] P85 Repeated or risky gallery images can suppress buyer trust and marketplace quality scoring.
+[TRAFFIC-DIAGNOSIS] P80 Poster/Acrylic currently show more early movement than Sticker.
+[TRAFFIC-DIAGNOSIS] P70 Title rewrite experiment has not produced a clear Sticker lift yet."
+2026-05-08 22:35:45 -0400,2,blueprint_next_plan,OK,0,0.2,"[BLUEPRINT-NEXT-PLAN] rows=5 csv=C:\AIprojects\openclaw_difi\Database\Product_Blueprint_Next_Test_Plan.csv
+[BLUEPRINT-NEXT-PLAN] P1 Canvas blueprint=1936 variant=119906
+[BLUEPRINT-NEXT-PLAN] P2 Framed Poster blueprint=1236 variant=93818
+[BLUEPRINT-NEXT-PLAN] P3 Notebook/Journal blueprint=5634 variant=252281
+[BLUEPRINT-NEXT-PLAN] P4 Mug blueprint=478 variant=65216
+[BLUEPRINT-NEXT-PLAN] P5 Metal blueprint=1206 variant=91995"
+2026-05-08 22:35:48 -0400,2,factory_backlog,OK,0,0.3,"[FACTORY-BACKLOG] rows=11 csv=C:\AIprojects\openclaw_difi\Database\Factory_Backlog.csv
+[FACTORY-BACKLOG] READY=6
+[FACTORY-BACKLOG] READY_MONITOR=2
+[FACTORY-BACKLOG] READY_AFTER_IMAGE_QA=1
+[FACTORY-BACKLOG] WAIT_NETWORK=1
+[FACTORY-BACKLOG] READY_FOR_SCHOLAR_REVIEW=1"
+2026-05-08 22:51:02 -0400,3,memory_pressure_guard,OK,0,10.8,"{
+  ""timestamp"": ""2026-05-08 22:51:02 -0400"",
+  ""mode"": ""NOOP_BELOW_THRESHOLD"",
+  ""execute"": true,
+  ""cdp_port"": 9223,
+  ""memory_soft_pct"": 82.0,
+  ""memory_hard_pct"": 92.0,
+  ""cpu_soft_pct"": 85.0,
+  ""memory_before"": 74.5,
+  ""memory_after"": 74.9,
+  ""cpu_before"": 26.0,
+  ""cpu_after"": 34.0,
+  ""closed_tabs"": [],
+  ""top_processes"": [
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 15016,
+      ""WorkingSetMB"": 812.2,
+      ""CPU"": 257.21875
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 16144,
+      ""WorkingSetMB"": 690.9,
+      ""CPU"": 827.59375
+    },
+    {
+      ""ProcessName"": ""Memory Compression"",
+      ""Id"": 2776,
+      ""WorkingSetMB"": 662.6,
+      ""CPU"": null
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 2256,
+      ""WorkingSetMB"": 592.7,
+      ""CPU"": 258.03125
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 4112,
+      ""WorkingSetMB"": 555.7,
+      ""CPU"": 80.796875
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 1772,
+      ""WorkingSetMB"": 408.2,
+      ""CPU"": 150.59375
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 15372,
+      ""WorkingSetMB"": 390.8,
+      ""CPU"": 54
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 14232,
+      ""WorkingSetMB"": 342,
+      ""CPU"": 289.890625
+    }
+  ],
+  ""decision"": ""MEMORY_OK_CONTINUE"",
+  ""reason"": ""normal work may continue under marketplace risk guards"",
+  ""privacy_rule"": ""Only closes project automation Edge tabs through CDP 9223. Does not inspect or close Rex's daily Chrome tabs."",
+  ""optimization_rule"": ""Cleanup first, then resample. Pause only if pressure remains high after closing safe idle project tabs and reducing concurrency."",
+  ""rest_rule"": ""Do not shutdown/restart by default; if pressure stays high after cleanup, write rest-cycle recommendation unless Rex explicitly requests immediate power action.""
+}"
+2026-05-08 22:51:09 -0400,3,system_resource_allocator,OK,0,4.4,"{
+  ""allocation"": {
+    ""timestamp"": ""2026-05-08T22:51:09-04:00"",
+    ""window"": ""peak_rex_online"",
+    ""task_class"": ""single_browser_task"",
+    ""priority"": 50,
+    ""decision"": ""RUN"",
+    ""reason"": ""temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy"",
+    ""max_parallel"": 1,
+    ""batch_size"": 1,
+    ""cooldown_minutes"": 0,
+    ""cpu_load_pct"": 43.0,
+    ""memory_used_pct"": 75.1,
+    ""temperature_c"": null,
+    ""power_status"": ""AC_CHARGING""
+  },
+  ""snapshot"": {
+    ""timestamp"": ""2026-05-08T22:51:09-04:00"",
+    ""cpu_load_pct"": 43.0,
+    ""memory_used_pct"": 75.1,
+    ""memory_total_gb"": 11.75,
+    ""memory_free_gb"": 2.92,
+    ""temperature_c"": null,
+    ""temperature_status"": ""DENIED_OR_UNAVAILABLE"",
+    ""gpu_util_pct"": 19.0,
+    ""battery_percent"": 100.0,
+    ""power_status"": ""AC_CHARGING"",
+    ""top_processes"": [
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 15016,
+        ""WorkingSetMB"": 812.2,
+        ""CPU"": 257.21875
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 16144,
+        ""WorkingSetMB"": 747.8,
+        ""CPU"": 837.0625
+      },
+      {
+        ""ProcessName"": ""Memory Compression"",
+        ""Id"": 2776,
+        ""WorkingSetMB"": 662.4,
+        ""CPU"": null
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 2256,
+        ""WorkingSetMB"": 592.7,
+        ""CPU"": 258.03125
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 4112,
+        ""WorkingSetMB"": 555.7,
+        ""CPU"": 80.796875
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 1772,
+        ""WorkingSetMB"": 410.7,
+        ""CPU"": 150.609375
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 15372,
+        ""WorkingSetMB"": 392.9,
+        ""CPU"": 54.015625
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 14232,
+        ""WorkingSetMB"": 342.1,
+        ""CPU"": 290.390625
+      }
+    ]
+  }
+}"
+2026-05-08 22:51:13 -0400,3,grunt_seed_if_empty,OK,0,0.3,"{
+  ""added"": [],
+  ""summary"": {
+    ""status_counts"": {
+      ""DONE"": 17,
+      ""FAILED"": 1,
+      ""PENDING"": 6,
+      ""RUNNING"": 1
+    },
+    ""resource_class_counts"": {
+      ""local_light"": 14,
+      ""report_batch"": 3,
+      ""qa_batch"": 3,
+      ""rest_maintenance"": 2,
+      ""queue_planning"": 3
+    },
+    ""queue"": ""C:\\AIprojects\\openclaw_difi\\Database\\Grunt_Task_Queue.jsonl""
+  }
+}"
+2026-05-08 22:51:27 -0400,3,grunt_once,OK,0,11.3,"[QUALITY-FLOOR] Market_Signal_Action_Queue.csv PASS failed=0
+{
+  ""Timestamp"": ""2026-05-08T22:51:27-04:00"",
+  ""Task_ID"": ""grunt-market_signal_refresh-c111a2bf"",
+  ""Action"": ""market_signal_refresh"",
+  ""Status"": ""DONE"",
+  ""Decision"": ""RUN"",
+  ""Resource_Window"": ""peak_rex_online"",
+  ""Resource_Reason"": ""temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy; cpu high 94.0%"",
+  ""ReturnCode"": 0,
+  ""Detail"": ""[MARKET-QUEUE] rows=299 csv=C:\\AIprojects\\openclaw_difi\\Database\\Market_Signal_Action_Queue.csv\n[MARKET-QUEUE] action HOLD=152\n[MARKET-QUEUE] action QA_HOLD_OR_REBUILD=88\n[MARKET-QUEUE] action UPLOAD_TO_PRINTIFY_SINGLE_ITEM_BATCH=47\n[MARKET-QUEUE] action WAIT_24H_AFTER_2PCT_ADS_THEN_APPLY_COPY_TEST=7\n[MARKET-QUEUE] action KEEP_FOR_ETSY_PHASE1=5\n[MARKET-QUEUE] dependency local=240\n[MARKET-QUEUE] dependency high=47\n[MARKET-QUEUE] dependency low=7\n[MARKET-QUEUE] dependency medium=5\n""
+}"
+2026-05-08 22:56:28 -0400,3,local_factory_supervisor,OK,0,297.6,"print=1936 variant=119906
+[BLUEPRINT-NEXT-PLAN] P2 Framed Poster blueprint=1236 variant=93818
+[BLUEPRINT-NEXT-PLAN] P3 Notebook/Journal blueprint=5634 variant=252281
+[BLUEPRINT-NEXT-PLAN] P4 Mug blueprint=478 variant=65216
+[BLUEPRINT-NEXT-PLAN] P5 Metal blueprint=1206 variant=91995
+[AUTOPILOT-LOCAL] start etsy_app_status_probe.py
+[AUTOPILOT-LOCAL] etsy_app_status_probe.py OK
+[ETSY-APP] status=PENDING_OR_INACTIVE http=403 next=WAIT_APP_APPROVAL_OR_VERIFY_SECRET
+[ETSY-APP] json=C:\AIprojects\openclaw_difi\Database\Etsy_API_Status.json
+[AUTOPILOT-LOCAL] start factory_backlog.py
+[AUTOPILOT-LOCAL] factory_backlog.py OK
+[FACTORY-BACKLOG] rows=11 csv=C:\AIprojects\openclaw_difi\Database\Factory_Backlog.csv
+[FACTORY-BACKLOG] READY=6
+[FACTORY-BACKLOG] READY_MONITOR=2
+[FACTORY-BACKLOG] READY_AFTER_IMAGE_QA=1
+[FACTORY-BACKLOG] WAIT_NETWORK=1
+[FACTORY-BACKLOG] READY_FOR_SCHOLAR_REVIEW=1
+[AUTOPILOT-LOCAL] start factory_morning_report.py
+[AUTOPILOT-LOCAL] factory_morning_report.py OK
+[REPORT] C:\AIprojects\openclaw_difi\Reports\morning_report_20260508_2256.md
+[GEMINI] C:\AIprojects\openclaw_difi\Gemini_Advisor\gemini_review_queue_20260508_2256.md
+[AUTOPILOT-LOCAL-DONE] failures=1
+[AUTOPILOT] state=C:\AIprojects\openclaw_difi\Database\Factory_Autopilot_State.json
+[AUTOPILOT] queue=C:\AIprojects\openclaw_difi\Database\Factory_Autopilot_Action_Queue.csv
+[AUTOPILOT] P100 local READY: Refresh local QA, registry, market queue, cover decisions, experiment report, and morning report.
+[AUTOPILOT] P70 publish WAIT_NETWORK: Publish small cooled batch if network guard is healthy.
+[AUTOPILOT] P65 read_only_market READY: Refresh eBay Seller Hub performance snapshot.
+[AUTOPILOT] P63 production_design_qa READY: Run a tiny Printify production-design audit before any larger online batch.
+[AUTOPILOT] P55 etsy READY_MONITOR: Monitor Etsy Digital first gray batch before spending more listing fees.
+[AUTOPILOT] P50 copy_experiment READY: Continue low-bandwidth SEO/title/description experiment analysis."
+2026-05-08 22:57:37 -0400,3,etsy_live_readonly,OK,0,66.7,"[etsy-live-audit] Poster-Academia-0001 4500654287 ACTIVE_READABLE YES
+[etsy-live-audit] Poster-Academia-0002 4500664506 ACTIVE_READABLE YES
+[etsy-live-audit] Poster-Academia-0003 4500665474 ACTIVE_READABLE YES
+[etsy-live-audit] Poster-Academia-0081 4500657145 ACTIVE_READABLE YES
+[etsy-live-audit] Poster-Academia-0082 4500667154 ACTIVE_READABLE YES
+[etsy-live-audit] Poster-Academia-0083 4500667734 ACTIVE_READABLE YES
+[etsy-live-audit] Poster-Academia-0084 4500668282 ACTIVE_READABLE YES
+[etsy-live-audit] Poster-Academia-0085 4500668786 ACTIVE_READABLE YES
+[etsy-live-audit] Poster-Academia-0091 4500660013 ACTIVE_READABLE YES
+[etsy-live-audit] Poster-Zen-0001 4500669878 ACTIVE_READABLE YES"
+2026-05-08 22:57:41 -0400,3,multi_track_monitor,OK,0,1.0,[MULTI-MONITOR] rows=29 csv=C:\AIprojects\openclaw_difi\Database\Multi_Track_Copy_Performance_Monitor.csv report=C:\AIprojects\openclaw_difi\Review_Packets\MULTI_TRACK_COPY_MONITOR_20260508.md
+2026-05-08 22:57:44 -0400,3,ebay_experiment_report,OK,0,0.1,[EXPERIMENT-REPORT] rows=44 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Experiment_Report.csv
+2026-05-08 22:57:48 -0400,3,ebay_traffic_diagnosis,OK,0,0.9,"[TRAFFIC-DIAGNOSIS] rows=5 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Diagnosis.csv
+[TRAFFIC-DIAGNOSIS] P100 Cover Gate is cleared; the current blocker is traffic/product-market fit.
+[TRAFFIC-DIAGNOSIS] P90 Promoted Listings Standard 2% is active but is not enough alone.
+[TRAFFIC-DIAGNOSIS] P85 Repeated or risky gallery images can suppress buyer trust and marketplace quality scoring.
+[TRAFFIC-DIAGNOSIS] P80 Poster/Acrylic currently show more early movement than Sticker.
+[TRAFFIC-DIAGNOSIS] P70 Title rewrite experiment has not produced a clear Sticker lift yet."
+2026-05-08 22:57:52 -0400,3,factory_backlog,OK,0,0.3,"[FACTORY-BACKLOG] rows=11 csv=C:\AIprojects\openclaw_difi\Database\Factory_Backlog.csv
+[FACTORY-BACKLOG] READY=6
+[FACTORY-BACKLOG] READY_MONITOR=2
+[FACTORY-BACKLOG] READY_AFTER_IMAGE_QA=1
+[FACTORY-BACKLOG] WAIT_NETWORK=1
+[FACTORY-BACKLOG] READY_FOR_SCHOLAR_REVIEW=1"
+2026-05-08 22:57:56 -0400,3,factory_morning_report,OK,0,1.1,"[REPORT] C:\AIprojects\openclaw_difi\Reports\morning_report_20260508_2257.md
+[GEMINI] C:\AIprojects\openclaw_difi\Gemini_Advisor\gemini_review_queue_20260508_2257.md"
+2026-05-08 22:57:59 -0400,3,daily_sitrep_prepare,OK,0,0.3,"[DAILY_SITREP_SYNC]
+Timestamp: 2026-05-08 22:57:59 -0400
+System_Status: NORMAL
+
+1. Cash-Flow Fortress:
+- eBay: latest snapshot 2026-05-08 08:09:29 -0400; 0-view 44; nonzero 6; General ads 50.
+- Etsy Mirror: live digital 10; confirmed spend $2.00; public audit 10.
+- Printify QA: Cover Gate retired/replaced 49; gallery custom-risk 22; gallery exact-duplicate n/a; gallery OK 127.
+
+2. The Syndicate:
+- Stock / FTP distribution: deferred; Printify/POD factory remains active priority.
+
+3. Roadblocks:
+- eBay 0-view remains high; ads alone are not enough.
+- Gallery Integrity is the active publish blocker: repeated/risky buyer-facing image galleries must be repaired or isolated before scaling.
+- Etsy API approval remains separate from Printify/Etsy UI operations; listing-fee cap still applies."
+2026-05-08 22:58:03 -0400,3,grey_prepare_only,OK,0,0.7,"{
+  ""status"": ""PREPARED"",
+  ""to_grey"": ""C:\\AIprojects\\openclaw_difi\\Review_Packets\\Gemini_Bridge\\TO_GREY_latest.md"",
+  ""chars"": 21100
+}"
+2026-05-08 23:13:15 -0400,4,memory_pressure_guard,OK,0,9.6,"{
+  ""timestamp"": ""2026-05-08 23:13:15 -0400"",
+  ""mode"": ""NOOP_BELOW_THRESHOLD"",
+  ""execute"": true,
+  ""cdp_port"": 9223,
+  ""memory_soft_pct"": 82.0,
+  ""memory_hard_pct"": 92.0,
+  ""cpu_soft_pct"": 85.0,
+  ""memory_before"": 76.9,
+  ""memory_after"": 76.9,
+  ""cpu_before"": 14.0,
+  ""cpu_after"": 18.0,
+  ""closed_tabs"": [],
+  ""top_processes"": [
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 15016,
+      ""WorkingSetMB"": 853.1,
+      ""CPU"": 272.734375
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 16144,
+      ""WorkingSetMB"": 680.8,
+      ""CPU"": 1339.15625
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 2256,
+      ""WorkingSetMB"": 635,
+      ""CPU"": 290.328125
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 4112,
+      ""WorkingSetMB"": 582.7,
+      ""CPU"": 97.9375
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 1772,
+      ""WorkingSetMB"": 417.4,
+      ""CPU"": 184.96875
+    },
+    {
+      ""ProcessName"": ""msedge"",
+      ""Id"": 5340,
+      ""WorkingSetMB"": 365.3,
+      ""CPU"": 39.171875
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 14232,
+      ""WorkingSetMB"": 363.5,
+      ""CPU"": 362.03125
+    },
+    {
+      ""ProcessName"": ""MsMpEng"",
+      ""Id"": 4240,
+      ""WorkingSetMB"": 277.3,
+      ""CPU"": null
+    }
+  ],
+  ""decision"": ""MEMORY_OK_CONTINUE"",
+  ""reason"": ""normal work may continue under marketplace risk guards"",
+  ""privacy_rule"": ""Only closes project automation Edge tabs through CDP 9223. Does not inspect or close Rex's daily Chrome tabs."",
+  ""optimization_rule"": ""Cleanup first, then resample. Pause only if pressure remains high after closing safe idle project tabs and reducing concurrency."",
+  ""rest_rule"": ""Do not shutdown/restart by default; if pressure stays high after cleanup, write rest-cycle recommendation unless Rex explicitly requests immediate power action.""
+}"
+2026-05-08 23:13:22 -0400,4,system_resource_allocator,OK,0,3.5,"{
+  ""allocation"": {
+    ""timestamp"": ""2026-05-08T23:13:22-04:00"",
+    ""window"": ""preflight_checkpoint"",
+    ""task_class"": ""report_batch"",
+    ""priority"": 50,
+    ""decision"": ""RUN"",
+    ""reason"": ""temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy"",
+    ""max_parallel"": 1,
+    ""batch_size"": 3,
+    ""cooldown_minutes"": 0,
+    ""cpu_load_pct"": 11.0,
+    ""memory_used_pct"": 76.8,
+    ""temperature_c"": null,
+    ""power_status"": ""AC_CHARGING""
+  },
+  ""snapshot"": {
+    ""timestamp"": ""2026-05-08T23:13:22-04:00"",
+    ""cpu_load_pct"": 11.0,
+    ""memory_used_pct"": 76.8,
+    ""memory_total_gb"": 11.75,
+    ""memory_free_gb"": 2.73,
+    ""temperature_c"": null,
+    ""temperature_status"": ""DENIED_OR_UNAVAILABLE"",
+    ""gpu_util_pct"": 2.9,
+    ""battery_percent"": 100.0,
+    ""power_status"": ""AC_CHARGING"",
+    ""top_processes"": [
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 15016,
+        ""WorkingSetMB"": 852,
+        ""CPU"": 272.734375
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 16144,
+        ""WorkingSetMB"": 681.1,
+        ""CPU"": 1339.890625
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 2256,
+        ""WorkingSetMB"": 635,
+        ""CPU"": 290.328125
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 4112,
+        ""WorkingSetMB"": 581.7,
+        ""CPU"": 97.9375
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 1772,
+        ""WorkingSetMB"": 416.8,
+        ""CPU"": 185.03125
+      },
+      {
+        ""ProcessName"": ""msedge"",
+        ""Id"": 5340,
+        ""WorkingSetMB"": 365.4,
+        ""CPU"": 39.203125
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 14232,
+        ""WorkingSetMB"": 363.3,
+        ""CPU"": 362.234375
+      },
+      {
+        ""ProcessName"": ""MsMpEng"",
+        ""Id"": 4240,
+        ""WorkingSetMB"": 284,
+        ""CPU"": null
+      }
+    ]
+  }
+}"
+2026-05-08 23:13:25 -0400,4,grunt_seed_if_empty,OK,0,0.2,"{
+  ""added"": [],
+  ""summary"": {
+    ""status_counts"": {
+      ""DONE"": 18,
+      ""FAILED"": 1,
+      ""PENDING"": 5,
+      ""RUNNING"": 1
+    },
+    ""resource_class_counts"": {
+      ""local_light"": 14,
+      ""report_batch"": 3,
+      ""qa_batch"": 3,
+      ""rest_maintenance"": 2,
+      ""queue_planning"": 3
+    },
+    ""queue"": ""C:\\AIprojects\\openclaw_difi\\Database\\Grunt_Task_Queue.jsonl""
+  }
+}"
+2026-05-08 23:14:07 -0400,4,grunt_once,OK,0,38.5,"[QUALITY-FLOOR] Multi_Track_Experiment_Plan.csv PASS failed=0
+[QUALITY-FLOOR] Multi_Track_Experiment_State.json PASS failed=0
+{
+  ""Timestamp"": ""2026-05-08T23:14:06-04:00"",
+  ""Task_ID"": ""grunt-multi_track_experiment_plan-b7c955f4"",
+  ""Action"": ""multi_track_experiment_plan"",
+  ""Status"": ""DONE"",
+  ""Decision"": ""RUN"",
+  ""Resource_Window"": ""preflight_checkpoint"",
+  ""Resource_Reason"": ""temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy"",
+  ""ReturnCode"": 0,
+  ""Detail"": ""{\n  \""rows\"": 225,\n  \""plan\"": \""C:\\\\AIprojects\\\\openclaw_difi\\\\Database\\\\Multi_Track_Experiment_Plan.csv\"",\n  \""state\"": \""C:\\\\AIprojects\\\\openclaw_difi\\\\Database\\\\Multi_Track_Experiment_State.json\"",\n  \""report\"": \""C:\\\\AIprojects\\\\openclaw_difi\\\\Review_Packets\\\\MULTI_TRACK_EXPERIMENT_PLAN_20260508.md\"",\n  \""track_counts\"": {\n    \""A_LOW_COMPETITION_NICHE\"": 55,\n    \""B_HIGH_VOLUME_VALUE\"": 55,\n    \""C_DIGITAL_PURE_PROFIT\"": 55\n  },\n  \""qa_counts\"": {\n    \""READY\"": 118,\n    \""NOT_READY\"": 47,\n    \""HOLD\"": 60\n  },\n  \""action_counts\"": {\n    \""COPY_OR_PRICE_EXPERIMENT_ON_EXISTING_LISTING\"": 82,\n    \""BUILD_ASSET_OR_METADATA_ONLY\"": 47,\n    \""NEXT_ETSY_GRAY_BATCH_UNDER_FEE_CAP\"": 28,\n    \""MONITOR_LIVE_DIGITAL_TRAFFIC\"": 8,\n    \""HOLD_DO_NOT_PUBLISH\"": 60\n  }\n}\n""
+}"
+2026-05-08 23:20:06 -0400,4,local_factory_supervisor,OK,0,357.0,"print=1936 variant=119906
+[BLUEPRINT-NEXT-PLAN] P2 Framed Poster blueprint=1236 variant=93818
+[BLUEPRINT-NEXT-PLAN] P3 Notebook/Journal blueprint=5634 variant=252281
+[BLUEPRINT-NEXT-PLAN] P4 Mug blueprint=478 variant=65216
+[BLUEPRINT-NEXT-PLAN] P5 Metal blueprint=1206 variant=91995
+[AUTOPILOT-LOCAL] start etsy_app_status_probe.py
+[AUTOPILOT-LOCAL] etsy_app_status_probe.py OK
+[ETSY-APP] status=PENDING_OR_INACTIVE http=403 next=WAIT_APP_APPROVAL_OR_VERIFY_SECRET
+[ETSY-APP] json=C:\AIprojects\openclaw_difi\Database\Etsy_API_Status.json
+[AUTOPILOT-LOCAL] start factory_backlog.py
+[AUTOPILOT-LOCAL] factory_backlog.py OK
+[FACTORY-BACKLOG] rows=11 csv=C:\AIprojects\openclaw_difi\Database\Factory_Backlog.csv
+[FACTORY-BACKLOG] READY=6
+[FACTORY-BACKLOG] READY_MONITOR=2
+[FACTORY-BACKLOG] READY_AFTER_IMAGE_QA=1
+[FACTORY-BACKLOG] WAIT_NETWORK=1
+[FACTORY-BACKLOG] READY_FOR_SCHOLAR_REVIEW=1
+[AUTOPILOT-LOCAL] start factory_morning_report.py
+[AUTOPILOT-LOCAL] factory_morning_report.py OK
+[REPORT] C:\AIprojects\openclaw_difi\Reports\morning_report_20260508_2320.md
+[GEMINI] C:\AIprojects\openclaw_difi\Gemini_Advisor\gemini_review_queue_20260508_2320.md
+[AUTOPILOT-LOCAL-DONE] failures=1
+[AUTOPILOT] state=C:\AIprojects\openclaw_difi\Database\Factory_Autopilot_State.json
+[AUTOPILOT] queue=C:\AIprojects\openclaw_difi\Database\Factory_Autopilot_Action_Queue.csv
+[AUTOPILOT] P100 local READY: Refresh local QA, registry, market queue, cover decisions, experiment report, and morning report.
+[AUTOPILOT] P70 publish WAIT_NETWORK: Publish small cooled batch if network guard is healthy.
+[AUTOPILOT] P65 read_only_market READY: Refresh eBay Seller Hub performance snapshot.
+[AUTOPILOT] P63 production_design_qa READY: Run a tiny Printify production-design audit before any larger online batch.
+[AUTOPILOT] P55 etsy READY_MONITOR: Monitor Etsy Digital first gray batch before spending more listing fees.
+[AUTOPILOT] P50 copy_experiment READY: Continue low-bandwidth SEO/title/description experiment analysis."
+2026-05-08 23:20:10 -0400,4,quality_floor_scan,OK,0,1.0,"LOOR] eBay_Traffic_Experiment_Report.md PASS failed=0
+[QUALITY-FLOOR] eBay_Traffic_Experiment_Rollback.csv PASS failed=0
+[QUALITY-FLOOR] eBay_UI_Title_Revise_Log.csv PASS failed=0
+[QUALITY-FLOOR] Endurance_Protocol_Log.csv PASS failed=0
+[QUALITY-FLOOR] Endurance_Protocol_State.json PASS failed=0
+[QUALITY-FLOOR] Etsy_API_Status.json PASS failed=0
+[QUALITY-FLOOR] Etsy_API_Status_Log.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_brand_design_options.md PASS failed=0
+[QUALITY-FLOOR] etsy_brand_mj_jobs.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_brand_shell.md PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Bundle_Queue.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Bundle_Strategy.md PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Candidates.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Final_Upload_Packet.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Final_Upload_Packet.md PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Gray_Launch_Queue.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Live_Audit.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Next_Batch_Candidates.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Next_Batch_State.json PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Pilot_Packs.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Preview_Assets.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Product_Blueprints.md PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Product_RnD.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Product_RnD.md PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_QA.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_QA_Report.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_QA_Report.md PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_UI_Publish_Log.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Digital_Upload_Queue.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Fee_Kill_Switch.json PASS failed=0
+[QUALITY-FLOOR] Etsy_Fee_Ledger.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Fee_Reconciliation_Log.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_Gray_Launch_Sequence.csv PASS failed=0
+[QUALITY-FLOOR] Etsy_launch_plan.csv PASS failed=0"
+2026-05-08 23:20:57 -0400,4,poster_design_audit,OK,0,43.6,"[DESIGN-OK] Poster-Academia-0002 visual_match=True exact_sha=False size=(3600, 5400) remote=(3600, 5400) declared=(3600, 5400) ahash_distance=0
+[DESIGN-OK] Poster-Academia-0081 visual_match=True exact_sha=False size=(3600, 5400) remote=(3600, 5400) declared=(3600, 5400) ahash_distance=0
+[DESIGN-OK] Poster-Academia-0082 visual_match=True exact_sha=False size=(3600, 5400) remote=(3600, 5400) declared=(3600, 5400) ahash_distance=0
+[DONE] design audit checked=3 mismatches=0 report=C:\AIprojects\openclaw_difi\Database\printify_design_audit_20260508_232015.csv"
+2026-05-08 23:21:14 -0400,4,acrylic_design_audit,OK,0,14.1,"[DESIGN-OK] Acrylic-Academia-0001 visual_match=True exact_sha=False size=(1538, 2138) remote=(1538, 2138) declared=(1538, 2138) ahash_distance=0
+[DESIGN-OK] Acrylic-Grimdark-0082 visual_match=True exact_sha=False size=(1538, 2138) remote=(1538, 2138) declared=(1538, 2138) ahash_distance=0
+[DESIGN-OK] Acrylic-Zen-0002 visual_match=True exact_sha=False size=(1538, 2138) remote=(1538, 2138) declared=(1538, 2138) ahash_distance=0
+[DONE] design audit checked=3 mismatches=0 report=C:\AIprojects\openclaw_difi\Database\printify_design_audit_20260508_232101.csv"
+2026-05-08 23:21:18 -0400,4,etsy_api_status,OK,0,1.0,"[ETSY-APP] status=PENDING_OR_INACTIVE http=403 next=WAIT_APP_APPROVAL_OR_VERIFY_SECRET
+[ETSY-APP] json=C:\AIprojects\openclaw_difi\Database\Etsy_API_Status.json"
+2026-05-08 23:21:22 -0400,4,multi_track_monitor,OK,0,0.9,[MULTI-MONITOR] rows=29 csv=C:\AIprojects\openclaw_difi\Database\Multi_Track_Copy_Performance_Monitor.csv report=C:\AIprojects\openclaw_difi\Review_Packets\MULTI_TRACK_COPY_MONITOR_20260508.md
+2026-05-08 23:21:26 -0400,4,ebay_experiment_report,OK,0,0.4,[EXPERIMENT-REPORT] rows=44 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Experiment_Report.csv
+2026-05-08 23:21:29 -0400,4,ebay_traffic_diagnosis,OK,0,0.9,"[TRAFFIC-DIAGNOSIS] rows=5 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Diagnosis.csv
+[TRAFFIC-DIAGNOSIS] P100 Cover Gate is cleared; the current blocker is traffic/product-market fit.
+[TRAFFIC-DIAGNOSIS] P90 Promoted Listings Standard 2% is active but is not enough alone.
+[TRAFFIC-DIAGNOSIS] P85 Repeated or risky gallery images can suppress buyer trust and marketplace quality scoring.
+[TRAFFIC-DIAGNOSIS] P80 Poster/Acrylic currently show more early movement than Sticker.
+[TRAFFIC-DIAGNOSIS] P70 Title rewrite experiment has not produced a clear Sticker lift yet."
+2026-05-08 23:21:33 -0400,4,blueprint_next_plan,OK,0,0.2,"[BLUEPRINT-NEXT-PLAN] rows=5 csv=C:\AIprojects\openclaw_difi\Database\Product_Blueprint_Next_Test_Plan.csv
+[BLUEPRINT-NEXT-PLAN] P1 Canvas blueprint=1936 variant=119906
+[BLUEPRINT-NEXT-PLAN] P2 Framed Poster blueprint=1236 variant=93818
+[BLUEPRINT-NEXT-PLAN] P3 Notebook/Journal blueprint=5634 variant=252281
+[BLUEPRINT-NEXT-PLAN] P4 Mug blueprint=478 variant=65216
+[BLUEPRINT-NEXT-PLAN] P5 Metal blueprint=1206 variant=91995"
+2026-05-08 23:21:36 -0400,4,factory_backlog,OK,0,0.3,"[FACTORY-BACKLOG] rows=11 csv=C:\AIprojects\openclaw_difi\Database\Factory_Backlog.csv
+[FACTORY-BACKLOG] READY=6
+[FACTORY-BACKLOG] READY_MONITOR=2
+[FACTORY-BACKLOG] READY_AFTER_IMAGE_QA=1
+[FACTORY-BACKLOG] WAIT_NETWORK=1
+[FACTORY-BACKLOG] READY_FOR_SCHOLAR_REVIEW=1"
+2026-05-08 23:21:49 -0400,4,grey_bridge_advisory,OK,0,9.7,"{
+  ""status"": ""OK"",
+  ""to_grey"": ""C:\\AIprojects\\openclaw_difi\\Review_Packets\\Gemini_Bridge\\TO_GREY_latest.md"",
+  ""from_grey"": ""C:\\AIprojects\\openclaw_difi\\Review_Packets\\Gemini_Bridge\\FROM_GREY_latest.md"",
+  ""tasks"": 5,
+  ""response_chars"": 2833
+}"
+2026-05-08 23:21:54 -0400,4,track_a_prepare_local,OK,0,2.8,[MULTI-COPY] selected=5 apply_local=True track=A_LOW_COMPETITION_NICHE
+2026-05-08 23:37:05 -0400,5,memory_pressure_guard,OK,0,8.0,"{
+  ""timestamp"": ""2026-05-08 23:37:05 -0400"",
+  ""mode"": ""NOOP_BELOW_THRESHOLD"",
+  ""execute"": true,
+  ""cdp_port"": 9223,
+  ""memory_soft_pct"": 82.0,
+  ""memory_hard_pct"": 92.0,
+  ""cpu_soft_pct"": 85.0,
+  ""memory_before"": 79.4,
+  ""memory_after"": 79.1,
+  ""cpu_before"": 49.0,
+  ""cpu_after"": 48.0,
+  ""closed_tabs"": [],
+  ""top_processes"": [
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 15016,
+      ""WorkingSetMB"": 898.7,
+      ""CPU"": 289.34375
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 16144,
+      ""WorkingSetMB"": 862,
+      ""CPU"": 1745.78125
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 2256,
+      ""WorkingSetMB"": 717.4,
+      ""CPU"": 318.15625
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 4112,
+      ""WorkingSetMB"": 665.6,
+      ""CPU"": 111.59375
+    },
+    {
+      ""ProcessName"": ""Codex"",
+      ""Id"": 10656,
+      ""WorkingSetMB"": 362.4,
+      ""CPU"": 1456.703125
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 14232,
+      ""WorkingSetMB"": 352.9,
+      ""CPU"": 420.28125
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 1772,
+      ""WorkingSetMB"": 314.4,
+      ""CPU"": 200.96875
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 4852,
+      ""WorkingSetMB"": 292.2,
+      ""CPU"": 1351.515625
+    }
+  ],
+  ""decision"": ""MEMORY_OK_CONTINUE"",
+  ""reason"": ""normal work may continue under marketplace risk guards"",
+  ""privacy_rule"": ""Only closes project automation Edge tabs through CDP 9223. Does not inspect or close Rex's daily Chrome tabs."",
+  ""optimization_rule"": ""Cleanup first, then resample. Pause only if pressure remains high after closing safe idle project tabs and reducing concurrency."",
+  ""rest_rule"": ""Do not shutdown/restart by default; if pressure stays high after cleanup, write rest-cycle recommendation unless Rex explicitly requests immediate power action.""
+}"
+2026-05-08 23:37:12 -0400,5,system_resource_allocator,OK,0,3.9,"{
+  ""allocation"": {
+    ""timestamp"": ""2026-05-08T23:37:12-04:00"",
+    ""window"": ""preflight_checkpoint"",
+    ""task_class"": ""report_batch"",
+    ""priority"": 50,
+    ""decision"": ""RUN"",
+    ""reason"": ""temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy"",
+    ""max_parallel"": 1,
+    ""batch_size"": 3,
+    ""cooldown_minutes"": 0,
+    ""cpu_load_pct"": 40.0,
+    ""memory_used_pct"": 78.2,
+    ""temperature_c"": null,
+    ""power_status"": ""AC_CHARGING""
+  },
+  ""snapshot"": {
+    ""timestamp"": ""2026-05-08T23:37:12-04:00"",
+    ""cpu_load_pct"": 40.0,
+    ""memory_used_pct"": 78.2,
+    ""memory_total_gb"": 11.75,
+    ""memory_free_gb"": 2.56,
+    ""temperature_c"": null,
+    ""temperature_status"": ""DENIED_OR_UNAVAILABLE"",
+    ""gpu_util_pct"": 9.5,
+    ""battery_percent"": 100.0,
+    ""power_status"": ""AC_CHARGING"",
+    ""top_processes"": [
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 15016,
+        ""WorkingSetMB"": 899.8,
+        ""CPU"": 289.390625
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 16144,
+        ""WorkingSetMB"": 861.2,
+        ""CPU"": 1748.21875
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 2256,
+        ""WorkingSetMB"": 717.4,
+        ""CPU"": 318.15625
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 4112,
+        ""WorkingSetMB"": 666.6,
+        ""CPU"": 111.609375
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 14232,
+        ""WorkingSetMB"": 353.2,
+        ""CPU"": 420.578125
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 1772,
+        ""WorkingSetMB"": 315,
+        ""CPU"": 200.984375
+      },
+      {
+        ""ProcessName"": ""Codex"",
+        ""Id"": 10656,
+        ""WorkingSetMB"": 290.7,
+        ""CPU"": 1457.453125
+      },
+      {
+        ""ProcessName"": ""MsMpEng"",
+        ""Id"": 4240,
+        ""WorkingSetMB"": 284.7,
+        ""CPU"": null
+      }
+    ]
+  }
+}"
+2026-05-08 23:37:16 -0400,5,grunt_seed_if_empty,OK,0,0.4,"{
+  ""added"": [],
+  ""summary"": {
+    ""status_counts"": {
+      ""DONE"": 19,
+      ""FAILED"": 1,
+      ""PENDING"": 4,
+      ""RUNNING"": 1
+    },
+    ""resource_class_counts"": {
+      ""local_light"": 14,
+      ""report_batch"": 3,
+      ""qa_batch"": 3,
+      ""rest_maintenance"": 2,
+      ""queue_planning"": 3
+    },
+    ""queue"": ""C:\\AIprojects\\openclaw_difi\\Database\\Grunt_Task_Queue.jsonl""
+  }
+}"
+2026-05-08 23:37:28 -0400,5,grunt_once,OK,0,9.7,"{
+  ""Timestamp"": ""2026-05-08T23:37:28-04:00"",
+  ""Task_ID"": """",
+  ""Action"": """",
+  ""Status"": ""NO_TASK"",
+  ""Decision"": ""RUN"",
+  ""Resource_Window"": ""preflight_checkpoint"",
+  ""Resource_Reason"": ""temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy"",
+  ""ReturnCode"": 0,
+  ""Detail"": ""allowed_classes=git_checkpoint,local_light,queue_planning,report_batch""
+}"
+2026-05-08 23:42:58 -0400,5,local_factory_supervisor,OK,0,327.0,"print=1936 variant=119906
+[BLUEPRINT-NEXT-PLAN] P2 Framed Poster blueprint=1236 variant=93818
+[BLUEPRINT-NEXT-PLAN] P3 Notebook/Journal blueprint=5634 variant=252281
+[BLUEPRINT-NEXT-PLAN] P4 Mug blueprint=478 variant=65216
+[BLUEPRINT-NEXT-PLAN] P5 Metal blueprint=1206 variant=91995
+[AUTOPILOT-LOCAL] start etsy_app_status_probe.py
+[AUTOPILOT-LOCAL] etsy_app_status_probe.py OK
+[ETSY-APP] status=PENDING_OR_INACTIVE http=403 next=WAIT_APP_APPROVAL_OR_VERIFY_SECRET
+[ETSY-APP] json=C:\AIprojects\openclaw_difi\Database\Etsy_API_Status.json
+[AUTOPILOT-LOCAL] start factory_backlog.py
+[AUTOPILOT-LOCAL] factory_backlog.py OK
+[FACTORY-BACKLOG] rows=11 csv=C:\AIprojects\openclaw_difi\Database\Factory_Backlog.csv
+[FACTORY-BACKLOG] READY=6
+[FACTORY-BACKLOG] READY_MONITOR=2
+[FACTORY-BACKLOG] READY_AFTER_IMAGE_QA=1
+[FACTORY-BACKLOG] WAIT_NETWORK=1
+[FACTORY-BACKLOG] READY_FOR_SCHOLAR_REVIEW=1
+[AUTOPILOT-LOCAL] start factory_morning_report.py
+[AUTOPILOT-LOCAL] factory_morning_report.py OK
+[REPORT] C:\AIprojects\openclaw_difi\Reports\morning_report_20260508_2342.md
+[GEMINI] C:\AIprojects\openclaw_difi\Gemini_Advisor\gemini_review_queue_20260508_2342.md
+[AUTOPILOT-LOCAL-DONE] failures=1
+[AUTOPILOT] state=C:\AIprojects\openclaw_difi\Database\Factory_Autopilot_State.json
+[AUTOPILOT] queue=C:\AIprojects\openclaw_difi\Database\Factory_Autopilot_Action_Queue.csv
+[AUTOPILOT] P100 local READY: Refresh local QA, registry, market queue, cover decisions, experiment report, and morning report.
+[AUTOPILOT] P70 publish WAIT_NETWORK: Publish small cooled batch if network guard is healthy.
+[AUTOPILOT] P65 read_only_market READY: Refresh eBay Seller Hub performance snapshot.
+[AUTOPILOT] P63 production_design_qa READY: Run a tiny Printify production-design audit before any larger online batch.
+[AUTOPILOT] P55 etsy READY_MONITOR: Monitor Etsy Digital first gray batch before spending more listing fees.
+[AUTOPILOT] P50 copy_experiment READY: Continue low-bandwidth SEO/title/description experiment analysis."
+2026-05-08 23:43:03 -0400,5,multi_track_monitor,OK,0,1.4,[MULTI-MONITOR] rows=32 csv=C:\AIprojects\openclaw_difi\Database\Multi_Track_Copy_Performance_Monitor.csv report=C:\AIprojects\openclaw_difi\Review_Packets\MULTI_TRACK_COPY_MONITOR_20260508.md
+2026-05-08 23:43:06 -0400,5,ebay_experiment_report,OK,0,0.1,[EXPERIMENT-REPORT] rows=44 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Experiment_Report.csv
+2026-05-08 23:43:10 -0400,5,ebay_traffic_diagnosis,OK,0,0.9,"[TRAFFIC-DIAGNOSIS] rows=5 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Diagnosis.csv
+[TRAFFIC-DIAGNOSIS] P100 Cover Gate is cleared; the current blocker is traffic/product-market fit.
+[TRAFFIC-DIAGNOSIS] P90 Promoted Listings Standard 2% is active but is not enough alone.
+[TRAFFIC-DIAGNOSIS] P85 Repeated or risky gallery images can suppress buyer trust and marketplace quality scoring.
+[TRAFFIC-DIAGNOSIS] P80 Poster/Acrylic currently show more early movement than Sticker.
+[TRAFFIC-DIAGNOSIS] P70 Title rewrite experiment has not produced a clear Sticker lift yet."
+2026-05-08 23:43:13 -0400,5,factory_backlog,OK,0,0.3,"[FACTORY-BACKLOG] rows=11 csv=C:\AIprojects\openclaw_difi\Database\Factory_Backlog.csv
+[FACTORY-BACKLOG] READY=6
+[FACTORY-BACKLOG] READY_MONITOR=2
+[FACTORY-BACKLOG] READY_AFTER_IMAGE_QA=1
+[FACTORY-BACKLOG] WAIT_NETWORK=1
+[FACTORY-BACKLOG] READY_FOR_SCHOLAR_REVIEW=1"
+2026-05-08 23:49:30 -0400,5,track_a_sync_metadata_small,OK,0,373.4,"[MULTI-COPY-SYNC] Acrylic-Zen-0006 get=200 update=200 publish=200 result=OK
+[MULTI-COPY-SYNC] Acrylic-Grimdark-0010 get=200 update=200 publish=200 result=OK
+[MULTI-COPY-SYNC] Acrylic-Grimdark-0018 get=200 update=200 publish=200 result=OK
+[MULTI-COPY-DONE] synced=3 failed=0 dry_run=False"

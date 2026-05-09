@@ -1,44 +1,44 @@
 {
   "tasks": [
     {
-      "title": "Execute eBay SEO Intent Rewrites",
+      "title": "Local Supervisor Maintenance",
       "priority": 100,
-      "lane": "supervisor:copy_experiment",
-      "rationale": "44 listings have zero views despite 2% ads. We must push the 'A_TITLE_INTENT_REWRITE' batch to trigger organic indexing.",
-      "command": "py modules\\ebay_experiment_report.py --apply-intent --limit 18",
-      "risk": "Low. Modifies metadata only; no listing fees incurred."
+      "lane": "control",
+      "rationale": "Ensures factory state, QA, and morning reports are synced before the 06:00 shutdown.",
+      "command": "py modules\\factory_supervisor.py --execute-local --skip-network",
+      "risk": "low"
     },
     {
-      "title": "Etsy Digital Performance Deep-Dive",
-      "priority": 90,
-      "lane": "supervisor:etsy",
-      "rationale": "Validate if the $2.00 spend on 10 listings is generating impressions before committing the next $2.00 batch.",
-      "command": "py modules\\etsy_live_audit.py --detailed-stats --limit 10",
-      "risk": "Low. Read-only operation."
-    },
-    {
-      "title": "Poster/Acrylic Production Prep",
+      "title": "Refresh eBay Seller Hub Snapshot",
       "priority": 85,
+      "lane": "supervisor:read_only_market",
+      "rationale": "Critical to see if the 10 Track A SEO rewrites have moved the 0-view needle.",
+      "command": "py modules\\ebay_sellerhub_snapshot.py",
+      "risk": "low"
+    },
+    {
+      "title": "Audited Poster/Acrylic Upload",
+      "priority": 75,
       "lane": "production",
-      "rationale": "Stickers are frozen. We need to move the 9 'Stable_Draft' Poster/Acrylic items into the publish queue.",
-      "command": "py modules\\printify_full_pipeline.py --category poster acrylic --limit 5",
-      "risk": "Medium. Involves Printify API writes; requires visual match confirmation."
+      "rationale": "Advance high-signal products (Poster/Acrylic) while Stickers are frozen. Single-item batch to respect night-shift limits.",
+      "command": "py modules\\printify_full_pipeline.py --limit 1",
+      "risk": "medium"
     },
     {
-      "title": "Gallery Debt Remediation",
-      "priority": 80,
+      "title": "Etsy Digital Live Audit",
+      "priority": 65,
+      "lane": "supervisor:etsy",
+      "rationale": "Monitor the first 10 listings for organic views/favorites without increasing spend.",
+      "command": "py modules\\etsy_live_audit.py --limit 10",
+      "risk": "low"
+    },
+    {
+      "title": "Gallery Debt Remediation Prep",
+      "priority": 60,
       "lane": "supervisor:production_design_qa",
-      "rationale": "22 rows have P2_SOURCE_DEBT. Cleaning these now prevents 'CHECK_CUSTOM_GALLERY_REPEATS' blockers during future scale-up.",
-      "command": "py modules\\printify_gallery_source_repair.py --repair-debt --limit 10",
-      "risk": "Low. Fixes internal registry/draft state."
-    },
-    {
-      "title": "R&D Blueprint Validation",
-      "priority": 70,
-      "lane": "r_and_d",
-      "rationale": "Prepare the next product class (Canvas/Notebooks) to diversify away from the high-competition Sticker market.",
-      "command": "py modules\\product_blueprint_next_plan.py --validate-variants",
-      "risk": "Low. Local data validation only."
+      "rationale": "Prepare the fix for the 22 risky source-gallery rows to ensure future buyer trust.",
+      "command": "py modules\\printify_design_audit.py --limit 5",
+      "risk": "low"
     }
   ]
 }
