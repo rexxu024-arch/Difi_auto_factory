@@ -1640,6 +1640,12 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - Night runner strategy: before 23:00 ET, prioritize local/read-only/report work; after 23:00 ET, allow Edge read-only Seller Hub snapshots and very small Printify metadata syncs only if guards pass. No Etsy paid listings, no PPC/Priority ads, no order/payment/customer-message actions.
 - Logs/state: `Database/Night_Shift_Run_Log.csv` and `Database/Night_Shift_State.json`.
 
+## 2026-05-08 22:15:00 -04:00 Night Shift Fill-Work Rule Added
+- Rex clarified that if the expected night workload finishes early, the factory should not idle; it should automatically add safe monthly tasks until the winddown window.
+- Stopped the first night-runner instance during its sleep window and upgraded `modules/night_shift_runner.py`.
+- New fill-work behavior: shorter default loop interval (`900s`), Grunt queue seed/one-shot execution, Quality Floor scans, morning report refresh, Daily Sitrep preparation, and Grey prepare-only packets.
+- Online writes remain guarded: only tiny metadata syncs after 23:00 ET, no paid Etsy spend, no PPC/Priority, no account/payment/order/customer-message actions.
+
 ## 2026-05-08 21:48:52 -04:00 Cruise Heartbeat Cooldown Activated
 - Checked git/worktree first; the workspace already had many untracked Database/Review_Packets artifacts, and heartbeat work left them untouched.
 - Repo npm heartbeat/cooldown/resource/memory scripts were attempted, but `.venv\Scripts\python.exe`, PyManager `python`, and `py` all failed with `Access is denied` before module execution.

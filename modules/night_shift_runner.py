@@ -137,7 +137,10 @@ def base_steps() -> list[Step]:
             120,
         ),
         Step("system_resource_allocator", ["modules\\system_resource_allocator.py", "--json"], 90),
+        Step("grunt_seed_if_empty", ["modules\\task_queue_modular.py", "--seed-default", "--only-if-empty"], 60),
+        Step("grunt_once", ["modules\\grunt_engine.py", "--once"], 240),
         Step("local_factory_supervisor", ["modules\\factory_supervisor.py", "--execute-local", "--skip-network"], 620),
+        Step("quality_floor_scan", ["modules\\quality_floor_guard.py", "--paths", "Database", "Review_Packets", "--limit", "80"], 240, every_cycles=2),
         Step(
             "poster_design_audit",
             [
@@ -175,6 +178,9 @@ def base_steps() -> list[Step]:
         Step("ebay_traffic_diagnosis", ["modules\\ebay_traffic_diagnosis.py"], 120),
         Step("blueprint_next_plan", ["modules\\product_blueprint_next_plan.py"], 120, every_cycles=2),
         Step("factory_backlog", ["modules\\factory_backlog.py"], 120),
+        Step("factory_morning_report", ["modules\\factory_morning_report.py"], 180, every_cycles=3),
+        Step("daily_sitrep_prepare", ["modules\\daily_sitrep_builder.py"], 120, every_cycles=3),
+        Step("grey_prepare_only", ["modules\\grey_memory_bridge.py", "--prepare"], 120, every_cycles=3),
         Step(
             "grey_bridge_advisory",
             [
@@ -314,7 +320,7 @@ def run_loop(interval_seconds: int, stop_at: datetime, winddown_at: datetime, ma
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run bounded OpenClaw overnight monthly tasks.")
-    parser.add_argument("--interval-seconds", type=int, default=1800)
+    parser.add_argument("--interval-seconds", type=int, default=900)
     parser.add_argument("--stop-hour", type=int, default=5)
     parser.add_argument("--stop-minute", type=int, default=50)
     parser.add_argument("--winddown-hour", type=int, default=5)

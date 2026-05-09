@@ -193,3 +193,196 @@ Timestamp,Cycle,Step,Status,ExitCode,ElapsedSeconds,Detail
 [FACTORY-BACKLOG] WAIT_NETWORK=1
 [FACTORY-BACKLOG] READY_FOR_SCHOLAR_REVIEW=1"
 2026-05-08 21:57:04 -0400,2,night_shift_stop,STOPPED,0,0,bounded runner exited before shutdown window
+2026-05-08 21:58:28 -0400,0,night_shift_start,START,0,0,stop_at=2026-05-09T05:50:00-04:00 winddown_at=2026-05-09T05:30:00-04:00 interval=1800
+2026-05-08 21:58:35 -0400,1,memory_pressure_guard,OK,0,7.6,"{
+  ""timestamp"": ""2026-05-08 21:58:35 -0400"",
+  ""mode"": ""NOOP_BELOW_THRESHOLD"",
+  ""execute"": true,
+  ""cdp_port"": 9223,
+  ""memory_soft_pct"": 82.0,
+  ""memory_hard_pct"": 92.0,
+  ""cpu_soft_pct"": 85.0,
+  ""memory_before"": 70.4,
+  ""memory_after"": 70.3,
+  ""cpu_before"": 31.0,
+  ""cpu_after"": 28.0,
+  ""closed_tabs"": [],
+  ""top_processes"": [
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 15016,
+      ""WorkingSetMB"": 703.3,
+      ""CPU"": 231.25
+    },
+    {
+      ""ProcessName"": ""Memory Compression"",
+      ""Id"": 2776,
+      ""WorkingSetMB"": 457.2,
+      ""CPU"": null
+    },
+    {
+      ""ProcessName"": ""Codex"",
+      ""Id"": 10656,
+      ""WorkingSetMB"": 433,
+      ""CPU"": 1364.609375
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 2256,
+      ""WorkingSetMB"": 431.2,
+      ""CPU"": 202.953125
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 4852,
+      ""WorkingSetMB"": 409.2,
+      ""CPU"": 107.171875
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 14232,
+      ""WorkingSetMB"": 407.8,
+      ""CPU"": 175.109375
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 4112,
+      ""WorkingSetMB"": 379.9,
+      ""CPU"": 51.140625
+    },
+    {
+      ""ProcessName"": ""chrome"",
+      ""Id"": 1772,
+      ""WorkingSetMB"": 344.6,
+      ""CPU"": 95.015625
+    }
+  ],
+  ""decision"": ""MEMORY_OK_CONTINUE"",
+  ""reason"": ""normal work may continue under marketplace risk guards"",
+  ""privacy_rule"": ""Only closes project automation Edge tabs through CDP 9223. Does not inspect or close Rex's daily Chrome tabs."",
+  ""optimization_rule"": ""Cleanup first, then resample. Pause only if pressure remains high after closing safe idle project tabs and reducing concurrency."",
+  ""rest_rule"": ""Do not shutdown/restart by default; if pressure stays high after cleanup, write rest-cycle recommendation unless Rex explicitly requests immediate power action.""
+}"
+2026-05-08 21:58:42 -0400,1,system_resource_allocator,OK,0,3.8,"{
+  ""allocation"": {
+    ""timestamp"": ""2026-05-08T21:58:42-04:00"",
+    ""window"": ""peak_rex_online"",
+    ""task_class"": ""single_browser_task"",
+    ""priority"": 50,
+    ""decision"": ""RUN"",
+    ""reason"": ""temperature sensor DENIED_OR_UNAVAILABLE; using CPU/memory proxy"",
+    ""max_parallel"": 1,
+    ""batch_size"": 1,
+    ""cooldown_minutes"": 0,
+    ""cpu_load_pct"": 17.0,
+    ""memory_used_pct"": 69.9,
+    ""temperature_c"": null,
+    ""power_status"": ""AC_CHARGING""
+  },
+  ""snapshot"": {
+    ""timestamp"": ""2026-05-08T21:58:42-04:00"",
+    ""cpu_load_pct"": 17.0,
+    ""memory_used_pct"": 69.9,
+    ""memory_total_gb"": 11.75,
+    ""memory_free_gb"": 3.54,
+    ""temperature_c"": null,
+    ""temperature_status"": ""DENIED_OR_UNAVAILABLE"",
+    ""gpu_util_pct"": 12.3,
+    ""battery_percent"": 100.0,
+    ""power_status"": ""AC_CHARGING"",
+    ""top_processes"": [
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 15016,
+        ""WorkingSetMB"": 703.3,
+        ""CPU"": 231.25
+      },
+      {
+        ""ProcessName"": ""Memory Compression"",
+        ""Id"": 2776,
+        ""WorkingSetMB"": 457,
+        ""CPU"": null
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 2256,
+        ""WorkingSetMB"": 431.2,
+        ""CPU"": 202.953125
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 4852,
+        ""WorkingSetMB"": 412.9,
+        ""CPU"": 109.359375
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 14232,
+        ""WorkingSetMB"": 407.9,
+        ""CPU"": 175.359375
+      },
+      {
+        ""ProcessName"": ""Codex"",
+        ""Id"": 10656,
+        ""WorkingSetMB"": 403.8,
+        ""CPU"": 1366.125
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 4112,
+        ""WorkingSetMB"": 379.9,
+        ""CPU"": 51.140625
+      },
+      {
+        ""ProcessName"": ""chrome"",
+        ""Id"": 1772,
+        ""WorkingSetMB"": 345.9,
+        ""CPU"": 98.296875
+      }
+    ]
+  }
+}"
+2026-05-08 22:03:32 -0400,1,local_factory_supervisor,OK,0,287.1,"print=1936 variant=119906
+[BLUEPRINT-NEXT-PLAN] P2 Framed Poster blueprint=1236 variant=93818
+[BLUEPRINT-NEXT-PLAN] P3 Notebook/Journal blueprint=5634 variant=252281
+[BLUEPRINT-NEXT-PLAN] P4 Mug blueprint=478 variant=65216
+[BLUEPRINT-NEXT-PLAN] P5 Metal blueprint=1206 variant=91995
+[AUTOPILOT-LOCAL] start etsy_app_status_probe.py
+[AUTOPILOT-LOCAL] etsy_app_status_probe.py OK
+[ETSY-APP] status=PENDING_OR_INACTIVE http=403 next=WAIT_APP_APPROVAL_OR_VERIFY_SECRET
+[ETSY-APP] json=C:\AIprojects\openclaw_difi\Database\Etsy_API_Status.json
+[AUTOPILOT-LOCAL] start factory_backlog.py
+[AUTOPILOT-LOCAL] factory_backlog.py OK
+[FACTORY-BACKLOG] rows=11 csv=C:\AIprojects\openclaw_difi\Database\Factory_Backlog.csv
+[FACTORY-BACKLOG] READY=6
+[FACTORY-BACKLOG] READY_MONITOR=2
+[FACTORY-BACKLOG] READY_AFTER_IMAGE_QA=1
+[FACTORY-BACKLOG] WAIT_NETWORK=1
+[FACTORY-BACKLOG] READY_FOR_SCHOLAR_REVIEW=1
+[AUTOPILOT-LOCAL] start factory_morning_report.py
+[AUTOPILOT-LOCAL] factory_morning_report.py OK
+[REPORT] C:\AIprojects\openclaw_difi\Reports\morning_report_20260508_2203.md
+[GEMINI] C:\AIprojects\openclaw_difi\Gemini_Advisor\gemini_review_queue_20260508_2203.md
+[AUTOPILOT-LOCAL-DONE] failures=1
+[AUTOPILOT] state=C:\AIprojects\openclaw_difi\Database\Factory_Autopilot_State.json
+[AUTOPILOT] queue=C:\AIprojects\openclaw_difi\Database\Factory_Autopilot_Action_Queue.csv
+[AUTOPILOT] P100 local READY: Refresh local QA, registry, market queue, cover decisions, experiment report, and morning report.
+[AUTOPILOT] P70 publish WAIT_NETWORK: Publish small cooled batch if network guard is healthy.
+[AUTOPILOT] P65 read_only_market READY: Refresh eBay Seller Hub performance snapshot.
+[AUTOPILOT] P63 production_design_qa READY: Run a tiny Printify production-design audit before any larger online batch.
+[AUTOPILOT] P55 etsy READY_MONITOR: Monitor Etsy Digital first gray batch before spending more listing fees.
+[AUTOPILOT] P50 copy_experiment READY: Continue low-bandwidth SEO/title/description experiment analysis."
+2026-05-08 22:03:36 -0400,1,multi_track_monitor,OK,0,1.0,[MULTI-MONITOR] rows=29 csv=C:\AIprojects\openclaw_difi\Database\Multi_Track_Copy_Performance_Monitor.csv report=C:\AIprojects\openclaw_difi\Review_Packets\MULTI_TRACK_COPY_MONITOR_20260508.md
+2026-05-08 22:03:40 -0400,1,ebay_experiment_report,OK,0,0.1,[EXPERIMENT-REPORT] rows=44 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Experiment_Report.csv
+2026-05-08 22:03:43 -0400,1,ebay_traffic_diagnosis,OK,0,0.9,"[TRAFFIC-DIAGNOSIS] rows=5 csv=C:\AIprojects\openclaw_difi\Database\eBay_Traffic_Diagnosis.csv
+[TRAFFIC-DIAGNOSIS] P100 Cover Gate is cleared; the current blocker is traffic/product-market fit.
+[TRAFFIC-DIAGNOSIS] P90 Promoted Listings Standard 2% is active but is not enough alone.
+[TRAFFIC-DIAGNOSIS] P85 Repeated or risky gallery images can suppress buyer trust and marketplace quality scoring.
+[TRAFFIC-DIAGNOSIS] P80 Poster/Acrylic currently show more early movement than Sticker.
+[TRAFFIC-DIAGNOSIS] P70 Title rewrite experiment has not produced a clear Sticker lift yet."
+2026-05-08 22:03:47 -0400,1,factory_backlog,OK,0,0.3,"[FACTORY-BACKLOG] rows=11 csv=C:\AIprojects\openclaw_difi\Database\Factory_Backlog.csv
+[FACTORY-BACKLOG] READY=6
+[FACTORY-BACKLOG] READY_MONITOR=2
+[FACTORY-BACKLOG] READY_AFTER_IMAGE_QA=1
+[FACTORY-BACKLOG] WAIT_NETWORK=1
+[FACTORY-BACKLOG] READY_FOR_SCHOLAR_REVIEW=1"
