@@ -407,3 +407,32 @@ Guardrails:
   - Disabled Windows tasks OpenClaw 0530 Winddown, OpenClaw 0550 Force Stop, and OpenClaw Cruise Every 30 Min.
   - Kept only OpenClaw Daily 6AM Shutdown enabled.
 - New rule: OpenClaw may schedule daily shutdown only. Rex manually powers on, logs into Windows, and opens Codex. Do not create startup/resume/reboot/auto-login automation unless Rex explicitly reauthorizes it.
+
+## 2026-05-09 00:58 -04:00 Daily Rex/Gemini Action Packet Rule
+- Rex wants a daily concise list of what he must provide, apply for, log into, approve, or inspect, plus a Gemini/Grey-ready version.
+- The Codex app heartbeat `etsy-digital-morning-penetration-report` has been repurposed into `OpenClaw Daily Rex/Gemini Action Packet` at 08:30 ET daily.
+- `modules/night_shift_runner.py` now runs `modules/daily_rex_support_packet.py` during normal cycles and winddown, so the packet also refreshes before 06:00 shutdown.
+- Durable outputs:
+  - `Review_Packets/Rex_Action_Packet_latest.md`
+  - `Review_Packets/Rex_Action_Packet_YYYYMMDD.md`
+  - `Review_Packets/Gemini_Bridge/TO_GREY_rex_needs_latest.md`
+
+## 2026-05-09 01:05 -04:00 Etsy Brand Shell Must Precede Scale
+- Rex reminded: after Etsy API/login chain is usable, update the Etsy shop shell itself before serious Etsy scale-up.
+- Selected brand option remains Option 02 / Quiet Relic Studio.
+- Source assets:
+  - `Output/Brand/Etsy/20260504_180120/previews/Option_02_big_banner_1600x400.png`
+  - `Output/Brand/Etsy/20260504_180120/previews/Option_02_shop_icon_500.png`
+- Source copy: `Database/Etsy_brand_shell.md`.
+- Backlog task added: `Apply Etsy shop brand shell Option 02 before scaling listings`.
+
+## 2026-05-09 01:35 -04:00 Etsy Shop Shell Partial Apply
+- Applied and verified Etsy shop shell text fields through Edge CDP 9223:
+  - Shop announcement
+  - Physical buyer note
+  - Digital buyer note
+  - Tagline: `Quiet luxury jade art and study room decor`
+  - About headline/body
+  - Logo image from Option 02
+- Etsy shop name remains `DriveFuel`; the custom shop-name component stayed in Save/Cancel without accepting the new value. Treat as follow-up blocker, not a scale blocker.
+- Next Etsy monthly tasks: external-id poll, live digital audit, next-batch no-spend prep, then controlled Etsy listing expansion once fee/QA gates are clear.

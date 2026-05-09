@@ -172,6 +172,7 @@ def base_steps() -> list[Step]:
             every_cycles=2,
         ),
         Step("etsy_api_status", ["modules\\etsy_app_status_probe.py"], 120, every_cycles=2),
+        Step("etsy_printify_external_poll", ["modules\\etsy_printify_external_poll.py", "--max-age-minutes", "120"], 150, every_cycles=2),
         Step("etsy_live_readonly", ["modules\\etsy_live_audit.py", "--limit", "10"], 180, every_cycles=3),
         Step("multi_track_monitor", ["modules\\multi_track_copy_monitor.py"], 120),
         Step("ebay_experiment_report", ["modules\\ebay_experiment_report.py"], 120),
@@ -179,6 +180,7 @@ def base_steps() -> list[Step]:
         Step("blueprint_next_plan", ["modules\\product_blueprint_next_plan.py"], 120, every_cycles=2),
         Step("factory_backlog", ["modules\\factory_backlog.py"], 120),
         Step("factory_morning_report", ["modules\\factory_morning_report.py"], 180, every_cycles=3),
+        Step("rex_action_packet", ["modules\\daily_rex_support_packet.py"], 120, every_cycles=3),
         Step("daily_sitrep_prepare", ["modules\\daily_sitrep_builder.py"], 120, every_cycles=3),
         Step("grey_prepare_only", ["modules\\grey_memory_bridge.py", "--prepare"], 120, every_cycles=3),
         Step(
@@ -235,6 +237,7 @@ def winddown_steps() -> list[Step]:
     return [
         Step("winddown_endurance", ["modules\\endurance_protocol.py", "--shutdown-winddown", "--execute", "--json"], 180),
         Step("factory_morning_report", ["modules\\factory_morning_report.py"], 180),
+        Step("rex_action_packet", ["modules\\daily_rex_support_packet.py"], 120),
         Step("daily_sitrep", ["modules\\daily_sitrep_builder.py"], 120),
         Step("grey_prepare", ["modules\\grey_memory_bridge.py", "--prepare"], 120),
     ]

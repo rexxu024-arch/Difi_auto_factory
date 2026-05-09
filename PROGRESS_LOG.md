@@ -1664,3 +1664,33 @@ handoff checkpoint: Automation-first control layer is now live. Use `py modules\
 - PowerShell fallback resource sampling succeeded, but final CPU resample was unstable up to 99.4%; memory stayed workable around 63.3% used / 4.3GB free; thermal/fan/power sensors remain denied or unavailable.
 - Refreshed hardware heartbeat, cooldown, memory guard, system resource, and Grunt state/log files with cooldown active until 22:10 ET. No Edge/Chrome tabs were inspected or closed.
 - Attempted one low-risk `npm run grunt:dry`; it was blocked by the same Python access failure. Live Grunt work and any second Grunt attempt were skipped; no payment, billing, order, or customer-message settings were touched.
+
+## 2026-05-09 00:58:00 -04:00 Daily Rex/Gemini Action Packet Automated
+- Converted the existing one-shot Etsy morning heartbeat into a daily `OpenClaw Daily Rex/Gemini Action Packet` at 08:30 ET.
+- Added `daily_rex_support_packet.py` into `night_shift_runner.py` normal cycles and winddown so Rex/Grey needs are refreshed before shutdown.
+- Current packet outputs are centralized in `Review_Packets/Rex_Action_Packet_latest.md` and `Review_Packets/Gemini_Bridge/TO_GREY_rex_needs_latest.md`.
+
+## 2026-05-09 01:00:00 -04:00 Etsy Printify External Poller Added
+- Added `modules/etsy_printify_external_poll.py` as a no-spend/no-republish reconciler for Printify Etsy publishes whose external id has not backfilled.
+- Wired the poller into `night_shift_runner.py` every other cycle.
+- First poll: `Poster-Academia-0011` remains `PUBLISHED_EXTERNAL_PENDING` at age about 6 minutes, so no duplicate publish was attempted.
+
+## 2026-05-09 01:05:00 -04:00 Etsy Shop Shell Task Preserved
+- Added a durable backlog task to apply the Option 02 / Quiet Relic Studio Etsy shop shell before scaling Etsy listings.
+- Updated Rex/Gemini daily packet to include the storefront shell as an action item and to point at the existing banner/icon/copy sources.
+
+## 2026-05-09 01:35:00 -04:00 Etsy Shop Shell Applied Through Edge
+- Confirmed Etsy Shop Manager is logged in through Edge CDP 9223.
+- Applied Option 02 / Quiet Relic Studio shell copy:
+  - announcement, physical buyer note, digital buyer note, tagline, about headline/body.
+- Uploaded and saved the Option 02 shop logo.
+- Shop name change to `QuietRelicStudio` did not verify; Etsy's custom input remained in Save/Cancel state and the visible shop name stayed `DriveFuel`. Left as a tracked follow-up rather than blocking monthly Etsy work.
+- No paid listings, ads, orders, payment settings, or customer messages were touched.
+
+## 2026-05-09 01:44:00 -04:00 Etsy Monthly Task Continuation
+- Etsy app key probe still passes as `API_KEY_ACTIVE`.
+- OAuth PKCE Edge bridge was implemented and tested, but Etsy authorization lands on `https://www.etsy.com/error.php` before the localhost callback. No token was stored and no live data was changed.
+- Retried OAuth with a minimal scope set; same Etsy `error.php`, so this is likely app redirect/app authorization configuration rather than listing code.
+- Printify Etsy external poll: `Poster-Academia-0011` still pending external id at age about 42 minutes; no duplicate publish attempted.
+- Etsy live read-only audit: 10 known active listings remain `ACTIVE_READABLE`.
+- Next digital batch selector refreshed 29 ready no-spend candidates; projected fee if published would be `$5.80`, but no new spend was triggered.
