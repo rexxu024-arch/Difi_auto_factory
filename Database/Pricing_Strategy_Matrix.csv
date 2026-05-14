@@ -1,7 +1,0 @@
-﻿Product_Type,Platform,Price_USD,Printify_Cost_USD,Printify_US_Shipping_USD,Fee_Assumption_Pct,Fixed_Fee_Assumption_USD,Estimated_Total_Cost_USD,Estimated_Profit_USD,Estimated_Margin,BreakEven_Price_USD
-Sticker,eBay,11.99,2.48,4.29,15.25%,0.40,9.00,2.99,25.0%,8.46
-Poster,eBay,34.99,12.13,5.99,15.25%,0.40,23.86,11.13,31.8%,21.85
-Acrylic,eBay,89.99,35.43,15.99,15.25%,0.40,65.54,24.45,27.2%,61.14
-Digital,Etsy,6.99,0.00,0.00,6.50%,0.45,0.90,6.09,87.1%,0.48
-Poster,Etsy,34.99,12.13,5.99,9.50%,0.45,21.89,13.10,37.4%,20.52
-Acrylic,Etsy,89.99,35.43,15.99,9.50%,0.45,60.42,29.57,32.9%,57.31

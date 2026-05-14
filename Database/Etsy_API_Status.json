@@ -1,9 +1,0 @@
-{
-  "timestamp": "2026-05-08 21:56:20 -0400",
-  "credentials_present": true,
-  "keystring_masked": "ehm7...jc9l",
-  "status": "PENDING_OR_INACTIVE",
-  "http_status": 403,
-  "detail": "{\"error\":\"Shared secret is required in x-api-key header.\"}\n",
-  "oauth_next_step": "WAIT_APP_APPROVAL_OR_VERIFY_SECRET"
-}

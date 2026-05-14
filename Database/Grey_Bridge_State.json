@@ -1,6 +1,0 @@
-{
-  "status": "ERROR",
-  "error_type": "GreyApiError",
-  "detail": "GEMINI_HTTP_503: {\"error\": {\"code\": 503, \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\", \"status\": \"UNAVAILABLE\"}}",
-  "to_grey": "C:\\AIprojects\\openclaw_difi\\Review_Packets\\Gemini_Bridge\\TO_GREY_latest.md"
-}

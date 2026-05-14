@@ -1,5 +1,0 @@
-2026-05-08 21:46:12 -04:00
-- Safe git checkpoint blocked: `git add -A -- Database Review_Packets` failed with `Permission denied` creating `.git/index.lock`.
-- Repo is on `main` with `origin/main` tracking; no branch switch was needed.
-- No force, lock removal, or overwrite was attempted.
-2026-05-08 21:46:57 - Git checkpoint blocked: `git fetch origin` failed with `error: cannot open '.git/FETCH_HEAD': Permission denied`. No files were staged, committed, or pushed.

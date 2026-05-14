@@ -1,7 +1,0 @@
-Product_Type,Platform,Buyer_Shipping_Display,Current_Price,Printify_Cost_Status,Fee_Assumption,Margin_Rule,Action
-Sticker,eBay,Free shipping preferred,$11.99,VERIFY_CURRENT_PRINTIFY_COST_PLUS_SHIPPING,eBay final value fee plus ad fee if promoted,Low margin allowed for trust/reviews but never below break-even,Audit current shipping template and cost math
-Poster,eBay,Free shipping preferred,$34.99,VERIFY_BLUEPRINT_282_COST_PLUS_SHIPPING,eBay final value fee plus 2 percent standard ads,Keep premium but test lower only in controlled cell,Audit cost and ensure shipping included
-Acrylic,eBay,Free shipping preferred,$89.99,VERIFY_BLUEPRINT_1471_COST_PLUS_SHIPPING,eBay final value fee plus 2 percent standard ads,Premium margin required due high cost and low review count,Audit cost and ensure shipping included
-Digital,Etsy,No shipping,$6.99,No Printify cost,Etsy listing fee plus transaction/payment fees,High margin; stop if no traffic after small batch,Prepare 10 listing launch
-Poster,Etsy,Free shipping preferred,$34.99,VERIFY_BLUEPRINT_282_COST_PLUS_SHIPPING,Etsy listing fee plus transaction/payment fees plus ad if used,Keep decor-friendly price; adjust by signal,Hold publish until Etsy login stable
-Acrylic,Etsy,Free shipping preferred,$89.99,VERIFY_BLUEPRINT_1471_COST_PLUS_SHIPPING,Etsy listing fee plus transaction/payment fees plus ad if used,Premium test only,Hold publish until Etsy login stable
