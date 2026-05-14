@@ -36,6 +36,7 @@ browser_profiles/
 *.tmp
 *.bak
 *.backup
+*~
 ~$*.xlsx
 *.log.err
 Database/*.log
