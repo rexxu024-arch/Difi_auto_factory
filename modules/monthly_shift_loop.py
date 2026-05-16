@@ -95,11 +95,19 @@ def et_now() -> datetime:
     return datetime.now(ET)
 
 
+def compact_message(message: str, limit: int = 900) -> str:
+    """Keep state files small enough for the watchdog to parse quickly."""
+    single_line = str(message).replace("\r", " ").replace("\n", " ")
+    if len(single_line) <= limit:
+        return single_line
+    return single_line[: limit - 32].rstrip() + f"... [truncated {len(single_line)}]"
+
+
 def log_line(message: str) -> None:
     DATABASE_DIR.mkdir(exist_ok=True)
     stamp = et_now().strftime("%Y-%m-%d %H:%M:%S %Z")
     with STATE_FILE.open("a", encoding="utf-8") as handle:
-        handle.write(f"- {stamp} | {message}\n")
+        handle.write(f"- {stamp} | {compact_message(message)}\n")
 
 
 def update_trigger(status: str, command_name: str, completed: int, deadline: datetime) -> None:
@@ -144,7 +152,7 @@ def append_night_queue(command: ShiftCommand, decision: str, reason: str) -> Non
                 "task_class": command.task_class,
                 "priority": command.priority,
                 "decision": decision,
-                "reason": reason,
+                "reason": compact_message(reason, 360),
                 "status": "queued_for_cool_window",
             }
         )

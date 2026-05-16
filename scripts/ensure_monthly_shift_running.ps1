@@ -72,7 +72,9 @@ function Get-ShiftProgressState {
         return $result
     }
 
-    $lines = Get-Content $StateFile -ErrorAction SilentlyContinue
+    # Keep this watchdog cheap. The state file may contain older oversized lines,
+    # and PowerShell Tail becomes very slow if it has to walk too many of them.
+    $lines = Get-Content $StateFile -Tail 200 -ErrorAction SilentlyContinue
     foreach ($line in $lines) {
         if ($line -match '^- (?<stamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) EDT \| START (?<num>\d+) (?<name>\S+)') {
             $result.latestStartStamp = Convert-StateStamp $Matches.stamp

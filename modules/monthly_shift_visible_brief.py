@@ -43,6 +43,9 @@ START_RE = re.compile(
 )
 
 COMMAND_PROJECT = {
+    "adobe_stock_codex_ab_groups": "Adobe Stock factory",
+    "adobe_stock_ab_mj_queue": "Adobe Stock factory",
+    "adobe_stock_ab_mj_dispatch": "Adobe Stock factory",
     "etsy_external_poll": "Etsy/Printify reconciliation",
     "etsy_digital_packet": "Etsy V7 digital lab",
     "etsy_package_builder": "Etsy V7 digital lab",
@@ -55,8 +58,16 @@ COMMAND_PROJECT = {
     "ebay_experiment_report": "eBay recovery",
     "project_mirror_scorecard": "Project Mirror DNA",
     "adobe_stock_scaffold": "Adobe Stock factory",
+    "adobe_stock_mentor_expander": "Adobe Stock factory",
     "adobe_stock_pilot_queue": "Adobe Stock factory",
     "adobe_stock_two_layer_schema": "Adobe Stock factory",
+    "adobe_stock_pilot_batch": "Adobe Stock factory",
+    "adobe_stock_image_qa": "Adobe Stock factory",
+    "adobe_stock_metadata_qa": "Adobe Stock factory",
+    "adobe_stock_curated_pilot_pack": "Adobe Stock factory",
+    "adobe_stock_upload_ready_pack": "Adobe Stock factory",
+    "sticker_market_research_gate": "Sticker liquidation",
+    "sticker_liquidation_builder": "Sticker liquidation",
     "first_audit_guard": "First Audit private studio",
     "first_audit_contact_sheet": "First Audit private studio",
     "first_audit_extension_specs": "First Audit private studio",
@@ -315,13 +326,32 @@ def compact_tail(value: str, limit: int = 130) -> str:
     return value[: limit - 3].rstrip() + "..."
 
 
+def read_state_tail(max_bytes: int = 2_000_000) -> list[str]:
+    """Read only the recent state window so visible briefs stay fast."""
+    if not STATE_FILE.exists():
+        return []
+    try:
+        with STATE_FILE.open("rb") as handle:
+            handle.seek(0, 2)
+            size = handle.tell()
+            handle.seek(max(0, size - max_bytes))
+            data = handle.read()
+    except OSError:
+        return []
+    text = data.decode("utf-8", errors="ignore")
+    lines = text.splitlines()
+    if data and size > max_bytes and lines:
+        lines = lines[1:]
+    return lines
+
+
 def parse_state() -> tuple[list[dict], dict | None]:
     if not STATE_FILE.exists():
         return [], None
 
     completed: list[dict] = []
     latest_start: dict | None = None
-    for line in STATE_FILE.read_text(encoding="utf-8", errors="ignore").splitlines():
+    for line in read_state_tail():
         start_match = START_RE.search(line)
         if start_match:
             latest_start = {
