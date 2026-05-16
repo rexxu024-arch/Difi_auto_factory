@@ -25,12 +25,14 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from config import Config
 from modules.printify_uploader import PRINTIFY_SPECS, _price_to_cents
+from modules.risk_guard import assert_allowed, assert_etsy_fee_batch_allowed, assert_no_first_audit_public_assets
 
 
 DATABASE_DIR = PROJECT_ROOT / "Database"
 PLAN_CSV = DATABASE_DIR / "Etsy_launch_plan.csv"
 LOG_CSV = DATABASE_DIR / "Etsy_Printify_Launch_Log.csv"
 STATE_JSON = DATABASE_DIR / "Etsy_Printify_Launch_State.json"
+FEE_LEDGER_CSV = DATABASE_DIR / "Etsy_Fee_Ledger.csv"
 SHOP_ID = str(Config.Printify_ETSY_SHOP_ID or "")
 
 PUBLISH_BODY = {
@@ -63,10 +65,35 @@ def clean(value: object) -> str:
     return str(value or "").replace("\r", " ").replace("\n", " ").strip()
 
 
-def read_plan() -> list[dict[str, str]]:
-    if not PLAN_CSV.exists():
-        raise FileNotFoundError(f"Missing Etsy launch plan: {PLAN_CSV}")
-    with PLAN_CSV.open("r", encoding="utf-8-sig", newline="") as handle:
+def etsy_description(row: dict[str, str]) -> str:
+    existing = str(row.get("Etsy_Description") or "").replace("\r\n", "\n").replace("\r", "\n").strip()
+    if existing:
+        return existing
+    title = clean(row.get("Etsy_Title") or row.get("Title") or row.get("ID"))
+    ptype = product_type(row.get("Product_Type", ""))
+    category = clean(row.get("Category"))
+    note = clean(row.get("Selection_Rationale"))
+    if ptype == "Acrylic":
+        product_note = "This 5x7 acrylic photo block is produced through Printify as a physical desk or shelf display piece with official product mockups."
+    else:
+        product_note = "This matte poster is produced through Printify as a physical wall art print with official product mockups."
+    return (
+        f"{title}\n\n"
+        f"A curated {category or ptype} visual from Quiet Relic Studio, selected for collectible atmosphere, detailed material illusion, and room-ready presentation.\n\n"
+        f"{product_note}\n\n"
+        "Only the main product artwork is the final printed design. Additional gallery images are official product or concept previews to help show scale, texture, and display context.\n\n"
+        f"Selection note: {note}" if note else
+        f"{title}\n\n"
+        f"A curated {category or ptype} visual from Quiet Relic Studio, selected for collectible atmosphere, detailed material illusion, and room-ready presentation.\n\n"
+        f"{product_note}\n\n"
+        "Only the main product artwork is the final printed design. Additional gallery images are official product or concept previews to help show scale, texture, and display context."
+    )
+
+
+def read_plan(plan_csv: Path = PLAN_CSV) -> list[dict[str, str]]:
+    if not plan_csv.exists():
+        raise FileNotFoundError(f"Missing Etsy launch plan: {plan_csv}")
+    with plan_csv.open("r", encoding="utf-8-sig", newline="") as handle:
         return list(csv.DictReader(handle))
 
 
@@ -96,6 +123,52 @@ def append_log(row: dict[str, str]) -> None:
         if not exists:
             writer.writeheader()
         writer.writerow({key: row.get(key, "") for key in fieldnames})
+
+
+def etsy_spend_today() -> float:
+    if not FEE_LEDGER_CSV.exists():
+        return 0.0
+    today = datetime.now().astimezone().date().isoformat()
+    total = 0.0
+    with FEE_LEDGER_CSV.open("r", encoding="utf-8-sig", newline="") as handle:
+        for row in csv.DictReader(handle):
+            if not clean(row.get("Timestamp")).startswith(today):
+                continue
+            try:
+                total += float(row.get("Confirmed_Spent_USD") or 0)
+            except ValueError:
+                continue
+    return round(total, 2)
+
+
+def append_fee_ledger(item_id: str, reference: str, status: str = "CONFIRMED_SPENT_PRINTIFY_ETSY") -> None:
+    fieldnames = [
+        "Timestamp",
+        "Batch_ID",
+        "ID",
+        "Action",
+        "Expected_Fee_USD",
+        "Confirmed_Spent_USD",
+        "Status",
+        "Reference",
+    ]
+    exists = FEE_LEDGER_CSV.exists()
+    with FEE_LEDGER_CSV.open("a", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        if not exists:
+            writer.writeheader()
+        writer.writerow(
+            {
+                "Timestamp": now_text(),
+                "Batch_ID": "ETSY-POD-PRINTIFY",
+                "ID": item_id,
+                "Action": "ETSY_LISTING_FEE_RESERVE",
+                "Expected_Fee_USD": "0.20",
+                "Confirmed_Spent_USD": "0.20",
+                "Status": status,
+                "Reference": reference,
+            }
+        )
 
 
 def product_type(value: str) -> str:
@@ -145,9 +218,9 @@ def build_payload(row: dict[str, str], production_image_id: str) -> dict:
     spec = PRINTIFY_SPECS[ptype]
     variant_id = spec["variant_id"]
     tags = [clean(tag) for tag in clean(row.get("Etsy_Tags")).split(",") if clean(tag)]
-    return {
+    payload = {
         "title": clean(row["Etsy_Title"])[:140],
-        "description": row["Etsy_Description"].replace("\r\n", "\n").replace("\r", "\n").strip(),
+        "description": etsy_description(row),
         "tags": tags[:13],
         "blueprint_id": spec["blueprint_id"],
         "print_provider_id": spec["provider_id"],
@@ -173,6 +246,11 @@ def build_payload(row: dict[str, str], production_image_id: str) -> dict:
         # Deliberately omit custom gallery images for Etsy first pass.
         # Printify official mockups are safer for buyer expectation.
     }
+    assert_no_first_audit_public_assets(
+        {"row": row, "payload": payload},
+        context=f"Printify Etsy launch payload {clean(row.get('ID'))}",
+    )
+    return payload
 
 
 def fetch_product(product_id: str) -> dict:
@@ -183,6 +261,17 @@ def fetch_product(product_id: str) -> dict:
     )
     response.raise_for_status()
     return response.json()
+
+
+def put_product(product_id: str, payload: dict) -> dict:
+    response = requests.put(
+        api_url(f"/shops/{SHOP_ID}/products/{product_id}.json"),
+        headers=headers(),
+        json=payload,
+        timeout=180,
+    )
+    response.raise_for_status()
+    return response.json() if response.content else {}
 
 
 def create_product(row: dict[str, str]) -> str:
@@ -233,6 +322,86 @@ def official_count(product: dict) -> int:
         for image in product.get("images") or []
         if image.get("is_selected_for_publishing") is not False and "images.printify.com/mockup" in str(image.get("src") or "")
     )
+
+
+def exact_duplicate_count(product: dict) -> int:
+    seen: set[str] = set()
+    duplicates = 0
+    for image in product.get("images") or []:
+        if image.get("is_selected_for_publishing") is False:
+            continue
+        key = clean(image.get("mockup_id")) or clean(image.get("src")).split("?")[0]
+        if not key:
+            continue
+        if key in seen:
+            duplicates += 1
+        else:
+            seen.add(key)
+    return duplicates
+
+
+def camera_label(image: dict) -> str:
+    src = clean(image.get("src"))
+    if "camera_label=" not in src:
+        return ""
+    return src.split("camera_label=", 1)[1].split("&", 1)[0]
+
+
+def image_key(image: dict) -> str:
+    return clean(image.get("mockup_id")) or clean(image.get("id")) or clean(image.get("src")).split("?")[0]
+
+
+def selected_mix(product: dict) -> tuple[int, int, int]:
+    selected = [image for image in product.get("images") or [] if image.get("is_selected_for_publishing") is not False]
+    official = sum(1 for image in selected if "images.printify.com/mockup" in str(image.get("src") or ""))
+    unique = len({image_key(image) for image in selected if image_key(image)})
+    return len(selected), official, unique
+
+
+def repair_duplicate_mockups(product_id: str, product_type_name: str) -> tuple[dict, str]:
+    product = fetch_product(product_id)
+    images = product.get("images") or []
+    official = [image for image in images if "images.printify.com/mockup" in str(image.get("src") or "")]
+    preferred = {
+        "Poster": ["front", "close-up", "context-1", "context-2"],
+        "Acrylic": ["front", "back", "side-1", "side-2", "context-1"],
+    }.get(product_type_name, [])
+    picked: list[dict] = []
+    picked_keys: set[str] = set()
+    for label in preferred:
+        for image in official:
+            key = image_key(image)
+            if key and key not in picked_keys and camera_label(image) == label:
+                picked.append(image)
+                picked_keys.add(key)
+                break
+    for image in official:
+        if len(picked) >= 4:
+            break
+        key = image_key(image)
+        if key and key not in picked_keys:
+            picked.append(image)
+            picked_keys.add(key)
+    if len(picked) < 3:
+        return product, f"repair_skipped_unique_official={len(picked)}"
+    selected_keys = {image_key(image) for image in picked}
+    selected_order = {image_key(image): index for index, image in enumerate(picked)}
+    repaired_images = []
+    for image in images:
+        item = dict(image)
+        key = image_key(item)
+        is_selected = key in selected_keys
+        item["is_selected_for_publishing"] = is_selected
+        item["is_default"] = is_selected and selected_order.get(key) == 0
+        item["order"] = selected_order.get(key) if is_selected else None
+        repaired_images.append(item)
+    payload = dict(product)
+    payload["images"] = repaired_images
+    put_product(product_id, payload)
+    updated = fetch_product(product_id)
+    selected, official_count_after, unique_after = selected_mix(updated)
+    note = f"dedup_repair selected={selected} official={official_count_after} unique={unique_after}"
+    return updated, note
 
 
 def wait_mockups(product_id: str, minimum: int = 3, timeout: int = 120) -> tuple[dict, int, int]:
@@ -291,16 +460,24 @@ def existing_launch_ids() -> set[str]:
     return ids
 
 
-def run(limit: int, publish: bool, smoke: bool = False) -> None:
+def run(limit: int, publish: bool, smoke: bool = False, plan_csv: Path = PLAN_CSV) -> None:
     if not SHOP_ID:
         raise RuntimeError("Printify_ETSY_SHOP_ID is not configured.")
-    rows = [row for row in read_plan() if product_type(row.get("Product_Type")) in {"Poster", "Acrylic"}]
+    rows = [
+        row
+        for row in read_plan(plan_csv)
+        if product_type(row.get("Product_Type")) in {"Poster", "Acrylic"}
+        and clean(row.get("Launch_Status")).startswith("Draft_Prepared")
+    ]
     done_ids = existing_launch_ids()
     rows = [row for row in rows if clean(row["ID"]) not in done_ids]
     if smoke:
         rows = rows[:1]
     elif limit:
         rows = rows[:limit]
+    if publish and rows:
+        assert_allowed("etsy", "paid_publish")
+        assert_etsy_fee_batch_allowed(len(rows), daily_spend_so_far=etsy_spend_today())
     created = 0
     published = 0
     for row in rows:
@@ -308,7 +485,18 @@ def run(limit: int, publish: bool, smoke: bool = False) -> None:
         try:
             product_id = create_product(row)
             product, selected, official = wait_mockups(product_id, minimum=3)
-            print(f"[ETSY-MOCKUPS] {item_id} product={product_id} selected={selected} official={official}", flush=True)
+            duplicates = exact_duplicate_count(product)
+            print(f"[ETSY-MOCKUPS] {item_id} product={product_id} selected={selected} official={official} duplicates={duplicates}", flush=True)
+            if duplicates and product_type(row["Product_Type"]) in {"Poster", "Acrylic"}:
+                product, repair_note = repair_duplicate_mockups(product_id, product_type(row["Product_Type"]))
+                selected = selected_count(product)
+                official = official_count(product)
+                duplicates = exact_duplicate_count(product)
+                print(
+                    f"[ETSY-MOCKUPS-REPAIR] {item_id} product={product_id} "
+                    f"{repair_note} duplicates={duplicates}",
+                    flush=True,
+                )
             if selected < 3 or official < 1:
                 append_log(
                     {
@@ -322,10 +510,24 @@ def run(limit: int, publish: bool, smoke: bool = False) -> None:
                     }
                 )
                 continue
+            if duplicates:
+                append_log(
+                    {
+                        "Timestamp": now_text(),
+                        "ID": item_id,
+                        "Product_Type": product_type(row["Product_Type"]),
+                        "Action": "MOCKUP_CHECK",
+                        "Status": "HOLD_DUPLICATE_MOCKUPS",
+                        "Printify_Etsy_Product_ID": product_id,
+                        "Note": f"selected={selected} official={official} duplicate_count={duplicates}",
+                    }
+                )
+                continue
             created += 1
             if publish:
                 external_id, external_handle = publish_product(row, product_id)
                 published += 1
+                append_fee_ledger(item_id, external_id or external_handle or product_id)
                 print(f"[ETSY-PUBLISH] {item_id} product={product_id} external={external_id or external_handle or 'PENDING'}")
         except Exception as exc:  # noqa: BLE001
             append_log(
@@ -348,6 +550,7 @@ def run(limit: int, publish: bool, smoke: bool = False) -> None:
                 "created": created,
                 "published": published,
                 "publish_requested": publish,
+                "plan_csv": str(plan_csv),
                 "log": str(LOG_CSV),
             },
             indent=2,
@@ -383,13 +586,14 @@ def main() -> None:
     parser.add_argument("--limit", type=int, default=20)
     parser.add_argument("--publish", action="store_true")
     parser.add_argument("--smoke", action="store_true")
+    parser.add_argument("--plan-csv", default=str(PLAN_CSV), help="Launch plan CSV to consume.")
     parser.add_argument("--delete-legacy", action="store_true")
     parser.add_argument("--delete-legacy-commit", action="store_true")
     args = parser.parse_args()
     if args.delete_legacy or args.delete_legacy_commit:
         delete_legacy_printify_products(dry_run=not args.delete_legacy_commit)
     else:
-        run(limit=args.limit, publish=args.publish, smoke=args.smoke)
+        run(limit=args.limit, publish=args.publish, smoke=args.smoke, plan_csv=Path(args.plan_csv))
 
 
 if __name__ == "__main__":

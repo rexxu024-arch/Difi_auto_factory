@@ -1,4 +1,5 @@
 import csv
+import argparse
 import sys
 from pathlib import Path
 
@@ -119,7 +120,20 @@ def _qa_row(row, cols):
     }
 
 
-def build():
+def _canonical_product(value):
+    value = _clean(value).lower()
+    if value.startswith("poster"):
+        return "Poster"
+    if value.startswith("acry"):
+        return "Acrylic"
+    if value.startswith("sticker"):
+        return "Sticker"
+    return _clean(value)
+
+
+def build(ids=None, product_type=None):
+    wanted_ids = {str(item).strip() for item in (ids or []) if str(item).strip()}
+    product_filter = _canonical_product(product_type) if product_type else ""
     wb = load_workbook(EBAY_BOOK, read_only=True, data_only=True)
     ws = wb.active
     headers = [cell.value for cell in ws[1]]
@@ -127,8 +141,13 @@ def build():
     rows = []
     try:
         for row in ws.iter_rows(min_row=2, values_only=True):
-            if row and row[cols["ID"]]:
-                rows.append(_qa_row(row, cols))
+            if not row or not row[cols["ID"]]:
+                continue
+            if wanted_ids and _clean(row[cols["ID"]]) not in wanted_ids:
+                continue
+            if product_filter and _canonical_product(row[cols["Product_Type"]]) != product_filter:
+                continue
+            rows.append(_qa_row(row, cols))
     finally:
         wb.close()
 
@@ -145,4 +164,9 @@ def build():
 
 
 if __name__ == "__main__":
-    build()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--ids", default="", help="Comma-separated exact listing IDs to audit.")
+    parser.add_argument("--product-type", default="", choices=["", "Sticker", "Poster", "Acrylic"])
+    args = parser.parse_args()
+    ids = [part.strip() for part in args.ids.split(",") if part.strip()] or None
+    build(ids=ids, product_type=args.product_type or None)

@@ -17,7 +17,7 @@ API_BASE = "https://api.etsy.com/v3/application"
 def api_key_header(mode=None):
     if not Config.ETSY_KEYSTRING:
         raise RuntimeError("Missing Etsy API credentials in .env.")
-    mode = mode or "keystring"
+    mode = mode or ("combined" if Config.ETSY_SHARED_SECRET else "keystring")
     if mode == "combined":
         if not Config.ETSY_SHARED_SECRET:
             raise RuntimeError("Missing ETSY_SHARED_SECRET in .env for combined x-api-key mode.")
@@ -83,6 +83,8 @@ def get_my_shops():
 
 def first_shop_id():
     shops = get_my_shops()
+    if shops.get("shop_id"):
+        return shops.get("shop_id")
     results = shops.get("results") or shops.get("shops") or []
     if not results:
         raise RuntimeError(f"No Etsy shop found for authenticated user: {shops}")

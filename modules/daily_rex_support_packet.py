@@ -57,10 +57,21 @@ def write_packet() -> Path:
     etsy_status = read_json(DATABASE / "Etsy_API_Status.json")
     digital_next = read_json(DATABASE / "Etsy_Digital_Next_Batch_State.json")
     external_poll = read_json(DATABASE / "Etsy_Printify_External_Poll_State.json")
+    fee_guard = read_json(DATABASE / "Etsy_Fee_Kill_Switch.json")
     fee_rows = read_csv(DATABASE / "Etsy_Fee_Ledger.csv")
+    today = datetime.now(ZoneInfo("America/New_York")).date().isoformat()
     digital_spend = sum(money(row.get("Confirmed_Spent_USD")) for row in fee_rows if "DIGITAL" in str(row.get("Batch_ID", "")).upper())
     pod_spend = sum(money(row.get("Confirmed_Spent_USD")) for row in fee_rows if "POD" in str(row.get("Batch_ID", "")).upper())
     total_spend = sum(money(row.get("Confirmed_Spent_USD")) for row in fee_rows)
+    today_spend = sum(
+        money(row.get("Confirmed_Spent_USD"))
+        for row in fee_rows
+        if str(row.get("Timestamp", "")).startswith(today) and str(row.get("Status", "")).startswith("CONFIRMED")
+    )
+    pool = int(fee_guard.get("authorized_pool_listings") or 200)
+    pool_budget = money(fee_guard.get("authorized_pool_budget_usd") or 40)
+    daily_cap = money(fee_guard.get("daily_listing_fee_cap_usd") or 6)
+    absolute_cap = money(fee_guard.get("absolute_no_result_spend_cap_usd") or 60)
     lines = [
         "# Rex Action Packet",
         "",
@@ -111,6 +122,8 @@ def write_packet() -> Path:
         f"- confirmed_digital_listing_spend: `${digital_spend:.2f}`",
         f"- confirmed_pod_listing_spend: `${pod_spend:.2f}`",
         f"- confirmed_total_etsy_listing_spend: `${total_spend:.2f}`",
+        f"- today_confirmed_etsy_listing_spend: `${today_spend:.2f}` / daily cap `${daily_cap:.2f}`",
+        f"- authorized_experiment_pool: `{pool}` listings / `${pool_budget:.2f}` pool budget / `${absolute_cap:.2f}` no-result hard ceiling",
         f"- next_digital_candidates_ready_no_spend: `{digital_next.get('ready', '')}`",
         f"- next_digital_projected_fee_if_published: `${float(digital_next.get('projected_fee_if_published_usd') or 0):.2f}`",
         f"- printify_etsy_external_pending_checked: `{external_poll.get('checked', '')}`",
@@ -118,7 +131,7 @@ def write_packet() -> Path:
         "",
         "## For Gemini/Grey",
         "",
-        "The strategic ask is not whether to keep Etsy as a battlefield; Rex has approved a 200-listing test pool. The current tactical blocker is Etsy OAuth authorization returning Etsy error.php before callback, plus duplicate Printify official mockups on some POD products. Storefront shell is mostly applied, but the public shop name remains DriveFuel. Recommend strategy under these constraints: use Etsy Digital/direct API once OAuth is fixed, and only use Printify POD listings when gallery QA passes.",
+        f"The strategic ask is not whether to keep Etsy as a battlefield; Rex has approved a {pool}-listing test pool. The current tactical blocker is Etsy OAuth authorization returning Etsy error.php before callback, plus duplicate Printify official mockups on some POD products. Storefront shell is mostly applied, but the public shop name remains DriveFuel. Recommend strategy under these constraints: use Etsy Digital/direct API once OAuth is fixed, keep daily spend under `${daily_cap:.2f}`, and only use Printify POD listings when gallery QA passes.",
         "",
     ]
     REVIEW.mkdir(exist_ok=True)

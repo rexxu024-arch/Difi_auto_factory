@@ -1,438 +1,302 @@
-# Current Task - OpenClaw Factory Phase 1 Day 1
+# Current Task - 3-Day Revenue Priority Override
 
-Started: 2026-05-03 22:43 -04:00 America/New_York
+Updated: 2026-05-16 America/New_York
+Priority: P0
+Protocol: Rex 3-Day Revenue Ordering
 
-Operating timezone:
-- Use New York / Eastern time for all future project logs, checkpoints, and handoffs.
+Mission:
+- For the next three days, execute in this order unless a hard guard blocks a lane:
+  1. Adobe Stock product production first. Assets must meet Rex quality standards: commercial-useful, macro/material depth, no low-res drafts, no cheap flat texture spam, proper metadata/AI disclosure, and no Etsy/eBay/First Audit brand leakage.
+  2. Sticker liquidation into Etsy digital material bundles second. Use retired/high-res U assets as designer-resource packs, not Sticker POD. Package ZIPs within Etsy limits, use Etsy-native title/description, and make buyer expectations explicit.
+  3. Daily Etsy/eBay listing drip third. Keep reasonable daily quantity, no Sticker POD expansion, prioritize quality POD and controlled experiments under fee/account/QA guards.
+- If Adobe is blocked by visual QA/source quality, do not publish weak assets. Improve source/DNA/metadata first.
+- If Sticker bundle publishing is blocked, continue packaging, preview sheets, metadata, and market evidence work without spending.
+- If marketplaces are blocked, continue local prep and Adobe/Project Mirror/Premium DNA work.
 
-Operating roles:
-- Rex is Commander.
-- Gemini is Strategy Advisor.
-- Codex is Executive Operator.
-- Durable route is saved in `PROJECT_FACTORY_ROADMAP.md`.
+Current execution status:
+- Market evidence gate is now mandatory for revenue products: `modules/market_research_gate.py`, `Reports/Market_Evidence_Gate_latest.md`.
+- Adobe Stock contributor account is ready from Rex side, but first batch must be rebuilt to the higher-quality macro/material standard before upload.
+- Sticker bundle builder exists and produces ZIP/preview/metadata outputs under `Release/Digital_Warehouse/` and `Database/Sticker_Liquidation/`.
+- Etsy/eBay daily drip remains active but lower than Adobe + Sticker bundle work for this 3-day window.
 
-Browser/resource hygiene:
-- After finishing a browser-based task, close related working tabs automatically.
-- Keep only the 1-2 project tabs needed for the next active task.
-- Do not close unrelated/private user tabs unless Rex explicitly asks.
-- Prefer API/local scripts over repeated browser refresh loops when possible.
-- Do not interfere with Rex's daily Chrome. Use the dedicated Edge automation profile on CDP port 9223 for marketplace/account UI work unless there is a specific reason not to.
-- Hard browser rule: Etsy, Printify, eBay login, Seller Hub checks, and marketplace data gathering must use Edge automation profile on CDP 9223 only. Do not use Chrome for these accounts.
+---
 
-Memory ownership protocol:
-- Rex authorizes Codex to reduce memory pressure without asking when it affects OpenClaw work.
-- First response is cleanup, not stopping: close safe idle project automation tabs in Edge CDP 9223, reduce concurrency, and switch to local/report/API-read tasks.
-- Do not inspect or close Rex's daily Chrome/private personal tabs.
-- Pause only when cleanup fails and sustained CPU/memory pressure remains high, or Rex explicitly says stop.
-- Updated resource rule: high CPU/memory triggers proactive optimization first (safe idle Edge project tabs and project automation residues), then resample; cooldown is the fallback, not the first response.
-- Hardware autonomy rule: do not harm the laptop, but do not overreact to virtual/sampling spikes. Distinguish sustained dangerous pressure from momentary WMI/Defender/browser spikes; if it is workable, reduce load and keep producing.
-- Shutdown/restart is not automatic by default; write a rest-cycle recommendation unless Rex explicitly arms a shutdown/wake workflow.
+# Previous Current Task - V15.5 Dual-Track Purge And Studio Gift Pivot
 
-Reasoning / quota budget protocol:
-- Weekly Codex quota is healthy as of 2026-05-07: screenshot shows about 76% weekly remaining and 98% 5h remaining.
-- Use high reasoning for architecture, risky account actions, QA design, pricing, debugging, and final marketplace decisions.
-- Use scripts, DeepSeek, Gemini free, and local batch tools for mechanical loops, bulk copy, report generation, and repetitive audits.
-- If weekly remaining drops below 35%, switch to conservation mode: fewer chat summaries, more batch scripts, more Gemini/DeepSeek delegation, and shorter final reports unless Rex asks for depth.
-- If weekly remaining drops below 20%, reserve Codex high reasoning for blockers, irreversible actions, or revenue-critical decisions only.
+Updated: 2026-05-13 11:50 -04:00 America/New_York
+Priority: P0
+Protocol: V15.5 Great Purge / Executive Gift Pivot
 
-Endurance protocol:
-- Host may stay on long-term power. Protect hardware through cool-down cycles instead of physical shutdown by default.
-- If Edge CDP/UI automation runs more than 3 hours, memory spikes, or CPU remains hot, save state and terminate only project automation browser/driver processes, then continue low-power local/API/report work.
-- Daily reboot target is 04:00 America/New_York, but Windows password remains a hard security boundary. Do not bypass it with AutoLogon unless Rex explicitly accepts the privacy/security tradeoff.
-- Safe recovery chain: after Rex logs into Windows, `scripts\run_codex.bat` starts Codex and `scripts\openclaw_resume_after_login.bat` restores Edge CDP 9223 plus Grunt tasks.
-- Default daily reboot script is dry-run/check mode until Rex explicitly arms actual `shutdown /r`.
-- Updated compromise: daily hardware rest is now shutdown, not reboot. Windows Task Scheduler runs `scripts\openclaw_daily_shutdown.bat` at 06:00 Eastern time. Rex powers on manually after waking; after Windows login, Startup resumes OpenClaw.
-- Workday model: treat 05:30-06:00 ET as packing-up time. At 05:30 stop starting long jobs and do only optimization/report/checkpoint work. At 05:50 force-stop project automation browser/driver/write processes. At 06:00 shut down.
-- Local cruise layer: Windows Task Scheduler may run `scripts\openclaw_cruise_once.bat` every 30 minutes while the machine is awake/logged in. It must obey `system_resource_allocator`, risk guards, fee caps, and the 05:30 winddown window.
+Mission:
+- Stop low-price blind volume and clean active marketplace dead weight.
+- Move sub-USD-15 low-value digital/sticker/planner/printable assets out of active sale when API data supports the decision; zero-signal non-POD experiments are also purge candidates.
+- Keep actions reversible and logged.
+- Shift public production toward 3-5/day high-quality Acrylic / Poster / executive-gift listings with strong mockups.
+- Build V15.5 weaponized folders for selected premium assets under `Release/[SKU-intent]/`.
 
-Default authorization policy:
-- Rex has repeatedly granted full OpenClaw project access. Do not stop to ask for routine project account navigation, local file edits, API debugging, browser automation, QA checks, report writing, or script changes.
-- Ask only for true red lines: spending beyond the approved cap, touching payment/billing settings, placing/canceling orders, sending buyer/customer messages, exposing or changing private credentials, or destructive actions outside the project scope.
-- When blocked by a tool/runtime/login failure, record the blocker, choose the safest authorized workaround, and continue the mainline instead of waiting by default.
-- Interruption recovery rule: after any Rex/Gemini insert, urgent fix, or side quest, return to `Factory_Backlog.csv`, `CURRENT_TASK.md`, `PROGRESS_LOG.md`, and Grunt queue before idling; never rely on chat memory alone.
-- Autonomous continuation rule: do not wait for Rex to say "continue monthly tasks." If no explicit stop/pause is active and guardrails are green, keep advancing the highest-priority item in `Factory_Backlog.csv` or the safest available local/report/QA task. User reminders are treated as corrections to autonomy, not as required triggers.
-- Instruction reconciliation rule: Rex may send many ideas, Gemini opinions, and evolving constraints. Use the newest instruction as the default authority, unless an older rule better protects the core business goal or a safety red line. Synthesize contradictions into the highest-ROI, lowest-risk path instead of blindly following stale details.
-- Grey firebreak rule: Gemini/Grey output is advisory. Parse it into local review/task queues first; never let Grey API output directly mutate live marketplace listings, spend money, touch account settings, or change production data without Codex/local guard validation.
-- Gemini Web sync thread rule: when sending low-frequency reports to Gemini Web, use only the existing thread named `Codex 自动化矩阵升级计划`; do not create a new chat/thread unless Rex explicitly asks.
+Current execution:
+- Monthly shift runner is now hard-routed through `scripts\continue_monthly_tasks_5h.cmd` -> `modules\monthly_shift_loop.py`. This bypasses the old cruise dispatcher. It is a primitive fixed-queue while loop: execute command, log, refresh trigger, move to next command, repeat until the 05:30 ET winddown. There is no 5-hour default cap. It must not stop merely because one command has no immediate new work.
+- Steer conversation rule: unless Rex explicitly says stop, pause, wait, or shut down, any side answer must be followed by returning to the monthly shift loop. Answering Rex is not a completion condition.
+- Etsy conservative first wave moved 4 listings inactive.
+- Etsy hard purge then moved the remaining low-price active download archive inactive by official Etsy API. Current active state is 57 physical listings, 0 active downloads, 0 active listings under $15.
+- Reconciliation file: `Database/V155_Etsy_Hard_Purge_Reconciliation.json`.
+- eBay purge candidate-only map built: `Database/V155_eBay_Purge_Candidates.csv`; no eBay listings ended until exact live item-level traffic/end path is verified.
+- First V15.5 weaponized folder created: `Release/OC-V155-001-Executive-Jade-Desk-Gift`.
+- First Audit V5 private review pack exists at `First_Audit_Release/V5_Zones1_3`; focused Top 4 packet exists at `Review_Packets/First_Audit_V5_Zones1_3_TOP4_CONTACT_SHEET.jpg`.
+- First Audit V5 Top 4 second-pass Relaxed grids are harvested at `Review_Packets/First_Audit_V5_Top4_Refinement_GRID_CONTACT_SHEET.jpg`. Fast/Upscale remains locked until Rex selects a quadrant.
+- 48-hour Ethernet stability sampling is active via Windows Task Scheduler. Current early samples are clean on `Ethernet 3` / 1 Gbps. Summary: `Reports/Network_Path_48h_Sampling_Report.md`.
+- Tomorrow 03:05 ET continuity probe is scheduled to test whether the monthly-task loop sustains work for roughly one hour without Rex nudging it.
 
-Current execution order:
-Active override: Grey/Gemini API file bridge is implemented and tested. `Gemnini_free_api_key` is live and generation works. Use Gemini free tier only for compact Grey strategic review and task critique; do not spend it on per-listing bulk labor. Keep executing the Printify/POD monthly mainline after bridge refresh/checkpoint.
-0. Mainline priority correction: Printify/eBay/Etsy POD factory remains the active project. Fall-back projects are strategy/R&D only and must not consume execution bandwidth until Printify pipeline is stable and Rex explicitly activates the next project.
-1. Pause rapid public eBay publishing after Akamai/zero-size-object instability.
-2. Build Phase 1 data foundation: eBay read-only performance log, unified listing records, and DNA signal fields.
-3. Etsy Digital gray test is now active through the dedicated Edge UI profile: first 10 digital printable listings are live, with confirmed spend $2.00. Do not scale beyond the gray caps without signal.
-4. Keep Printify production available but avoid shop-front design changes until Rex updates the Printify storefront.
-5. Continue QA-first production, eBay read-only monitoring, performance logging, and report automation.
-6. Save morning/Gemini advisor report templates so Gemini can act as strategy advisor and Codex can filter recommendations.
-7. Continue multi-track marketplace testing:
-   - Track A: low-competition niche copy experiments.
-   - Track B: high-volume value copy experiments.
-   - Track C: Etsy Digital pure-profit tests under strict fee caps.
-   - Do not expand a track blindly when fresh Seller Hub/Etsy signal is missing.
-8. One-shot night shift mode may be used when Rex explicitly requests overnight monthly tasks. It must be bounded to the current logged-in session, avoid startup/login/reboot changes, enter winddown at 05:30 ET, stop work by 05:50 ET, and leave only the existing 06:00 ET shutdown task to power down the machine.
+Next execution:
+1. Rex visual review when available: inspect `Review_Packets/First_Audit_V5_Top4_Refinement_GRID_CONTACT_SHEET.jpg`; best current automatic pick is `OC-NYC-MUSEUM-020-R1` top-left, but do not upscale without Rex.
+2. Continue V15.5 daily release prep: acrylic/poster only, no Sticker expansion.
+3. Turn the first weaponized folder into a Printify-ready private/public candidate only after mockup and cost guard are rechecked.
+4. Improve eBay purge/readback path before ending any eBay live listings.
+5. Keep normal monthly work moving while the network sampler runs in the background; only interrupt Rex if `Network_Path_Alerts.csv` records active path falling off Ethernet or Ethernet stops being gigabit.
 
-Guardrails:
-- Do not rapid-publish new eBay listings while external sync and Sticker cover trust remain unresolved.
-- Etsy Digital is explicitly resumed for a controlled gray test. First batch cap is 10 listings / $2.00; no-result spend cap is $40-$60 total, with $40 as the normal pool and $60 requiring written rationale.
-- Do not activate paid advertising without final action-time confirmation. Exception already completed on 2026-05-04: Rex confirmed eBay Promoted Listings Standard / General fixed 2.0%; Seller Hub campaign now covers 99 identifiable OpenClaw listings after external-id refresh.
-- Do not touch payment settings, orders, or buyer messages without confirmation.
-- Sticker expansion remains paused until the Cover/U image selection bug is fixed.
+Project Mirror routing:
+- Routine POD and low-price experiments can use prior OpenClaw DNA plus light Premium Mentor blending.
+- Mid-tier Poster/Acrylic should mix existing OpenClaw DNA with `Database/Premium_Mentor_Hub.csv`.
+- First Audit, cousin-demo work, $128 acrylic, $149 bundle, and $295 anchor products require source-derived Premium DNA and an A/B/C comparison before upscale or public/private finalization.
+- Current seed report: `Review_Packets/Project_Mirror/PREMIUM_DNA_EXTRACTION_V1.md`.
+- Current A/B/C matrix: `Database/Premium_DNA_AB_Comparison.csv`.
 
-## 2026-05-06 21:58 -04:00 Etsy Digital First Batch Live
-- Etsy UI login is working in the dedicated Edge automation profile.
-- First Etsy Digital gray batch: 10/10 live, all manual-renewal digital listings, confirmed Etsy listing-fee spend $2.00.
-- Public page QA: 10/10 active/readable, 10/10 with digital-download signal.
-- The 2 old legacy DriveFuel listings were deleted/retired; their public pages now show unavailable and active manager no longer contains them.
-- Next Etsy actions: pause further paid publishing until the first 10 have initial indexing/traffic data or Rex explicitly asks to spend more.
+---
 
-## 2026-05-04 20:22 -04:00 Etsy Brand Shell Current State
-- Use Edge for Etsy site operations by default; Chrome has Etsy site data cleared and may have OAuth issues.
-- Do not edit Etsy shop settings until Rex selects one of the numbered brand options.
-- Current complete local design options: 02 Quiet Relic Studio, 03 Scholar Grove Atelier, 04 Lumen Relic Gallery.
+# Previous Task - The First Audit: 001 Studio Series
 
-## 2026-05-04 23:20 -04:00 Network Guard Rule
-- Until Rex confirms the latency issue is resolved, every large continuous task must run network preflight first: py modules\network_guard.py.
-- Use conservative execution by default: max_parallel=1, batch_size=1-3, shorter independent jobs, checkpoint after each unit.
-- For MJ/Discord, avoid large simultaneous prompt batches; for Printify/Etsy/eBay, avoid broad bulk writes and prefer recoverable single-item batches.
+Updated: 2026-05-11 20:10 -04:00 America/New_York
+Priority: P0
+Protocol: V13.0 high-atlier studio pivot
 
-## 2026-05-05 00:24:12 -04:00 Low-Bandwidth / 2.4GHz Default Protocol
-- Until Rex confirms wired/low-latency network is ready, choose low-dependency local work first.
-- Suspended by default: bulk image uploads, broad Printify/eBay/Etsy writes, frequent OAuth refresh attempts, large MJ batches.
-- Allowed: local code hardening, data normalization, listing text/tag/price generation, image metadata cleanup, mockup/gallery derivation, QA audit scripts, report builders.
-- If network is needed, run network_guard first and use max_parallel=1, batch_size=1 unless the guard is clearly healthy.
+Mission:
+- Build "THE FIRST AUDIT: 001" as the first cold-gallery OpenClaw Design Studio series.
+- Stop treating premium visuals as low-price public marketplace inventory.
+- Physically separate Etsy from Studio:
+  - Etsy becomes a digital resource archive / warehouse for low-price designer materials.
+  - Studio becomes a New York atelier for physical acrylic relics and archival studio prints.
+- Studio carriers are restricted to optical acrylic blocks, archival studio prints, and premium framed posters.
+- Studio banned carriers: mugs, notebooks, phone cases, and other cheap merch.
+- Pricing firmware is locked to integer steps:
+  - $48 entrance studio print.
+  - $128 core optical acrylic relic.
+  - $295 anchor masterwork acrylic / limited object.
+- Top 1% visual assets must receive THE FIRST AUDIT audit IDs and remain out of Etsy archive placement.
 
-## 2026-05-07 20:30:00 -04:00 Household Network Courtesy Window
-- Wired LAN is the preferred OpenClaw path and is stable enough for daytime high-throughput work.
-- Household usage pattern update: daytime is mostly Rex only, so Codex may run larger API/upload/audit batches when account-risk guards permit.
-- Between 17:00 and 23:00 Eastern, switch to neighbor-friendly network behavior: avoid stacking PS5/game downloads, bulk image uploads, and high-concurrency browser audits; prefer API reads, local QA, metadata work, and small recoverable marketplace batches.
-- After 23:00 Eastern, bulk network tasks may resume if hardware and account-risk guards are green.
+Current generated deliverables:
+- Database/First_Audit_001_Asset_Manifest.csv
+- Database/First_Audit_001_State.json
+- Database/First_Audit_001_Blocklist.csv
+- Database/First_Audit_001_Guard_Audit.csv
+- Review_Packets/First_Audit_001/THE_FIRST_AUDIT_001_LOOKBOOK.md
+- Review_Packets/First_Audit_001/THE_FIRST_AUDIT_001_LOOKBOOK.pdf
+- Review_Packets/First_Audit_001/THE_FIRST_AUDIT_001_CONTACT_SHEET.jpg
+- Review_Packets/First_Audit_001/FIRST_AUDIT_GUARD_REPORT.md
+- Review_Packets/First_Audit_001/FIRST_AUDIT_EXTENSION_SPEC_SHEETS.md
+- Database/First_Audit_001_Extension_Specs.csv
 
-## 2026-05-05 08:41:18 -04:00 Current Local-Only Work + Product R&D Branch
-- Network guard currently reports pause, so no bulk online writes.
-- Continue local monthly factory tasks: copy candidates, unpublished-draft copy application, market signal/action queue, report refresh.
-- New branch after local queue: investigate new Printify blueprint candidates for eBay/Etsy using official Printify catalog/API when network permits; score by product fit, margin, upload complexity, mockup reliability, buyer demand, and account-risk diversification.
-- Do not develop/publish new product type at scale until blueprint/provider/variant/print-area/cost/shipping are verified from official sources.
+Next execution:
+1. Rex visual review: inspect `Review_Packets/First_Audit_001/THE_FIRST_AUDIT_001_CONTACT_SHEET.jpg` and the PDF prototype.
+2. Codex preflight rule: run `py modules/first_audit_guard.py` before any public Etsy/eBay/Printify queue publish involving premium assets. Public queue leak count must be 0. Publish scripts can also call `risk_guard.assert_no_first_audit_public_assets(...)` before writing public marketplace payloads.
+3. Codex next safe task: create Etsy archive rename/retirement packet and mark premium assets as `KEEP_OUT_OF_ETSY_ARCHIVE` in local mapping before any shop rename/UI work.
+4. Codex next production task: continue filling First Audit from 9 selected units toward 12-15 stronger candidates, prioritizing acrylic relics and gallery-grade prints.
+5. Codex must not publish these to eBay/Etsy; this is private Studio inventory and Printify-backed fulfillment.
 
-## 2026-05-05 10:50:06 -04:00 Blueprint Provider/Variant Probe
-- Continue difficult R&D branch: query official Printify provider/variant/cost/print-area data for top blueprint candidates one-by-one with checkpointed output.
-- Weak-network rule remains active: single blueprint at a time, short retries, write partial CSV after every successful query.
+---
 
-## 2026-05-05 13:18:11 -04:00 Etsy Digital Product R&D
-- New branch: evaluate Etsy digital products that fit current OpenClaw pipeline and revenue goal.
-- Prioritize: instant download / low-support / high asset reuse / clear buyer expectation / Etsy policy compliant.
-- Custom pet/family portrait ideas are allowed by Etsy when seller-designed/AI-disclosed, but likely higher support and saturation; evaluate but do not default to them first.
+# Previous Task - Operation Shock and Awe Final MVP
 
-## 2026-05-05 13:26:00 -04:00 Etsy Digital Product Pilot Design
-- Network guard is in pause mode because Printify latency is high; stay local/low-bandwidth.
-- Build a digital-product roadmap and first pilot package strategy without Etsy uploads.
-- Official constraints to respect: digital listings must be seller-made/designed, AI-assisted work must be disclosed, instant-download listings support up to 5 files with 20MB max each.
-- Product priority to test: printable wall art packs, personalized bookplate/ex-libris downloads, then custom pet portrait after a QA/revision workflow exists.
+Started: 2026-05-09 11:20 -04:00 America/New_York
+Priority: P0
+Deadline: 14-day private showcase sprint
 
-## 2026-05-05 14:22:00 -04:00 Modem-Proximity Network Stress Test
-- Rex moved laptop near the modem; run higher-traffic stability checks before resuming broad online work.
-- Sequence: network_guard baseline, HTTPS download stress, account endpoint read-only probes.
-- Only if stable: resume one small recoverable online batch; avoid publish/account writes until test data is healthy.
+Mission:
+- Build 30 high-net-worth private-client showcase concepts for OpenClaw Design Studio.
+- Current active phase: Zone 2 / Battlefield 2, 10 cultural-arbitrage concepts for partner-demo review.
+- Quality standard is stricter than public marketplace production: these 30 demos are partner-recruitment showcase assets, not quantity output. Every unit must earn its place by improving quality, user-story fit, cultural story, material illusion, and Printify feasibility.
+- Do not continue dispatching prompts just to show activity. Spend extra time/API only when it measurably improves concept strength, visual accuracy, premium feel, or private-sales usefulness.
+- Use Printify as the fulfillment backend, but do not sync this packet to eBay/Etsy.
+- Focus on official, verified Printify formats only. User/Grey codes are treated as intent labels until verified against Printify Catalog API.
+- Create Printify private draft-ready products after images pass QA.
+- Printify private titles/descriptions should be personality-led and private-sales friendly, not SEO template copy.
+- Do not generate eBay/Etsy public listing title/description copy for this packet.
+- Do not connect China image APIs in Phase 1.
+- Avoid direct IP infringement and avoid hardcore eastern mythology that Midjourney may render cheaply.
+- Final MVP output format per unit:
+  - Block A: Midjourney Master Prompt.
+  - Block B: Broker's Hook, 1-2 casual private-channel sentences for WeChat/朋友圈.
+  - Block C: Studio Spec Sheet, dense official authority copy with cultural anchor, material illusion, spatial recommendation, and objection handling.
+  - Block D: Printify Production Vector with verified blueprint/provider/variant/cost/RRP.
 
-## 2026-05-05 17:52:00 -04:00 eBay Traffic Recovery Experiment
-- General 2% ads did not materially change zero-view state; treat ads as amplifier, not root fix.
-- Build an A/B/C experiment for active Sticker listings: title/search-intent rewrite, cover/gallery fix priority, and holdout control.
-- Preserve rollback data before changing local workbook; online sync only after a small low-risk batch or confirmed network stability.
-- Product language priority: buyer-intent terms first (4pc vinyl sticker set, laptop, water bottle, journal, waterproof-style use case), aesthetic words second.
+Current deliverables:
+- Review_Packets/OPERATION_SHOCK_AND_AWE_V5_ZONE2_CONCEPTS_20260509.md
+- Database/Shock_And_Awe_V5_Zone2_Printify_Private_Queue.csv
+- Review_Packets/OPERATION_SHOCK_AND_AWE_V5_BLUEPRINT_RND_20260509.md
+- Database/Shock_And_Awe_Blueprint_RnD.csv
+- Database/Strategic_Mode.json
+- Each V5 Zone 2 row includes a private DM pitch so Rex or the partner can test interest directly in WeChat/private traffic.
+- Private showcase sales logic: the product is the fulfillment object, but the real offer is story, identity signal, cultural depth, room aura, and social talking value.
+- Zone 2 first 10 visual demo units now have harvested images, visual QA decisions, final selections, Printify production files, and Printify private draft products.
+- Zone 2 final review packet: Review_Packets/OPERATION_SHOCK_AND_AWE_V5_ZONE2_FINAL_PACKET_20260509.md.
 
-## 2026-05-05 18:38:00 -04:00 Continue Low-Bandwidth Monthly Tasks
-- Do not idle while network remains unstable.
-- Continue local-first work: Etsy digital printable pack expansion, Etsy metadata, eBay cover QA contact sheets, performance experiment tracking scaffolds, and report refresh.
-- Online operations remain small JSON only; defer high-bandwidth image uploads and broad marketplace writes.
+Parallel monthly task contract:
+- Durable list: OPENCLAW_MONTHLY_TASKS.md.
+- Etsy public listing engine is authorized under the fee guard, with normal cap USD 50 and absolute ceiling USD 60.
+- Fee guard semantics: paid listing actions are allowed inside the configured budget; stop only for cap overflow, ambiguous/duplicate spend, account risk, QA failure, or reconciliation failure.
+- Etsy quality pivot: keep a limited Digital test pool for market sensing, but do not let Digital become the main low-quality volume engine. Prioritize high-quality Printify-backed POD listings that pass design QA, product-fit QA, pricing guard, and Etsy-style title/tag/description standards.
+- eBay must run a 3-day experiment loop instead of passively waiting on 0-view listings.
+- Daily marketplace drip is a standing task: if fee/account/QA guards are green, each workday should safely publish or adjust a small Etsy/eBay experimental batch until Rex's cap is reached. Etsy prefers official API/Printify-backed POD plus selected digital tests; eBay prefers Poster/Acrylic/high-value experiments. Do not expand Sticker inventory.
+- Current implementation anchor: Etsy paid listing actions are allowed under the $50 normal / $60 hard cap; `monthly_shift_loop.py` includes a one-listing guarded `etsy_pod_publish_drip` command. eBay live publish remains blocked until shipping/source readback is clean, so eBay daily work is prep/diagnosis/experiment planning rather than risky live publish.
+- Automation must keep moving toward a self-operating factory, reducing Codex hand-driving over time.
+- Pricing rule: low-value traffic items must not lose money but can run low margin for reviews; mid-tier items balance profit and conversion; high-value/private-showcase items keep premium margin and test acceptance in small batches. Always include Printify production, shipping, marketplace/payment fees, listing fees, and ads before deciding price.
+- Reasoning setting reminder: OpenClaw core work should run on the strongest available Codex reasoning setting by default. Only deterministic local batch chores should use medium/low, and any downgrade must return to high reasoning before strategy, QA, pricing, publish, or account-risk work.
+- Operating-window rule: after Rex opens/boots Codex, continue monthly tasks until the 06:00 ET soft off-shift target unless Rex explicitly stops/pauses or all eligible work is verified complete. 05:30-06:00 is winddown/no new long tasks; if an active task overruns 06:00, let it finish safely before daemon exit. Heartbeats are watchdog prompts, not the main worker.
+- Instruction triage rule: Rex may send several tasks or corrections in a row. Sort them by business impact, urgency, risk, and dependencies; do not blindly execute every sentence immediately. Preserve deferred tasks in durable backlog/state files so earlier work is not forgotten.
+- Event trigger rule: task completion now writes `Database/OpenClaw_Next_Action.trigger.json`; the local daemon/dispatcher uses this as the next-action marker. Codex heartbeat automation is reduced to watchdog behavior and should not be treated as the production worker.
+- Progress visibility rule: produce a concrete hourly brief while OpenClaw is active. Use `modules/hourly_progress_brief.py` and report counters such as Etsy 42/250 live, V7 4/60 upload-ready, Shock & Awe 10/30 final, eBay zero-view ratio, current blocker, and next safe action.
+- Gemini web-thread rule: when Codex posts a packet to the `Codex 自动化矩阵升级计划` thread, it must later capture Gemini's complete reply and save it locally. If the immediate reply is empty/incomplete, create a follow-up task rather than treating sync as finished.
+- Routine review/report/Gemini-sync is locked to the 05:30 ET winddown window. During normal work hours, prioritize concrete monthly task execution over summaries unless Rex explicitly asks for a report or a fatal risk appears.
+- Gemini API supervision is a separate every-few-hours advisor lane. It must not be confused with the monthly-task continuation loop and must not stop or replace actual task execution.
 
-## 2026-05-06 00:40:00 -04:00 Live Cover Repair Gate
-- Sticker expansion remains paused.
-- Seller Hub Reports cannot repair existing Printify-synced variation pictures because eBay treats them as Inventory-managed listings.
-- The next executable repair path is source repair: log into the Chrome remote-debug Printify profile, re-upload/select mockups so each product has exactly one Cover default, publish/sync from Printify, then run live eBay cover audit.
-- If source re-sync cannot update existing live inventory-managed listings, the fallback is replacement listings: create correct listings with the fixed source image logic, verify live cover, then retire the bad old listing after verification.
-- New publish scheduler must continue to block products with duplicate Printify default images.
-- Durable decision files: `Database/eBay_Cover_Repair_Decisions.csv` and `Database/eBay_Cover_Repair_Decisions.md`.
+Verified Printify correction:
+- User/Grey target codes 107, 118, 211, and 1 did not resolve as official Printify blueprints in the current API.
+- User/Grey target codes 518 and 11 resolve to apparel, not the intended acrylic/canvas/mug targets.
+- Current production anchors for Zone 2 are official Printify blueprints 1471 Photo Block, 1236 Framed Paper Posters, and 1936 Canvas Art Wraps.
 
-## 2026-05-06 01:08:00 -04:00 Automation-First Supervisor
-- Codex is a temporary debugger/operator, not the permanent factory worker.
-- Recurring work must be converted into scripts, queues, guards, and reports.
-- Added factory supervisor target: `py modules\factory_supervisor.py --execute-local --skip-network`.
-- Supervisor owns local maintenance, cover-gate state, network strategy, read-only market refresh recommendations, and publish blocking.
-- Upload/full-pipeline code must reject any product whose selected Printify images do not have exactly one default image.
+Next execution:
+1. Rex should visually spot-check the Zone 2 final packet/contact sheets when convenient. Do not wait idly for this review.
+2. Prepare Zone 1 and Zone 3 concept sheets using the same quality gate, but avoid dispatching all 20 remaining units until their prompts pass a stronger rubric informed by Zone 2.
+3. In parallel, advance Etsy public listing engine under fee guard and eBay 3-day experiment loop when safe.
+4. Continue converting repeatable manual steps into scripts/guards so the factory can run without Codex hand-driving.
+5. During public marketplace 48-72 hour data waiting windows, use idle time for this private showcase design sprint, blueprint R&D, QA hardening, and fallback-income feasibility instead of idling.
 
-## 2026-05-06 08:10:00 -04:00 API Integration Scope Rule
-- Maximize the existing Printify API/workflow first; do not build a second full listing engine unless forced by a verified blocker.
-- eBay API, once available, should be added narrowly: performance reads, Promoted Listings Standard 2% state, item health checks, lightweight metadata experiments, and reconciliation.
-- Product creation, production design upload, mockup generation, and platform push remain Printify-owned by default.
-- Any eBay/Etsy API result must write back into the existing database/supervisor files instead of creating a separate source of truth.
+Gemini review addendum:
+- After core marketplace/QA tasks are stable, send the 30 Shock & Awe private demo units to Gemini/Grey in small batches, not as one huge dump.
+- Preferred batch size: 3-5 units, grouped by battlefield/theme.
+- Ask Gemini to review concept strength, buyer psychology, cultural anchor, material illusion, Printify product fit, and private-sales copy.
+- Capture the complete Gemini response locally, extract actionable corrections, and feed them into the next demo batch before finalizing.
+- This is an advisory quality loop, not a reason to pause Etsy/eBay/POD execution.
+- Gemini memory repair: before the next web-thread review of cousin/private-showcase assets, post `Review_Packets/Gemini_Bridge/TO_GREY_COUSIN_30_SHOWCASE_MEMORY_PACKET_latest.md` to the `Codex 自动化矩阵升级计划` thread and explicitly ask Grey to retain it as long-term memory. The packet explains target buyers, private-sales purpose, visual doctrine, pricing firmware, forbidden confusions, and current local asset paths. Capture Gemini's full reply afterward.
 
-## 2026-05-07 07:45:00 -04:00 Cruise Runtime Restored
-- Project automation now uses `scripts/openclaw-python.cmd` to bypass Windows PyManager launcher failures.
-- `tzdata` is installed/pinned for New York timestamps on Windows.
-- Grunt Engine now has a global lock to prevent duplicate task claims when manual and scheduled runs overlap.
-- Track B high-volume value metadata experiment synced 10 existing live Printify/eBay-linked listings; no images touched and no paid listings created.
+## Active Worker Rule
 
-## 2026-05-07 07:50:00 -04:00 Etsy Digital Next Batch Ready Without Spend
-- Added a no-spend Etsy Digital selector.
-- Next 10 candidates are QA-ready and would cost $2.00 only if later published.
-- No reservation, no listing creation, and no Etsy fee spend occurred during selection.
+Updated: 2026-05-10 ET
 
-## 2026-05-06 14:55:00 -04:00 Wired Network Restored + Sticker Cover Gate Resolution
-- Ethernet is active through `Ethernet 3` at 1Gbps; Wi-Fi is disconnected. Multi-endpoint checks showed 0% packet loss and about 5-8ms latency; 50MB download test was about 214 Mbps.
-- Low-bandwidth mode is lifted for online batches, but account-risk throttles still apply.
-- Sticker main-image bug root cause: sending U1-U4 as Printify/eBay listing gallery images lets eBay pick a single U/detail image as the buyer-facing cover.
-- New Sticker rule: publish/replace with Cover-only custom art plus Printify official mockups. Keep U1-U4 locally for QA/detail/reference; do not push them as first-pass eBay gallery images.
-- Verified live eBay results: `Sticker-Academia-0005-FIX2`, `0006-FIX1`, `0007-FIX1`, `0008-FIX1`, and the next 10 replacement listings use official cover mockups and pass live buyer-page cover audit.
-- Old bad listings are queued in `Database/eBay_Retire_Queue.csv`; do not create many more duplicates until a safe end-listing path is confirmed.
+Codex-in-thread is the current active worker. Daemon/supervisor scripts exist to preserve state, prevent lost tasks, and run boring verified loops; they are not allowed to become a substitute for active Codex judgment while major monthly tasks remain open. When Rex says "continue monthly tasks", execute one concrete task, refresh state, then continue to the next concrete task instead of returning a generic status line.
 
-## 2026-05-06 15:20:00 -04:00 Full Throughput Mode Restored
-- Rex confirmed the wired asset/network setup is good enough to stop worrying about Wi-Fi instability.
-- Default execution mode returns to high-throughput online work: Printify publishing, live buyer-page audits, and API reads may run without low-bandwidth deferral.
-- Account-risk gates remain active: do not use PPC/Priority ads, do not touch payment/order/buyer-message settings, and do not create many duplicate Sticker replacements before old bad listings have a verified retirement path.
+Immediate execution rule:
+- Keep `OPENCLAW_MONTHLY_TASKS.md` and `Database/Factory_Backlog.csv` populated with enough work for the current session.
+- Keep heartbeat prompts short. Put strategy, priority, guardrails, and task details in durable project files instead of the automation prompt.
+- Do not stop after a report unless the report exposes a real blocker that blocks every higher-value path.
+- If the primary active task is completed, immediately continue with the next safe secondary task. Do not wait for Rex to re-say "continue monthly tasks" while any eligible backlog item remains.
+- If a marketplace path is blocked by login/account risk, move to local prep, API-safe diagnosis, private showcase recovery, eBay data experiments, or automation hardening.
+- Daemon output is only evidence. Real progress means changed data, a generated asset/packet, an executed QA/sync batch, or a closed blocker.
 
-## 2026-05-06 16:45:00 -04:00 Housekeeping Rule
-- Regularly scan for temporary/debug artifacts and clear obvious caches instead of letting the workspace/C drive fill silently.
-- Files intended for Rex/Gemini/another AI review should be placed under `Review_Packets/` with clear names.
-- Keep raw production assets in `Output/`, machine queues in `Database/`, and durable project memory in `START_HERE_OPENCLAW.md`, `RECOVERY_STATE.json`, `CURRENT_TASK.md`, and `PROGRESS_LOG.md`.
-- Do not delete personal downloads, production source assets, or Docker/large app data without a separate reason or explicit user signal.
+Current loop implementation checkpoint:
+- Heartbeat automation text should remain exactly `继续月任务`.
+- The active implementation is `modules\monthly_shift_loop.py` through `scripts\continue_monthly_tasks_5h.cmd`.
+- A monthly shift must keep executing the fixed safe command array until a real guard, runtime limit, Rex-needed blocker, winddown, or verified all-done state is reached.
+- The 10-minute heartbeat is only insurance. It must not become the rhythm of work; one trigger should form a long coherent work block.
+- If all safe commands are cooling down before the minimum work window, wait and refresh state rather than stopping early.
+- `LOOP_NO_EXECUTABLE_READY_WORK` is an acceptable clean stop only after the minimum work window or when every higher-value lane is blocked by cooldown/skip/guard and there is no next concrete task to run inside the current slice.
+- If a row is READY but repeatedly produces zero output, repair the backlog selector so the row becomes DONE/WAIT/HOLD instead of rerunning it.
 
-## 2026-05-06 17:30:55 -04:00 Gemini Brief Consolidation
-- Gemini cannot see local code, folders, or detailed CSV/XLSX state, so advisor packets must be written at business/strategy level with only minimal implementation notes.
-- Use `Review_Packets/OPENCLAW_GEMINI_BRIEF.md` as the canonical copy/paste brief for Gemini.
-- This brief explicitly says the wired LAN/network issue is fixed and low-bandwidth mode is lifted, so strategy advice should not rely on the old Wi-Fi constraint.
-- Older timestamped `Reports/` and `Gemini_Advisor/` files are historical supplements only; do not copy many old reports unless debugging history.
+Current First Audit review checkpoint:
+- Rex can inspect Cyber-Renaissance draft grids at `Review_Packets/First_Audit_001/FIRST_AUDIT_CYBER_RENAISSANCE_GRID_CONTACT_SHEET.jpg`.
+- Detailed grid notes are at `Review_Packets/First_Audit_001/FIRST_AUDIT_CYBER_RENAISSANCE_GRID_REVIEW.md`.
+- Raw draft grids are in `Output/First_Audit/Cyber_Renaissance/`.
+- No MJ upscale or final `First_Audit_Release` hero folder until Rex selects Top 1% candidates.
 
-## 2026-05-06 17:45:00 -04:00 Browser Isolation Protocol
-- Do not use Rex's daily Chrome tabs as the automation workbench, especially if Chrome is on personal checkout/account pages.
-- Prefer API/headless/read-only HTTP when possible.
-- For browser automation, use a dedicated automation profile and port instead of the daily browser. Default helper: `npm run browser:edge` starts/checks Edge on CDP port 9223 with profile `C:\openclaw_edge_profile`.
-- eBay browser scripts now accept `OPENCLAW_EBAY_CDP_PORT` / `OPENCLAW_CDP_PORT`; use port 9223 for Seller Hub/audit work when the dedicated Edge profile is ready.
-- Close automation tabs after each task and keep at most 1-2 automation tabs alive.
+## P99 Future Roadmap Note
 
-## 2026-05-06 18:10:00 -04:00 Etsy Login Block (Resolved Later)
-- Historical blocker: Etsy temporarily returned the red "An error has occurred, please try again!" login banner across browsers.
-- Current state supersedes this: by 2026-05-06 late evening, the dedicated Edge automation profile is logged into Etsy Shop Manager and the first 10 Etsy Digital gray-test listings are live.
-- Do not resurrect the old blocker unless a fresh Edge login check fails.
+Rex added V10.0 long-term evolution as a future-only roadmap: RAG memory, adversarial agents, and sandboxed self-healing. This is not a current build task. Include a concise feasibility audit in the next Daily Grey SitRep, then keep current execution focused on P0/P1/P2 production, QA, and marketplace learning.
 
-## 2026-05-06 18:35:00 -04:00 Resume Full-Throughput Non-Etsy Monthly Tasks
-- Etsy login/publish remains paused.
-- Full-throughput mode is active because wired LAN is stable.
-- Execution order: retire old eBay bad-cover listings if Seller Hub access works, top up Poster inventory toward 50, keep Acrylic stable, audit production-image correctness, sync external IDs, then push latest durable changes to GitHub.
-- Maintain account-risk gates: no PPC/Priority ads, no payment/order/buyer-message changes, and no broad duplicate Sticker expansion beyond the current cap.
+## 2026-05-10 eBay API Root-Cause Branch
 
-## 2026-05-06 18:48:00 -04:00 eBay Market Learning Loop
-- If Seller Hub views/orders remain flat after cover repair and fixed 2% General ads, do not assume more volume alone will solve it.
-- Start small controlled eBay experiments: buyer-intent title rewrites, clearer cover/mockup selection, price/offer tests, trust/profile fixes, and new product-blueprint probes.
-- Evaluate eBay as a channel by evidence. If multiple controlled tests still produce near-zero views, shift execution priority toward Etsy and keep eBay as a smaller syndication/test channel.
+Gemini free-tier supervision and eBay API audit both indicate the short-term money-printer bottleneck is not only visual DNA. Current eBay zero-view products show platform-surface issues that must be fixed before further scaling:
 
-## 2026-05-06 19:05:00 -04:00 Quality/Reasoning Budget Rule
-- Rex explicitly prefers faster, higher-completion work over excessive token saving.
-- Use stronger reasoning for high-leverage tasks: architecture, marketplace strategy, QA gates, debugging, pricing, and experiment design.
-- Use scripts/batch execution for repetitive work; do not waste high reasoning on mechanical loops.
-- Do not pause work merely to conserve weekly quota unless the task is obviously low value.
+- buyer-facing shipping is not free/clean in API output;
+- brand is still `eBay_product_rex`;
+- some snippets are thin;
+- some galleries are too short or duplicated;
+- some Acrylic products need category review.
 
-## 2026-05-06 19:12:00 -04:00 Etsy 200-Listing Experiment Pool
-- Once Etsy login is stable, Rex authorizes up to 200 Etsy listings as a controlled experiment pool, accepting about $40 in listing fees over the listing period.
-- Goal is not volume for its own sake: find monetizable winners quickly, then scale proven DNA.
-- Do not dump all 200 blindly. Use staged cells with clear metrics: digital printable packs, premium Poster POD, Acrylic POD, and a small custom/personalized pilot.
-- Etsy publish remains blocked until login/account access is stable, but local assets, metadata, and launch queues should be prepared now.
+Current files:
+- `Reports/eBay_API_Inventory_Category_Audit.md`
+- `Database/eBay_API_Inventory_Category_Audit.csv`
+- `Reports/eBay_API_Repair_Plan.md`
+- `Database/eBay_API_Repair_Plan.csv`
 
-## 2026-05-06 19:25:00 -04:00 Pricing / Free Shipping Rule
-- Marketplace listings should be positioned as free shipping where possible.
-- Printify production cost plus Printify shipping must be included in the product price/profit math; do not double-charge customers by adding marketplace shipping on top of an inflated product price.
-- Pricing must never knowingly go below break-even after Printify cost, Printify shipping, marketplace fees, payment processing where applicable, and ad fee assumptions.
-- Sticker may accept low margin to earn positive reviews and trust. Poster/Acrylic should preserve premium margin unless a deliberate A/B price test is being run.
+Next safe action:
+1. Do not blindly publish more of the same gallery/brand/shipping setup.
+2. Build a small eBay repair experiment: 5 repaired products vs 5 unchanged controls.
+3. Repair order: gallery gate first, then free-shipping price/brand/snippet, then category review.
+4. Use paid Gemini only if the repair experiment would spend, scale, or change account-risk posture.
 
-## 2026-05-06 20:08:00 -04:00 Proactive Research / Senior Operator Rule
-- Rex authorizes Codex to proactively search official docs, market references, open-source resources, and competitor/platform information when doing so helps the business goal.
-- Convert research into executable code, QA gates, experiments, pricing rules, and reports rather than leaving it as generic advice.
-- Boundaries remain: protect credentials/privacy; do not touch payment/order/buyer-message settings without clear need; do not design marketplace evasion or ban-circumvention systems.
-- Default role: senior requirement engineer + senior implementation engineer + cautious operator focused on Rex's money-printer goal.
+## V7 Genesis Correction - Etsy Darwinian Lab
 
-## 2026-05-06 20:00:00 -04:00 Interruption Return Rule
-- When Rex inserts a question, pressure test, or `steer conversation`, answer it, persist any new rule, then automatically return to the prior monthly-task mainline.
-- Do not treat an interruption as permission to stop the production workflow unless Rex explicitly says pause/stop.
-- Current resumed mainline: resolve `Poster-Academia-0038` through `0042` published-without-external-id state, then continue Poster top-up and marketplace experiment scaffolding.
+User clarified on 2026-05-09 ET: the new V7 six-pool batch is NOT the cousin/partner recruitment demo. It is an Etsy public-market experiment line for traffic validation. Treat it as Track B, separate from Track A private high-net-worth demo products.
 
+Execution rules:
+- Build six Etsy-native digital product pools, 10 listings each.
+- Copy/SEO/tags must follow Etsy behavior, not eBay style. Emphasize giftability, craft use case, room/persona, printable/download clarity, and 13 useful tags.
+- Do not publish until assets, QA, metadata, duplicate checks, and Etsy fee guard pass.
+- Track 14-day results and apply kill/scale rules.
 
-## 2026-05-06 20:19:29 -04:00 Active Mainline After Interruption
-- Interruption return rule is active: after answering side questions or pressure tests, resume the monthly-task mainline automatically.
-- Etsy Digital first 10 are QA-passed, published through Edge UI, publicly readable, and logged with confirmed spend $2.00. Hold further Etsy paid scale until the first-10 traffic/indexing readout unless Rex deliberately opens the next gray cell.
-- Printify/eBay external sync issue is open for Poster-Academia-0038..0042. They are Printify-ready but not confirmed eBay live listings.
-- Default publish scheduler must not retry external-pending rows unless explicitly run with `--retry-pending` after route diagnosis.
-- Continue mainline: resolve publish route (eBay API or small UI proof), then top up Poster toward target and continue controlled marketplace experiments.
+## Etsy Login Anomaly Safety Freeze
 
-## 2026-05-06 23:03:00 -04:00 Edge-Only Browser State
-- All marketplace/account browser operations should use the dedicated Edge automation profile on CDP port 9223.
-- Do not use Rex's daily Chrome for OpenClaw account work.
-- Current login check: Printify `LOGGED_IN`, Etsy Shop Manager `LOGGED_IN`, eBay Seller Hub `LOGGED_IN`.
-- Only current account gap: eBay Developer Program still redirects to sign-in/pending program access; not a blocker for immediate Printify/Etsy/Seller Hub UI work.
+Updated: 2026-05-10 09:45 -04:00 America/New_York
 
-## 2026-05-07 00:16:00 -04:00 AI Labor Kernel + Hardware Care Branch
-- New durable branch after current Poster/external-id reconciliation: design a universal "AI labor factory" kernel that can migrate Risk Guard, Quality Gate, Cost Gate, and Resource Guard into new revenue projects without copying Printify/eBay/Etsy-specific logic.
-- Implemented portable core contracts under `modules/factory_core/`: `FactoryTask`, `GateResult`, `ExecutionDecision`, and `GateStack`.
-- Implemented laptop resource allocator: `modules/system_resource_allocator.py`.
-- New resource commands:
-  - `npm run system:resources`
-  - `npm run system:resources:watch`
-- Resource policy lives in `Database/System_Resource_Policy.json`; state/logs live in `Database/System_Resource_State.json` and `Database/System_Resource_Allocation.csv`.
-- 24h hardware rule: heavy local compute belongs mainly in the 00:00-06:30 New York window, but thermal/load guard overrides the clock. If temperature sensors are unavailable, use CPU/memory pressure as proxy.
-- Current hardware reading during implementation: temperature sensor denied/unavailable, CPU spiked to 100%, memory around 88-89%, AC charging. Allocator correctly chose `RUN_CONSERVATIVE` with max_parallel=1 and batch_size=2.
-- Factory supervisor now includes `resource_strategy` in `Database/Factory_Autopilot_State.json` and appends resource guard reasons to network/account actions when the machine is under pressure.
+Etsy showed the red sign-in error page again during/after high-volume UI work. Treat this as account-risk evidence, not a normal login failure.
 
-## 2026-05-07 01:36 -04:00 Operation Quiet Jade Completed
-- Targeted 42 live zero-view eBay listings with high-intent value-positioning copy.
-- Product mix: 16 Poster, 17 Acrylic, 9 Sticker.
-- Final Seller Hub active snapshot verified 42/42 target titles visible and 42/42 prices matching.
-- Price guard: Poster `$34.99`, Acrylic `$89.99`, Sticker `$11.99`; Acrylic was not lowered to `$29.99-$34.99` because that would violate cost + shipping + platform fee break-even.
-- Printify API sync verified 42/42 title/description/variant price; images were explicitly not published or reordered.
-- 17 rows that did not propagate from Printify to eBay were fixed through Edge Seller Hub title-only Revise pages.
-- Report: `Review_Packets/OPERATION_QUIET_JADE_REPORT_20260507.md`.
+Temporary rule:
+- Freeze Etsy UI writes, login retry loops, and paid publish actions.
+- Keep preparing Etsy-native listings locally.
+- Allow read-only Etsy checks and official API/OAuth diagnostics.
+- Resume publishing only after official Etsy Open API OAuth is stable and a small reconciled batch confirms listing id, media, fee, and active state.
 
-## 2026-05-07 02:17 -04:00 High-Efficiency Breakthrough State
-- external=None / external-missing repair:
-  - 62 stale local rows were force-associated from Printify API `external.id`.
-  - `Poster-Academia-0038..0042` were true `external=None` and were recovered by API re-publish; all 5 now have eBay item ids.
-- 24/7 cruise:
-  - Codex automation `openclaw-4h-cruise-heartbeat` is active every 4 hours.
-  - `hardware_cooldown_guard.py` is installed; heavy local/image/browser tasks pause during sustained load, low-CPU API work may run conservatively.
-- SEO Strike:
-  - 10 ready drafts were rewritten and synced to Printify.
-  - 3 Acrylics published successfully.
-  - 7 Stickers are intentionally held because Cover Gate found unsafe custom gallery publishing state.
-- Next mainline after this checkpoint:
-  - repair Sticker gallery/cover selection for the 7 SEO Strike held drafts;
-  - deepen Seller Hub readback pagination for newly published item ids;
-  - continue 24-48h performance monitoring for Quiet Jade and SEO Strike cohorts.
+## Bulk Publish Preflight Rule
 
-## 2026-05-07 02:35 -04:00 Multi-Track Experimentation Rule
-- New strategy is active: stop treating Zen/Dark Academia as the only axis. Split the marketplace experiment pool into three tracks:
-  - Track A `A_LOW_COMPETITION_NICHE`: Reading Nook, Meditation Room, Dorm Decor, study/room-use long-tail terms; target non-zero traffic within 48h.
-  - Track B `B_HIGH_VOLUME_VALUE`: broad high-volume buyer terms with Rex-grade visuals and safe pricing; use it to test channel throughput.
-  - Track C `C_DIGITAL_PURE_PROFIT`: Etsy digital downloads with near-zero production cost; test Buyer Persona vs Room Use SEO templates under strict listing-fee caps.
-- `modules/multi_track_experiment_planner.py` is now the durable planner. It writes:
-  - `Database/Multi_Track_Experiment_Plan.csv`
-  - `Database/Multi_Track_Experiment_State.json`
-  - `Review_Packets/MULTI_TRACK_EXPERIMENT_PLAN_20260507.md`
-- Hard gates:
-  - `SHADOW_CLIPPING`, `LOW_RESOLUTION`, or `HIGHLIGHT_CLIPPING` means HOLD.
-  - Sticker Cover Gate mismatch means HOLD.
-  - Etsy paid listing spend remains capped at `$2/batch` and `$6/day`; never retry ambiguous paid publishes blindly.
-  - eBay ads remain General / Promoted Listings Standard fixed 2%; never Priority/PPC and never suggested-rate chasing.
-- De-patterning:
-  - Publish plans use deterministic random jitter, not fixed intervals.
-  - Mockup/background mood rotates every 5 slots.
-  - Descriptions must keep Rex's premium brand tone: quiet luxury, smoky jade, room-use scenes, no dry AI-fluff.
-- Current planner result:
-  - 165 experiment slots planned: 55 A / 55 B / 55 C.
-  - Extra QA hold pool: 60 rows outside the experiment capacity.
-  - Ready rows: 116; HOLD rows: 60; backlog/not-ready rows: 49.
-  - Because current ready physical inventory is limited after QA and Cover Gate, some Track B/C slots are intentionally backlog/build slots rather than unsafe publish candidates.
+Updated: 2026-05-10 09:50 -04:00 America/New_York
 
-## 2026-05-07 02:55 -04:00 Track A Batch 1 Executed
-- First low-competition niche batch executed from Track A.
-- 10 existing live Printify/eBay-linked products updated through Printify metadata sync:
-  - 8 Acrylic
-  - 2 Poster
-- Sync result: 10/10 OK, with Printify GET/PUT/publish-metadata all returning 200.
-- No images changed, no new listings created, no Etsy fees spent.
-- This batch is the first 48h non-zero-traffic test for long-tail room-use terms such as meditation room wall art, dark study room decor, collector shelf object, smoky jade relic, and dark academia reading nook.
-- Next: monitor Seller Hub/eBay performance for these 10 IDs, then either expand Track A or pivot to Track C Etsy Digital depending on traffic signal.
+Before any future bulk publish to Etsy, eBay, Printify-connected marketplace, Adobe Stock, microstock, Pinterest, or another platform, create a preflight research packet first. It must cover official policy/rate limits, seller best practices, duplicate/spam risk, pacing, fee cap, reconciliation, and rollback. Without that packet, batch publish is blocked.
 
-## 2026-05-07 03:05 -04:00 Etsy Digital Fee Pool Clean
-- Stale old login-block reservations were released:
-  - 20 rows changed from reserved-not-spent to released-not-spent.
-  - 0 additional spend.
-- Track C is now cleaner: eligible next-fee candidates show as `NEXT_ETSY_GRAY_BATCH_UNDER_FEE_CAP` instead of stale reconciliation blockers.
-- Still obey the fee rule: do not publish another paid Etsy batch without the $2/batch and $6/day guard actively passing.
+## UI Automation Safety Rule
 
-## 2026-05-07 01:36 -04:00 Grunt Engine Validation
-- `Task_Queue_Modular`, `Hardware_Heartbeat_Monitor`, `Quality_Floor_Guard`, and `Grunt_Engine` are implemented.
-- Fixed script import paths for direct module execution.
-- Fixed Quality Floor false-positive secret marker and control-character regex.
-- `npm run hardware:heartbeat` passes; latest state: WARM due high memory, temperature sensor denied/unavailable.
-- `npm run grunt:seed`, `npm run grunt:dry`, and one `npm run grunt:once` pass.
-- Rest-window disruptive actions remain planned/guarded, not automatically executed.
-- Final validation at 2026-05-07 01:45 -04:00:
-  - Quality Floor documentation scan passes.
-  - Old debug screenshot/empty log artifacts were quarantined.
-  - Grunt Engine live state now cleanly reports `NO_TASK` when the queue is empty instead of preserving stale failure state.
+Updated: 2026-05-10 10:00 -04:00 America/New_York
 
-## 2026-05-07 20:30 -04:00 Household Network Courtesy Update
-- Rex clarified daytime network can be aggressive because household usage is mostly Rex; 17:00-23:00 ET should be neighbor-friendly.
-- Operational default: use daytime and post-23:00 ET for bulk uploads/heavier audits; during 17:00-23:00 ET prefer API reads, small publish batches, local QA, reports, and no stacked high-bandwidth tasks.
+Do not adopt stealth/fingerprint-masking/anti-detect tactics for marketplace writes. No `playwright-stealth`, AdsPower-style CDP, webdriver spoofing, canvas/WebGL spoofing, or CAPTCHA/WAF bypass. If Etsy API is blocked, continue local packaging, read-only audits, official OAuth diagnostics, or tiny supervised smoke tests; do not resume UI batch publishing through evasion.
 
-## 2026-05-07 21:43 -04:00 Active Mainline
-- Gallery Integrity publish blocker is cleared after buyer-visible slot audit refinement.
-- Diagnostic replacement sample `Acrylic-Academia-0003-GALLERYFIX1` has been retired and detached from Printify to avoid duplicate listing/spam signals.
-- Next: production-design QA spot check, then small jittered publish batch if account/network/resource guards stay green.
+## Sticker Expansion Freeze - 2026-05-11 ET
 
-## 2026-05-07 22:05 -04:00 Sticker Publish Guard Update
-- Published a 3-listing official-mockup sticker probe (`Sticker-Zen-0072..0074`) after Production_Design QA.
-- All 3 passed cover audit, but eBay live gallery repeats the first official sticker mockup across picture slots 1/2.
-- Do not scale more Sticker publishes using 3 official mockups only. Build or verify a 4+ image mixed Cover + official mockup path before the next Sticker publish expansion.
+Rex stopped further Sticker expansion. Reason: eBay sticker market is too price-competitive and low-margin; existing stickers can remain for data/review learning, but do not spend more automation time producing additional Sticker listings unless Rex explicitly reopens the line.
 
-## 2026-05-07 22:45 -04:00 Sticker Mixed Gallery Workbench
-- `--cover-only` uploader prototype exists but is not yet production-safe.
-- API truth check overrides UI text: `Sticker-Zen-0075` still had 5 custom selected images, so it is held as `Printify_StickerMixedGallery_Hold`.
-- Next sticker engineering task: improve selector so API confirms 1 Cover/custom + 3 official mockups before any further Sticker publish.
+Priority shift:
+1. Poster / Acrylic / higher-margin POD products.
+2. Etsy digital bundles and market-test pools under fee/risk guard.
+3. Shock & Awe private high-end showcase.
+4. eBay experiments should favor better product-market fit, pricing, gallery, and higher-value categories rather than more stickers.
 
-## 2026-05-07 23:02 -04:00 Sticker Mixed Gallery Breakthrough
-- Safe Sticker path is now verified on `Sticker-Zen-0075`: API confirmed 3 official mockups + 1 custom Cover, publish succeeded, live cover audit passed as `LIKELY_COVER`, and live gallery audit passed as `OK_DOM_DUPLICATE_ONLY`.
-- Preferred next action after checkpoint: repair 2 more Sticker stable drafts with `printify_gallery_source_repair.py --sticker-cover-plus-official`, production-design audit, dry-run publish, then publish only if gates pass.
+## Adobe Stock Account Ready - 2026-05-14 ET
 
-## 2026-05-07 23:16 -04:00 Sticker Mixed Gallery Caution
-- `Sticker-Zen-0081` proved position-based Cover selection can still select a U image; it was retired immediately after live U4 mismatch.
-- `printify_gallery_source_repair.py` now scores My Uploads candidates against the local Cover image hash before selecting.
-- Next safe move: test the hash-based selector on one unpublished Sticker only; do not publish unless API reports 3 official + 1 custom and eBay cover audit after publish returns `LIKELY_COVER`.
+Rex confirmed Adobe Stock contributor account, PayPal, and W-9 are ready. Treat Adobe Stock as a low-risk P3 fallback income line, but keep it behind P0/P1 unless marketplace work is waiting on review/data/platform pacing.
 
-## 2026-05-07 23:34:33 -04:00 Sticker Gallery Creation Rule
-- In-place repair of old 5-custom Sticker gallery drafts is not production-safe: Printify UI can stack official mockups without removing U images, and Printify product PUT does not deselect old gallery images.
-- Future Sticker expansion should modify product creation so new Sticker drafts are created with the intended safe gallery shape from the beginning, or be rebuilt rather than repaired.
-- Current known-good live mixed sample remains Sticker-Zen-0075; do not scale from old 5-custom drafts until the create-time gallery path is fixed and re-audited.
+Current state:
+- Local-only scaffold exists: `Review_Packets/Adobe_Stock_Passive_Fortress_Scaffold.md`.
+- Pilot queue exists: `Database/Adobe_Stock_Pilot_Queue.csv`.
+- Draft Adobe CSV exists: `Database/Adobe_Stock_Upload_Metadata_DRAFT.csv`.
+- Execution packet exists: `Review_Packets/Adobe_Stock_Pilot_Execution_Packet.md`.
+- Contributor upload entry confirmed by Rex: https://contributor.stock.adobe.com/en/uploads?upload=1
+- Contributor upload page visually verified by Rex screenshot on 2026-05-14 ET; account access appears ready for manual/web upload after QA.
+- Project organization decision: keep Adobe Stock as an isolated subproject inside OpenClaw for now at `adobe_stock_factory/`. It reuses OpenClaw generation/QA modules but keeps public metadata and generated stock assets separated from Etsy/eBay/First Audit language. Generated Adobe assets stay out of git under ignored subfolders.
 
-## 2026-05-07 23:53:10 -04:00 Sticker Expansion Freeze Until Create-Time Gallery Is Solved
-- Do not publish additional Sticker rows from old 5-custom or experimental cover-only drafts.
-- Sticker-Zen-0083 proved current UI/API methods can mutate unpublished drafts before failing. It was deleted and reset.
-- Next revenue work should focus on stable product types and low-risk metadata/market tasks while Sticker gallery generation is redesigned.
+Rules:
+- Internal codename must never appear in public metadata, filenames, CSV upload rows, or Adobe-facing text.
+- Adobe line produces stock-safe textures/backgrounds/material fields, not First Audit hero art and not Etsy/eBay/private-client products.
+- Quality bar should match regular Etsy/eBay products in craft, resolution, cleanliness, and commercial usefulness, but the product logic must be simpler: Adobe outputs are reusable source materials, not finished OpenClaw-style narrative products.
+- Public-facing Adobe assets must not create any obvious bridge to the Etsy/eBay stores: no shared SKU language, no First Audit/atelier/private-sales wording, no marketplace title phrasing, no distinctive product mockup story, and no shop-adjacent brand vocabulary.
+- If discovered by the same buyer, the desired perception is: Adobe Stock has premium raw materials; Etsy/eBay has more sophisticated, curated, productized designs built from a higher-order design process.
+- Data isolation rule: Adobe may read or imitate Etsy/eBay workflow logic, but all Adobe queue/status/metadata/QA data must remain in Adobe-namespaced files. It must never write to Mentor Hub, Production Line, Etsy/eBay performance stores, Printify backups, or First Audit release data. `modules/adobe_stock_isolation.py` enforces this on Adobe scripts.
+- Upload is blocked until image QA, duplicate QA, AI disclosure, and metadata validation pass.
+- First safe execution path: generate 5-10 Relaxed draft backgrounds, QA them locally, then prepare a tiny pilot upload batch.
 
-## 2026-05-08 00:01:57 -04:00 eBay Brand Naming Rule
-- Rex authorized changing the eBay seller/shop-facing name later if it improves brand fit.
-- The name does not need to include Rex's personal name. Prefer a premium, memorable, non-personal brand shell aligned with quiet luxury, jade, study room decor, wall art, acrylic blocks, and future scalable product lines.
-- Do not change the live eBay name opportunistically during unrelated tasks; bundle it with the next Seller Hub profile/branding update and record the exact before/after.
-
-## 2026-05-08 07:21:05 -04:00 Boot/Shutdown Boundary Correction
-- Rex reported abnormal manual boot attempts: first/second boot showed near-black screen with _ cursor or no laptop logo, third boot succeeded.
-- Audit found no BIOS/UEFI/boot-order/auto-power-on changes from OpenClaw. Windows-level items found and corrected:
-  - Removed Startup shortcut OpenClaw Resume After Login.lnk that launched scripts\run_codex.bat after Windows login.
-  - Disabled Windows tasks OpenClaw 0530 Winddown, OpenClaw 0550 Force Stop, and OpenClaw Cruise Every 30 Min.
-  - Kept only OpenClaw Daily 6AM Shutdown enabled.
-- New rule: OpenClaw may schedule daily shutdown only. Rex manually powers on, logs into Windows, and opens Codex. Do not create startup/resume/reboot/auto-login automation unless Rex explicitly reauthorizes it.
-
-## 2026-05-09 00:58 -04:00 Daily Rex/Gemini Action Packet Rule
-- Rex wants a daily concise list of what he must provide, apply for, log into, approve, or inspect, plus a Gemini/Grey-ready version.
-- The Codex app heartbeat `etsy-digital-morning-penetration-report` has been repurposed into `OpenClaw Daily Rex/Gemini Action Packet` at 08:30 ET daily.
-- `modules/night_shift_runner.py` now runs `modules/daily_rex_support_packet.py` during normal cycles and winddown, so the packet also refreshes before 06:00 shutdown.
-- Durable outputs:
-  - `Review_Packets/Rex_Action_Packet_latest.md`
-  - `Review_Packets/Rex_Action_Packet_YYYYMMDD.md`
-  - `Review_Packets/Gemini_Bridge/TO_GREY_rex_needs_latest.md`
-
-## 2026-05-09 01:05 -04:00 Etsy Brand Shell Must Precede Scale
-- Rex reminded: after Etsy API/login chain is usable, update the Etsy shop shell itself before serious Etsy scale-up.
-- Selected brand option remains Option 02 / Quiet Relic Studio.
-- Source assets:
-  - `Output/Brand/Etsy/20260504_180120/previews/Option_02_big_banner_1600x400.png`
-  - `Output/Brand/Etsy/20260504_180120/previews/Option_02_shop_icon_500.png`
-- Source copy: `Database/Etsy_brand_shell.md`.
-- Backlog task added: `Apply Etsy shop brand shell Option 02 before scaling listings`.
-
-## 2026-05-09 01:35 -04:00 Etsy Shop Shell Partial Apply
-- Applied and verified Etsy shop shell text fields through Edge CDP 9223:
-  - Shop announcement
-  - Physical buyer note
-  - Digital buyer note
-  - Tagline: `Quiet luxury jade art and study room decor`
-  - About headline/body
-  - Logo image from Option 02
-- Etsy shop name remains `DriveFuel`; the custom shop-name component stayed in Save/Cancel without accepting the new value. Treat as follow-up blocker, not a scale blocker.
-- Next Etsy monthly tasks: external-id poll, live digital audit, next-batch no-spend prep, then controlled Etsy listing expansion once fee/QA gates are clear.

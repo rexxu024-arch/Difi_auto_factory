@@ -85,6 +85,20 @@ def int_value(value: object) -> int:
     return int("".join(ch for ch in text if ch.isdigit()) or "0")
 
 
+def gallery_issue_is_hard_blocker(row: dict[str, str]) -> bool:
+    result = clean(row.get("Result"))
+    if result in {"", "OK"}:
+        return False
+    if result == "CHECK_CUSTOM_GALLERY_REPEATS_RISK":
+        selected = int_value(row.get("Selected_Count"))
+        unique = int_value(row.get("Unique_Visual_Count"))
+        exact = int_value(row.get("Exact_Duplicate_Count"))
+        near = int_value(row.get("Near_Duplicate_Count"))
+        if selected > 0 and unique >= selected and exact == 0 and near == 0:
+            return False
+    return True
+
+
 def build_rows() -> list[dict[str, str]]:
     latest, perf_rows = latest_performance()
     workbook = workbook_by_ebay_id()
@@ -112,10 +126,7 @@ def build_rows() -> list[dict[str, str]]:
             zero += 1
 
     experiment_rows = read_csv(EXPERIMENT_REPORT)
-    gallery_duplicate_rows = [
-        row for row in read_csv(GALLERY_DUPLICATE_AUDIT)
-        if clean(row.get("Result")) not in {"", "OK"}
-    ]
+    gallery_duplicate_rows = [row for row in read_csv(GALLERY_DUPLICATE_AUDIT) if gallery_issue_is_hard_blocker(row)]
     experiment_moved = Counter()
     experiment_counts = Counter()
     for row in experiment_rows:

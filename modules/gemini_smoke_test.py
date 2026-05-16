@@ -34,6 +34,11 @@ DEFAULT_MODELS = [
     "gemini-2.5-flash",
 ]
 
+KEY_TIERS = {
+    "free": "GEMINI_FREE_API_KEY",
+    "paid": "GEMINI_PAID_API_KEY",
+}
+
 
 def _extract_text(payload: dict) -> str:
     chunks: list[str] = []
@@ -76,6 +81,7 @@ def _write_report(out: dict) -> None:
         "# Gemini API Test Report",
         "",
         f"- Timestamp: {out.get('timestamp')}",
+        f"- Tier: {out.get('tier')}",
         f"- Key loaded by config: {out.get('key_loaded')}",
         f"- Model list status: {out.get('model_list_status_code')} / ok={out.get('model_list_ok')}",
         f"- Final status: {out.get('status')}",
@@ -105,24 +111,34 @@ def _write_report(out: dict) -> None:
     REPORT_MD.write_text("\n".join(lines), encoding="utf-8")
 
 
-def run() -> dict:
+def _key_for_tier(tier: str) -> str | None:
+    if tier == "paid":
+        return Config.GEMINI_PAID_API_KEY
+    if tier == "free":
+        return Config.GEMINI_FREE_API_KEY
+    return Config.GEMINI_API_KEY
+
+
+def run(tier: str = "auto") -> dict:
     base_url = Config.GEMINI_BASE_URL.rstrip("/")
+    api_key = _key_for_tier(tier)
     out = {
         "timestamp": datetime.now(ZoneInfo("America/New_York")).isoformat(),
-        "key_loaded": bool(Config.GEMINI_API_KEY),
+        "tier": tier,
+        "key_loaded": bool(api_key),
         "base_url": base_url,
         "model_list_status_code": None,
         "model_list_ok": False,
         "tests": [],
     }
-    if not Config.GEMINI_API_KEY:
+    if not api_key:
         out["status"] = _classify(out)
         return out
 
     try:
         list_response = requests.get(
             f"{base_url}/models",
-            headers={"X-goog-api-key": Config.GEMINI_API_KEY},
+            headers={"X-goog-api-key": api_key},
             timeout=60,
         )
         out["model_list_status_code"] = list_response.status_code
@@ -144,7 +160,7 @@ def run() -> dict:
                     f"{base_url}/models/{model}:generateContent",
                     headers={
                         "Content-Type": "application/json",
-                        "X-goog-api-key": Config.GEMINI_API_KEY,
+                        "X-goog-api-key": api_key,
                     },
                     json={
                         "contents": [{"parts": [{"text": "Reply exactly OK"}]}],
@@ -185,4 +201,9 @@ def run() -> dict:
 if __name__ == "__main__":
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
-    print(json.dumps(run(), indent=2, ensure_ascii=False))
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--tier", choices=["auto", "free", "paid"], default="auto")
+    args = parser.parse_args()
+    print(json.dumps(run(args.tier), indent=2, ensure_ascii=False))

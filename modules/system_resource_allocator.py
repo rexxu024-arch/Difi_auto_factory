@@ -7,6 +7,7 @@ import subprocess
 import time
 from dataclasses import asdict, dataclass
 from datetime import datetime
+from datetime import timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -17,11 +18,20 @@ POLICY_PATH = DATABASE_DIR / "System_Resource_Policy.json"
 STATE_PATH = DATABASE_DIR / "System_Resource_State.json"
 LOG_PATH = DATABASE_DIR / "System_Resource_Allocation.csv"
 COOLDOWN_PATH = DATABASE_DIR / "Hardware_Cooldown_State.json"
+AMBIENT_WEATHER_PATH = DATABASE_DIR / "Ambient_Weather_State.json"
+RED_ALERT_PATH = DATABASE_DIR / "Thermal_Red_Alert.json"
 NY = ZoneInfo("America/New_York")
 
 
 DEFAULT_POLICY = {
     "timezone": "America/New_York",
+    "location": {
+        "label": "Lincoln Park / Jersey City, NJ",
+        "weather_mode": "forecast_aware",
+        "hot_day_high_f": 88,
+        "extreme_day_high_f": 92,
+        "forecast_note": "On hot Jersey City days, shift heavy work into 20:00-08:00 and keep 12:00-20:00 low-power.",
+    },
     "sensor_policy": {
         "temperature_preferred": True,
         "temperature_missing_mode": "proxy_by_cpu_memory",
@@ -45,27 +55,13 @@ DEFAULT_POLICY = {
     },
     "windows": [
         {
-            "name": "cruise",
+            "name": "night_heavy_production",
             "start": "00:00",
-            "end": "04:00",
-            "preferred_classes": ["qa_batch", "image_batch", "asset_build", "report_batch", "market_research"],
-            "max_parallel": 1,
-            "batch_size": 4,
-            "target_cpu_pct": "40-50",
-        },
-        {
-            "name": "rest_maintenance",
-            "start": "04:00",
             "end": "05:30",
-            "preferred_classes": ["rest_maintenance", "memory_cleanup", "hardware_heartbeat", "git_checkpoint", "queue_planning"],
+            "preferred_classes": ["image_batch", "asset_build", "qa_batch", "market_research", "bulk_download", "api_read"],
             "max_parallel": 1,
-            "batch_size": 1,
-            "protected_actions": [
-                "memory_cleanup_before_pause",
-                "write_rest_cycle_recommendation_before_shutdown",
-                "no_unattended_battery_cycle",
-                "no_unattended_defrag"
-            ],
+            "batch_size": 5,
+            "target_cpu_pct": "45-65",
         },
         {
             "name": "pre_shutdown_winddown",
@@ -82,20 +78,51 @@ DEFAULT_POLICY = {
             ],
         },
         {
-            "name": "morning_reports",
+            "name": "morning_heavy_production",
             "start": "06:00",
-            "end": "10:00",
-            "preferred_classes": ["report_batch", "api_read", "market_research", "local_light", "queue_planning", "memory_cleanup"],
+            "end": "08:00",
+            "preferred_classes": ["image_batch", "asset_build", "qa_batch", "market_research", "bulk_download", "api_read"],
             "max_parallel": 2,
             "batch_size": 5,
+            "target_cpu_pct": "45-65",
         },
         {
-            "name": "peak_rex_online",
-            "start": "10:00",
+            "name": "morning_qa_briefing",
+            "start": "08:00",
+            "end": "12:00",
+            "preferred_classes": ["qa_packaging", "api_read", "local_light", "queue_planning", "memory_cleanup", "hardware_heartbeat"],
+            "max_parallel": 1,
+            "batch_size": 2,
+            "protect_user_interactivity": True,
+        },
+        {
+            "name": "thermal_siesta",
+            "start": "12:00",
+            "end": "20:00",
+            "preferred_classes": ["api_read", "local_light", "queue_planning", "report_batch", "memory_cleanup", "hardware_heartbeat", "sticker_zip_packaging", "pinterest_posting"],
+            "max_parallel": 1,
+            "batch_size": 2,
+            "protect_user_interactivity": True,
+            "defer_classes": ["local_heavy", "image_batch", "asset_build", "single_browser_task", "bulk_download", "upscale_batch"],
+            "protected_actions": [
+                "no_image_generation_batches",
+                "no_midjourney_generation",
+                "no_fast_upscale",
+                "no_heavy_local_image_processing",
+                "no_large_preview_builds",
+                "no_marketplace_publish_bursts",
+                "no_browser_ui_tasks_unless_rex_requests",
+                "prefer_api_reads_csv_packaging_reports",
+                "move_visual_qa_to_needs_rex_qa"
+            ],
+        },
+        {
+            "name": "evening_heavy_production",
+            "start": "20:00",
             "end": "23:00",
-            "preferred_classes": ["single_browser_task", "api_read", "online_publish_safe", "local_light"],
-            "max_parallel": 3,
-            "batch_size": 6,
+            "preferred_classes": ["image_batch", "asset_build", "upscale_batch", "market_research", "bulk_download", "qa_batch", "api_read"],
+            "max_parallel": 2,
+            "batch_size": 4,
             "protect_user_interactivity": True,
         },
         {
@@ -110,8 +137,13 @@ DEFAULT_POLICY = {
     "resource_classes": {
         "local_heavy": {"base_parallel": 2, "base_batch": 8, "public_write": False},
         "image_batch": {"base_parallel": 2, "base_batch": 6, "public_write": False},
+        "upscale_batch": {"base_parallel": 1, "base_batch": 3, "public_write": False},
         "qa_batch": {"base_parallel": 2, "base_batch": 10, "public_write": False},
+        "qa_packaging": {"base_parallel": 1, "base_batch": 8, "public_write": False},
         "asset_build": {"base_parallel": 2, "base_batch": 6, "public_write": False},
+        "bulk_download": {"base_parallel": 1, "base_batch": 8, "public_write": False},
+        "sticker_zip_packaging": {"base_parallel": 1, "base_batch": 4, "public_write": False},
+        "pinterest_posting": {"base_parallel": 1, "base_batch": 2, "public_write": True},
         "report_batch": {"base_parallel": 2, "base_batch": 8, "public_write": False},
         "market_research": {"base_parallel": 2, "base_batch": 5, "public_write": False},
         "api_read": {"base_parallel": 3, "base_batch": 12, "public_write": False},
@@ -186,6 +218,26 @@ def _first_float(value):
         return None
 
 
+def _read_cpu_temp_psutil():
+    try:
+        import psutil  # type: ignore
+    except Exception:
+        return None, "PSUTIL_NOT_AVAILABLE"
+    try:
+        sensors = getattr(psutil, "sensors_temperatures", lambda: {})()
+    except Exception as exc:
+        return None, f"PSUTIL_TEMP_ERROR:{type(exc).__name__}"
+    values = []
+    for entries in (sensors or {}).values():
+        for entry in entries:
+            current = _first_float(getattr(entry, "current", None))
+            if current is not None and -20 <= current <= 120:
+                values.append(current)
+    if not values:
+        return None, "PSUTIL_TEMP_UNAVAILABLE"
+    return max(values), "OK_PSUTIL"
+
+
 def ensure_policy():
     DATABASE_DIR.mkdir(exist_ok=True)
     if not POLICY_PATH.exists():
@@ -258,6 +310,13 @@ $top=Get-Process | Sort-Object WorkingSet64 -Descending | Select-Object -First 8
             "PowerStatus": "UNKNOWN",
             "TopProcesses": [],
         }
+    if _first_float(data.get("TemperatureC")) is None:
+        psutil_temp, psutil_status = _read_cpu_temp_psutil()
+        if psutil_temp is not None:
+            data["TemperatureC"] = psutil_temp
+            data["TemperatureStatus"] = psutil_status
+        else:
+            data["TemperatureStatus"] = f"{data.get('TemperatureStatus') or 'UNKNOWN'}|{psutil_status}"
     top = data.get("TopProcesses") or []
     if isinstance(top, dict):
         top = [top]
@@ -319,6 +378,24 @@ def _active_cooldown():
         return None
 
 
+def _load_ambient_weather():
+    if not AMBIENT_WEATHER_PATH.exists():
+        return {}
+    try:
+        data = json.loads(AMBIENT_WEATHER_PATH.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    try:
+        stamp = datetime.fromisoformat(str(data.get("observed_at_et") or data.get("updated_at_et") or ""))
+        if stamp.tzinfo is None:
+            stamp = stamp.replace(tzinfo=NY)
+        if now() - stamp > timedelta(hours=8):
+            data["stale"] = True
+    except Exception:
+        data["stale"] = True
+    return data
+
+
 def _write_state(state):
     STATE_PATH.write_text(json.dumps(state, indent=2), encoding="utf-8")
 
@@ -330,6 +407,37 @@ def _append_log(allocation: Allocation):
         if not exists:
             writer.writeheader()
         writer.writerow(asdict(allocation))
+
+
+def _write_cooldown(allocation: Allocation, snapshot: ResourceSnapshot):
+    if allocation.decision != "PAUSE_COOLDOWN" or allocation.cooldown_minutes <= 0:
+        return
+    cooldown_until = now() + timedelta(minutes=allocation.cooldown_minutes)
+    payload = {
+        "active": True,
+        "updated_at_et": allocation.timestamp,
+        "cooldown_until": cooldown_until.isoformat(timespec="seconds"),
+        "reason": allocation.reason,
+        "temperature_c": allocation.temperature_c,
+        "cpu_load_pct": allocation.cpu_load_pct,
+        "memory_used_pct": allocation.memory_used_pct,
+        "snapshot": asdict(snapshot),
+    }
+    COOLDOWN_PATH.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+
+def _write_red_alert(allocation: Allocation, snapshot: ResourceSnapshot):
+    if snapshot.temperature_c is None or snapshot.temperature_c < 90:
+        return
+    payload = {
+        "active": True,
+        "severity": "RED",
+        "updated_at_et": allocation.timestamp,
+        "message": "CPU temperature exceeded 90C. Heavy operational tasks must stop; run only lightweight polling/text/DB work until cooldown.",
+        "allocation": asdict(allocation),
+        "snapshot": asdict(snapshot),
+    }
+    RED_ALERT_PATH.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
 
 def choose_allocation(task_class="auto", priority=50, snapshot=None, policy=None, write_state=True):
@@ -354,6 +462,23 @@ def choose_allocation(task_class="auto", priority=50, snapshot=None, policy=None
     cpu = snapshot.cpu_load_pct
     mem = snapshot.memory_used_pct
     hot_now = False
+    ambient = _load_ambient_weather()
+    current_f = _first_float(ambient.get("current_f"))
+    today_high_f = _first_float(ambient.get("today_high_f"))
+    hot_day_f = _first_float(policy.get("location", {}).get("hot_day_high_f")) or 88
+    extreme_day_f = _first_float(policy.get("location", {}).get("extreme_day_high_f")) or 92
+    hot_ambient_day = False
+    extreme_ambient_day = False
+    weather_heavy_allowed = None
+    next_cool_window = None
+    if not ambient.get("stale"):
+        hot_ambient_day = (today_high_f is not None and today_high_f >= hot_day_f) or (current_f is not None and current_f >= hot_day_f)
+        extreme_ambient_day = (today_high_f is not None and today_high_f >= extreme_day_f) or (current_f is not None and current_f >= extreme_day_f)
+        weather_heavy_allowed = ambient.get("heavy_allowed_now_by_weather")
+        next_cool_window = ambient.get("next_cool_heavy_window_et")
+        reasons.append(f"ambient Jersey City current={current_f}F high={today_high_f}F")
+    elif ambient:
+        reasons.append("ambient weather stale; using local resource proxy only")
 
     if temp is not None:
         if temp >= temps["critical_pause"]:
@@ -399,6 +524,44 @@ def choose_allocation(task_class="auto", priority=50, snapshot=None, policy=None
         decision = "RUN_CONSERVATIVE" if decision == "RUN" else decision
         reasons.append("battery discharging; avoid heavy/background drains")
 
+    heavy_deferred_by_window = task_class in set(window.get("defer_classes") or [])
+    if heavy_deferred_by_window:
+        cpu_hot = cpu is not None and cpu >= thresholds["cpu_reduce_pct"]
+        mem_hot = mem is not None and mem >= thresholds["memory_reduce_pct"]
+        if (
+            window.get("name") == "thermal_siesta"
+            and not hot_ambient_day
+            and not cpu_hot
+            and not mem_hot
+            and weather_heavy_allowed is not False
+        ):
+            if decision == "RUN":
+                decision = "RUN_CONSERVATIVE"
+            reasons.append(f"{task_class} allowed conservative in cool thermal window")
+        else:
+            decision = "DEFER_TO_NIGHT"
+            reasons.append(f"{task_class} deferred by {window.get('name')} heat window")
+    if extreme_ambient_day and task_class in {"image_batch", "asset_build", "upscale_batch", "bulk_download", "local_heavy"}:
+        decision = "DEFER_TO_NIGHT"
+        reasons.append(f"{task_class} deferred by extreme ambient heat forecast")
+    if (
+        not ambient.get("stale")
+        and task_class in {"image_batch", "asset_build", "upscale_batch", "bulk_download", "local_heavy"}
+        and weather_heavy_allowed is False
+    ):
+        decision = "DEFER_TO_NIGHT"
+        reasons.append(f"{task_class} deferred by hourly forecast >=80F; next cool window={next_cool_window or 'unknown'}")
+    if window.get("name") == "thermal_siesta" and task_class in {
+        "online_publish_safe",
+        "single_browser_task",
+        "market_research",
+    }:
+        if hot_ambient_day or (cpu is not None and cpu >= thresholds["cpu_reduce_pct"]):
+            decision = "DEFER_TO_NIGHT"
+            reasons.append(f"{task_class} deferred by thermal siesta account-safety/heat window")
+        elif decision == "RUN":
+            decision = "RUN_CONSERVATIVE"
+            reasons.append(f"{task_class} allowed conservative in cool thermal window")
     if window.get("protect_user_interactivity") and task_class in {"local_heavy", "image_batch", "asset_build"} and priority < 90:
         decision = "DEFER_TO_NIGHT"
         reasons.append("interactive window protects Rex foreground use")
@@ -462,6 +625,8 @@ def choose_allocation(task_class="auto", priority=50, snapshot=None, policy=None
         )
         _write_state(state)
         _append_log(allocation)
+        _write_cooldown(allocation, snapshot)
+        _write_red_alert(allocation, snapshot)
     return allocation, snapshot
 
 

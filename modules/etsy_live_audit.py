@@ -211,7 +211,23 @@ async def run_async(limit: int, ids: set[str] | None, port: int) -> list[dict]:
         return []
     results: list[dict] = []
     for row in candidates:
-        result = await audit_listing(row, port)
+        try:
+            result = await asyncio.wait_for(audit_listing(row, port), timeout=35)
+        except TimeoutError:
+            listing_id = str(row.get("Etsy_Listing_ID") or "").strip()
+            item_id = str(row.get("ID") or "").strip()
+            result = {
+                "Timestamp": _now(),
+                "ID": item_id,
+                "Etsy_Listing_ID": listing_id,
+                "URL": f"https://www.etsy.com/listing/{listing_id}",
+                "Status": "TIMEOUT_SKIPPED",
+                "Title": "",
+                "Price_Text": "",
+                "Digital_Signal": "UNKNOWN",
+                "Image_Count": "",
+                "Notes": "Per-listing audit exceeded 35 seconds; skipped to protect loop continuity.",
+            }
         results.append(result)
         print(f"[etsy-live-audit] {result['ID']} {result['Etsy_Listing_ID']} {result['Status']} {result['Digital_Signal']}")
         await asyncio.sleep(0.7)

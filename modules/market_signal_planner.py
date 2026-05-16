@@ -66,8 +66,39 @@ def _title_only_issue(qa):
     return bool(issues) and all(issue.startswith("title_length_") for issue in issues)
 
 
+def _qa_issues(qa):
+    if not qa:
+        return []
+    return [
+        issue.strip()
+        for issue in str(qa.get("Issues") or "").split(";")
+        if issue.strip()
+    ]
+
+
+def _description_note_only_issue(qa):
+    issues = _qa_issues(qa)
+    return bool(issues) and all(issue == "missing_image_note" for issue in issues)
+
+
+def _copy_only_issue(qa):
+    issues = _qa_issues(qa)
+    return bool(issues) and all(
+        issue == "missing_image_note" or issue.startswith("title_length_")
+        for issue in issues
+    )
+
+
 def _default_needs_action(default_row):
     if not default_row:
+        return False
+    product_type = str(default_row.get("Product_Type") or "").strip().lower()
+    status = str(default_row.get("Status") or "").strip()
+    ebay_item_id = str(default_row.get("eBay_Item_ID") or "").strip()
+    if product_type.startswith("sticker"):
+        # Sticker expansion is frozen. Legacy sticker source-image issues are
+        # tracked by cover/gallery history, but they must not block the current
+        # Poster/Acrylic/Etsy experiments.
         return False
     error = (default_row.get("Error") or "").strip()
     if error:
@@ -86,7 +117,24 @@ def _default_needs_action(default_row):
 def _gallery_duplicate_needs_action(gallery_row):
     if not gallery_row:
         return False
-    return (gallery_row.get("Result") or "").strip() not in {"", "OK"}
+    result = (gallery_row.get("Result") or "").strip()
+    if result in {"", "OK"}:
+        return False
+    if result == "CHECK_CUSTOM_GALLERY_REPEATS_RISK":
+        try:
+            selected = int(gallery_row.get("Selected_Count") or 0)
+            unique = int(gallery_row.get("Unique_Visual_Count") or 0)
+            exact = int(gallery_row.get("Exact_Duplicate_Count") or 0)
+            near = int(gallery_row.get("Near_Duplicate_Count") or 0)
+        except ValueError:
+            return True
+        # Custom concept/detail images are allowed for Poster/Acrylic when
+        # they are visually unique and the listing copy explains that the main
+        # artwork is the produced item. Treat that case as an advisory, not a
+        # hard publish blocker.
+        if selected > 0 and unique >= selected and exact == 0 and near == 0:
+            return False
+    return True
 
 
 def _live_gallery_clears_source_risk(gallery_row, live_row):
@@ -98,16 +146,19 @@ def _live_gallery_clears_source_risk(gallery_row, live_row):
 
 
 def _priority(row, qa, cover_fix, default_check, gallery_duplicate):
+    product_type = str(row.get("Product_Type") or "").strip()
     if cover_fix:
         return 100
     if gallery_duplicate:
         return 91
     if default_check:
         return 88
+    if product_type.startswith("Sticker"):
+        return 25
     bucket = row.get("Action_Bucket")
-    if qa and int(qa.get("Issue_Count") or 0) > 0 and not _title_only_issue(qa):
+    if qa and int(qa.get("Issue_Count") or 0) > 0 and not _copy_only_issue(qa):
         return 90
-    if _title_only_issue(qa):
+    if _copy_only_issue(qa):
         return 82
     if bucket == "Published_Zero_View_Copy_Ad_Review":
         return 80
@@ -144,12 +195,26 @@ def _recommend(row, copy, qa, cover_fix, default_check, gallery_duplicate):
             "medium",
             False,
         )
+    if str(row.get("Product_Type") or "").strip().startswith("Sticker"):
+        return (
+            "HOLD_STICKER_FROZEN",
+            "Sticker expansion and repair are frozen by Rex because the eBay sticker market is too price-compressed; keep only passive monitoring unless deletion/retirement is explicitly selected later.",
+            "local",
+            True,
+        )
     bucket = row.get("Action_Bucket")
     issue_count = int((qa or {}).get("Issue_Count") or 0)
-    if issue_count and _title_only_issue(qa):
+    if issue_count and _copy_only_issue(qa):
+        if _description_note_only_issue(qa):
+            return (
+                "LOCAL_DESCRIPTION_IMAGE_NOTE_PATCH",
+                "Description is missing the buyer-facing note that only the main artwork is the produced item and supporting images are conceptual/detail previews.",
+                "low",
+                True,
+            )
         return (
             "LOCAL_TITLE_LENGTH_REPAIR_FOR_NEXT_SYNC",
-            f"Published title is outside the 75-79 character house rule: {(qa or {}).get('Issues')}",
+            f"Copy-only QA issue: {(qa or {}).get('Issues')}. Repair title length and/or add the buyer-facing image note before the next safe sync.",
             "low",
             True,
         )

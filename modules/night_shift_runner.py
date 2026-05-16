@@ -238,8 +238,15 @@ def winddown_steps() -> list[Step]:
         Step("winddown_endurance", ["modules\\endurance_protocol.py", "--shutdown-winddown", "--execute", "--json"], 180),
         Step("factory_morning_report", ["modules\\factory_morning_report.py"], 180),
         Step("rex_action_packet", ["modules\\daily_rex_support_packet.py"], 120),
+        Step("winddown_report", ["modules\\winddown_report_builder.py"], 120),
         Step("daily_sitrep", ["modules\\daily_sitrep_builder.py"], 120),
         Step("grey_prepare", ["modules\\grey_memory_bridge.py", "--prepare"], 120),
+        Step("grey_api_supervisor", ["modules\\gemini_supervisor_checkin.py", "--allow-paid", "--force"], 300),
+        Step(
+            "gemini_thread_sync_idle",
+            ["modules\\gemini_chat_sync.py", "--execute", "--wait-until-idle-minutes", "15"],
+            1200,
+        ),
     ]
 
 

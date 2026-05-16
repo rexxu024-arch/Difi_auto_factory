@@ -6,6 +6,8 @@ The API key is read from config only and is never printed, logged, or committed.
 from __future__ import annotations
 
 import json
+import base64
+import mimetypes
 import sys
 from pathlib import Path
 
@@ -22,19 +24,61 @@ class GreyApiError(RuntimeError):
     pass
 
 
-def generate(prompt: str, *, model: str | None = None, timeout: int = 120) -> dict:
-    if not Config.GEMINI_API_KEY:
+def _key_for_tier(tier: str = "auto") -> str | None:
+    tier = str(tier or "auto").lower()
+    if tier == "paid":
+        return Config.GEMINI_PAID_API_KEY or Config.GEMINI_API_KEY
+    if tier == "free":
+        return Config.GEMINI_FREE_API_KEY or Config.GEMINI_API_KEY
+    return Config.GEMINI_FREE_API_KEY or Config.GEMINI_API_KEY or Config.GEMINI_PAID_API_KEY
+
+
+def generate(prompt: str, *, model: str | None = None, timeout: int = 120, tier: str = "auto") -> dict:
+    return _generate_parts([{"text": prompt}], model=model, timeout=timeout, tier=tier)
+
+
+def generate_with_images(
+    prompt: str,
+    image_paths: list[str | Path],
+    *,
+    model: str | None = None,
+    timeout: int = 180,
+    tier: str = "auto",
+) -> dict:
+    parts: list[dict] = [{"text": prompt}]
+    for image_path in image_paths:
+        path = Path(image_path)
+        if not path.is_absolute():
+            path = PROJECT_ROOT / path
+        if not path.exists():
+            raise GreyApiError(f"IMAGE_NOT_FOUND: {path}")
+        mime_type = mimetypes.guess_type(path.name)[0] or "image/png"
+        data = base64.b64encode(path.read_bytes()).decode("ascii")
+        parts.append({"inline_data": {"mime_type": mime_type, "data": data}})
+    return _generate_parts(parts, model=model, timeout=timeout, tier=tier)
+
+
+def _generate_parts(parts: list[dict], *, model: str | None = None, timeout: int = 120, tier: str = "auto") -> dict:
+    api_key = _key_for_tier(tier)
+    if not api_key:
         raise GreyApiError("MISSING_GEMINI_API_KEY")
-    model_name = model or Config.GEMINI_MODEL or "gemini-flash-latest"
+    if model:
+        model_name = model
+    elif str(tier or "").lower() == "paid":
+        model_name = Config.GEMINI_PAID_MODEL or Config.GEMINI_MODEL or "gemini-1.5-pro"
+    elif str(tier or "").lower() == "free":
+        model_name = Config.GEMINI_FREE_MODEL or Config.GEMINI_MODEL or "gemini-flash-latest"
+    else:
+        model_name = Config.GEMINI_MODEL or Config.GEMINI_FREE_MODEL or "gemini-flash-latest"
     url = f"{Config.GEMINI_BASE_URL.rstrip('/')}/models/{model_name}:generateContent"
     response = requests.post(
         url,
         headers={
             "Content-Type": "application/json",
-            "X-goog-api-key": Config.GEMINI_API_KEY,
+            "X-goog-api-key": api_key,
         },
         json={
-            "contents": [{"role": "user", "parts": [{"text": prompt}]}],
+            "contents": [{"role": "user", "parts": parts}],
             "generationConfig": {
                 "temperature": 0.35,
                 "topP": 0.9,

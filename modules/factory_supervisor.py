@@ -65,6 +65,16 @@ LOCAL_MODULES = [
     ("factory_morning_report.py", 180),
 ]
 
+NETWORK_SENSITIVE_LOCAL_MODULES = {
+    # These are valuable maintenance jobs, but they can touch Printify/Etsy or
+    # browser-backed remote state. In --skip-network mode they turn a safe
+    # local巡航 into a hidden online task, so keep them opt-in.
+    "ebay_cover_repair_decision.py",
+    "printify_gallery_duplicate_audit.py",
+    "printify_gallery_repair_queue.py",
+    "etsy_app_status_probe.py",
+}
+
 
 @dataclass
 class FactoryAction:
@@ -128,6 +138,10 @@ def count_by(path: Path, column: str) -> dict[str, int]:
 def default_insufficiency_count() -> int:
     count = 0
     for row in read_csv(DEFAULT_AUDIT):
+        if clean(row.get("Product_Type")).lower().startswith("sticker"):
+            # Sticker expansion is frozen. Legacy sticker mockup insufficiency
+            # should not block current Poster/Acrylic/Etsy experiments.
+            continue
         try:
             selected = int(row.get("Selected_Count") or 0)
             expected = int(row.get("Expected_Count") or 0)
@@ -149,6 +163,16 @@ def gallery_duplicate_count() -> int:
         live_result = clean((live_by_id.get(clean(row.get("ID"))) or {}).get("Result"))
         if result == "CHECK_CUSTOM_GALLERY_REPEATS_RISK" and live_result in {"OK", "OK_DOM_DUPLICATE_ONLY"}:
             continue
+        if result == "CHECK_CUSTOM_GALLERY_REPEATS_RISK":
+            try:
+                selected = int(row.get("Selected_Count") or 0)
+                unique = int(row.get("Unique_Visual_Count") or 0)
+                exact = int(row.get("Exact_Duplicate_Count") or 0)
+                near = int(row.get("Near_Duplicate_Count") or 0)
+            except ValueError:
+                selected = unique = exact = near = -1
+            if selected > 0 and unique >= selected and exact == 0 and near == 0:
+                continue
         if result not in {"", "OK"}:
             count += 1
     return count
@@ -161,7 +185,7 @@ def etsy_gray_summary() -> dict[str, object]:
     ready = [
         row
         for row in queue_rows
-        if clean(row.get("Launch_Status")) in {"READY_BLOCKED_ETSY_AUTH", "READY_TO_PUBLISH", "READY_UI_PUBLISH"}
+        if clean(row.get("Launch_Status")) in {"READY_BLOCKED_ETSY_AUTH", "READY_TO_PUBLISH", "READY_UI_PUBLISH", "READY_API_PUBLISH"}
         and not clean(row.get("Etsy_Listing_ID"))
     ]
     confirmed_spend = 0.0
@@ -561,12 +585,16 @@ def append_run_log(module_name: str, status: str, detail: str) -> None:
         )
 
 
-def run_local_cycle() -> int:
+def run_local_cycle(skip_network_modules: bool = False) -> int:
     failures = 0
     for script, timeout in LOCAL_MODULES:
         path = PROJECT_ROOT / "modules" / script
         if not path.exists():
             append_run_log(script, "SKIP", "missing script")
+            continue
+        if skip_network_modules and script in NETWORK_SENSITIVE_LOCAL_MODULES:
+            append_run_log(script, "SKIP_NETWORK", "skip-network mode keeps remote/API maintenance out of local cruise")
+            print(f"[AUTOPILOT-LOCAL] {script} SKIP_NETWORK")
             continue
         print(f"[AUTOPILOT-LOCAL] start {script}")
         try:
@@ -597,13 +625,14 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="OpenClaw unattended factory supervisor.")
     parser.add_argument("--execute-local", action="store_true", help="Run safe local maintenance modules.")
     parser.add_argument("--skip-network", action="store_true", help="Do not run network guard.")
+    parser.add_argument("--include-network-modules", action="store_true", help="Allow network-sensitive local maintenance modules even when --skip-network is set.")
     parser.add_argument("--network-count", type=int, default=2)
     args = parser.parse_args()
 
     strategy = network_strategy(skip_network=args.skip_network, count=args.network_count)
     resource = resource_strategy()
     if args.execute_local:
-        failures = run_local_cycle()
+        failures = run_local_cycle(skip_network_modules=args.skip_network and not args.include_network_modules)
         print(f"[AUTOPILOT-LOCAL-DONE] failures={failures}")
 
     actions = build_actions(strategy, resource)

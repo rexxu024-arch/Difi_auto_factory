@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import csv
 import json
+import re
+import zipfile
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -12,7 +14,9 @@ from PIL import Image, ImageDraw, ImageFont
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATABASE_DIR = PROJECT_ROOT / "Database"
 QUEUE = DATABASE_DIR / "Etsy_Digital_Upload_Queue.csv"
+GRAY_QUEUE = DATABASE_DIR / "Etsy_Digital_Gray_Launch_Queue.csv"
 PREVIEW_CSV = DATABASE_DIR / "Etsy_Digital_Preview_Assets.csv"
+EXTRACT_ROOT = PROJECT_ROOT / "Output" / "Digital" / "_PreviewExtracts"
 
 
 def clean(value) -> str:
@@ -161,22 +165,188 @@ def preview_ratio_gallery(pack_dir: Path, manifest: dict) -> Path:
     return out
 
 
-def load_queue() -> list[dict]:
-    with QUEUE.open("r", encoding="utf-8-sig", newline="") as handle:
+def preview_detail_zoom(pack_dir: Path, manifest: dict) -> Path:
+    source = Path(manifest["files"][0]["path"])
+    out = pack_dir / "Preview_04_Detail_Zoom.jpg"
+    canvas = Image.new("RGB", (2000, 2000), (244, 241, 235))
+    draw = ImageDraw.Draw(canvas)
+    art = open_fit(source, (1350, 1700), fill=(238, 236, 230))
+    canvas.paste(art, (90, 150))
+    draw.rectangle([90, 150, 1440, 1850], outline=(48, 43, 38), width=8)
+    draw.rounded_rectangle([1270, 230, 1880, 760], radius=26, fill=(255, 254, 250), outline=(180, 172, 160), width=3)
+    draw.text((1325, 290), "Detail Preview", fill=(32, 30, 28), font=FONT_CARD_TITLE)
+    draw_wrapped(
+        draw,
+        (1328, 370),
+        "High-resolution printable file prepared for crisp linework, subtle texture, and gallery-style wall decor.",
+        31,
+        fill=(78, 72, 65),
+        text_font=FONT_BODY,
+    )
+    draw.rounded_rectangle([1270, 980, 1880, 1510], radius=26, fill=(235, 231, 222), outline=(180, 172, 160), width=3)
+    draw.text((1325, 1040), "What you receive", fill=(32, 30, 28), font=FONT_CARD_TITLE)
+    draw_wrapped(
+        draw,
+        (1328, 1120),
+        "A digital download pack. Frames, props, and printed samples shown in previews are not included.",
+        31,
+        fill=(78, 72, 65),
+        text_font=FONT_BODY,
+    )
+    canvas.save(out, "JPEG", quality=92, optimize=True)
+    return out
+
+
+def preview_download_info(pack_dir: Path, manifest: dict) -> Path:
+    out = pack_dir / "Preview_05_Download_Info.jpg"
+    canvas = Image.new("RGB", (2000, 2000), (250, 248, 244))
+    draw = ImageDraw.Draw(canvas)
+    draw.text((145, 140), "Digital Download Guide", fill=(34, 32, 30), font=FONT_TITLE)
+    draw.text((150, 245), "No physical item ships", fill=(120, 74, 52), font=FONT_SUBTITLE)
+    cards = [
+        ("1", "Purchase", "After checkout, Etsy makes the files available from your account downloads."),
+        ("2", "Print", "Use the ratio that matches your frame and print at home, locally, or online."),
+        ("3", "Frame", "Choose matte paper for a quiet gallery look, or textured paper for a vintage archive feel."),
+        ("4", "Note", "Preview scenes show styling ideas only. Your download includes the printable artwork files."),
+    ]
+    y = 420
+    for number, title, body in cards:
+        draw.rounded_rectangle([145, y, 1855, y + 260], radius=28, fill=(255, 254, 250), outline=(190, 182, 170), width=3)
+        draw.ellipse([205, y + 70, 325, y + 190], fill=(41, 37, 33))
+        centered_text(draw, (205, y + 70, 325, y + 190), number, fill=(255, 254, 250), text_font=FONT_CARD_TITLE)
+        draw.text((380, y + 58), title, fill=(35, 33, 30), font=FONT_CARD_TITLE)
+        draw_wrapped(draw, (382, y + 126), body, 78, fill=(78, 72, 65), text_font=FONT_BODY)
+        y += 315
+    draw.text((145, 1780), "Quiet Relic Studio", fill=(82, 75, 68), font=FONT_BODY)
+    canvas.save(out, "JPEG", quality=92, optimize=True)
+    return out
+
+
+def read_csv(path: Path) -> list[dict]:
+    if not path.exists():
+        return []
+    with path.open("r", encoding="utf-8-sig", newline="") as handle:
         return list(csv.DictReader(handle))
 
 
-def run() -> None:
+def pack_dir_for(row: dict) -> Path | None:
+    if clean(row.get("Pack_Dir")):
+        pack_dir = Path(clean(row.get("Pack_Dir")))
+        if pack_dir.exists():
+            return pack_dir
+    if clean(row.get("Zip_Path")):
+        zip_path = Path(clean(row.get("Zip_Path")))
+        unpacked = zip_path.with_suffix("")
+        if unpacked.exists():
+            return unpacked
+        if zip_path.exists() and zip_path.suffix.lower() == ".zip":
+            return extract_zip_pack(zip_path, clean(row.get("ID")) or zip_path.stem)
+    return None
+
+
+def safe_name(value: str) -> str:
+    value = re.sub(r"[^A-Za-z0-9_.-]+", "-", value.strip())
+    return value.strip("-._") or "preview-pack"
+
+
+def extract_zip_pack(zip_path: Path, item_id: str) -> Path | None:
+    """Extract image payloads from legacy zip-only digital packs for previews."""
+    dest = EXTRACT_ROOT / safe_name(item_id)
+    existing = list(dest.glob("*.jpg")) + list(dest.glob("*.jpeg")) + list(dest.glob("*.png"))
+    if existing:
+        return dest
+
+    dest.mkdir(parents=True, exist_ok=True)
+    extracted = 0
+    with zipfile.ZipFile(zip_path) as archive:
+        for info in archive.infolist():
+            if info.is_dir():
+                continue
+            source_name = Path(info.filename).name
+            if source_name.lower().startswith("preview_"):
+                continue
+            if Path(source_name).suffix.lower() not in {".jpg", ".jpeg", ".png"}:
+                continue
+            target = dest / f"{extracted + 1:02d}_{safe_name(source_name)}"
+            with archive.open(info) as source, target.open("wb") as handle:
+                handle.write(source.read())
+            extracted += 1
+            if extracted >= 8:
+                break
+    return dest if extracted else None
+
+
+def infer_ratio(path: Path) -> str:
+    name = path.name.lower()
+    for ratio in ("2x3", "3x4", "4x5", "5x7", "11x14"):
+        if ratio in name:
+            return ratio
+    return "printable"
+
+
+def manifest_from_pack(pack_dir: Path) -> dict | None:
+    manifest_path = pack_dir / "manifest.json"
+    if manifest_path.exists():
+        return json.loads(manifest_path.read_text(encoding="utf-8"))
+    image_files = [
+        path
+        for path in sorted(pack_dir.iterdir())
+        if path.is_file()
+        and path.suffix.lower() in {".jpg", ".jpeg", ".png"}
+        and not path.name.lower().startswith("preview_")
+    ]
+    if not image_files:
+        return None
+    order = {"2x3": 0, "3x4": 1, "4x5": 2, "5x7": 3, "11x14": 4}
+    image_files.sort(key=lambda path: (order.get(infer_ratio(path), 99), path.name))
+    files = []
+    for path in image_files[:5]:
+        try:
+            with Image.open(path) as im:
+                size_px = f"{im.width}x{im.height}"
+        except Exception:
+            size_px = "high resolution"
+        ratio = infer_ratio(path)
+        files.append(
+            {
+                "path": str(path),
+                "label": f"{ratio} printable JPG",
+                "ratio": ratio,
+                "size_px": size_px,
+            }
+        )
+    return {"files": files}
+
+
+def load_queue() -> list[dict]:
+    rows: list[dict] = []
+    seen: set[str] = set()
+    for row in read_csv(QUEUE) + read_csv(GRAY_QUEUE):
+        item_id = clean(row.get("ID"))
+        if not item_id or item_id in seen:
+            continue
+        pack_dir = pack_dir_for(row)
+        if not pack_dir or not pack_dir.exists():
+            continue
+        row = dict(row)
+        row["Pack_Dir"] = str(pack_dir)
+        rows.append(row)
+        seen.add(item_id)
+    return rows
+
+
+def run(limit: int = 0) -> None:
     rows = []
     for row in load_queue():
         pack_dir = Path(row["Pack_Dir"])
-        manifest_path = pack_dir / "manifest.json"
-        if not manifest_path.exists():
+        manifest = manifest_from_pack(pack_dir)
+        if not manifest:
             continue
-        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         p1 = preview_main(pack_dir, manifest)
         p2 = preview_sizes(pack_dir, manifest)
         p3 = preview_ratio_gallery(pack_dir, manifest)
+        p4 = preview_detail_zoom(pack_dir, manifest)
+        p5 = preview_download_info(pack_dir, manifest)
         rows.append(
             {
                 "ID": row["ID"],
@@ -184,15 +354,27 @@ def run() -> None:
                 "Preview_1": str(p1),
                 "Preview_2": str(p2),
                 "Preview_3": str(p3),
+                "Preview_4": str(p4),
+                "Preview_5": str(p5),
                 "Pack_Dir": row["Pack_Dir"],
             }
         )
+        if limit and len(rows) >= limit:
+            break
     with PREVIEW_CSV.open("w", encoding="utf-8-sig", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=["ID", "Title", "Preview_1", "Preview_2", "Preview_3", "Pack_Dir"])
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=["ID", "Title", "Preview_1", "Preview_2", "Preview_3", "Preview_4", "Preview_5", "Pack_Dir"],
+        )
         writer.writeheader()
         writer.writerows(rows)
     print(f"[DIGITAL-PREVIEW] rows={len(rows)} csv={PREVIEW_CSV}")
 
 
 if __name__ == "__main__":
-    run()
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--limit", type=int, default=0)
+    args = parser.parse_args()
+    run(limit=args.limit)

@@ -21,6 +21,8 @@ DATABASE_DIR = PROJECT_ROOT / "Database"
 EBAY_BOOK = DATABASE_DIR / "eBay_listing.xlsx"
 LOCAL_QA = DATABASE_DIR / "Local_Listing_QA.csv"
 COPY_PLAN = DATABASE_DIR / "Listing_Copy_Optimization.csv"
+AD_PLAN = DATABASE_DIR / "eBay_Ad_Rate_Experiment_Plan.csv"
+REGISTRY = DATABASE_DIR / "Unified_Listing_Registry.csv"
 OUT_CSV = DATABASE_DIR / "eBay_Title_Repair_Queue.csv"
 OUT_MD = DATABASE_DIR / "eBay_Title_Repair_Queue.md"
 
@@ -78,11 +80,39 @@ def title_issue_ids() -> set[str]:
         issues = clean(row.get("Issues"))
         if "title_length_" in issues:
             ids.add(clean(row.get("ID")))
+    for row in read_csv(AD_PLAN):
+        if clean(row.get("Title_Quality_Issue")):
+            ids.add(clean(row.get("ID")))
     return ids
 
 
 def copy_candidates() -> dict[str, dict[str, str]]:
     return {clean(row.get("ID")): row for row in read_csv(COPY_PLAN) if clean(row.get("ID"))}
+
+
+def registry_candidates() -> dict[str, dict[str, str]]:
+    return {clean(row.get("ID")): row for row in read_csv(REGISTRY) if clean(row.get("ID"))}
+
+
+def normalize_marketplace_title(title: str, product_type: str) -> str:
+    title = " ".join(clean(title).replace("|", " ").replace(",", " ").split())
+    replacements = {
+        "Photo Block": "Block",
+        "Digital Printable": "",
+        "Digital Print": "",
+        "Digital Download": "",
+        "Printable": "",
+        "Download": "",
+    }
+    for old, new in replacements.items():
+        title = title.replace(old, new)
+    if product_type == "Acrylic" and "5x7 Acrylic" not in title:
+        title = f"{title} 5x7 Acrylic Block"
+    elif product_type == "Poster" and "12x18" not in title:
+        title = f"{title} 12x18 Matte Poster"
+    elif product_type == "Sticker" and "4pc" not in title:
+        title = f"{title} 4pc Vinyl Sticker Set"
+    return " ".join(title.split())
 
 
 def fit_title(title: str) -> tuple[str, str]:
@@ -106,15 +136,23 @@ def fit_title(title: str) -> tuple[str, str]:
 def build_rows() -> list[dict[str, object]]:
     workbook = load_workbook_rows()
     copies = copy_candidates()
+    registry = registry_candidates()
     rows = []
     for item_id in sorted(title_issue_ids()):
         source = workbook.get(item_id, {})
         current = clean(source.get("Title"))
+        product_type = clean(source.get("Product_Type") or registry.get(item_id, {}).get("Product_Type"))
         copy_title = clean(copies.get(item_id, {}).get("Proposed_eBay_Title"))
         if copy_title and MIN_LEN <= len(copy_title) <= MAX_LEN:
             proposed, source_name = copy_title, "copy_plan"
         else:
-            proposed, source_name = fit_title(current)
+            reg = registry.get(item_id, {})
+            registry_title = clean(reg.get("Etsy_Title")) or clean(reg.get("eBay_Title"))
+            if registry_title:
+                proposed, fit_source = fit_title(normalize_marketplace_title(registry_title, product_type))
+                source_name = f"registry_{fit_source}"
+            else:
+                proposed, source_name = fit_title(current)
         rows.append(
             {
                 "Timestamp": now_text(),
@@ -160,6 +198,9 @@ def apply_local(rows: list[dict[str, object]]) -> int:
     ws = wb.active
     headers = [cell.value for cell in ws[1]]
     cols = {header: idx + 1 for idx, header in enumerate(headers)}
+    if "Metadata_Sync_Status" not in cols:
+        ws.cell(1, ws.max_column + 1).value = "Metadata_Sync_Status"
+        cols["Metadata_Sync_Status"] = ws.max_column
     changed = 0
     try:
         for row_idx in range(2, ws.max_row + 1):
@@ -171,6 +212,7 @@ def apply_local(rows: list[dict[str, object]]) -> int:
             if clean(cell.value) != clean(repair["Proposed_Title"]):
                 cell.value = clean(repair["Proposed_Title"])
                 changed += 1
+            ws.cell(row_idx, cols["Metadata_Sync_Status"]).value = "TITLE_REPAIR_PENDING_PRINTIFY_SYNC"
         if changed:
             wb.save(EBAY_BOOK)
     finally:

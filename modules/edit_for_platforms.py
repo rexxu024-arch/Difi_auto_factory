@@ -699,12 +699,15 @@ def _existing_ids(ws, headers):
     }
 
 
-def build_listing_assets(limit=0, use_api=True, product_type="Sticker", only_missing=False):
+def build_listing_assets(limit=0, use_api=True, product_type="Sticker", only_missing=False, ids=None):
     DATABASE_DIR.mkdir(exist_ok=True)
     ebay_wb, ebay_ws = _open_book(EBAY_BOOK, EBAY_HEADERS)
     etsy_wb, etsy_ws = _open_book(ETSY_BOOK, ETSY_HEADERS)
     product_type = "Acrylic" if product_type.lower().startswith("acry") else ("Poster" if product_type.lower().startswith("poster") else "Sticker")
+    wanted_ids = {str(item).strip() for item in (ids or []) if str(item).strip()}
     folders = _ready_folders(product_type)
+    if wanted_ids:
+        folders = [folder for folder in folders if _folder_id(folder) in wanted_ids]
     if only_missing:
         known = _existing_ids(ebay_ws, EBAY_HEADERS)
         folders = [folder for folder in folders if _folder_id(folder) not in known]
@@ -808,7 +811,9 @@ if __name__ == "__main__":
     parser.add_argument("--product-type", default="Sticker", choices=["Sticker", "Poster", "Acrylic"])
     parser.add_argument("--normalize-existing", action="store_true")
     parser.add_argument("--only-missing", action="store_true")
+    parser.add_argument("--ids", default="", help="Comma-separated exact IDs to process.")
     args = parser.parse_args()
+    ids = [part.strip() for part in args.ids.split(",") if part.strip()] or None
     if args.normalize_existing:
         normalize_existing_listing_rows()
     else:
@@ -817,4 +822,5 @@ if __name__ == "__main__":
             use_api=not args.no_api,
             product_type=args.product_type,
             only_missing=args.only_missing,
+            ids=ids,
         )

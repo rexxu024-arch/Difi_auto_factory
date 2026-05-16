@@ -202,7 +202,18 @@ def audit_workbook(limit=0, mark=False, product_type=None, ids=None, sleep_secon
             ],
         )
         writer.writeheader()
-        for row in range(2, ws.max_row + 1):
+        candidate_rows = list(range(2, ws.max_row + 1))
+        if not product_type and not ids and "Product_Type" in cols:
+            # Current marketplace learning is focused on Poster/Acrylic. Keep legacy
+            # Sticker rows auditable by explicit --product-type/--ids, but do not let
+            # them consume the tiny preflight sample by default.
+            candidate_rows.sort(
+                key=lambda row_index: (
+                    str(ws.cell(row_index, cols["Product_Type"]).value or "").strip().lower().startswith("sticker"),
+                    row_index,
+                )
+            )
+        for row in candidate_rows:
             item_id = ws.cell(row, cols["ID"]).value
             row_product_type = ws.cell(row, cols["Product_Type"]).value if "Product_Type" in cols else ""
             status = ws.cell(row, cols["Status"]).value

@@ -133,8 +133,9 @@ def subject_from_title(title: str, product_type: str, category: str) -> str:
     text = re.sub(r"\b(4pc|4\s*pc|pc|6x6|5x7|12x18|12|18|5|7)\b", " ", text, flags=re.I)
     text = re.sub(
         r"\b(Kiss[- ]?Cut|Sticker|Vinyl|Laptop|Journal|Gift|Decor|Matte|Poster|Wall|Art|"
-        r"Acrylic|Photo|Block|Desk|Display|Shelf|Gallery|Premium|Collectible|Study|Room|Set|Pack|Sheet|"
-        r"Zen|Aesthetic|Minimal|Mindful|Dark|Academia|Gothic|Grimdark|Mentor[- ]Grade)\b",
+        r"Acrylic|Photo|Block|Desk|Display|Shelf|Gallery|Premium|Collectible|Study|Room|Set|Pack|Sheet|Print|Object|"
+        r"Zen|Aesthetic|Minimal|Mindful|Dark|Academia|Gothic|Grimdark|Mentor[- ]Grade|"
+        r"Smoky|Jade|Quiet|Luxury|Apartment|Reading|Nook|Deep|Work|Visual|Wabi|Sabi|Focus|Library)\b",
         " ",
         text,
         flags=re.I,
@@ -146,6 +147,8 @@ def subject_from_title(title: str, product_type: str, category: str) -> str:
     words = [word for word in text.split() if word.lower() not in {"x", "to"}]
     if len(words) > 5:
         words = words[:5]
+    while words and words[-1].lower() in {"of", "and", "the", "for", "with"}:
+        words.pop()
     return " ".join(words) or "Jade Relic"
 
 
@@ -603,6 +606,31 @@ def update_sync_status(done: set[str], failed: set[str]) -> None:
             ws.cell(row_idx, sync_col).value = "QUIET_JADE_SYNC_CHECK_REQUIRED"
     wb.save(EBAY_BOOK)
     wb.close()
+    mark_pivot_synced(done, failed)
+
+
+def mark_pivot_synced(done: set[str], failed: set[str]) -> None:
+    if not PIVOT_CSV.exists():
+        return
+    rows = list(csv.DictReader(PIVOT_CSV.open("r", encoding="utf-8-sig", newline="")))
+    if not rows:
+        return
+    headers = list(rows[0].keys())
+    for name in ["Sync_Timestamp", "Sync_Result"]:
+        if name not in headers:
+            headers.append(name)
+    timestamp = now_text()
+    for row in rows:
+        local_id = clean(row.get("ID"))
+        if local_id in done:
+            row["Apply_Status"] = "SYNCED_PRINTIFY"
+            row["Sync_Timestamp"] = timestamp
+            row["Sync_Result"] = "OK"
+        elif local_id in failed:
+            row["Apply_Status"] = "SYNC_CHECK_REQUIRED"
+            row["Sync_Timestamp"] = timestamp
+            row["Sync_Result"] = "FAILED"
+    write_csv(PIVOT_CSV, rows, headers)
 
 
 def sync_printify(limit: int = 0, dry_run: bool = False, sleep_min: float = 6.0, sleep_max: float = 14.0) -> int:

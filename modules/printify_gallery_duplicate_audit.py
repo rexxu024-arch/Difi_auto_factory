@@ -120,19 +120,25 @@ def workbook_rows(limit: int = 0, ids: set[str] | None = None) -> list[dict[str,
     headers_row = [cell.value for cell in ws[1]]
     cols = {name: idx for idx, name in enumerate(headers_row)}
     rows: list[dict[str, str]] = []
+    def value(values, name: str) -> str:
+        idx = cols.get(name)
+        if idx is None or idx >= len(values):
+            return ""
+        return clean(values[idx])
+
     try:
         for values in ws.iter_rows(min_row=2, values_only=True):
             if not values or not values[cols["ID"]]:
                 continue
-            item_id = clean(values[cols["ID"]])
+            item_id = value(values, "ID")
             if ids and item_id not in ids:
                 continue
-            product_type = clean(values[cols.get("Product_Type")])
+            product_type = value(values, "Product_Type")
             if product_type not in PRODUCT_TYPES:
                 continue
-            product_id = clean(values[cols.get("Printify_Product_ID")])
-            ebay_id = clean(values[cols.get("eBay_Item_ID")])
-            status = clean(values[cols.get("Status")])
+            product_id = value(values, "Printify_Product_ID")
+            ebay_id = value(values, "eBay_Item_ID")
+            status = value(values, "Status")
             if not product_id:
                 continue
             if not ebay_id and not ids:
@@ -148,7 +154,7 @@ def workbook_rows(limit: int = 0, ids: set[str] | None = None) -> list[dict[str,
                     "Status": status,
                     "Printify_Product_ID": product_id,
                     "eBay_Item_ID": ebay_id,
-                    "Title": clean(values[cols.get("Title")]) if "Title" in cols else "",
+                    "Title": value(values, "Title"),
                 }
             )
             if limit and len(rows) >= limit:

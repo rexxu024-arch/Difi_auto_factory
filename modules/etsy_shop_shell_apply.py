@@ -452,30 +452,58 @@ async def apply_shop_name_section(port: int) -> bool:
                 append_log("SHOP_BASICS_shopName", "FAILED_CLICK", SHOP_BASICS_URL, json.dumps(clicked, ensure_ascii=False))
                 return False
             await asyncio.sleep(1.2)
-        filled = await page.eval(
+        rect = await page.eval(
             rf"""(() => {{
               const section = document.querySelector('#shopName');
               const el = section?.querySelector('clg-text-input,input:not([type=file])');
-              if (!el) return {{filled:false, html:(section?.outerHTML||'').slice(0,1600)}};
-              const value = {js_string(SHOP_NAME)};
+              if (!el) return {{ok:false, html:(section?.outerHTML||'').slice(0,1600)}};
               const inner = el.shadowRoot?.querySelector('input,textarea');
-              if (inner) {{
-                inner.focus();
-                inner.value = value;
-                inner.dispatchEvent(new Event('input', {{ bubbles:true, composed:true }}));
-                inner.dispatchEvent(new Event('change', {{ bubbles:true, composed:true }}));
-              }}
-              el.focus?.();
-              if ('value' in el) el.value = value;
-              el.setAttribute('value', value);
-              el.dispatchEvent(new Event('input', {{ bubbles:true, composed:true }}));
-              el.dispatchEvent(new Event('change', {{ bubbles:true, composed:true }}));
-              el.dispatchEvent(new KeyboardEvent('keyup', {{ bubbles:true, composed:true, key:'a' }}));
-              return {{filled:true, tag:el.tagName, value:el.value||el.getAttribute('value')||'', html:(section.outerHTML||'').slice(0,1600)}};
+              const target = inner || el;
+              target.focus();
+              target.select?.();
+              const r = target.getBoundingClientRect();
+              return {{
+                ok:true,
+                before: target.value || el.value || el.getAttribute('value') || '',
+                x:r.left + r.width/2,
+                y:r.top + r.height/2,
+                width:r.width,
+                height:r.height,
+                tag:el.tagName
+              }};
             }})()"""
         )
-        if not isinstance(filled, dict) or not filled.get("filled"):
-            append_log("SHOP_BASICS_shopName", "FAILED_FILL", SHOP_BASICS_URL, json.dumps(filled, ensure_ascii=False))
+        if not isinstance(rect, dict) or not rect.get("ok"):
+            append_log("SHOP_BASICS_shopName", "FAILED_INPUT_RECT", SHOP_BASICS_URL, json.dumps(rect, ensure_ascii=False))
+            return False
+        await page.send("Input.dispatchMouseEvent", {"type": "mousePressed", "x": rect["x"], "y": rect["y"], "button": "left", "clickCount": 1})
+        await page.send("Input.dispatchMouseEvent", {"type": "mouseReleased", "x": rect["x"], "y": rect["y"], "button": "left", "clickCount": 1})
+        await asyncio.sleep(0.25)
+        await page.send("Input.dispatchKeyEvent", {"type": "keyDown", "modifiers": 2, "windowsVirtualKeyCode": 65, "code": "KeyA", "key": "a"})
+        await page.send("Input.dispatchKeyEvent", {"type": "keyUp", "modifiers": 2, "windowsVirtualKeyCode": 65, "code": "KeyA", "key": "a"})
+        await asyncio.sleep(0.15)
+        await page.send("Input.insertText", {"text": SHOP_NAME})
+        await asyncio.sleep(0.7)
+        filled = await page.eval(
+            r"""(() => {
+              const section = document.querySelector('#shopName');
+              const el = section?.querySelector('clg-text-input,input:not([type=file])');
+              const inner = el?.shadowRoot?.querySelector('input,textarea');
+              const target = inner || el;
+              target?.dispatchEvent(new Event('input', { bubbles:true, composed:true }));
+              target?.dispatchEvent(new Event('change', { bubbles:true, composed:true }));
+              el?.dispatchEvent(new Event('input', { bubbles:true, composed:true }));
+              el?.dispatchEvent(new Event('change', { bubbles:true, composed:true }));
+              return {
+                filled: !!target,
+                value: target?.value || '',
+                hostValue: el?.value || el?.getAttribute('value') || '',
+                html:(section?.outerHTML||'').slice(0,1600)
+              };
+            })()"""
+        )
+        if not isinstance(filled, dict) or filled.get("value") != SHOP_NAME:
+            append_log("SHOP_BASICS_shopName", "FAILED_FILL", SHOP_BASICS_URL, json.dumps({"rect": rect, "filled": filled}, ensure_ascii=False))
             return False
         await asyncio.sleep(0.8)
         saved = await save_visible_editor(page)

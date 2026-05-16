@@ -1,5 +1,5 @@
 import os
-from dotenv import load_dotenv
+from dotenv import dotenv_values, load_dotenv
 
 # 1. 物理定位与加载
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -8,13 +8,22 @@ load_dotenv(ENV_PATH, override=True)
 
 
 def _env_any(*names):
+    def _norm(key):
+        return "".join(ch for ch in str(key).lower() if ("a" <= ch <= "z") or ("0" <= ch <= "9"))
+
     for name in names:
         value = os.getenv(name)
         if value:
             return value
-    wanted = {"".join(ch for ch in name.lower() if ch.isalnum()) for name in names}
+    wanted = {_norm(name) for name in names}
     for key, value in os.environ.items():
-        normalized = "".join(ch for ch in key.lower() if ch.isalnum())
+        normalized = _norm(key)
+        if normalized in wanted and value:
+            return value
+    # Some Rex-provided .env keys use punctuation/non-ASCII characters that
+    # python-dotenv can parse but may not export into os.environ as expected.
+    for key, value in dotenv_values(ENV_PATH).items():
+        normalized = _norm(key)
         if normalized in wanted and value:
             return value
     return None
@@ -53,11 +62,23 @@ class Config:
     CLAUDE_BASE_URL = os.getenv("CLAUDE_BASE_URL") or "https://api.anthropic.com"
 
     # --- Gemini / Grey Advisor Bridge ---
-    GEMINI_API_KEY = _env_any(
+    GEMINI_FREE_API_KEY = _env_any(
         "GEMINI_FREE_API_KEY",
         "Gemini_free_api_key",
         "Gemnini_free_api_key",
         "GEMNINI_FREE_API_KEY",
+        "Gemnini_free_api_key",
+    )
+    GEMINI_PAID_API_KEY = _env_any(
+        "GEMINI_PAID_API_KEY",
+        "Gemini_paid_api_key",
+        "Gemini_paid_apid_key",
+        "Gemini_paid_apikey",
+        "Gemini_paid_key",
+        "Gemini——paid_apid_key",
+        "GEMINI_PAID_APID_KEY",
+    )
+    GEMINI_API_KEY = _env_any(
         "GEMINI_API_KEY",
         "Gemnini_api_key",
         "GEMNINI_API_KEY",
@@ -66,9 +87,11 @@ class Config:
         "Gemini_api_key",
         "GEMINI_KEY",
         "GOOGLE_API_KEY",
-    )
+    ) or GEMINI_FREE_API_KEY or GEMINI_PAID_API_KEY
     GEMINI_BASE_URL = os.getenv("GEMINI_BASE_URL") or "https://generativelanguage.googleapis.com/v1beta"
     GEMINI_MODEL = os.getenv("GEMINI_MODEL") or "gemini-flash-latest"
+    GEMINI_FREE_MODEL = os.getenv("GEMINI_FREE_MODEL") or os.getenv("Gemini_free_model") or "gemini-flash-latest"
+    GEMINI_PAID_MODEL = os.getenv("GEMINI_PAID_MODEL") or os.getenv("Gemini_paid_model") or os.getenv("GEMINI_PRO_MODEL") or "gemini-2.5-pro"
 
     # --- [F] Etsy Open API / OAuth 2.0 PKCE ---
     ETSY_KEYSTRING = (
@@ -85,10 +108,24 @@ class Config:
     ETSY_REDIRECT_URI = os.getenv("ETSY_REDIRECT_URI") or "http://localhost:8765/etsy/oauth/callback"
     ETSY_SCOPES = os.getenv(
         "ETSY_SCOPES",
-        "shops_r shops_w listings_r listings_w profile_r transactions_r",
+        "shops_r shops_w listings_r listings_w profile_r",
     )
     ETSY_TOKEN_FILE = os.getenv("ETSY_TOKEN_FILE") or os.path.join(BASE_DIR, "Database", ".etsy_oauth_tokens.json")
     ETSY_STATE_FILE = os.getenv("ETSY_STATE_FILE") or os.path.join(BASE_DIR, "Database", ".etsy_oauth_state.json")
+
+    # --- eBay Developer / Sell APIs ---
+    EBAY_SELLER_TOKEN = (
+        os.getenv("EBAY_SELLER_OAUTH_TOKEN")
+        or os.getenv("eBay_seller_oauth_token")
+        or os.getenv("EBAY_SELLER_TOKEN")
+        or os.getenv("eBay_seller_token")
+        or os.getenv("EBAY_USER_TOKEN")
+        or os.getenv("eBay_user_token")
+    )
+    EBAY_CLIENT_ID = os.getenv("EBAY_CLIENT_ID") or os.getenv("EBAY_APP_ID") or os.getenv("eBay_client_id")
+    EBAY_CLIENT_SECRET = os.getenv("EBAY_CLIENT_SECRET") or os.getenv("EBAY_CERT_ID") or os.getenv("eBay_client_secret")
+    EBAY_REDIRECT_URI = os.getenv("EBAY_REDIRECT_URI") or os.getenv("EBAY_RUNAME") or os.getenv("eBay_redirect_uri")
+    EBAY_API_BASE_URL = os.getenv("EBAY_API_BASE_URL") or "https://api.ebay.com"
    
 
     @classmethod
@@ -134,7 +171,10 @@ class Config:
             "CHANNEL_ID": cls.CHANNEL_ID,
             "ETSY_KEYSTRING": cls.ETSY_KEYSTRING,
             "ETSY_SHARED_SECRET": cls.ETSY_SHARED_SECRET,
-            "GEMINI_API_KEY": cls.GEMINI_API_KEY
+            "GEMINI_API_KEY": cls.GEMINI_API_KEY,
+            "GEMINI_FREE_API_KEY": cls.GEMINI_FREE_API_KEY,
+            "GEMINI_PAID_API_KEY": cls.GEMINI_PAID_API_KEY,
+            "EBAY_SELLER_TOKEN": cls.EBAY_SELLER_TOKEN,
         }
         
         is_safe = True
@@ -158,4 +198,7 @@ if __name__ == "__main__":
 CLAUDE_API_KEY = Config.CLAUDE_API_KEY
 DEEPSEEK_API_KEY = Config.DEEPSEEK_API_KEY
 GEMINI_API_KEY = Config.GEMINI_API_KEY
+GEMINI_FREE_API_KEY = Config.GEMINI_FREE_API_KEY
+GEMINI_PAID_API_KEY = Config.GEMINI_PAID_API_KEY
+EBAY_SELLER_TOKEN = Config.EBAY_SELLER_TOKEN
 BASE_URL = Config.CLAUDE_BASE_URL or Config.DEEPSEEK_BASE_URL

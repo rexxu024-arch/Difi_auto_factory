@@ -69,7 +69,7 @@ def reconcile(max_age_minutes: int = 30, execute: bool = False) -> dict[str, int
             continue
         if row.get("Etsy_Listing_ID"):
             continue
-        if row.get("Launch_Status") not in {"READY_BLOCKED_ETSY_AUTH", "READY_TO_PUBLISH", "READY_UI_PUBLISH"}:
+        if row.get("Launch_Status") not in {"READY_BLOCKED_ETSY_AUTH", "READY_TO_PUBLISH", "READY_UI_PUBLISH", "READY_API_PUBLISH"}:
             continue
         ts = parse_time(row.get("Timestamp", ""))
         if ts and ts > cutoff:

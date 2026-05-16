@@ -83,6 +83,16 @@ def build_rows() -> list[dict[str, str]]:
         live_result = clean(live_row.get("Result"))
         if issue in {"", "OK"}:
             continue
+        if issue == "CHECK_CUSTOM_GALLERY_REPEATS_RISK":
+            try:
+                selected = int(row.get("Selected_Count") or 0)
+                unique = int(row.get("Unique_Visual_Count") or 0)
+                exact = int(row.get("Exact_Duplicate_Count") or 0)
+                near = int(row.get("Near_Duplicate_Count") or 0)
+            except ValueError:
+                selected = unique = exact = near = -1
+            if selected > 0 and unique >= selected and exact == 0 and near == 0:
+                continue
         if issue == "CHECK_CUSTOM_GALLERY_REPEATS_RISK" and live_result in LIVE_OK_RESULTS:
             continue
         action = plan(row)

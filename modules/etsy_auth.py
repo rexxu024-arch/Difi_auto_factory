@@ -88,7 +88,7 @@ def make_authorize_url():
         "code_challenge": challenge,
         "code_challenge_method": "S256",
     }
-    return AUTH_URL + "?" + urllib.parse.urlencode(params)
+    return AUTH_URL + "?" + urllib.parse.urlencode(params, quote_via=urllib.parse.quote)
 
 
 def exchange_code(code, state):
@@ -200,10 +200,15 @@ class OAuthCallbackHandler(BaseHTTPRequestHandler):
 
 def listen_callback(timeout=300):
     parsed = urllib.parse.urlparse(Config.ETSY_REDIRECT_URI)
-    host = parsed.hostname or "localhost"
-    port = parsed.port or (443 if parsed.scheme == "https" else 80)
-    if host not in {"localhost", "127.0.0.1"}:
-        raise RuntimeError("Automatic local callback only supports localhost redirect URIs. Use `exchange --code ... --state ...` for non-local redirects.")
+    if parsed.hostname in {"localhost", "127.0.0.1"}:
+        host = parsed.hostname or "localhost"
+        port = parsed.port or (443 if parsed.scheme == "https" else 80)
+    else:
+        # Etsy requires an HTTPS redirect URI. In local automation we register
+        # a temporary HTTPS tunnel URL with Etsy, while the tunnel forwards the
+        # callback to this local listener.
+        host = os.getenv("ETSY_LOCAL_CALLBACK_HOST", "localhost")
+        port = int(os.getenv("ETSY_LOCAL_CALLBACK_PORT", "8765"))
     server = HTTPServer((host, port), OAuthCallbackHandler)
     server.timeout = 1
     server.result = None

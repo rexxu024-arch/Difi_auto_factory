@@ -128,6 +128,28 @@ Personal use only. Do not resell, redistribute, or upload the files as a competi
     return path
 
 
+def suggested_price(row):
+    text = f"{row.get('Title', '')} {row.get('Description', '')}".lower()
+    premium_terms = [
+        "quiet luxury",
+        "smoky jade",
+        "deep work",
+        "gallery",
+        "library",
+        "dark academia",
+        "collector",
+        "relic",
+    ]
+    traffic_terms = ["dorm", "gift", "calm", "minimal", "printable"]
+    premium_score = sum(1 for term in premium_terms if term in text)
+    traffic_score = sum(1 for term in traffic_terms if term in text)
+    if premium_score >= 3:
+        return "$12.99"
+    if premium_score >= 1 and traffic_score >= 1:
+        return "$9.97"
+    return "$6.99"
+
+
 def _zip_folder(folder, zip_path, quality):
     if zip_path.exists():
         zip_path.unlink()
@@ -202,7 +224,7 @@ def build(limit=10, ids=None, force=False):
                 "Zip_Path": str(zip_path),
                 "Zip_MB": f"{zip_mb:.2f}",
                 "Build_Status": status,
-                "Suggested_Etsy_Price": "$6.99",
+                "Suggested_Etsy_Price": suggested_price(row),
                 "Listing_Status": "LOCAL_READY_NOT_PUBLISHED",
             }
             print(f"[DIGITAL-PACK] {row['ID']} zip={zip_mb:.2f}MB {status}")
@@ -216,7 +238,7 @@ def build(limit=10, ids=None, force=False):
                 "Zip_Path": "",
                 "Zip_MB": "",
                 "Build_Status": f"ERROR_{type(exc).__name__}: {_clean(exc)}"[:120],
-                "Suggested_Etsy_Price": "$6.99",
+                "Suggested_Etsy_Price": suggested_price(row),
                 "Listing_Status": "HOLD_SOURCE_IMAGE_REVIEW",
             }
             print(f"[DIGITAL-PACK-HOLD] {row['ID']} {record['Build_Status']}")

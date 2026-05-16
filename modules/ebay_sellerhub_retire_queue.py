@@ -19,9 +19,9 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from config import Config
 
-RETIRE_QUEUE = PROJECT_ROOT / "Database" / "eBay_Retire_Queue.csv"
+DEFAULT_RETIRE_QUEUE = PROJECT_ROOT / "Database" / "eBay_Retire_Queue.csv"
 EBAY_BOOK = PROJECT_ROOT / "Database" / "eBay_listing.xlsx"
-LOG_FILE = PROJECT_ROOT / "Database" / "eBay_Retire_Run_Log.csv"
+DEFAULT_LOG_FILE = PROJECT_ROOT / "Database" / "eBay_Retire_Run_Log.csv"
 CDP_PORT = int(os.getenv("OPENCLAW_EBAY_CDP_PORT") or os.getenv("OPENCLAW_CDP_PORT") or "9223")
 CDP_BASE = f"http://127.0.0.1:{CDP_PORT}"
 RETIRE_READY_STATUSES = {
@@ -35,29 +35,29 @@ def _now():
     return datetime.now().isoformat(timespec="seconds")
 
 
-def _read_queue():
-    if not RETIRE_QUEUE.exists():
+def _read_queue(queue_path=DEFAULT_RETIRE_QUEUE):
+    if not queue_path.exists():
         return []
-    with RETIRE_QUEUE.open("r", encoding="utf-8-sig", newline="") as f:
+    with queue_path.open("r", encoding="utf-8-sig", newline="") as f:
         return list(csv.DictReader(f))
 
 
-def _write_queue(rows):
+def _write_queue(rows, queue_path=DEFAULT_RETIRE_QUEUE):
     if not rows:
         return
     fieldnames = list(rows[0].keys())
     for extra in ["Retire_Attempted_At", "Retire_Result"]:
         if extra not in fieldnames:
             fieldnames.append(extra)
-    with RETIRE_QUEUE.open("w", encoding="utf-8", newline="") as f:
+    with queue_path.open("w", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(rows)
 
 
-def _log(row_id, ebay_id, result, note):
-    new_file = not LOG_FILE.exists()
-    with LOG_FILE.open("a", encoding="utf-8", newline="") as f:
+def _log(row_id, ebay_id, result, note, log_path=DEFAULT_LOG_FILE):
+    new_file = not log_path.exists()
+    with log_path.open("a", encoding="utf-8", newline="") as f:
         writer = csv.writer(f)
         if new_file:
             writer.writerow(["Timestamp", "Old_ID", "Old_eBay_Item_ID", "Result", "Note"])
@@ -240,8 +240,8 @@ def _mark_workbook_retired(old_id, ebay_id, result):
     wb.close()
 
 
-async def run(limit=1, delay=15, dry_run=False, detach_printify=True):
-    rows = _read_queue()
+async def run(limit=1, delay=15, dry_run=False, detach_printify=True, queue_path=DEFAULT_RETIRE_QUEUE, log_path=DEFAULT_LOG_FILE):
+    rows = _read_queue(queue_path)
     pending = [
         (idx, row)
         for idx, row in enumerate(rows)
@@ -269,8 +269,8 @@ async def run(limit=1, delay=15, dry_run=False, detach_printify=True):
             row["Retire_Result"] = f"{result}; {note}; {detach_note}".strip("; ")
             if row["Status"] == "RETIRED_CONFIRMED":
                 _mark_workbook_retired(old_id, ebay_id, row["Retire_Result"])
-            _write_queue(rows)
-            _log(old_id, ebay_id, result, f"{note}; {detach_note}".strip("; "))
+            _write_queue(rows, queue_path)
+            _log(old_id, ebay_id, result, f"{note}; {detach_note}".strip("; "), log_path)
             print(f"[RETIRE-{row['Status']}] {old_id} ebay={ebay_id} {result} {detach_note}")
             processed += 1
             if processed < limit:
@@ -279,8 +279,8 @@ async def run(limit=1, delay=15, dry_run=False, detach_printify=True):
             row["Status"] = "RETIRE_FAILED_RETRY"
             row["Retire_Attempted_At"] = _now()
             row["Retire_Result"] = str(exc)
-            _write_queue(rows)
-            _log(old_id, ebay_id, "EXCEPTION", str(exc))
+            _write_queue(rows, queue_path)
+            _log(old_id, ebay_id, "EXCEPTION", str(exc), log_path)
             print(f"[RETIRE-FAIL] {old_id} ebay={ebay_id}: {exc}")
     print(f"[RETIRE-DONE] attempted={processed} limit={limit}")
 
@@ -291,8 +291,19 @@ def main():
     parser.add_argument("--delay", type=int, default=15)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--no-printify-detach", action="store_true")
+    parser.add_argument("--queue", default=str(DEFAULT_RETIRE_QUEUE))
+    parser.add_argument("--log", default=str(DEFAULT_LOG_FILE))
     args = parser.parse_args()
-    asyncio.run(run(args.limit, args.delay, args.dry_run, not args.no_printify_detach))
+    asyncio.run(
+        run(
+            args.limit,
+            args.delay,
+            args.dry_run,
+            not args.no_printify_detach,
+            Path(args.queue),
+            Path(args.log),
+        )
+    )
 
 
 if __name__ == "__main__":

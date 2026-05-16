@@ -58,7 +58,7 @@ def ensure_constitution() -> None:
 - Prioritize real traffic, low error rate, no account damage, and no loss-making products.
 
 ## Marketplace Guardrails
-- eBay ads: Promoted Listings Standard / General only, fixed 2.0%; no Priority/PPC and no suggested-rate chasing.
+- eBay ads: Promoted Listings Standard / General only; no Priority/PPC and no blind suggested-rate chasing. Baseline may remain 2%, but controlled 4%-12% ad-rate experiments are allowed only when the product-level profit model stays positive after Printify production, Printify shipping, eBay final value fee, fixed fee, and ad fee.
 - Etsy spend cap before signal: $2 per batch, $6 daily gray cap, $40-$60 early test ceiling, 200 listing experiment pool.
 - Do not modify payment/billing settings, generate orders, or touch private credentials beyond reading project env/config.
 
@@ -140,7 +140,7 @@ def _append_log(status: str, detail: str) -> None:
         writer.writerow([_now(), status, detail])
 
 
-def send(question: str = "", dry_run: bool = False) -> dict:
+def send(question: str = "", dry_run: bool = False, tier: str = "auto") -> dict:
     prompt = build_context(question)
     if dry_run:
         result = {"status": "DRY_RUN", "to_grey": str(TO_GREY), "chars": len(prompt)}
@@ -148,7 +148,7 @@ def send(question: str = "", dry_run: bool = False) -> dict:
         _append_log("DRY_RUN", f"chars={len(prompt)}")
         return result
     try:
-        payload = generate(prompt)
+        payload = generate(prompt, tier=tier)
         text = extract_text(payload)
         if not text:
             raise GreyApiError("EMPTY_GEMINI_RESPONSE")
@@ -158,6 +158,7 @@ def send(question: str = "", dry_run: bool = False) -> dict:
         tasks = parse_grey_response(FROM_GREY)
         result = {
             "status": "OK",
+            "tier": tier,
             "to_grey": str(TO_GREY),
             "from_grey": str(FROM_GREY),
             "tasks": len(tasks),
@@ -178,6 +179,7 @@ def main() -> None:
         sys.stdout.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description="OpenClaw Grey Memory Bridge")
     parser.add_argument("--question", default="")
+    parser.add_argument("--tier", choices=["auto", "free", "paid"], default="auto")
     parser.add_argument("--prepare", action="store_true", help="Only create constitution, sitrep, and TO_GREY.")
     parser.add_argument("--dry-run", action="store_true", help="Build prompt without calling Gemini.")
     parser.add_argument("--parse-only", action="store_true", help="Parse existing FROM_GREY_latest.md into tasks.")
@@ -189,7 +191,7 @@ def main() -> None:
         prompt = build_context(args.question)
         result = {"status": "PREPARED", "to_grey": str(TO_GREY), "chars": len(prompt)}
     else:
-        result = send(args.question, dry_run=args.dry_run)
+        result = send(args.question, dry_run=args.dry_run, tier=args.tier)
     print(json.dumps(result, indent=2, ensure_ascii=False))
 
 

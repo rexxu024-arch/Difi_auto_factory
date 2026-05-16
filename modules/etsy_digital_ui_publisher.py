@@ -103,7 +103,7 @@ def _select_candidates(limit: int) -> list[dict]:
             continue
         if row.get("Fee_Status") == "CONFIRMED_SPENT":
             continue
-        if row.get("Launch_Status") not in {"READY_BLOCKED_ETSY_AUTH", "READY_TO_PUBLISH", "READY_UI_PUBLISH"}:
+        if row.get("Launch_Status") not in {"READY_BLOCKED_ETSY_AUTH", "READY_TO_PUBLISH", "READY_UI_PUBLISH", "READY_API_PUBLISH"}:
             continue
         merged = dict(row)
         merged.update({f"Meta_{k}": v for k, v in (metadata.get(row.get("ID", "")) or {}).items()})
@@ -152,6 +152,87 @@ def _draw_wrap(draw: ImageDraw.ImageDraw, xy: tuple[int, int], text: str, max_ch
 
 
 def _preview_paths(row: dict) -> list[str]:
+    custom_preview = str(row.get("Preview_Image") or row.get("Meta_Preview_Image") or "").strip()
+    if custom_preview:
+        preview_path = Path(custom_preview)
+        if preview_path.exists():
+            preview_dir = preview_path.parent / "_etsy_preview"
+            preview_dir.mkdir(parents=True, exist_ok=True)
+            existing = sorted(preview_dir.glob("Preview_*.jpg"))
+            if len(existing) >= 5:
+                return [str(path) for path in existing[:5]]
+
+            with Image.open(preview_path) as source:
+                source = ImageEnhance.Contrast(source.convert("RGB")).enhance(1.02)
+                art_square = _fit(source, (1160, 1160), fill=(247, 245, 240))
+                art_detail = _fit(source.crop(source.getbbox() or (0, 0, source.width, source.height)), (1300, 1300), fill=(247, 245, 240))
+
+            title = _clean(row.get("Title") or row.get("Meta_Title") or row.get("ID") or preview_path.stem)
+            title_font = _font(70, True)
+            sub_font = _font(42)
+            body_font = _font(34)
+            small_font = _font(28)
+
+            p1 = preview_dir / "Preview_01_cover.jpg"
+            canvas = Image.new("RGB", (2000, 2000), (242, 239, 232))
+            draw = ImageDraw.Draw(canvas)
+            canvas.paste(art_square, (420, 170))
+            draw.rounded_rectangle([140, 1470, 1860, 1870], radius=34, fill=(255, 254, 250), outline=(185, 178, 169), width=3)
+            draw.text((210, 1535), "Digital Download", font=title_font, fill=(35, 32, 28))
+            _draw_wrap(draw, (215, 1645), title, 52, sub_font, fill=(78, 70, 62))
+            draw.text((215, 1785), "Instant files. No physical item is shipped.", font=body_font, fill=(112, 76, 52))
+            canvas.save(p1, "JPEG", quality=92, optimize=True)
+
+            p2 = preview_dir / "Preview_02_detail_zoom.jpg"
+            canvas = Image.new("RGB", (2000, 2000), (248, 246, 241))
+            draw = ImageDraw.Draw(canvas)
+            canvas.paste(art_detail, (120, 210))
+            draw.rectangle([120, 210, 1420, 1510], outline=(172, 165, 154), width=3)
+            draw.text((1500, 290), "Detail", font=title_font, fill=(35, 32, 28))
+            _draw_wrap(draw, (1505, 410), "Close-up preview for texture, linework, and printable atmosphere.", 18, body_font)
+            draw.text((1505, 1370), "Curated digital asset", font=small_font, fill=(90, 82, 74))
+            canvas.save(p2, "JPEG", quality=92, optimize=True)
+
+            p3 = preview_dir / "Preview_03_included_files.jpg"
+            canvas = Image.new("RGB", (2000, 2000), (250, 249, 246))
+            draw = ImageDraw.Draw(canvas)
+            draw.text((125, 105), "Included", font=title_font, fill=(35, 32, 28))
+            included = ["Printable image / design file", "High-resolution preview asset", "Personal-use digital download", "Files delivered through Etsy after purchase"]
+            for i, line in enumerate(included):
+                y = 330 + i * 260
+                draw.rounded_rectangle([130, y, 1870, y + 185], radius=22, fill=(255, 254, 250), outline=(190, 185, 176), width=3)
+                draw.text((195, y + 55), line, font=sub_font, fill=(45, 42, 38))
+            draw.text((160, 1695), "Use for journaling, personal print projects, moodboards, or decor planning.", font=body_font, fill=(82, 76, 68))
+            canvas.save(p3, "JPEG", quality=92, optimize=True)
+
+            p4 = preview_dir / "Preview_04_download_notice.jpg"
+            canvas = Image.new("RGB", (2000, 2000), (239, 236, 229))
+            draw = ImageDraw.Draw(canvas)
+            draw.rounded_rectangle([180, 240, 1820, 1640], radius=36, fill=(255, 254, 250), outline=(184, 178, 169), width=3)
+            draw.text((290, 380), "Digital Item", font=title_font, fill=(35, 32, 28))
+            _draw_wrap(draw, (300, 540), "This listing is for downloadable files only. No printed product, frame, or physical shipment is included.", 48, sub_font)
+            draw.text((300, 1180), "AI-assisted, human-curated, QA checked.", font=body_font, fill=(90, 82, 74))
+            draw.text((300, 1270), "Please review previews before purchase.", font=body_font, fill=(112, 76, 52))
+            canvas.save(p4, "JPEG", quality=92, optimize=True)
+
+            p5 = preview_dir / "Preview_05_license_note.jpg"
+            canvas = Image.new("RGB", (2000, 2000), (250, 249, 246))
+            draw = ImageDraw.Draw(canvas)
+            draw.text((160, 190), "Use Notes", font=title_font, fill=(35, 32, 28))
+            notes = [
+                "Personal use digital download",
+                "Print quality depends on paper, printer, and scaling",
+                "Colors may vary slightly by monitor and device",
+                "No resale, redistribution, or commercial upload",
+            ]
+            for i, line in enumerate(notes):
+                y = 420 + i * 245
+                draw.rounded_rectangle([160, y, 1840, y + 170], radius=24, fill=(255, 254, 250), outline=(190, 185, 176), width=3)
+                draw.text((225, y + 50), line, font=sub_font, fill=(45, 42, 38))
+            draw.text((160, 1655), "OpenClaw Archive digital experiment", font=body_font, fill=(82, 76, 68))
+            canvas.save(p5, "JPEG", quality=92, optimize=True)
+            return [str(p1), str(p2), str(p3), str(p4), str(p5)]
+
     item_id = row["ID"]
     zip_path = Path(row["Zip_Path"])
     pack_dir = zip_path.with_suffix("")
@@ -308,6 +389,13 @@ def _fill_listing(page, row: dict) -> None:
     page.wait_for_timeout(2500)
     page.get_by_text("Digital Prints", exact=True).first.click(timeout=8000)
     page.wait_for_timeout(1500)
+    try:
+        change_anyway = page.get_by_role("button", name="Change category anyway")
+        if change_anyway.count() > 0 and change_anyway.first.is_visible():
+            change_anyway.first.click(timeout=5000)
+            page.wait_for_timeout(2500)
+    except Exception:
+        pass
 
     # Switch to digital downloads. Direct event dispatch avoids sticky UI intercepts.
     page.locator('input[name="listing_type_options_group"][value="download"]').evaluate(
@@ -356,6 +444,21 @@ def _fill_listing(page, row: dict) -> None:
     _choose_radio_by_name(page, "isSupply", 0)
     _choose_radio_by_name(page, "digitalContentCreatedBy", 1)
     _set_manual_renew(page)
+
+
+def _wait_until_publish_ready(page, timeout_ms: int = 180000) -> None:
+    page.wait_for_function(
+        """() => {
+            const buttons = [...document.querySelectorAll('button')].filter(b =>
+                ((b.innerText || '').trim() === 'Publish') || b.getAttribute('data-testid') === 'publish'
+            );
+            if (!buttons.some(b => !b.disabled && b.getAttribute('aria-disabled') !== 'true')) return false;
+            const loadingText = (document.body && document.body.innerText || '').toLowerCase();
+            if (loadingText.includes('uploading') || loadingText.includes('processing files')) return false;
+            return true;
+        }""",
+        timeout=timeout_ms,
+    )
 
 
 def _mark_result(row_id: str, listing_id: str, url: str, fee: float) -> None:
@@ -425,10 +528,15 @@ def publish(limit: int = 1, dry_run: bool = False, cdp_port: int = 9223) -> dict
                 if dry_run:
                     results.append({"ID": row["ID"], "status": "DRY_RUN_FILLED", "url": page.url})
                     continue
-                page.get_by_role("button", name="Publish").click(timeout=10000)
+                _wait_until_publish_ready(page)
+                page.locator('button[data-testid="publish"]').first.click(timeout=10000)
                 page.wait_for_timeout(8000)
                 try:
-                    confirm = page.get_by_role("button", name="Publish")
+                    change_anyway = page.get_by_role("button", name="Change category anyway")
+                    if change_anyway.count() > 0 and change_anyway.first.is_visible():
+                        change_anyway.first.click(timeout=10000)
+                        page.wait_for_timeout(4000)
+                    confirm = page.locator('button[data-testid="publish"], button:has-text("Publish")')
                     if confirm.count() > 0 and confirm.first.is_visible():
                         confirm.first.click(timeout=10000)
                         page.wait_for_timeout(8000)

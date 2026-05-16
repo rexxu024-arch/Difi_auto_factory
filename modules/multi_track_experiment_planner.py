@@ -645,7 +645,7 @@ def write_state(rows: list[dict[str, object]]) -> dict[str, object]:
             "SHADOW_CLIPPING/LOW_RESOLUTION/HIGHLIGHT_CLIPPING => HOLD",
             "Sticker Cover Gate mismatch => HOLD",
             "Etsy fee > $2/batch or > $6/day => STOP",
-            "No Priority/PPC ads; only eBay Promoted Listings Standard / General fixed 2%.",
+            "No Priority/PPC ads; only eBay Promoted Listings Standard / General. 2% is baseline; 4%-12% is allowed only inside profit-positive experiment lanes.",
         ],
         "official_reference_links": {
             "etsy_fees": "https://www.etsy.com/legal/fees/",
@@ -691,7 +691,7 @@ Generated: {state['timestamp']}
 - Etsy fee kill switch is active: $2/batch, $6/day. Confirmed Etsy spend today: ${state['etsy_confirmed_spend_today_usd']:.2f}.
 - Image QA is active. `SHADOW_CLIPPING`, `LOW_RESOLUTION`, and `HIGHLIGHT_CLIPPING` are hard HOLD states.
 - Sticker Cover Gate remains active: cover-safe official mockups only for marketplace publishing.
-- eBay ads remain General / Promoted Listings Standard fixed 2%, never Priority/PPC.
+- eBay ads remain General / Promoted Listings Standard only, never Priority/PPC. Use 2% baseline plus profit-guarded 4%-12% test lanes where appropriate.
 
 ## Track A - Low-Competition Niche
 Objective: {TRACKS['A_LOW_COMPETITION_NICHE']['objective']}

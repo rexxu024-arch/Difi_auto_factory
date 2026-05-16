@@ -162,6 +162,8 @@ async def resave_current_selection(product_id: str, wait_seconds: int = 10) -> d
             if await page.eval("!!document.body && /Mockup library/.test(document.body.innerText || '')"):
                 break
             await asyncio.sleep(1)
+        await asyncio.sleep(2.0)
+        await asyncio.sleep(2.0)
         state = await page.eval(
             r"""(() => {
                 const text = (document.body && document.body.innerText) || '';
@@ -202,8 +204,14 @@ async def select_official_mockups(product_id: str, product_type: str, wait_secon
     ensure_edge_cdp()
     ws_url = _target_ws(product_id)
     desired = {
-        "Acrylic": ["Front", "Back", "Side 1", "Side 2"],
-        "Poster": [],
+        # Keep the default/front image available as the product primary, but
+        # avoid selecting it again into the extra gallery; eBay repeats that
+        # image as Picture 1/2 for Printify-origin inventory listings.
+        "Acrylic": ["Front", "Back", "Side 1", "Side 2", "Context 1"],
+        # Many poster templates expose Front/Front 2 as near-identical buyer
+        # images. Prefer distinct detail/context views and let the official
+        # default carry the primary slot.
+        "Poster": ["Front", "Close-up", "Context 1", "Context 2", "Front 2"],
     }.get(product_type, [])
     async with CdpPage(ws_url) as page:
         await page.navigate(
@@ -220,21 +228,90 @@ async def select_official_mockups(product_id: str, product_type: str, wait_secon
         async def center(expression: str) -> dict | None:
             return await page.eval(expression)
 
-        clear_box = await center(
-            r"""(() => {
-                const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
-                const clean=s=>(s||'').replace(/\s+/g,' ').trim();
-                const e=[...document.querySelectorAll('button,[role="button"]')]
-                  .filter(visible)
-                  .find(e=>clean(e.innerText||e.ariaLabel||'')==='Clear all');
-                if(!e)return null;
-                const r=e.getBoundingClientRect();
-                return {x:r.x+r.width/2,y:r.y+r.height/2};
-            })()"""
-        )
-        if clear_box:
-            await page.click(clear_box["x"], clear_box["y"])
-            await asyncio.sleep(1.5)
+        async def ui_selected_count() -> int:
+            value = await page.eval(
+                r"""(() => {
+                    const text=(document.body&&document.body.innerText)||'';
+                    const match = (text.match(/(\d+)\s+selected/)||[])[1];
+                    if (match !== undefined) return Number(match);
+                    const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
+                    return [...document.querySelectorAll('[role="checkbox"]')]
+                      .filter(visible)
+                      .filter(e=>e.getAttribute('aria-checked')==='true')
+                      .length;
+                })()"""
+            )
+            try:
+                return int(value)
+            except Exception:
+                return 0
+
+        async def click_text_button(label: str) -> bool:
+            box = await center(
+                r"""(() => {
+                    const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
+                    const clean=s=>(s||'').replace(/\s+/g,' ').trim();
+                    const label = """ + json.dumps(label) + r""";
+                    const e=[...document.querySelectorAll('button,[role="button"]')]
+                      .filter(visible)
+                      .find(e=>clean(e.innerText||e.ariaLabel||'')===label);
+                    if(!e)return null;
+                    const r=e.getBoundingClientRect();
+                    return {x:r.x+r.width/2,y:r.y+r.height/2};
+                })()"""
+            )
+            if not box:
+                return False
+            await page.click(box["x"], box["y"])
+            return True
+
+        async def wait_for_view_mockup(label: str, timeout_seconds: int = 10) -> dict | None:
+            """Return the visible left-pane mockup checkbox for the active camera view.
+
+            Printify updates the large mockup preview asynchronously after a
+            carousel camera click. Clicking the first visible mockup too early
+            can re-select the previous camera, which is how duplicate Front
+            images leaked into eBay galleries. Wait until the mockup
+            description/alt text matches the intended camera label.
+            """
+
+            deadline = time.time() + timeout_seconds
+            while time.time() < deadline:
+                box = await center(
+                    r"""(() => {
+                        const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
+                        const clean=s=>(s||'').replace(/\s+/g,' ').trim();
+                        const label = """ + json.dumps(label) + r""";
+                        const cards=[...document.querySelectorAll('button.mockup-container,.mockup-container')]
+                          .filter(visible)
+                          .filter(e=>{
+                            const r=e.getBoundingClientRect();
+                            return r.width>160 && r.height>160 && r.x < 540 && r.y > 330;
+                          });
+                        const e=cards.find(e=>{
+                          const desc=clean(e.querySelector('.mockup-description')?.innerText||'');
+                          const alt=clean(e.querySelector('img')?.alt||'');
+                          return desc.startsWith(label + ',') || desc === label || alt.startsWith(label + ',') || alt === label;
+                        });
+                        if(!e)return null;
+                        const cb=e.querySelector('[data-testid="checkboxWrapper"], [role="checkbox"], input[type="checkbox"]');
+                        const r=(cb || e).getBoundingClientRect();
+                        return {x:r.x+r.width/2,y:r.y+r.height/2};
+                    })()"""
+                )
+                if box:
+                    return box
+                await asyncio.sleep(0.5)
+            return None
+
+        for _ in range(4):
+            if await ui_selected_count() == 0:
+                break
+            if not await click_text_button("Clear all"):
+                break
+            await asyncio.sleep(1.2)
+        if await ui_selected_count() != 0:
+            raise RuntimeError("Could not clear existing Printify gallery selection; refusing unsafe save")
 
         tab_box = await center(
             r"""(() => {
@@ -264,7 +341,7 @@ async def select_official_mockups(product_id: str, product_type: str, wait_secon
             })()"""
         )
         for label in labels[:4]:
-            card_box = await center(
+            card_clicked = await page.eval(
                 r"""(() => {
                     const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
                     const clean=s=>(s||'').replace(/\s+/g,' ').trim();
@@ -272,29 +349,15 @@ async def select_official_mockups(product_id: str, product_type: str, wait_secon
                     const e=[...document.querySelectorAll('button.view-type-card')]
                       .filter(visible)
                       .find(e=>clean(e.innerText||e.ariaLabel||'')===label);
-                    if(!e)return null;
-                    const r=e.getBoundingClientRect();
-                    return {x:r.x+r.width/2,y:r.y+r.height/2};
+                    if(!e)return false;
+                    e.scrollIntoView({block:'nearest', inline:'center'});
+                    e.click();
+                    return true;
                 })()"""
             )
-            if not card_box:
+            if not card_clicked:
                 continue
-            await page.click(card_box["x"], card_box["y"])
-            await asyncio.sleep(1)
-            select_box = await center(
-                r"""(() => {
-                    const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
-                    const e=[...document.querySelectorAll('button.mockup-container,.mockup-container')]
-                      .filter(visible)
-                      .find(e=>{
-                        const r=e.getBoundingClientRect();
-                        return r.width>180 && r.height>180 && r.x < 540 && r.y > 340;
-                      });
-                    if(!e)return null;
-                    const r=e.getBoundingClientRect();
-                    return {x:r.x+24,y:r.y+24};
-                })()"""
-            )
+            select_box = await wait_for_view_mockup(label)
             if not select_box:
                 continue
             await page.click(select_box["x"], select_box["y"])
@@ -304,21 +367,21 @@ async def select_official_mockups(product_id: str, product_type: str, wait_secon
         selected = await page.eval(
             r"""(() => ((((document.body&&document.body.innerText)||'').match(/(\d+)\s+selected/)||[])[1] || ''))()"""
         )
-        save_box = await center(
+        saved = await page.eval(
             r"""(() => {
                 const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
                 const clean=s=>(s||'').replace(/\s+/g,' ').trim();
                 const e=[...document.querySelectorAll('button')]
                   .filter(visible)
                   .find(e=>clean(e.innerText||'')==='Save selection' && !e.disabled);
-                if(!e)return null;
-                const r=e.getBoundingClientRect();
-                return {x:r.x+r.width/2,y:r.y+r.height/2};
+                if(!e)return false;
+                e.scrollIntoView({block:'nearest', inline:'center'});
+                e.click();
+                return true;
             })()"""
         )
-        if not save_box:
+        if not saved:
             raise RuntimeError(f"Could not save official mockup selection: clicked={clicked}, selected={selected}")
-        await page.click(save_box["x"], save_box["y"])
         await asyncio.sleep(wait_seconds)
         return {
             "UI_Selected_Text": clean(selected),
@@ -349,25 +412,49 @@ async def select_sticker_cover_plus_official(product_id: str, cover_path: str = 
             if await page.eval("!!document.body && /Mockup library/.test(document.body.innerText || '')"):
                 break
             await asyncio.sleep(1)
+        await asyncio.sleep(2.0)
 
         async def center(expression: str) -> dict | None:
             return await page.eval(expression)
 
-        clear_box = await center(
-            r"""(() => {
-                const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
-                const clean=s=>(s||'').replace(/\s+/g,' ').trim();
-                const e=[...document.querySelectorAll('button,[role="button"]')]
-                  .filter(visible)
-                  .find(e=>clean(e.innerText||e.ariaLabel||'')==='Clear all');
-                if(!e)return null;
-                const r=e.getBoundingClientRect();
-                return {x:r.x+r.width/2,y:r.y+r.height/2};
-            })()"""
-        )
-        if clear_box:
-            await page.click(clear_box["x"], clear_box["y"])
-            await asyncio.sleep(1.5)
+        async def ui_selected_count() -> int:
+            value = await page.eval(
+                r"""(() => {
+                    const text=(document.body&&document.body.innerText)||'';
+                    const match = (text.match(/(\d+)\s+selected/)||[])[1];
+                    if (match !== undefined) return Number(match);
+                    const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
+                    return [...document.querySelectorAll('[role="checkbox"]')]
+                      .filter(visible)
+                      .filter(e=>e.getAttribute('aria-checked')==='true')
+                      .length;
+                })()"""
+            )
+            try:
+                return int(value)
+            except Exception:
+                return 0
+
+        for _ in range(4):
+            if await ui_selected_count() == 0:
+                break
+            clear_clicked = await page.eval(
+                r"""(() => {
+                    const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
+                    const clean=s=>(s||'').replace(/\s+/g,' ').trim();
+                    const e=[...document.querySelectorAll('button,[role="button"]')]
+                      .filter(visible)
+                      .find(e=>clean(e.innerText||e.ariaLabel||'')==='Clear all');
+                    if(!e)return false;
+                    e.click();
+                    return true;
+                })()"""
+            )
+            if not clear_clicked:
+                break
+            await asyncio.sleep(1.2)
+        if await ui_selected_count() != 0:
+            raise RuntimeError("Could not clear existing Printify gallery selection; refusing unsafe save")
 
         uploads_tab = await center(
             r"""(() => {
@@ -425,40 +512,39 @@ async def select_sticker_cover_plus_official(product_id: str, cover_path: str = 
         best_cover = best_cover_candidate(upload_candidates or [], cover_path)
         if not best_cover:
             raise RuntimeError("Could not locate uploaded cover mockup candidates")
+        cover_distance = int(best_cover.get("Cover_Distance") or 999)
+        if cover_path and Path(cover_path).exists() and cover_distance > 24:
+            raise RuntimeError(f"Uploaded cover candidate does not match local Cover closely enough: distance={cover_distance}")
+        # Hash scoring remote thumbnails can take long enough for Printify to
+        # rehydrate the previous server-side selection into the page. Clear one
+        # more time immediately before selecting the intended cover.
+        for _ in range(3):
+            if await ui_selected_count() == 0:
+                break
+            clear_clicked = await page.eval(
+                r"""(() => {
+                    const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
+                    const clean=s=>(s||'').replace(/\s+/g,' ').trim();
+                    const e=[...document.querySelectorAll('button,[role="button"]')]
+                      .filter(visible)
+                      .find(e=>clean(e.innerText||e.ariaLabel||'')==='Clear all');
+                    if(!e)return false;
+                    e.click();
+                    return true;
+                })()"""
+            )
+            if not clear_clicked:
+                break
+            await asyncio.sleep(0.5)
+        if await ui_selected_count() != 0:
+            raise RuntimeError("Could not clear rehydrated Printify gallery selection before cover click")
         # Printify recently changed this grid so clicking the card center can
         # open a preview dialog instead of selecting the image. The top-left
         # checkbox area is the stable intent: select exactly this mockup.
         await page.click(best_cover.get("checkX") or best_cover["x"], best_cover.get("checkY") or best_cover["y"])
         await asyncio.sleep(0.8)
-        cover_selected = True
-        if not cover_selected:
-            raise RuntimeError("Could not select uploaded cover mockup")
-
-        cover_save_box = await center(
-            r"""(() => {
-                const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
-                const clean=s=>(s||'').replace(/\s+/g,' ').trim();
-                const e=[...document.querySelectorAll('button')]
-                  .filter(visible)
-                  .find(e=>clean(e.innerText||'')==='Save selection' && !e.disabled);
-                if(!e)return null;
-                const r=e.getBoundingClientRect();
-                return {x:r.x+r.width/2,y:r.y+r.height/2};
-            })()"""
-        )
-        if not cover_save_box:
-            raise RuntimeError("Could not save sticker cover-only phase")
-        await page.click(cover_save_box["x"], cover_save_box["y"])
-        await asyncio.sleep(max(3, wait_seconds))
-        await page.navigate(
-            f"https://printify.com/app/mockup-library/shops/{Config.Printify_SHOP_ID}/products/{product_id}?revealUploads=true"
-        )
-        for _ in range(35):
-            if await page.eval("!!location.href && /\\/auth\\/login/.test(location.href)"):
-                raise RuntimeError("Printify login required in Edge project browser")
-            if await page.eval("!!document.body && /Mockup library/.test(document.body.innerText || '')"):
-                break
-            await asyncio.sleep(1)
+        if await ui_selected_count() != 1:
+            raise RuntimeError(f"Could not select exactly one uploaded cover mockup; selected={await ui_selected_count()}")
 
         tab_box = await center(
             r"""(() => {
@@ -525,7 +611,9 @@ async def select_sticker_cover_plus_official(product_id: str, cover_path: str = 
             await page.click(select_box["x"], select_box["y"])
             clicked.append(label)
             await asyncio.sleep(0.8)
-        if len(clicked) < 3:
+            if await ui_selected_count() >= 4:
+                break
+        if await ui_selected_count() < 4:
             direct_cards = await page.eval(
                 r"""(() => {
                     const visible=e=>!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
@@ -543,13 +631,15 @@ async def select_sticker_cover_plus_official(product_id: str, cover_path: str = 
                       });
                 })()"""
             )
-            clicked = []
             for idx, card in enumerate(direct_cards or [], start=1):
+                if await ui_selected_count() >= 4:
+                    break
                 await page.click(card.get("checkX") or card["x"], card.get("checkY") or card["y"])
                 clicked.append(f"Grid {idx}")
                 await asyncio.sleep(0.8)
-        if len(clicked) < 3:
-            raise RuntimeError(f"Could not select 3 official sticker mockups: {clicked}")
+        selected_after_pick = await ui_selected_count()
+        if selected_after_pick != 4:
+            raise RuntimeError(f"Unsafe pre-save sticker selection: expected 4 selected, got {selected_after_pick}; clicked={clicked}")
 
         selected = await page.eval(
             r"""(() => ((((document.body&&document.body.innerText)||'').match(/(\d+)\s+selected/)||[])[1] || ''))()"""
@@ -571,9 +661,9 @@ async def select_sticker_cover_plus_official(product_id: str, cover_path: str = 
         await page.click(save_box["x"], save_box["y"])
         await asyncio.sleep(wait_seconds)
         return {
-            "UI_Selected_Text": clean(selected),
+            "UI_Selected_Text": str(selected_after_pick),
             "UI_Selected_Items": str(1 + len(clicked)),
-            "UI_Variant_Text": f"Cover(distance={best_cover.get('Cover_Distance', 'NA')})|" + "|".join(clicked),
+            "UI_Variant_Text": f"Cover(distance={cover_distance})|" + "|".join(clicked),
             "Save_Clicked": "Yes",
         }
 
@@ -653,6 +743,15 @@ def run(
                 try:
                     if sticker_cover_plus_official:
                         record["Action"] = "SELECT_STICKER_COVER_PLUS_OFFICIAL"
+                        if clean(row.get("Product_Type")) == "Sticker":
+                            pre_mix = api_gallery_mix(product_id)
+                            if int(pre_mix.get("Api_Custom_Count") or "0") > 1:
+                                raise RuntimeError(
+                                    "REBUILD_REQUIRED_SOURCE_ACCUMULATED_CUSTOM_IMAGES: "
+                                    f"custom={pre_mix['Api_Custom_Count']} official={pre_mix['Api_Official_Count']} "
+                                    f"images={pre_mix['Api_Image_Count']}. Printify source repair accumulates old custom images; "
+                                    "create a clean replacement or revise marketplace pictures directly."
+                                )
                         record.update(asyncio.run(select_sticker_cover_plus_official(product_id, clean(row.get("Cover_Path")))))
                     elif official_only:
                         record["Action"] = "SELECT_OFFICIAL_ONLY"

@@ -107,7 +107,10 @@ def pending_rows(rows: list[dict[str, str]]) -> list[dict[str, str]]:
     latest = latest_by_product(rows)
     result = []
     for row in latest.values():
-        if clean(row.get("Status")) == "PUBLISHED_EXTERNAL_PENDING":
+        if clean(row.get("Status")) in {
+            "PUBLISHED_EXTERNAL_PENDING",
+            "EXTERNAL_STILL_PENDING_NEEDS_RECONCILE",
+        }:
             result.append(row)
     return result
 
@@ -157,7 +160,11 @@ def poll(max_age_minutes: int = 120, limit: int = 20) -> int:
             continue
         created_at = parse_time(row.get("Timestamp", ""))
         age = (now() - created_at).total_seconds() / 60 if created_at else 0
-        if age >= max_age_minutes:
+        status = clean(row.get("Status"))
+        if status == "EXTERNAL_STILL_PENDING_NEEDS_RECONCILE":
+            held += 1
+            print(f"[ETSY-EXTERNAL] still-held {item_id} product={product_id} age_min={age:.1f}")
+        elif age >= max_age_minutes:
             append_row(
                 {
                     "Timestamp": now_text(),

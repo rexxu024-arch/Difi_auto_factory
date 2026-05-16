@@ -12,6 +12,9 @@
 /Assets/
 /Private_Assets/
 /Archive_Assets/
+/adobe_stock_factory/assets/
+/adobe_stock_factory/upload_ready/
+/adobe_stock_factory/rejected/
 /screen_*.png
 /audit.log
 /staged_paths.txt

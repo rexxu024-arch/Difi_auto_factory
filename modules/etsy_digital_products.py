@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import re
 from dataclasses import dataclass
@@ -26,6 +27,7 @@ DATABASE = ROOT / "Database"
 OUTPUT = ROOT / "Output" / "Digital"
 SOURCE_BOOK = DATABASE / "eBay_listing.xlsx"
 NY_TZ = ZoneInfo("America/New_York")
+HOLD_LOG = DATABASE / "Etsy_Digital_Source_Hold.csv"
 
 
 PRINT_RATIOS = [
@@ -141,6 +143,26 @@ def clean_one_line(text: str) -> str:
     return re.sub(r"\s+", " ", str(text or "").replace("\n", " ").replace("\r", " ")).strip()
 
 
+def log_source_hold(item: ListingCandidate, reason: str) -> None:
+    exists = HOLD_LOG.exists()
+    with HOLD_LOG.open("a", newline="", encoding="utf-8-sig") as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=["Timestamp", "ID", "Title", "Source_Path", "Reason"],
+        )
+        if not exists:
+            writer.writeheader()
+        writer.writerow(
+            {
+                "Timestamp": datetime.now(NY_TZ).isoformat(timespec="seconds"),
+                "ID": item.listing_id,
+                "Title": item.title,
+                "Source_Path": str(item.source_path),
+                "Reason": clean_one_line(reason)[:240],
+            }
+        )
+
+
 def read_candidates() -> list[ListingCandidate]:
     wb = load_workbook(SOURCE_BOOK, read_only=True, data_only=True)
     ws = wb.active
@@ -191,7 +213,8 @@ def score_candidate(item: ListingCandidate) -> int:
             score += 15
         if 0.62 <= w / h <= 0.70:
             score += 8
-    except Exception:
+    except Exception as exc:
+        log_source_hold(item, f"score_open_failed:{type(exc).__name__}:{exc}")
         score -= 50
     return score
 
@@ -274,23 +297,28 @@ def build_printable_pack(item: ListingCandidate, root: Path) -> dict:
     pack_dir = root / f"{item.listing_id}_{slug(item.title, 48)}"
     pack_dir.mkdir(parents=True, exist_ok=True)
     files = []
-    with Image.open(item.source_path) as source:
-        source_size = source.size
-        for ratio in PRINT_RATIOS:
-            image = center_crop_resize(source, ratio["size"])
-            filename = f"{slug(item.listing_id)}_{ratio['code']}_QuietRelicStudio.jpg"
-            path = pack_dir / filename
-            image.save(path, "JPEG", quality=92, optimize=True, dpi=(300, 300))
-            files.append(
-                {
-                    "ratio": ratio["code"],
-                    "label": ratio["label"],
-                    "path": str(path),
-                    "size_px": f"{ratio['size'][0]}x{ratio['size'][1]}",
-                    "size_mb": round(path.stat().st_size / (1024 * 1024), 2),
-                    "etsy_file_limit_ok": path.stat().st_size <= 20 * 1024 * 1024,
-                }
-            )
+    try:
+        with Image.open(item.source_path) as source:
+            source.load()
+            source_size = source.size
+            for ratio in PRINT_RATIOS:
+                image = center_crop_resize(source, ratio["size"])
+                filename = f"{slug(item.listing_id)}_{ratio['code']}_QuietRelicStudio.jpg"
+                path = pack_dir / filename
+                image.save(path, "JPEG", quality=92, optimize=True, dpi=(300, 300))
+                files.append(
+                    {
+                        "ratio": ratio["code"],
+                        "label": ratio["label"],
+                        "path": str(path),
+                        "size_px": f"{ratio['size'][0]}x{ratio['size'][1]}",
+                        "size_mb": round(path.stat().st_size / (1024 * 1024), 2),
+                        "etsy_file_limit_ok": path.stat().st_size <= 20 * 1024 * 1024,
+                    }
+                )
+    except Exception as exc:
+        log_source_hold(item, f"pack_build_failed:{type(exc).__name__}:{exc}")
+        raise
     manifest = {
         "generated_at": datetime.now(NY_TZ).isoformat(timespec="seconds"),
         "source_listing_id": item.listing_id,
@@ -493,8 +521,14 @@ def run(limit: int = 3) -> None:
         )
     pack_root = OUTPUT / "PrintableWallArt"
     pack_rows = []
-    for _, item in scored[:limit]:
-        manifest = build_printable_pack(item, pack_root)
+    for _, item in scored:
+        if len(pack_rows) >= limit:
+            break
+        try:
+            manifest = build_printable_pack(item, pack_root)
+        except Exception as exc:
+            print(f"[DIGITAL-HOLD] {item.listing_id} {type(exc).__name__}: {clean_one_line(exc)}")
+            continue
         max_mb = max(f["size_mb"] for f in manifest["files"])
         pack_rows.append(
             {

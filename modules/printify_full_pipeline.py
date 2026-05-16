@@ -89,6 +89,61 @@ def _headers():
     return {"Authorization": f"Bearer {Config.Printify_API_KEY}", "Content-Type": "application/json"}
 
 
+def _delete_printify_product(product_id):
+    if not product_id:
+        return None
+    response = requests.delete(
+        f"{Config.Printify_API_URL.rstrip('/')}/shops/{Config.Printify_SHOP_ID}/products/{product_id}.json",
+        headers=_headers(),
+        timeout=120,
+    )
+    return response.status_code
+
+
+def _dedupe_selected_mockups(product_id, product):
+    images = product.get("images") or []
+    selected = [image for image in images if image.get("is_selected_for_publishing") is not False]
+    selected_srcs = [str(image.get("src") or "") for image in selected]
+    if len(selected_srcs) == len(set(selected_srcs)):
+        return product, False
+    seen = set()
+    cleaned = []
+    for image in images:
+        item = {
+            key: value
+            for key, value in image.items()
+            if key in {
+                "id",
+                "mockup_id",
+                "src",
+                "variant_ids",
+                "position",
+                "is_default",
+                "is_selected_for_publishing",
+                "order",
+            }
+        }
+        src = str(item.get("src") or "")
+        if src in seen:
+            item["is_selected_for_publishing"] = False
+            item["is_default"] = False
+        else:
+            seen.add(src)
+            item["is_selected_for_publishing"] = image.get("is_selected_for_publishing") is not False
+            if "camera_label=front" in src:
+                item["is_default"] = True
+        cleaned.append(item)
+    response = requests.put(
+        f"{Config.Printify_API_URL.rstrip()}/shops/{Config.Printify_SHOP_ID}/products/{product_id}.json",
+        headers=_headers(),
+        json={"images": cleaned},
+        timeout=120,
+    )
+    response.raise_for_status()
+    print(f"[MOCKUP-DEDUPE] {product_id} selected {len(selected_srcs)} -> {len(set(selected_srcs))}", flush=True)
+    return _fetch_product(product_id), True
+
+
 def _stable_selected_count(product_id, expected_count=5, checks=3, delay=8):
     last_count = None
     for _ in range(checks):
@@ -104,27 +159,30 @@ def _acrylic_mockup_ok(product):
     images = product.get("images") or []
     selected = [image for image in images if image.get("is_selected_for_publishing") is not False]
     selected_srcs = [str(image.get("src") or "") for image in selected]
-    if len(set(selected_srcs)) != len(selected_srcs):
-        return False, len(selected), {"duplicate-src"}
     if any("pfy-prod-products-mockup-media" in src for src in selected_srcs):
         return False, len(selected), {"custom-gallery-selected"}
     labels = {str(image.get("src") or "").split("camera_label=")[-1].split("&")[0] for image in selected}
     return {"front", "back", "side-1", "side-2"}.issubset(labels), len(selected), labels
 
 
+def _acrylic_mockup_partial_ok(labels):
+    labels = set(labels or [])
+    return {"front", "back"}.issubset(labels) and bool(labels.intersection({"side-1", "side-2"}))
+
+
 def _poster_mockup_ok(product):
     images = product.get("images") or []
     selected = [image for image in images if image.get("is_selected_for_publishing") is not False]
     selected_srcs = [str(image.get("src") or "") for image in selected]
-    if len(set(selected_srcs)) != len(selected_srcs):
-        return False, len(selected), 0
+    unique_srcs = set(selected_srcs)
     if any("pfy-prod-products-mockup-media" in src for src in selected_srcs):
         return False, len(selected), 0
     official = [
         image for image in selected
         if "images.printify.com/mockup" in str(image.get("src") or "")
     ]
-    return len(selected) >= 4 and bool(official), len(selected), len(official)
+    unique_official = {str(image.get("src") or "") for image in official}
+    return len(unique_srcs) >= 4 and len(unique_official) >= 4, len(selected), len(unique_official)
 
 
 def _sticker_mockup_ok(product):
@@ -142,6 +200,23 @@ def _sticker_mockup_ok(product):
         if "pfy-prod-products-mockup-media" in str(image.get("src") or "")
     ]
     return len(selected) >= 3 and len(official) >= 3 and not custom_gallery, len(selected), len(official), len(custom_gallery)
+
+
+def _sticker_mixed_gallery_ok(product, min_official=1, min_custom=5):
+    images = product.get("images") or []
+    selected = [image for image in images if image.get("is_selected_for_publishing") is not False]
+    selected_srcs = [str(image.get("src") or "") for image in selected]
+    duplicate_count = len(selected_srcs) - len(set(selected_srcs))
+    official = [
+        image for image in selected
+        if "images.printify.com/mockup" in str(image.get("src") or "")
+    ]
+    custom_gallery = [
+        image for image in selected
+        if "pfy-prod-products-mockup-media" in str(image.get("src") or "")
+    ]
+    ok = duplicate_count == 0 and len(official) >= min_official and len(custom_gallery) >= min_custom
+    return ok, len(selected), len(official), len(custom_gallery), duplicate_count
 
 
 def _expected_mockups(product_type):
@@ -174,12 +249,17 @@ def _ensure_product_id(row):
     if missing:
         raise RuntimeError("; ".join(missing))
     version = str(int(time.time()))
-    allow_jpeg = _canonical_product_filter(row.get("Product_Type")) in {"Poster", "Acrylic"}
+    product_filter = _canonical_product_filter(row.get("Product_Type"))
+    allow_jpeg = product_filter in {"Poster", "Acrylic"}
     production_id = printify_uploader._image_upload(
         production_path,
         f"{row['ID']}_Production_{version}.png",
         allow_jpeg=allow_jpeg,
     )
+    # Non-sticker products sell one full-bleed artwork. Their buyer-facing
+    # gallery should come from Printify's official product mockups, not from
+    # local U/detail files; otherwise Printify can duplicate selected images.
+    stock_paths_for_payload = stock_paths if product_filter == "Sticker" else []
     stock_ids = [
         printify_uploader._image_upload(
             path,
@@ -188,8 +268,8 @@ def _ensure_product_id(row):
         )
         for label, path in (
             [item for item in stock_paths if item[0] == "Cover"]
-            if _canonical_product_filter(row.get("Product_Type")) == "Sticker"
-            else stock_paths
+            if product_filter == "Sticker"
+            else stock_paths_for_payload
         )
     ]
     payload = printify_uploader._build_payload(row, stock_ids, production_id)
@@ -257,8 +337,17 @@ def _load_workbook_rows(limit, product_type=None, ids=None):
             if product_filter and _canonical_product_filter(row.get("Product_Type")) != product_filter:
                 continue
             rows.append(row)
-            if limit and len(rows) >= limit:
-                break
+    status_rank = {
+        "Ready_for_Printify": 0,
+        "Printify_BaseStaged_DefaultMockups3": 1,
+        "Printify_MockupsPending": 2,
+        "Printify_UI_Failed": 3,
+        "Printify_PhotoMismatch": 4,
+        "Printify_PrimaryFix_Needed": 5,
+    }
+    rows.sort(key=lambda row: (status_rank.get(str(row.get("Status") or ""), 99), str(row.get("ID") or "")))
+    if limit:
+        rows = rows[:limit]
     return wb, ws, headers, cols, rows
 
 
@@ -288,15 +377,29 @@ def run(limit=0, batch_size=75, batch_delay=3600, publish=False, product_type=No
 
                 expected_count = _expected_mockups(row.get("Product_Type") or "Sticker")
                 if product_filter == "Acrylic":
-                    product = _fetch_product(product_id)
-                    ok, count, labels = _acrylic_mockup_ok(product)
-                    time.sleep(8)
-                    product = _fetch_product(product_id)
-                    stable_ok, stable_count, stable_labels = _acrylic_mockup_ok(product)
+                    stable_ok = False
+                    stable_count = 0
+                    stable_labels = set()
+                    for _ in range(30):
+                        product = _fetch_product(product_id)
+                        product, _ = _dedupe_selected_mockups(product_id, product)
+                        stable_ok, stable_count, stable_labels = _acrylic_mockup_ok(product)
+                        if stable_ok:
+                            break
+                        time.sleep(10)
                     if not stable_ok:
+                        if _acrylic_mockup_partial_ok(stable_labels):
+                            _assert_production_design(item_id, product_id, row)
+                            _set_cell(ws, cols, row_idx, "Status", "Printify_AcrylicOfficial3_Hold")
+                            wb.save(EBAY_BOOK)
+                            print(
+                                f"[ACRYLIC-3-VIEW-HOLD] {item_id} product={product_id} "
+                                f"selected_mockups={stable_count} acrylic_views={sorted(stable_labels)}"
+                            )
+                            continue
                         raise RuntimeError(
-                            f"acrylic mockups missing official views: selected={count}, stable={stable_count}, "
-                            f"labels={sorted(labels)} stable_labels={sorted(stable_labels)}"
+                            f"acrylic mockups missing official views: stable={stable_count}, "
+                            f"stable_labels={sorted(stable_labels)}"
                         )
                     stable_defaults = _default_count(product)
                     if stable_defaults < 1:
@@ -319,6 +422,7 @@ def run(limit=0, batch_size=75, batch_delay=3600, publish=False, product_type=No
                     official_count = 0
                     for _ in range(30):
                         product = _fetch_product(product_id)
+                        product, _ = _dedupe_selected_mockups(product_id, product)
                         stable_ok, stable_count, official_count = _poster_mockup_ok(product)
                         if stable_ok:
                             break
@@ -341,20 +445,35 @@ def run(limit=0, batch_size=75, batch_delay=3600, publish=False, product_type=No
                     continue
 
                 if product_filter == "Sticker":
-                    stable_ok = False
-                    stable_count = 0
-                    official_count = 0
-                    custom_count = 0
+                    # Printify's sticker blueprint currently exposes one stable
+                    # official context mockup plus the five custom gallery
+                    # images we add. Older runs exposed three official mockups,
+                    # so the old hard-coded 8-count gate false-failed otherwise
+                    # valid products after Printify's UI/API behavior changed.
+                    expected_count = 6
+                    product = _fetch_product(product_id)
+                    stable_ok, stable_count, official_count, custom_count, duplicate_count = _sticker_mixed_gallery_ok(product)
+                    if not stable_ok and str(row.get("Status") or "") == "Ready_for_Printify":
+                        _open_product_tab(product_id)
+                        asyncio.run(
+                            _upload_mockups(
+                                product_id,
+                                _assets({**row, "Printify_Product_ID": product_id}),
+                                expected_count=expected_count,
+                                publish=publish,
+                                product_type="Sticker",
+                            )
+                        )
                     for _ in range(30):
                         product = _fetch_product(product_id)
-                        stable_ok, stable_count, official_count, custom_count = _sticker_mockup_ok(product)
+                        stable_ok, stable_count, official_count, custom_count, duplicate_count = _sticker_mixed_gallery_ok(product)
                         if stable_ok:
                             break
                         time.sleep(10)
                     if not stable_ok:
                         raise RuntimeError(
-                            f"sticker official cover mockups missing or custom U images selected: "
-                            f"selected={stable_count}, official={official_count}, custom_gallery={custom_count}"
+                            f"sticker official/custom mockup mix failed: selected={stable_count}, "
+                            f"official={official_count}, custom_gallery={custom_count}, duplicates={duplicate_count}"
                         )
                     stable_defaults = _default_count(product)
                     if stable_defaults < 1:
@@ -365,7 +484,8 @@ def run(limit=0, batch_size=75, batch_delay=3600, publish=False, product_type=No
                     completed += 1
                     print(
                         f"[FULL-PIPELINE] {completed}/{len(rows)} {item_id} "
-                        f"product={product_id} selected_mockups={stable_count} sticker_official={official_count}"
+                        f"product={product_id} selected_mockups={stable_count} "
+                        f"sticker_official={official_count} custom_gallery={custom_count}"
                     )
                     continue
 
@@ -418,6 +538,44 @@ def run(limit=0, batch_size=75, batch_delay=3600, publish=False, product_type=No
                 message = str(exc)
                 if "Production design mismatch" in message:
                     status = "Printify_DesignMismatch"
+                elif "API selected mockup count" in message:
+                    status = "Printify_UI_Failed"
+                    try:
+                        current = _fetch_product(product_id)
+                        images = current.get("images") or []
+                        if not images:
+                            delete_status = _delete_printify_product(product_id)
+                            _set_cell(ws, cols, row_idx, "Printify_Product_ID", "")
+                            status = "Ready_for_Printify"
+                            print(
+                                f"[EMPTY-DRAFT-CLEANUP] {item_id} product={product_id} "
+                                f"delete_status={delete_status}; reset Ready_for_Printify"
+                            )
+                        else:
+                            mix_ok, mix_count, official_count, custom_count, duplicate_count = _sticker_mixed_gallery_ok(current)
+                            if official_count >= 1 and custom_count < 5:
+                                status = "Printify_StickerMixedGallery_Hold"
+                                print(
+                                    f"[MIXED-GALLERY-HOLD] {item_id} product={product_id} "
+                                    f"selected={mix_count} official={official_count} custom={custom_count} "
+                                    f"duplicates={duplicate_count}"
+                                )
+                    except Exception as inspect_exc:
+                        print(f"[MIXED-GALLERY-INSPECT-FAIL] {item_id}: {inspect_exc}")
+                elif "sticker official/custom mockup mix failed" in message or "sticker official cover mockups missing or custom U images selected" in message:
+                    status = "Printify_StickerDefaultMissing_Hold"
+                    try:
+                        current = _fetch_product(product_id)
+                        if not (current.get("images") or []):
+                            delete_status = _delete_printify_product(product_id)
+                            _set_cell(ws, cols, row_idx, "Printify_Product_ID", "")
+                            status = "Ready_for_Printify"
+                            print(
+                                f"[EMPTY-DRAFT-CLEANUP] {item_id} product={product_id} "
+                                f"delete_status={delete_status}; reset Ready_for_Printify"
+                            )
+                    except Exception as cleanup_exc:
+                        print(f"[EMPTY-DRAFT-CLEANUP-FAIL] {item_id}: {cleanup_exc}")
                 elif "official mockups missing" in message:
                     status = "Printify_MockupsPending"
                 else:

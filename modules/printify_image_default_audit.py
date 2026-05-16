@@ -47,28 +47,47 @@ def expected_count(product_type: str) -> int:
     return 0
 
 
-def workbook_rows(limit: int = 0) -> list[dict]:
+def has_sufficient_publish_images(product_type: str, selected_count: int, default_count: int) -> bool:
+    """Gate only true production image insufficiency.
+
+    Printify can mark several official mockups as default. That is acceptable
+    for buyer context and should not block publishing; the hard failure is too
+    few selected images for the product type or no default image at all.
+    """
+    expected = expected_count(product_type)
+    return default_count >= 1 and (not expected or selected_count >= expected)
+
+
+def workbook_rows(limit: int = 0, ids: set[str] | None = None) -> list[dict]:
     wb = load_workbook(EBAY_BOOK, read_only=True, data_only=True)
     ws = wb.active
     headers_row = [cell.value for cell in ws[1]]
     cols = {name: idx for idx, name in enumerate(headers_row)}
+    def value(values, name: str):
+        idx = cols.get(name)
+        if idx is None or idx >= len(values):
+            return ""
+        return values[idx]
     rows = []
     for values in ws.iter_rows(min_row=2, values_only=True):
         if not values or not values[cols["ID"]]:
             continue
+        item_id = str(value(values, "ID") or "").strip()
+        if ids and item_id not in ids:
+            continue
         status = str(values[cols["Status"]] or "")
         if "Mockups" not in status and not status.startswith("Printify_Published"):
             continue
-        product_id = str(values[cols.get("Printify_Product_ID")] or "").strip()
+        product_id = str(value(values, "Printify_Product_ID") or "").strip()
         if not product_id:
             continue
         rows.append(
             {
-                "ID": values[cols["ID"]],
-                "Product_Type": values[cols.get("Product_Type")] if "Product_Type" in cols else "",
+                "ID": item_id,
+                "Product_Type": value(values, "Product_Type"),
                 "Status": status,
                 "Printify_Product_ID": product_id,
-                "eBay_Item_ID": values[cols.get("eBay_Item_ID")] if "eBay_Item_ID" in cols else "",
+                "eBay_Item_ID": value(values, "eBay_Item_ID"),
             }
         )
         if limit and len(rows) >= limit:
@@ -77,9 +96,9 @@ def workbook_rows(limit: int = 0) -> list[dict]:
     return rows
 
 
-def run(limit: int = 0, sleep_seconds: float = 0.5) -> list[dict]:
+def run(limit: int = 0, sleep_seconds: float = 0.5, ids: set[str] | None = None) -> list[dict]:
     records = []
-    for row in workbook_rows(limit=limit):
+    for row in workbook_rows(limit=limit, ids=ids):
         record = dict(row)
         try:
             product = fetch_product(str(row["Printify_Product_ID"]))
@@ -91,7 +110,7 @@ def run(limit: int = 0, sleep_seconds: float = 0.5) -> list[dict]:
                     "Expected_Count": expected_count(str(row.get("Product_Type"))),
                     "Default_Count": len(defaults),
                     "Default_Indexes": "|".join(str(idx) for idx, image in enumerate(selected) if image.get("is_default")),
-                    "Result": "OK" if len(defaults) == 1 and (not expected_count(str(row.get("Product_Type"))) or len(selected) >= expected_count(str(row.get("Product_Type")))) else "CHECK",
+                    "Result": "OK" if has_sufficient_publish_images(str(row.get("Product_Type")), len(selected), len(defaults)) else "CHECK",
                     "Error": "",
                 }
             )
@@ -127,8 +146,10 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--sleep-seconds", type=float, default=0.5)
+    parser.add_argument("--ids", default="", help="Comma-separated workbook IDs to audit.")
     args = parser.parse_args()
-    run(limit=args.limit, sleep_seconds=args.sleep_seconds)
+    ids = {value.strip() for value in args.ids.split(",") if value.strip()} or None
+    run(limit=args.limit, sleep_seconds=args.sleep_seconds, ids=ids)
 
 
 if __name__ == "__main__":

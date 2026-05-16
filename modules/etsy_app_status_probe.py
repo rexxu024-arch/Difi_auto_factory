@@ -49,10 +49,11 @@ def probe() -> dict[str, object]:
         result["detail"] = "ETSY_KEYSTRING/ETSY_SHARED_SECRET missing in environment."
         return result
     try:
+        api_key = f"{Config.ETSY_KEYSTRING}:{Config.ETSY_SHARED_SECRET}"
         response = request_with_retry(
             "GET",
             PING_URL,
-            headers={"x-api-key": Config.ETSY_KEYSTRING, "Accept": "application/json"},
+            headers={"x-api-key": api_key, "Accept": "application/json"},
             timeout=30,
             attempts=2,
             backoff=2.0,

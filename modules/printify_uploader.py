@@ -15,6 +15,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from config import Config
+from modules.metadata_defense import printify_metadata_payload
 
 
 EBAY_BOOK = PROJECT_ROOT / "Database" / "eBay_listing.xlsx"
@@ -187,6 +188,7 @@ def _build_payload(row, stock_image_ids, production_id):
     sku = str(row.get("SKU") or item_id).strip()
     spec = _spec(row)
     variant_id = spec["variant_id"]
+    metadata = printify_metadata_payload(row)
     gallery = []
     for index, image_id in enumerate(stock_image_ids):
         gallery.append(
@@ -197,9 +199,9 @@ def _build_payload(row, stock_image_ids, production_id):
                 "variant_ids": [variant_id],
             }
         )
-    return {
-        "title": row["Title"],
-        "description": row["Description"],
+    payload = {
+        "title": metadata["title"],
+        "description": metadata["description"],
         "blueprint_id": spec["blueprint_id"],
         "print_provider_id": spec["provider_id"],
         "variants": [
@@ -223,6 +225,11 @@ def _build_payload(row, stock_image_ids, production_id):
         ],
         "images": gallery,
     }
+    # eBay/Etsy buyers should see shipping folded into the item price, not a
+    # surprise extra charge at checkout. Printify exposes this channel setting
+    # in product reads as sales_channel_properties.free_shipping.
+    payload["sales_channel_properties"] = {"free_shipping": True}
+    return payload
 
 
 def _validate_row_assets(row, sticker_gallery_mode="full"):

@@ -18,6 +18,12 @@ from config import Config
 INDEX_PATH = PROJECT_ROOT / "Database" / "Digital_Printable_Pack_Index.csv"
 OUTPUT_PATH = PROJECT_ROOT / "Database" / "Digital_Etsy_Metadata.csv"
 
+PRICE_TIERS = {
+    "traffic": "6.99",
+    "core": "9.97",
+    "premium": "12.99",
+}
+
 
 def _clean(value):
     return re.sub(r"\s+", " ", str(value or "")).strip()
@@ -34,6 +40,35 @@ def _fit_title(value):
             break
         out.append(word)
     return " ".join(out)
+
+
+def _price_tier(row):
+    text = f"{row.get('Title', '')}".lower()
+    premium_terms = [
+        "quiet luxury",
+        "smoky jade",
+        "deep work",
+        "gallery wall",
+        "library",
+        "dark academia",
+        "relic",
+        "collector",
+    ]
+    room_terms = ["reading nook", "study room", "meditation room", "home office", "dorm decor"]
+    premium_score = sum(1 for term in premium_terms if term in text)
+    room_score = sum(1 for term in room_terms if term in text)
+    if premium_score >= 2 and room_score >= 1:
+        return "premium"
+    if premium_score >= 1 or room_score >= 1:
+        return "core"
+    return "traffic"
+
+
+def _suggested_price(row):
+    explicit = str(row.get("Suggested_Etsy_Price") or "").replace("$", "").strip()
+    if explicit:
+        return explicit
+    return PRICE_TIERS[_price_tier(row)]
 
 
 def _fallback(row):
@@ -67,7 +102,7 @@ def _fallback(row):
         "AI disclosure: this artwork is an original AI-assisted design curated, edited, and prepared for printable wall art.\n\n"
         "For personal use only. Do not resell or redistribute the files."
     )
-    return {"Title": title, "Tags": tags[:13], "Description": description, "Price": "6.99"}
+    return {"Title": title, "Tags": tags[:13], "Description": description, "Price": _suggested_price(row)}
 
 
 def _deepseek(row):
@@ -97,6 +132,8 @@ def _deepseek(row):
                         "zip_mb": row["Zip_MB"],
                         "file_ratios": ["2x3", "3x4", "4x5", "5x7", "11x14"],
                         "shop_positioning": "premium Zen, dark academia, jade relic, quiet study decor",
+                        "pricing_rule": "Choose 6.99 for traffic tests, 9.97 for strong room-use/search intent, 12.99 for premium gallery/quiet luxury/dark academia pieces.",
+                        "suggested_price": _suggested_price(row),
                     },
                     ensure_ascii=False,
                 ),
@@ -133,7 +170,10 @@ def _deepseek(row):
     data["Description"] = _clean(data.get("Description") or _fallback(row)["Description"])
     if "digital" not in data["Description"].lower() or "no physical" not in data["Description"].lower():
         data["Description"] = _fallback(row)["Description"]
-    data["Price"] = str(data.get("Price") or "6.99").replace("$", "")
+    proposed_price = str(data.get("Price") or _suggested_price(row)).replace("$", "").strip()
+    if proposed_price not in {"6.99", "9.97", "12.99"}:
+        proposed_price = _suggested_price(row)
+    data["Price"] = proposed_price
     return data
 
 
