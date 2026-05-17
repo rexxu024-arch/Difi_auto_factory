@@ -5450,6 +5450,11 @@ This file is compacted on a seven-day retention cycle. Completed and verified hi
   - `cyberpunk_acid`: SOURCE_SHORTAGE, 16 assets, not publish-ready.
 - Output report: `Reports\Sticker_Liquidation_Report_latest.md`; metadata: `Database\Sticker_Liquidation\Etsy_Sticker_Liquidation_Metadata.csv`.
 
+## 2026-05-16 21:55 ET - Visible Heartbeat Bridge Repair
+- Replaced stale `openclaw-visible-10m-progress-bridge` heartbeat with `openclaw-visible-codex-work-bridge-v2`.
+- New heartbeat is attached to the current OpenClaw chat, runs every 10 minutes, and is explicitly required to choose NOTIFY instead of quiet status.
+- Smoke script check passed: `ensure_monthly_shift_running.ps1` reported the long shift alive with concrete 10-minute and hourly progress data.
+
 ## 2026-05-16 21:32:16 EDT - monthly_shift_loop
 - monthly shift still running; commands_completed=348; last=project_mirror_scorecard; status=OK
 
@@ -5460,3 +5465,140 @@ This file is compacted on a seven-day retention cycle. Completed and verified hi
 - Policy: relaxed draft grids only; no upscale, no upload, no marketplace fee.
 
 - 2026-05-16 21:33:01 EDT: Built Adobe Stock scaffold; families=14; keywords=Database\Adobe_Stock_Keyword_Pack.csv; schema=Database\Adobe_Stock_Metadata_Schema.csv.
+
+- 2026-05-16 21:33:09 EDT: Adobe Stock two-layer schema reconciled; mentor_rows=14; production_rows=0; canonical CSVs separated.
+
+## 2026-05-16 21:33:09 EDT - monthly_shift_loop
+- monthly shift still running; commands_completed=354; last=adobe_stock_two_layer_schema; status=OK
+
+- 2026-05-16 21:33:21 EDT: Adobe Stock metadata QA checked=25; passed=25; held=0; no upload/spend.
+
+## 2026-05-16 21:34:19 EDT - monthly_shift_loop
+- monthly shift still running; commands_completed=360; last=etsy_digital_packet; status=OK
+
+- 2026-05-16 21:35:23 EDT: Adobe Stock Codex-led A/B/C review queue built; families=6; prompts=18; no upload/spend; csv=Database\Adobe_Stock_Codex_AB_Review_Queue.csv.
+
+## 2026-05-16 21:35:23 EDT - monthly_shift_loop
+- monthly shift still running; commands_completed=366; last=adobe_stock_codex_ab_groups; status=OK
+
+## 2026-05-16 21:35 ET - Adobe Stock Codex A/B/C MJ Dispatch Adapter
+- Converted 18 Codex-led Adobe A/B/C prompts to `C:\AIprojects\openclaw_difi\Database\Adobe_Stock_Codex_AB_MJ_Dispatch_Queue.csv`.
+- Policy: relaxed draft grids only; no upscale, no upload, no marketplace fee.
+
+- 2026-05-16 21:35:36 EDT: Built Adobe Stock scaffold; families=14; keywords=Database\Adobe_Stock_Keyword_Pack.csv; schema=Database\Adobe_Stock_Metadata_Schema.csv.
+
+- 2026-05-16 21:35:44 EDT: Adobe Stock two-layer schema reconciled; mentor_rows=14; production_rows=0; canonical CSVs separated.
+
+- 2026-05-16 21:35:57 EDT: Adobe Stock metadata QA checked=25; passed=25; held=0; no upload/spend.
+
+## 2026-05-16 21:36:17 EDT - monthly_shift_loop
+- monthly shift still running; commands_completed=372; last=etsy_external_poll; status=OK
+
+## 2026-05-16 21:38:56 EDT - monthly_shift_loop
+- monthly shift still running; commands_completed=378; last=printify_design_audit; status=OK
+
+- 2026-05-16 21:39:48 EDT: Adobe Stock Codex-led A/B/C review queue built; families=6; prompts=18; no upload/spend; csv=Database\Adobe_Stock_Codex_AB_Review_Queue.csv.
+
+## 2026-05-16 21:39:48 EDT - monthly_shift_loop
+- monthly shift still running; commands_completed=384; last=adobe_stock_codex_ab_groups; status=OK
+
+## 2026-05-16 21:39 ET - Adobe Stock Codex A/B/C MJ Dispatch Adapter
+- Converted 18 Codex-led Adobe A/B/C prompts to `C:\AIprojects\openclaw_difi\Database\Adobe_Stock_Codex_AB_MJ_Dispatch_Queue.csv`.
+- Policy: relaxed draft grids only; no upscale, no upload, no marketplace fee.
+
+- 2026-05-16 21:40:01 EDT: Built Adobe Stock scaffold; families=14; keywords=Database\Adobe_Stock_Keyword_Pack.csv; schema=Database\Adobe_Stock_Metadata_Schema.csv.
+
+- 2026-05-16 21:40:05 EDT: Adobe Stock Mentor expansion built; expanded_dna=280; daily_queue=50; no upload/spend.
+
+- 2026-05-16 21:40:10 EDT: Adobe Stock two-layer schema reconciled; mentor_rows=14; production_rows=0; canonical CSVs separated.
+
+- 2026-05-16 21:40:18 EDT: Adobe Stock image QA source=Adobe_Stock_Pilot_Batch.csv; checked=0; passed=0; held=0; skipped_no_source=25; near_duplicates=0.
+
+- 2026-05-16 21:40:22 EDT: Adobe Stock metadata QA checked=25; passed=25; held=0; no upload/spend.
+
+## 2026-05-16 21:40:22 EDT - monthly_shift_loop
+- monthly shift still running; commands_completed=390; last=adobe_stock_metadata_qa; status=OK
+
+## 2026-05-16 21:42:23 EDT - monthly_shift_loop
+- monthly shift still running; commands_completed=396; last=etsy_digital_packet; status=OK
+
+## 2026-05-16 21:44:01 EDT - monthly_shift_loop
+- monthly shift still running; commands_completed=402; last=project_mirror_scorecard; status=OK
+
+- 2026-05-16 21:44:35 EDT: Adobe Stock Codex-led A/B/C review queue built; families=6; prompts=18; no upload/spend; csv=Database\Adobe_Stock_Codex_AB_Review_Queue.csv.
+
+## 2026-05-16 21:44 ET - Adobe Stock Codex A/B/C MJ Dispatch Adapter
+- Converted 18 Codex-led Adobe A/B/C prompts to `C:\AIprojects\openclaw_difi\Database\Adobe_Stock_Codex_AB_MJ_Dispatch_Queue.csv`.
+- Policy: relaxed draft grids only; no upscale, no upload, no marketplace fee.
+
+- 2026-05-16 21:44:47 EDT: Built Adobe Stock scaffold; families=14; keywords=Database\Adobe_Stock_Keyword_Pack.csv; schema=Database\Adobe_Stock_Metadata_Schema.csv.
+
+- 2026-05-16 21:44:52 EDT: Adobe Stock Mentor expansion built; expanded_dna=280; daily_queue=50; no upload/spend.
+
+## 2026-05-16 21:44:52 EDT - monthly_shift_loop
+- monthly shift still running; commands_completed=408; last=adobe_stock_mentor_expander; status=OK
+
+- 2026-05-16 21:44:56 EDT: Adobe Stock two-layer schema reconciled; mentor_rows=14; production_rows=0; canonical CSVs separated.
+
+- 2026-05-16 21:45:04 EDT: Adobe Stock image QA source=Adobe_Stock_Pilot_Batch.csv; checked=0; passed=0; held=0; skipped_no_source=25; near_duplicates=0.
+
+- 2026-05-16 21:45:08 EDT: Adobe Stock metadata QA checked=25; passed=25; held=0; no upload/spend.
+
+## 2026-05-16 21:46:47 EDT - monthly_shift_loop
+- monthly shift still running; commands_completed=414; last=etsy_external_poll; status=OK
+
+## 2026-05-16 21:48:25 EDT - monthly_shift_loop
+- monthly shift still running; commands_completed=420; last=first_audit_guard; status=OK
+
+- 2026-05-16 21:48:52 EDT: Adobe Stock Codex-led A/B/C review queue built; families=6; prompts=18; no upload/spend; csv=Database\Adobe_Stock_Codex_AB_Review_Queue.csv.
+
+## 2026-05-16 21:49 ET - Adobe Stock Codex A/B/C MJ Dispatch Adapter
+- Converted 18 Codex-led Adobe A/B/C prompts to `C:\AIprojects\openclaw_difi\Database\Adobe_Stock_Codex_AB_MJ_Dispatch_Queue.csv`.
+- Policy: relaxed draft grids only; no upscale, no upload, no marketplace fee.
+
+- 2026-05-16 21:49:54 EDT: Adobe Stock metadata QA checked=25; passed=25; held=0; no upload/spend.
+
+## 2026-05-16 21:50:33 EDT - monthly_shift_loop
+- monthly shift still running; commands_completed=426; last=etsy_external_poll; status=OK
+
+## 2026-05-16 21:51:53 EDT - monthly_shift_loop
+- monthly shift still running; commands_completed=432; last=first_audit_guard; status=OK
+
+- 2026-05-16 21:52:20 EDT: Adobe Stock Codex-led A/B/C review queue built; families=6; prompts=18; no upload/spend; csv=Database\Adobe_Stock_Codex_AB_Review_Queue.csv.
+
+## 2026-05-16 21:52 ET - Adobe Stock Codex A/B/C MJ Dispatch Adapter
+- Converted 18 Codex-led Adobe A/B/C prompts to `C:\AIprojects\openclaw_difi\Database\Adobe_Stock_Codex_AB_MJ_Dispatch_Queue.csv`.
+- Policy: relaxed draft grids only; no upscale, no upload, no marketplace fee.
+
+- 2026-05-16 21:52:34 EDT: Built Adobe Stock scaffold; families=14; keywords=Database\Adobe_Stock_Keyword_Pack.csv; schema=Database\Adobe_Stock_Metadata_Schema.csv.
+
+- 2026-05-16 21:52:42 EDT: Adobe Stock two-layer schema reconciled; mentor_rows=14; production_rows=0; canonical CSVs separated.
+
+- 2026-05-16 21:52:54 EDT: Adobe Stock metadata QA checked=25; passed=25; held=0; no upload/spend.
+
+## 2026-05-16 21:52:55 EDT - monthly_shift_loop
+- monthly shift still running; commands_completed=438; last=adobe_stock_metadata_qa; status=OK
+
+## 2026-05-16 21:54:17 EDT - monthly_shift_loop
+- monthly shift still running; commands_completed=444; last=ebay_traffic_diagnosis; status=OK
+
+- 2026-05-16 21:55:04 EDT: Adobe Stock Codex-led A/B/C review queue built; families=6; prompts=18; no upload/spend; csv=Database\Adobe_Stock_Codex_AB_Review_Queue.csv.
+
+## 2026-05-16 21:55 ET - Adobe Stock Codex A/B/C MJ Dispatch Adapter
+- Converted 18 Codex-led Adobe A/B/C prompts to `C:\AIprojects\openclaw_difi\Database\Adobe_Stock_Codex_AB_MJ_Dispatch_Queue.csv`.
+- Policy: relaxed draft grids only; no upscale, no upload, no marketplace fee.
+
+## 2026-05-16 21:55:10 EDT - monthly_shift_loop
+- monthly shift still running; commands_completed=450; last=adobe_stock_ab_mj_queue; status=OK
+
+- 2026-05-16 21:55:18 EDT: Built Adobe Stock scaffold; families=14; keywords=Database\Adobe_Stock_Keyword_Pack.csv; schema=Database\Adobe_Stock_Metadata_Schema.csv.
+
+- 2026-05-16 21:55:26 EDT: Adobe Stock two-layer schema reconciled; mentor_rows=14; production_rows=0; canonical CSVs separated.
+
+- 2026-05-16 21:55:37 EDT: Adobe Stock metadata QA checked=25; passed=25; held=0; no upload/spend.
+
+## 2026-05-16 21:56:03 EDT - monthly_shift_loop
+- monthly shift still running; commands_completed=456; last=etsy_pod_selector; status=OK
+
+## 2026-05-16 21:57:12 EDT - monthly_shift_loop
+- monthly shift still running; commands_completed=462; last=first_audit_guard; status=OK
