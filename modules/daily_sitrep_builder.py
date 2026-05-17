@@ -137,6 +137,31 @@ def _execution_decision_lines() -> list[str]:
     return lines
 
 
+def _monthly_loop_failure_traceback() -> list[str]:
+    path = BRIDGE_DIR / "TO_GREY_MONTHLY_LOOP_FAILURE_TRACEBACK_latest.md"
+    if not path.exists():
+        return ["- No monthly-loop failure traceback packet found yet."]
+    text = _read(path, max_chars=4200)
+    wanted: list[str] = []
+    capture = False
+    for line in text.splitlines():
+        if line.startswith("## Rex's Requirement Was Not Ambiguous"):
+            capture = True
+        elif line.startswith("## Corrected Model"):
+            capture = True
+        elif line.startswith("## New Guardrail To Audit"):
+            capture = True
+        elif line.startswith("## Codex Self-Correction Commitment"):
+            capture = True
+        elif line.startswith("## ") and capture:
+            capture = False
+        if capture and line.strip():
+            wanted.append(line)
+    if not wanted:
+        wanted = text.splitlines()[-40:]
+    return [f"- {line}" if not line.startswith(("#", "-", "1.", "2.", "3.", "4.", "5.", "6.")) else line for line in wanted[:80]]
+
+
 def build(system_status: str = "NORMAL") -> str:
     BRIDGE_DIR.mkdir(parents=True, exist_ok=True)
     now = datetime.now(ZoneInfo("America/New_York")).strftime("%Y-%m-%d %H:%M:%S %z")
@@ -160,7 +185,10 @@ def build(system_status: str = "NORMAL") -> str:
         *_execution_decision_lines(),
         f"- Current backlog read: {_backlog_brief()}",
         "",
-        "4. Roadblocks:",
+        "4. Monthly Loop Failure Traceback For Grey:",
+        *_monthly_loop_failure_traceback(),
+        "",
+        "5. Roadblocks:",
         "- Adobe Contributor live upload is blocked until Rex logs into the dedicated Edge/CDP profile; local first-submit pack is ready.",
         "- eBay 0-view remains high; ads alone are not enough, and Printify-origin active items are not fully writable through Inventory API.",
         "- Gallery Integrity remains a publish guard: repeated/risky buyer-facing image galleries must be repaired or isolated before scaling POD.",

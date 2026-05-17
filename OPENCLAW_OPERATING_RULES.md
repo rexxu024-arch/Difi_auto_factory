@@ -224,6 +224,8 @@ Current workstreams:
 ## Continue Monthly Task Contract
 
 - A Rex/manual `继续月任务` command means one continuous work block, not one small action.
+- Failure-trace rule: Rex's long-shift requirement was not ambiguous. If the loop degrades into short heartbeat-sized chunks again, treat it as a Codex execution-model failure, not a Rex instruction problem. Do not spend days reinterpreting the ask; return to the primitive continuous work loop.
+- Turn-close hook rule: before Codex sends any final/last response that may leave this chat idle, run `scripts\openclaw_turn_close_hook.ps1`. This hook must ensure the long-shift loop is alive and write `Database\OpenClaw_Chat_Turn_Close.trigger.json`. The 10-minute heartbeat is backup only, never the primary work cadence.
 - Default work block target is adaptive, not fixed: run until the forecast/resource-based duty deadline for that day, not a hard-coded 05:30/06:00 boundary.
 - The historical 05:30/06:00 winddown is only a fallback when no weather-aware deadline is available.
 - In hot season, the duty deadline is computed from `Database/Thermal_Task_Schedule.json`: heavy production should run through the next safe cool window (<80F forecast) and wind down when that cool window ends or when hardware/account/fee/Rex-needed guards require it.
