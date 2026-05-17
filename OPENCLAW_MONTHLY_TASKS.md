@@ -2,12 +2,12 @@
 
 Last updated: 2026-05-09 ET
 
-This file is the durable monthly-task contract. When Rex says "continue monthly tasks", Codex should read this file, `CURRENT_TASK.md`, `OPENCLAW_OPERATING_RULES.md`, `PROGRESS_LOG.md`, `Database/Strategic_Mode.json`, `Database/Factory_Backlog.csv`, and `Database/Monthly_Shift_Loop_State.md`, then execute the primitive long-shift loop.
+This file is the durable monthly-task contract. When Rex says "continue monthly tasks", or when the heartbeat wakes this chat, Codex itself should read this file, `CURRENT_TASK.md`, `OPENCLAW_OPERATING_RULES.md`, `PROGRESS_LOG.md`, `Database/Strategic_Mode.json`, `Database/Factory_Backlog.csv`, and the latest local state files, then directly execute a supervised task drain. Local scripts are tools, not the owner of the shift.
 
 Automation policy:
-- Old 10-minute worker/daemon/dispatcher logic is deleted.
-- `continue monthly tasks` maps to a primitive while loop through `scripts\continue_monthly_tasks_5h.cmd`.
-- The 05:00 ET heartbeat is winddown/admin only, not the production worker.
+- Old 10-minute worker/daemon/dispatcher logic is not the production model for the current phase.
+- `continue monthly tasks` maps to Codex-in-chat reading the durable task files and executing a long supervised drain across eligible tasks.
+- Heartbeats exist to wake Codex back into the thread when the chat would otherwise go idle. They are not a substitute for Codex judgment.
 - Active raw logs use a 7-day retention window. The watchdog runs `modules\log_retention_archive.py`; it backs up and archives old raw detail, then keeps the active `PROGRESS_LOG.md` focused on progress bars, risk anchors, and the last seven days of raw work.
 
 ## Execution Contract - Codex Is The Active Worker
@@ -19,8 +19,8 @@ Automation policy:
 - HUD rule: the local dashboard is for visibility. It does not mean Codex is absent or that a background script has permission to make judgment calls.
 - AI-delegation rule: if Codex attention must be freed later, judgment can be delegated only to an explicit low-cost AI reviewer with budget guards and saved responses. Do not replace Codex judgment with ordinary scripts.
 - "Continue monthly tasks" means: pick the highest-priority safe task, execute it, refresh backlog/state, then immediately pick the next task until a real guard stops work, the 05:30 ET winddown window begins, or all eligible tasks are verified complete.
-- Daily shift rule: one Rex "start/continue monthly tasks" command runs `scripts\continue_monthly_tasks_5h.cmd`, not a short script and not a persistent daemon.
-- Heartbeat role: 05:00 ET admin/winddown only. It must not become the work rhythm.
+- Daily shift rule: one Rex "start/continue monthly tasks" command should produce a long Codex-supervised work block, not a short script and not a passive daemon check.
+- Heartbeat role: wake Codex, read the durable task list, execute supervised progress, then report useful progress. It must not become a passive health rhythm.
 - Default-chat rule: this thread treats "continue monthly tasks" as an execution command, not a reporting command. The expected result is concrete state change, not unchanged health counters.
 - Loop rule: after each task, move to the next command in the fixed safe array. If a command has no work, it logs and the loop continues instead of stopping.
 - Do not spend cycles on cosmetic automation complexity while core production, QA, marketplace experiments, or private showcase gaps remain open.
@@ -29,10 +29,10 @@ Automation policy:
 - Reporting is not progress unless it directly unlocks a decision, records a blocker, or closes a task. Default to building, QA, packaging, API-safe diagnostics, or market experiment preparation.
 - Log cleanup is not production work. It is allowed as tiny maintenance only because it prevents context bloat; it must not touch assets, databases, CSV queues, marketplace state, credentials, or anything not explicitly classified as a log/archive.
 - Rex-action blocker reporting rule: permissions, account eligibility, OAuth/app approval, billing, login/security warnings, and marketplace account settings that likely require Rex must be captured in the 05:30 ET Gemini/Grey web-thread report and the Rex action packet the same morning. Do not let these blockers sit silently across days; if they block a cash-flow lane, write the exact URL/page, observed error, and the smallest Rex action needed.
-- Current implementation rule: automation is for memory, guardrails, and repetitive verified chores only. When Rex is watching the computer or leaves Codex open, Codex-in-thread must keep doing the actual sequence of work. Do not replace real execution with a health report.
+- Current implementation rule: automation is for memory, guardrails, repetitive verified chores, and waking the chat. When Rex leaves Codex open, Codex-in-thread remains the primary executor. Do not replace real execution with a health report, daemon status, or unchanged counters.
 - Network watchdog rule: during normal monthly-task loops, periodically run `py modules\network_path_monitor.py --expected-alias "Ethernet 3"`. It should quietly log current default route, Ethernet link speed, and Wi-Fi state. Notify Rex only if active network path stops being `Ethernet 3`, Ethernet drops below Up/1 Gbps, or repeated alerts appear.
 - 48-hour network sampling rule: from 2026-05-13 12:19 ET to 2026-05-15 12:19 ET, Windows Task Scheduler runs `OpenClaw Network Path Sampler` every 10 minutes. Do not notify Rex on normal samples. Use `py modules\network_path_summary.py --expected-alias "Ethernet 3"` to decide whether the Ethernet adapter is likely unstable.
-- Continuity proof: `modules\monthly_shift_loop.py` writes `Database\Monthly_Shift_Loop_State.md` and `Database\OpenClaw_Next_Action.trigger.json`. Use those files to verify whether the loop is actively stepping through commands.
+- Continuity proof: use local state files only as evidence of what happened, not as proof that Codex can disengage. If state shows no meaningful progress, Codex must directly pick and run the next safe task.
 - SSD infrastructure rule: Rex bought a PNY 1TB SSD, expected in about one week from 2026-05-13. Until it arrives, keep C: pressure low by avoiding duplicate raw assets. Run `py modules\ssd_migration_plan.py` as a planning-only task. When the drive arrives, migrate heavy asset folders (`Output`, `Release`, `First_Audit_Release`, harvest folders, Adobe Stock batches) to the SSD with checksum verification and NTFS junctions, while keeping `.env`, browser profiles, active databases, `.git`, source code, and `.venv` on the internal disk unless benchmarking proves otherwise.
 
 ## Active Concrete Queue
@@ -160,6 +160,7 @@ Rules:
 - Do not spend the 200-listing Etsy test pool quickly. Use it as a 3-5 week Darwinian experiment budget so Etsy can learn the shop gradually and so OpenClaw can observe which pools earn views/favorites/orders.
 - Avoid spam-like frequency. Use controlled batches, varied timing, varied product pools, and Etsy-native copy.
 - Etsy copy must be Etsy-native: artistic, warm, giftable, decor/persona/room-use focused, with proper 13-tag strategy where applicable.
+- Sticker liquidation digital bundles are fixed at 20-image small packs and a 50-image mega vault. Specs belong mainly in the description; titles may mention only buyer-critical value such as `20+`, `50+`, `High Resolution`, `PNG`, or `Bundle`.
 - Titles, tags, descriptions, pricing, product photos, and digital/physical distinction must be checked before publish.
 - Etsy image-count rule from Seller Hub: listings with too few photos get search-visibility improvement warnings. Digital products should not ship with a single preview only; build at least 4-6 preview images when possible (cover, content preview, usage context, detail zoom, file/dimension note). POD listings should keep official Printify mockups plus design/close-up images without duplicating the same image repeatedly.
 - Usage-scene image rule: scene/mockup images must preserve the exact product identity. Do not let Midjourney reinterpret the product. Use the original production/cover image as a high-weight locked image reference; keep subject shape/pattern/color/proportion unchanged, and only vary room context, camera, lighting, crop, and styling. Default MJ scene prompt should use low chaos/stylize, strong identity language (`preserve exact product design, no redesign, no pattern changes`), and the highest practical image weight. If identity drift is visible, mark HOLD instead of using the scene image.

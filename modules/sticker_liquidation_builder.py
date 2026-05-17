@@ -464,10 +464,10 @@ def build() -> dict[str, object]:
             )
 
     # Mega vault uses a balanced mix from the whole sticker reference archive.
-    # Small packs can stay underfilled if a niche lacks source material, but the
-    # anchor product should still reach 100+ by pulling additional clean Zen /
-    # Academia U-assets. This preserves the original sticker folders as internal
-    # references and creates only sanitized digital-bundle copies.
+    # Fixed Rex rule: small packs target 20 assets; mega vault targets 50 assets.
+    # Do not return to the old 100+ concept unless Rex explicitly reopens it.
+    # Original sticker folders remain internal references; this creates only
+    # sanitized digital-bundle copies for Etsy digital downloads.
     mega_dir = ASSET_ROOT / "mega_vault"
     if mega_dir.exists():
         shutil.rmtree(mega_dir)
@@ -491,25 +491,23 @@ def build() -> dict[str, object]:
             item_id = folder_item_id(folder)
             u_match = re.search(r"_U([1-4])_", src.name)
             u_label = f"u{u_match.group(1)}" if u_match else "u"
-            dest_name = f"{slug(item_id)}_{u_label}.png"
-            temp_dir = ASSET_ROOT / "_mega_extra"
-            temp_dir.mkdir(parents=True, exist_ok=True)
-            dest = temp_dir / f"{extra_counter:03d}_{dest_name}"
-            sanitize_png(src, dest)
-            if str(dest) not in existing_sources:
-                mega_sources.append(dest)
-                existing_sources.add(str(dest))
+            if str(src) not in existing_sources:
+                mega_sources.append(src)
+                existing_sources.add(str(src))
                 extra_counter += 1
 
     for src in mega_sources[: PACKS["mega_vault"].max_assets]:
         subfolder = "dark_academia" if "dark_academia" in src.parts else "zen_jade"
         if "cyberpunk_acid" in src.parts:
             subfolder = "cyberpunk_acid"
-        elif "_mega_extra" in src.parts:
+        elif SOURCE_ROOT in src.parents:
             subfolder = "bonus_archive"
         dest = mega_dir / subfolder / src.name
         dest.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(src, dest)
+        if SOURCE_ROOT in src.parents:
+            sanitize_png(src, dest)
+        else:
+            shutil.copy2(src, dest)
         sanitized_by_pack["mega_vault"].append(dest)
 
     listing_rows: list[dict[str, str]] = []

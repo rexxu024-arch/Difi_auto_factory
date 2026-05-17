@@ -17,7 +17,9 @@ Current execution status:
 - Market evidence gate is now mandatory for revenue products: `modules/market_research_gate.py`, `Reports/Market_Evidence_Gate_latest.md`.
 - Adobe Stock contributor account is ready from Rex side, but first batch must be rebuilt to the higher-quality macro/material standard before upload.
 - Sticker bundle builder exists and produces ZIP/preview/metadata outputs under `Release/Digital_Warehouse/` and `Database/Sticker_Liquidation/`.
+- Sticker liquidation pack size is locked: small style packs use 20 images each; the mega vault uses 50 images. Do not revert to the old 30/100 plan unless Rex explicitly approves after a file-size and buyer-expectation review.
 - Etsy/eBay daily drip remains active but lower than Adobe + Sticker bundle work for this 3-day window.
+- Codex participation rule: for the next 2-3 weeks, every `continue monthly tasks` / heartbeat wake is a chat-model supervised work turn. The local long-shift loop may execute deterministic arms, but Codex must own prioritization, QA/risk judgment, blocker isolation, and cross-project progress. Do not stop after one small script if higher-value work remains.
 
 ---
 

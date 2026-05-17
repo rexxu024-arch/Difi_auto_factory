@@ -72,7 +72,11 @@ scripts\continue_monthly_tasks_5h.cmd
 ## Codex-Supervised Execution Rule
 
 - The UI and local scripts are observability and conveyor-belt tools. They do not replace Codex as the active supervisor.
+- For the next 2-3 weeks, the expected default is chat-model-led execution. The long-shift loop is a tool that holds state and executes deterministic arms; it is not the owner of business judgment.
 - Default operating mode is `CODEX_SUPERVISED`: Codex should remain involved in judgment, repair, strategy, visual QA, pricing, marketplace risk, API schema changes, and any task that can affect account health, spend, brand quality, or public listings.
+- A heartbeat or a bare `continue monthly tasks` must be treated as a Codex work turn, not as a passive health check. On each wake, Codex must read the durable task files, inspect current state, and perform a supervised drain: execute or direct as many safe, high-priority tasks as the current turn/tool window permits.
+- The correct stopping condition for a Codex work turn is a real guard, a required Rex decision, a platform/account/privacy/spend/hardware risk, an external wait that blocks every higher-value safe lane, or the model/tool runtime limit. Finishing one script, one report, one QA pass, or one short local packet is not a valid stop condition while eligible work remains.
+- If a steer-conversation answer ends and Rex did not explicitly stop/pause, Codex must immediately return to the supervised drain. The answer itself is not the work shift.
 - A script may run without active Codex judgment only when the task is all of the following:
   - deterministic and low-complexity;
   - repeatedly validated on this project with successful dry-run/readback evidence;
@@ -84,6 +88,18 @@ scripts\continue_monthly_tasks_5h.cmd
 - Rex's ideal target is that Codex is materially involved in at least 95% of non-trivial work until the pipeline has been explicitly proven stable. Automation is allowed to reduce hand labor only after validation, not before.
 - A dashboard "alive" status only means the conveyor belt is running. It does not mean the work is strategically correct, safe to scale, or exempt from Codex review.
 - If future scale requires freeing Codex attention, judgment may be delegated only to a bounded low-cost AI review lane such as DeepSeek/Gemini/other approved API, with explicit prompt, budget guard, output capture, and Codex/Rex review rules. Plain scripts must never impersonate business, aesthetic, account-risk, or marketplace judgment.
+
+## Heartbeat Supervised Drain Contract
+
+- The `openclaw-visible-10m-progress-bridge` heartbeat exists to pull Codex back into the thread and make Codex participate, not to prove that a background PID exists.
+- Every heartbeat must do three things in order:
+  1. verify or restart the local long-shift loop;
+  2. read `CURRENT_TASK.md`, `OPENCLAW_MONTHLY_TASKS.md`, this file, `PROGRESS_LOG.md`, and the latest shift/brief state;
+  3. perform concrete Codex-supervised progress or a concrete correction before reporting.
+- Concrete progress can be direct local work, safe API/readback work, queue repair, quality review, market evidence packet generation, blocker isolation, or reprioritizing the next command so the local loop follows Rex's current priorities.
+- A heartbeat that only reports `alive`, `current_command`, or unchanged counters is defective unless all safe lanes are blocked and the blocker is named.
+- The heartbeat report should be short but useful: include project percentages, what changed since the previous visible heartbeat, current command, and any Rex-needed blocker. The 10-minute report is proof of motion; the 1-2 hour report is strategic progress.
+- This contract is intentionally simple. Do not add nested dispatchers or clever daemons to solve it. If the heartbeat can wake Codex, Codex should use that turn to supervise and move the business forward.
 
 ## Rex Instruction Triage Rule
 
