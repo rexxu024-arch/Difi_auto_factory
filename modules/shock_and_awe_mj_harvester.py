@@ -44,6 +44,7 @@ TERMINAL_HARVEST_STATES = {
     "GRID_FOUND",
     "GRID_TIMEOUT_HOLD",
     "HARVEST_HOLD",
+    "HARVEST_HOLD_DUPLICATE_GRID_ID",
     "VISUAL_QA_HOLD_IDENTITY_DRIFT",
 }
 GRID_WAIT_MAX_ATTEMPTS = 12
@@ -175,6 +176,16 @@ def message_has_signature(message: dict, signature: str) -> bool:
     return bool(signature and signature in message_text(message))
 
 
+def id_after(message_id: str, anchor_id: str) -> bool:
+    """Discord snowflakes increase over time; use them to avoid old prompt matches."""
+    if not anchor_id:
+        return True
+    try:
+        return int(clean(message_id)) > int(clean(anchor_id))
+    except ValueError:
+        return True
+
+
 def find_grid_message(messages: list[dict], row: dict[str, str], excluded_ids: set[str] | None = None) -> dict | None:
     excluded_ids = excluded_ids or set()
     grid_id = clean(row.get("Grid_Message_ID"))
@@ -197,6 +208,8 @@ def find_grid_message(messages: list[dict], row: dict[str, str], excluded_ids: s
         if "Image #" in clean(message.get("content")):
             continue
         if mj_harvest._is_incomplete_midjourney_message(message):
+            continue
+        if confirm_id and not id_after(message_id, confirm_id):
             continue
         if message_has_signature(message, signature):
             return message
@@ -291,6 +304,12 @@ def find_u_messages(messages: list[dict], row: dict[str, str]) -> dict[str, dict
         if grid_id and clean(mj_harvest._message_reference_id(message)) == grid_id:
             found[idx] = message
             continue
+        if grid_id:
+            # Once a concrete grid message is known, U images must be tied to
+            # that Discord reference. Signature fallback is useful only before
+            # a grid id exists; otherwise similar stock prompts can steal older
+            # U-buttons and silently duplicate prior assets.
+            continue
         if message_has_signature(message, signature):
             found[idx] = message
     return found
@@ -312,12 +331,19 @@ def harvest(limit: int, queue: Path = DEFAULT_QUEUE, trigger_upscales: bool = Fa
 
     messages = fetch_recent_messages_paged(DISCORD_HISTORY_SCAN_LIMIT)
     touched = 0
+    assigned_grid_ids = {
+        clean(existing.get("Grid_Message_ID"))
+        for existing in rows
+        if clean(existing.get("Grid_Message_ID"))
+    }
     used_grid_ids: set[str] = set()
     for row in candidates[: max(1, limit)]:
         sku = clean(row.get("Internal_SKU"))
         out = output_dir(row)
         try:
-            grid = resolve_grid_message(messages, row, excluded_ids=used_grid_ids)
+            current_grid_id = clean(row.get("Grid_Message_ID"))
+            other_assigned_grid_ids = {gid for gid in assigned_grid_ids if gid and gid != current_grid_id}
+            grid = resolve_grid_message(messages, row, excluded_ids=used_grid_ids | other_assigned_grid_ids)
             if not grid:
                 attempts, age_minutes = increment_grid_wait(row)
                 if attempts >= GRID_WAIT_MAX_ATTEMPTS or age_minutes >= GRID_WAIT_MAX_MINUTES:
@@ -338,6 +364,7 @@ def harvest(limit: int, queue: Path = DEFAULT_QUEUE, trigger_upscales: bool = Fa
                 continue
 
             row["Grid_Message_ID"] = clean(grid.get("id"))
+            assigned_grid_ids.add(row["Grid_Message_ID"])
             used_grid_ids.add(row["Grid_Message_ID"])
             row_min_dim = min_upscale_dim(row)
             grid_file = out / f"{sku}_Grid.png"

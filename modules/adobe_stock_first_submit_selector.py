@@ -24,16 +24,18 @@ FACTORY = PROJECT_ROOT / "adobe_stock_factory"
 REVIEW = PROJECT_ROOT / "Review_Packets"
 NY_TZ = ZoneInfo("America/New_York")
 
-SOURCE_INDEX = DATABASE / "Adobe_Stock_Upload_Ready.csv"
+SOURCE_INDEX = DATABASE / "Adobe_Stock_Daily_Upload_Ready.csv"
 
 PREFERRED_FAMILIES = [
-    "Carbon Fiber",
-    "Aged Bronze Patina",
-    "Architectural Concrete",
-    "Champagne Frosted Glass",
+    "Nero Marble",
+    "Kintsugi Marble",
+    "Brushed Titanium",
+    "Manhattan Order",
     "Smoky Jade",
-    "Travertine Plaster",
     "Walnut Burl",
+    "Travertine Plaster",
+    "Linen Canvas",
+    "Champagne Frosted Glass",
 ]
 
 ADOBE_FIELDS = ["Filename", "Title", "Keywords", "Category", "Releases"]
@@ -96,6 +98,8 @@ def load_font(size: int, bold: bool = False) -> ImageFont.ImageFont:
 
 def select_first_submit(rows: list[dict[str, str]], limit: int) -> list[dict[str, str]]:
     selected: list[dict[str, str]] = []
+    used_files: set[str] = set()
+    used_ids: set[str] = set()
     by_family: dict[str, list[dict[str, str]]] = {}
     for row in rows:
         family = row.get("Family", "").strip()
@@ -103,16 +107,26 @@ def select_first_submit(rows: list[dict[str, str]], limit: int) -> list[dict[str
             by_family.setdefault(family, []).append(row)
     for family in PREFERRED_FAMILIES:
         bucket = by_family.get(family, [])
-        if bucket:
-            selected.append({**bucket[0], "First_Submit_Rank": str(len(selected) + 1)})
+        for candidate in bucket:
+            filename = candidate.get("Filename", "")
+            asset_id = candidate.get("Parent_Asset_ID", "")
+            if filename in used_files or asset_id in used_ids:
+                continue
+            selected.append({**candidate, "First_Submit_Rank": str(len(selected) + 1)})
+            used_files.add(filename)
+            used_ids.add(asset_id)
+            break
         if len(selected) >= limit:
             break
     if len(selected) < limit:
-        used = {row.get("Filename", "") for row in selected}
         for row in rows:
-            if row.get("Filename", "") in used:
+            filename = row.get("Filename", "")
+            asset_id = row.get("Parent_Asset_ID", "")
+            if filename in used_files or asset_id in used_ids:
                 continue
             selected.append({**row, "First_Submit_Rank": str(len(selected) + 1)})
+            used_files.add(filename)
+            used_ids.add(asset_id)
             if len(selected) >= limit:
                 break
     return selected

@@ -20,6 +20,7 @@ LOG_PATH = DATABASE_DIR / "System_Resource_Allocation.csv"
 COOLDOWN_PATH = DATABASE_DIR / "Hardware_Cooldown_State.json"
 AMBIENT_WEATHER_PATH = DATABASE_DIR / "Ambient_Weather_State.json"
 RED_ALERT_PATH = DATABASE_DIR / "Thermal_Red_Alert.json"
+THERMAL_OVERRIDE_PATH = DATABASE_DIR / "Thermal_Override.json"
 NY = ZoneInfo("America/New_York")
 
 
@@ -396,8 +397,42 @@ def _load_ambient_weather():
     return data
 
 
+def _load_thermal_override():
+    default = {
+        "ac_override_active": False,
+        "ac_override_until_et": None,
+        "note": (
+            "Rex may set ac_override_active=true while AC/fan cooling is on. "
+            "This relaxes ambient-weather limits only; CPU/memory hard guards still apply."
+        ),
+    }
+    if not THERMAL_OVERRIDE_PATH.exists():
+        THERMAL_OVERRIDE_PATH.write_text(json.dumps(default, indent=2), encoding="utf-8")
+        return default
+    try:
+        data = json.loads(THERMAL_OVERRIDE_PATH.read_text(encoding="utf-8"))
+    except Exception:
+        return default
+    if not data.get("ac_override_active"):
+        return {**default, **data, "ac_override_active": False}
+    until = parse_iso(data.get("ac_override_until_et"))
+    if until and until <= now():
+        data["ac_override_active"] = False
+        data["expired_at_et"] = now().isoformat(timespec="seconds")
+        THERMAL_OVERRIDE_PATH.write_text(json.dumps({**default, **data}, indent=2), encoding="utf-8")
+        return {**default, **data, "ac_override_active": False}
+    return {**default, **data, "ac_override_active": True}
+
+
 def _write_state(state):
     STATE_PATH.write_text(json.dumps(state, indent=2), encoding="utf-8")
+
+
+def _compact_reason(reason: str, limit: int = 420) -> str:
+    text = str(reason).replace("\r", " ").replace("\n", " ")
+    if len(text) <= limit:
+        return text
+    return text[: limit - 24].rstrip() + " ... [truncated]"
 
 
 def _append_log(allocation: Allocation):
@@ -417,7 +452,8 @@ def _write_cooldown(allocation: Allocation, snapshot: ResourceSnapshot):
         "active": True,
         "updated_at_et": allocation.timestamp,
         "cooldown_until": cooldown_until.isoformat(timespec="seconds"),
-        "reason": allocation.reason,
+        "reason": _compact_reason(allocation.reason),
+        "summary_reason": _compact_reason(allocation.reason, 180),
         "temperature_c": allocation.temperature_c,
         "cpu_load_pct": allocation.cpu_load_pct,
         "memory_used_pct": allocation.memory_used_pct,
@@ -463,6 +499,8 @@ def choose_allocation(task_class="auto", priority=50, snapshot=None, policy=None
     mem = snapshot.memory_used_pct
     hot_now = False
     ambient = _load_ambient_weather()
+    thermal_override = _load_thermal_override()
+    ac_override_active = bool(thermal_override.get("ac_override_active"))
     current_f = _first_float(ambient.get("current_f"))
     today_high_f = _first_float(ambient.get("today_high_f"))
     hot_day_f = _first_float(policy.get("location", {}).get("hot_day_high_f")) or 88
@@ -477,6 +515,10 @@ def choose_allocation(task_class="auto", priority=50, snapshot=None, policy=None
         weather_heavy_allowed = ambient.get("heavy_allowed_now_by_weather")
         next_cool_window = ambient.get("next_cool_heavy_window_et")
         reasons.append(f"ambient Jersey City current={current_f}F high={today_high_f}F")
+        if ac_override_active:
+            reasons.append(
+                "AC override active: ambient heat limits relaxed; CPU/memory hard guards remain active"
+            )
     elif ambient:
         reasons.append("ambient weather stale; using local resource proxy only")
 
@@ -498,16 +540,40 @@ def choose_allocation(task_class="auto", priority=50, snapshot=None, policy=None
     if cpu is not None and cpu >= thresholds["cpu_cooldown_pct"]:
         hot_now = True
         reasons.append(f"cpu high {cpu:.1f}%")
+        if cpu >= 98:
+            reasons.append("cpu proxy spike; requires sustained streak before pause")
+        if decision == "RUN":
+            decision = "RUN_CONSERVATIVE"
     elif cpu is not None and cpu >= thresholds["cpu_reduce_pct"] and decision == "RUN":
         decision = "RUN_CONSERVATIVE"
         reasons.append(f"cpu elevated {cpu:.1f}%")
+    low_memory_safe_classes = {
+        "hardware_heartbeat",
+        "report_batch",
+        "local_light",
+        "queue_planning",
+        "api_read",
+        "memory_cleanup",
+        "git_checkpoint",
+        "sticker_zip_packaging",
+    }
+
     if mem is not None and mem >= thresholds["memory_cooldown_pct"]:
         hot_now = True
-        if task_class == "memory_cleanup":
+        if mem >= 98:
+            if task_class in low_memory_safe_classes:
+                decision = "RUN_CONSERVATIVE"
+                reasons.append(f"memory critical {mem:.1f}%; continue low-memory-safe work")
+            else:
+                decision = "PAUSE_COOLDOWN"
+                cooldown = max(cooldown, temps["cooldown_minutes"])
+                reasons.append(f"memory critical {mem:.1f}%; pause heavy/nonessential work")
+        elif task_class == "memory_cleanup" and decision != "PAUSE_COOLDOWN":
             decision = "RUN_CONSERVATIVE"
             reasons.append(f"memory high {mem:.1f}%; run cleanup before any pause")
         else:
-            reasons.append(f"memory high {mem:.1f}%")
+            decision = "RUN_CONSERVATIVE" if decision == "RUN" else decision
+            reasons.append(f"memory high {mem:.1f}%; conservative until sustained")
     elif mem is not None and mem >= thresholds["memory_reduce_pct"] and decision == "RUN":
         decision = "RUN_CONSERVATIVE"
         reasons.append(f"memory elevated {mem:.1f}%")
@@ -528,12 +594,12 @@ def choose_allocation(task_class="auto", priority=50, snapshot=None, policy=None
     if heavy_deferred_by_window:
         cpu_hot = cpu is not None and cpu >= thresholds["cpu_reduce_pct"]
         mem_hot = mem is not None and mem >= thresholds["memory_reduce_pct"]
+        ambient_blocks_heavy = (hot_ambient_day or weather_heavy_allowed is False) and not ac_override_active
         if (
             window.get("name") == "thermal_siesta"
-            and not hot_ambient_day
+            and not ambient_blocks_heavy
             and not cpu_hot
             and not mem_hot
-            and weather_heavy_allowed is not False
         ):
             if decision == "RUN":
                 decision = "RUN_CONSERVATIVE"
@@ -541,13 +607,18 @@ def choose_allocation(task_class="auto", priority=50, snapshot=None, policy=None
         else:
             decision = "DEFER_TO_NIGHT"
             reasons.append(f"{task_class} deferred by {window.get('name')} heat window")
-    if extreme_ambient_day and task_class in {"image_batch", "asset_build", "upscale_batch", "bulk_download", "local_heavy"}:
+    if (
+        extreme_ambient_day
+        and not ac_override_active
+        and task_class in {"image_batch", "asset_build", "upscale_batch", "bulk_download", "local_heavy"}
+    ):
         decision = "DEFER_TO_NIGHT"
         reasons.append(f"{task_class} deferred by extreme ambient heat forecast")
     if (
         not ambient.get("stale")
         and task_class in {"image_batch", "asset_build", "upscale_batch", "bulk_download", "local_heavy"}
         and weather_heavy_allowed is False
+        and not ac_override_active
     ):
         decision = "DEFER_TO_NIGHT"
         reasons.append(f"{task_class} deferred by hourly forecast >=80F; next cool window={next_cool_window or 'unknown'}")
@@ -556,7 +627,7 @@ def choose_allocation(task_class="auto", priority=50, snapshot=None, policy=None
         "single_browser_task",
         "market_research",
     }:
-        if hot_ambient_day or (cpu is not None and cpu >= thresholds["cpu_reduce_pct"]):
+        if (hot_ambient_day and not ac_override_active) or (cpu is not None and cpu >= thresholds["cpu_reduce_pct"]):
             decision = "DEFER_TO_NIGHT"
             reasons.append(f"{task_class} deferred by thermal siesta account-safety/heat window")
         elif decision == "RUN":
@@ -580,8 +651,13 @@ def choose_allocation(task_class="auto", priority=50, snapshot=None, policy=None
             "online_publish_safe",
             "memory_cleanup",
         }
-        reasons.append(f"hardware cooldown active {max(1, remaining)}m: {cooldown_state.get('reason', '')}")
-        if cooling_allowed and decision == "RUN":
+        reasons.append(
+            f"hardware cooldown active {max(1, remaining)}m: "
+            f"{cooldown_state.get('summary_reason') or _compact_reason(cooldown_state.get('reason', ''), 180)}"
+        )
+        if cooling_allowed and snapshot.temperature_c is None:
+            decision = "RUN_CONSERVATIVE"
+        elif cooling_allowed and decision == "RUN":
             decision = "RUN_CONSERVATIVE"
         elif not cooling_allowed:
             decision = "PAUSE_COOLDOWN"

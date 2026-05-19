@@ -541,10 +541,17 @@ def build() -> dict[str, object]:
                 "zip_total_mb": f"{sum(path.stat().st_size for path in zip_paths) / 1024 / 1024:.2f}" if zip_paths else "0.00",
             }
         )
+        publish_guard = "PASS_LOCAL_READY_NOT_PUBLISHED" if status == "READY" else "HOLD_DO_NOT_PUBLISH"
+        guard_issues = (
+            "Ready locally; still requires Rex/Codex visual and buyer-expectation QA before paid publish."
+            if status == "READY"
+            else f"{status}: pack has {len(files)} assets; public metadata must not be published until it reaches {spec.min_assets}."
+        )
         listing_rows.append(
             {
                 "pack_id": pack_id,
                 "status": status,
+                "publish_guard": publish_guard,
                 "title": spec.title,
                 "price": spec.price,
                 "tags": ", ".join(spec.tags),
@@ -554,6 +561,7 @@ def build() -> dict[str, object]:
                 "asset_count": str(len(files)),
                 "etsy_file_count": str(len(zip_paths)),
                 "zip_total_mb": f"{sum(path.stat().st_size for path in zip_paths) / 1024 / 1024:.2f}" if zip_paths else "0.00",
+                "guard_issues": guard_issues,
                 "notes": "Do not publish until Rex/Codex QA confirms preview and ZIP contents." if status == "READY" else "Needs source assets or smaller pack before listing.",
             }
         )

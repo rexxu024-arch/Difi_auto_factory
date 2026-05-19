@@ -27,6 +27,12 @@ This file is the durable handoff anchor for Codex, Grey/Gemini, and Rex.
 ## Default Chat Action
 
 - In this OpenClaw thread, the default action is active monthly-task execution.
+
+## Thermal And AC Override
+
+- Heat is a routing signal, not an idle signal. When ambient heat is high but CPU/memory are below hard limits, run low-power lanes such as text parsing, CSV/ZIP packaging, read-only API polling, queue planning, metadata QA, and reports. Defer Midjourney generation/upscale, heavy image processing, bulk downloads, and browser UI writes to the next cool window.
+- AC/fan override: if Rex says the room is cooled by AC or a strong fan, set `Database/Thermal_Override.json` through `scripts\set_thermal_override.ps1 -Mode on -Hours N`. This relaxes weather/ambient limits for that period only.
+- AC/fan override never bypasses hardware protection. CPU temperature >=85C suspends heavy/image work; CPU temperature >=90C triggers red alert behavior and heavy thread termination. Memory/CPU pressure still forces conservative mode even when AC is on.
 - If Rex says only "continue monthly tasks" or a heartbeat sends the same instruction, Codex must not treat it as a request for a status report.
 - Daily shift contract:
   - One human Rex command such as "start monthly tasks", "continue monthly tasks", or "开始/月任务" should ensure a full OpenClaw work shift, not a single short slice.
@@ -224,10 +230,14 @@ Current workstreams:
 ## Continue Monthly Task Contract
 
 - A Rex/manual `继续月任务` command means one continuous work block, not one small action.
+- Continuity success is defined by chat-model-led work, not by local script survival. The acceptable pattern is a few large, model-supervised blocks that each make real project progress for hours where possible. Daemon/HUD/heartbeat checks are only support signals and do not satisfy Rex's requirement unless they lead to concrete model participation and work proof.
 - Failure-trace rule: Rex's long-shift requirement was not ambiguous. If the loop degrades into short heartbeat-sized chunks again, treat it as a Codex execution-model failure, not a Rex instruction problem. Do not spend days reinterpreting the ask; return to the primitive continuous work loop.
-- Turn-close hook rule: before Codex sends any final/last response that may leave this chat idle, run `scripts\openclaw_turn_close_hook.ps1`. This hook must ensure the long-shift loop is alive and write `Database\OpenClaw_Chat_Turn_Close.trigger.json`. The 10-minute heartbeat is backup only, never the primary work cadence.
+- If a continuity mechanism fails twice, escalate the abstraction immediately. Do not keep repeating local daemon/watchdog fixes when the real failed contract is chat-model re-entry and continuous work. The fallback ladder is: direct current-thread heartbeat work block -> durable `Daily_Work_Blocks_Current.json` -> manual Rex message; red failed Steer UI entries are not reliable until successfully submitted.
+- Codex-authored work blocks are not higher priority than Rex, but they are Rex-delegated when generated from the standing monthly-task command. Treat them as the active instruction queue after reading newer Rex messages, and execute them one by one until done/parked/guarded.
+- Red Steer rescue path: red/pending Steer items must be retried in the app. If retry fails, copy them into normal chat or `Database/Rex_Red_Steer_Rescue_Inbox.md`. Daily generated work plans must be written to `Database/Daily_Work_Blocks_Current.json` before any Steer delivery attempt, so a failed Steer cannot destroy that day's work plan.
+- Turn-close hook rule: before Codex sends any final/last response that may leave this chat idle, run `scripts\openclaw_turn_close_hook.ps1` and keep the current-thread heartbeat `openclaw-current-thread-work-bridge` active. That heartbeat must wake this exact chat as a Codex work turn, not just prove a local PID exists. The local hook alone is incomplete because it only keeps local scripts alive; the required deliverable is chat-model re-entry plus local continuity.
 - Default work block target is adaptive, not fixed: run until the forecast/resource-based duty deadline for that day, not a hard-coded 05:30/06:00 boundary.
-- The historical 05:30/06:00 winddown is only a fallback when no weather-aware deadline is available.
+- Weather/hardware deadline is primary whenever available. If ambient forecast, CPU proxy, memory pressure, or actual sensor data shows abnormal heat, use the heat-aware deadline/downshift immediately. The historical 05:30/06:00 window is only a legacy default when weather/thermal data is unavailable and the machine is otherwise healthy, or when Rex explicitly requests that schedule.
 - In hot season, the duty deadline is computed from `Database/Thermal_Task_Schedule.json`: heavy production should run through the next safe cool window (<80F forecast) and wind down when that cool window ends or when hardware/account/fee/Rex-needed guards require it.
 - The goal is not a fixed 17-hour day. The goal is 90-95%+ self-supervised useful work during the safe operating window. On cool days this may mean near-continuous production; on hot days it means heavy work in cool windows and light work during heat windows.
 - Thermal rule: if ambient forecast is >=80F or local resource pressure is high, defer Midjourney/upscale/heavy image processing to the next cool window and immediately pull a low-CPU task such as API polling, SEO/tag generation, sticker ZIP packaging, database audit, market notes, or queue cleanup. Heat is not an excuse to idle unless every safe light lane is blocked.
@@ -283,6 +293,8 @@ Current workstreams:
 - Revenue product market gate:
   - Anything intended to make money must pass a market-evidence gate before title, price, metadata, or publishing is treated as ready.
   - Evidence must include official platform constraints plus at least two market/commercial signals such as Etsy search comps, eRank, EverBee, Alura, Sale Samurai, EtsyHunt, Adobe contributor guidance, or other high-signal public/paid research sources.
+  - Evidence-first generation is mandatory. Before creating a new revenue product type, inspect proven marketplace/stock samples and encode the observed structure into local prompts, metadata, and QA. Do not invent from a blank page when market examples exist.
+  - Adobe Stock title/keyword discipline: use stock-native, descriptive titles; place the main title concepts in the first 10 keywords; prefer 15-35 relevant keywords over stuffing; do not place AI/generative/tool/internal project terms in public title or keywords; keep AI disclosure in the contributor submission field.
   - Etsy titles must be Etsy-native: aesthetic, use case, buyer persona, and pack value first. Put only conversion-critical specs in the title, such as `20+`, `50+`, `High Resolution`, `PNG`, or `Bundle`; put exact file specs in the description.
   - For digital bundles, descriptions must lock buyer expectations: quantity, file type, ZIP parts, transparent-background caveat, 300 DPI metadata, approximate pixel range, license limits, and instant digital delivery/no physical shipping.
   - The reusable local gate is `modules/market_research_gate.py`; outputs live under `Reports/Market_Evidence_Gate_latest.md` and `Database/Market_Research/`.

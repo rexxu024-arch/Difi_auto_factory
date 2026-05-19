@@ -124,6 +124,9 @@ Execution rules:
 - Maintain quality comparable to normal OpenClaw visual work, but simplify commercial use so it cannot be confused with Etsy/eBay premium products.
 - Generate title and keyword metadata suitable for stock search, including Created using AI disclosure where required.
 - Before upload: run image QA, duplicate/IP risk scan, metadata QA, and keep a local submission manifest.
+- Upload packaging rule: stage Adobe files in neutral 50-file folders under `adobe_stock_factory/upload_ready/batch_###_[material_hint]`, not date-based folders. The material hint is only local archive/reference context; Adobe metadata remains per-file title/keywords/category. Source dates may remain only in manifests.
+- Upload resume rule: after Adobe confirms files were accepted, run `py modules/adobe_stock_mark_batch_uploaded.py --folder batch_###... --files ...` or `--limit N` so only confirmed local staged filenames receive `_uploaded`. The batch folder receives `_completed` only after every real upload image in that folder is `_uploaded`. If an upload-ready batch is not `_completed`, every future upload-prep pass must resume that incomplete folder before creating a new 50-file batch.
+- Repetition guard: once a material/theme family approaches roughly 150 staged/submitted images, reduce same-family production unless the next run adds clear new value through hybrid material, lighting, camera distance, usage context, or pattern variation. This prevents low-quality duplicate flooding and keeps the stock line useful.
 
 Standing next actions:
 - Build/refresh Adobe mentor DNA and production queues.

@@ -19,6 +19,7 @@ LATITUDE = 40.7243
 LONGITUDE = -74.0793
 LOCATION_LABEL = "Lincoln Park / Jersey City, NJ"
 COOL_HEAVY_THRESHOLD_F = 80.0
+DUTY_STOP_THRESHOLD_F = 85.0
 
 
 def et_now() -> datetime:
@@ -46,11 +47,11 @@ def fetch_open_meteo() -> dict:
         return json.loads(response.read().decode("utf-8"))
 
 
-def build_cool_windows(hours: list[dict], min_len: int = 2) -> list[dict]:
+def build_windows(hours: list[dict], threshold_f: float, min_len: int = 2) -> list[dict]:
     windows = []
     current: list[dict] = []
     for hour in hours:
-        if hour["temperature_f"] < COOL_HEAVY_THRESHOLD_F:
+        if hour["temperature_f"] < threshold_f:
             current.append(hour)
         else:
             if len(current) >= min_len:
@@ -120,7 +121,8 @@ def main() -> int:
     nearest = min(hours, key=lambda item: abs((parse_hour(item["time_et"]) - now_et).total_seconds()))
     today = [item for item in hours if parse_hour(item["time_et"]).date() == now_et.date()]
     today_high = max(item["temperature_f"] for item in today) if today else nearest["temperature_f"]
-    cool_windows = build_cool_windows(hours)
+    cool_windows = build_windows(hours, COOL_HEAVY_THRESHOLD_F)
+    duty_windows = build_windows(hours, DUTY_STOP_THRESHOLD_F)
     next_cool = next((window for window in cool_windows if parse_hour(window["end_et"]) > now_et), None)
 
     state = {
@@ -133,10 +135,13 @@ def main() -> int:
         "current_f": nearest["temperature_f"],
         "today_high_f": today_high,
         "heavy_threshold_f": COOL_HEAVY_THRESHOLD_F,
+        "duty_stop_threshold_f": DUTY_STOP_THRESHOLD_F,
         "heavy_allowed_now_by_weather": nearest["temperature_f"] < COOL_HEAVY_THRESHOLD_F,
+        "light_work_allowed_now_by_weather": nearest["temperature_f"] < DUTY_STOP_THRESHOLD_F,
         "next_cool_heavy_window_et": next_cool["start_et"] if next_cool else None,
         "next_48h_hours": hours,
         "cool_windows": cool_windows,
+        "duty_work_windows": duty_windows,
         "note": "Heavy image/upscale/local processing is eligible only when hourly ambient forecast is below 80F, subject to CPU/memory/temperature guards.",
     }
     WEATHER_PATH.write_text(json.dumps(state, indent=2), encoding="utf-8")
@@ -145,10 +150,14 @@ def main() -> int:
         "updated_at_et": state["updated_at_et"],
         "location": LOCATION_LABEL,
         "heavy_threshold_f": COOL_HEAVY_THRESHOLD_F,
+        "duty_stop_threshold_f": DUTY_STOP_THRESHOLD_F,
         "cool_heavy_windows": cool_windows,
+        "duty_work_windows": duty_windows,
         "current_heavy_allowed": state["heavy_allowed_now_by_weather"],
+        "current_light_work_allowed": state["light_work_allowed_now_by_weather"],
         "current_f": state["current_f"],
         "today_high_f": state["today_high_f"],
+        "note": "Use cool_heavy_windows for GPU/image work and duty_work_windows for the overall workday. 80-85F is light-work-only, not idle.",
     }
     SCHEDULE_PATH.write_text(json.dumps(schedule, indent=2), encoding="utf-8")
 

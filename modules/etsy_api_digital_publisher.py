@@ -197,11 +197,38 @@ def upload_images(shop_id: int, listing_id: int, row: dict) -> list[dict]:
     return results
 
 
-def upload_digital_file(shop_id: int, listing_id: int, row: dict) -> dict:
-    path = _safe_digital_upload_path(row)
-    with path.open("rb") as handle:
-        files = {"file": (path.name, handle, "application/zip")}
-        return etsy_api.request("POST", f"/shops/{shop_id}/listings/{listing_id}/files", data={"name": path.name}, files=files)
+def _digital_upload_paths(row: dict) -> list[Path]:
+    raw = str(row.get("Zip_Path") or "")
+    parts = [part.strip() for part in raw.split(";") if part.strip()]
+    if len(parts) <= 1:
+        return [_safe_digital_upload_path(row)]
+
+    paths: list[Path] = []
+    for index, part in enumerate(parts, start=1):
+        source = Path(part).resolve()
+        if not source.exists():
+            raise FileNotFoundError(source)
+        upload_dir = source.parent / "_etsy_upload"
+        upload_dir.mkdir(exist_ok=True)
+        safe_stem = re.sub(r"[^A-Za-z0-9_-]+", "-", str(row["ID"]))[:46].strip("-")
+        target = upload_dir / f"OC-{safe_stem}-part-{index:02d}.zip"
+        if not target.exists() or target.stat().st_mtime < source.stat().st_mtime or target.stat().st_size != source.stat().st_size:
+            import shutil
+
+            shutil.copy2(source, target)
+        if len(target.name) > 70:
+            raise ValueError(f"Etsy-safe upload filename is too long: {target.name}")
+        paths.append(target)
+    return paths
+
+
+def upload_digital_file(shop_id: int, listing_id: int, row: dict) -> list[dict]:
+    results = []
+    for path in _digital_upload_paths(row):
+        with path.open("rb") as handle:
+            files = {"file": (path.name, handle, "application/zip")}
+            results.append(etsy_api.request("POST", f"/shops/{shop_id}/listings/{listing_id}/files", data={"name": path.name}, files=files))
+    return results
 
 
 def activate_listing(shop_id: int, listing_id: int) -> dict:

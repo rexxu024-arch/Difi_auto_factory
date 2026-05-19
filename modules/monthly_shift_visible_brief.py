@@ -28,6 +28,7 @@ TRIGGER_FILE = DATABASE_DIR / "OpenClaw_Next_Action.trigger.json"
 BRIEF_STATE_FILE = DATABASE_DIR / "Monthly_Shift_Visible_Brief_State.json"
 BRIEF_FILE = DATABASE_DIR / "Monthly_Shift_Visible_Brief.md"
 HOURLY_BRIEF_FILE = DATABASE_DIR / "Monthly_Shift_Hourly_Progress.md"
+WORK_PROOF_LATEST = DATABASE_DIR / "Work_Proof_Latest.json"
 ET = ZoneInfo("America/New_York")
 
 END_LINE_RE = re.compile(
@@ -46,6 +47,7 @@ COMMAND_PROJECT = {
     "adobe_stock_codex_ab_groups": "Adobe Stock factory",
     "adobe_stock_ab_mj_queue": "Adobe Stock factory",
     "adobe_stock_ab_mj_dispatch": "Adobe Stock factory",
+    "adobe_stock_ab_decision_sheet": "Adobe Stock factory",
     "etsy_external_poll": "Etsy/Printify reconciliation",
     "etsy_digital_packet": "Etsy V7 digital lab",
     "etsy_package_builder": "Etsy V7 digital lab",
@@ -58,7 +60,17 @@ COMMAND_PROJECT = {
     "ebay_experiment_report": "eBay recovery",
     "project_mirror_scorecard": "Project Mirror DNA",
     "adobe_stock_scaffold": "Adobe Stock factory",
+    "adobe_stock_reference_dna": "Adobe Stock factory",
     "adobe_stock_mentor_expander": "Adobe Stock factory",
+    "adobe_stock_daily_mj_queue": "Adobe Stock factory",
+    "adobe_stock_daily_mj_dispatch": "Adobe Stock factory",
+    "adobe_stock_daily_mj_harvest": "Adobe Stock factory",
+    "adobe_stock_mj_grid_duplicate_guard": "Adobe Stock factory",
+    "adobe_stock_daily_u_candidates": "Adobe Stock factory",
+    "adobe_stock_superres_pipeline": "Adobe Stock factory",
+    "adobe_stock_local_resolution_upscale": "Adobe Stock factory",
+    "adobe_stock_rex_feedback_weights": "Adobe Stock factory",
+    "adobe_stock_daily_upload_ready_pack": "Adobe Stock factory",
     "adobe_stock_pilot_queue": "Adobe Stock factory",
     "adobe_stock_two_layer_schema": "Adobe Stock factory",
     "adobe_stock_pilot_batch": "Adobe Stock factory",
@@ -154,9 +166,39 @@ def project_dashboard() -> dict:
     adobe_mentor = read_csv(DATABASE_DIR / "Adobe_Stock_Mentor_Hub.csv")
     adobe_expanded = count_rows(DATABASE_DIR / "Adobe_Stock_Mentor_DNA_Expanded.csv")
     adobe_daily_queue = count_rows(DATABASE_DIR / "Adobe_Stock_Daily_Production_Queue.csv")
+    adobe_daily_mj_rows = read_csv(DATABASE_DIR / "Adobe_Stock_Daily_MJ_Dispatch_Queue.csv")
+    adobe_daily_u_candidates = read_csv(DATABASE_DIR / "Adobe_Stock_Daily_U_Candidates.csv")
+    adobe_daily_u_pass = sum(1 for row in adobe_daily_u_candidates if str(row.get("QA_Status", "")).startswith("QA_PASS"))
+    adobe_daily_mj_ready = sum(1 for row in adobe_daily_mj_rows if row.get("Dispatch_Status") == "READY_FOR_MJ")
+    adobe_daily_mj_submitted = sum(1 for row in adobe_daily_mj_rows if row.get("Dispatch_Status") == "MJ_SUBMITTED")
+    adobe_daily_grid_found = sum(
+        1
+        for row in adobe_daily_mj_rows
+        if str(row.get("Harvest_Status", "")).startswith(("GRID_FOUND", "READY_FOR_VISUAL_QA"))
+        or bool(row.get("Grid_File"))
+    )
+    adobe_daily_u_files = sum(
+        1
+        for row in adobe_daily_mj_rows
+        for key in ("U1_File", "U2_File", "U3_File", "U4_File")
+        if row.get(key)
+    )
     adobe_batch_rows = count_rows(DATABASE_DIR / "Adobe_Stock_Pilot_Batch.csv")
     adobe_image_pass = count_status(DATABASE_DIR / "Adobe_Stock_Pilot_Batch.csv", "QA_Status", ("QA_PASS",))
     adobe_metadata_pass = count_status(DATABASE_DIR / "Adobe_Stock_Metadata_QA.csv", "QA_Status", ("METADATA_QA_PASS",))
+    adobe_local_upscaled = read_csv(DATABASE_DIR / "Adobe_Stock_Local_Upscaled_Candidates.csv")
+    adobe_local_pass = sum(1 for row in adobe_local_upscaled if str(row.get("QA_Status", "")).startswith("QA_PASS"))
+    adobe_daily_upload_ready_rows = read_csv(DATABASE_DIR / "Adobe_Stock_Daily_Upload_Ready.csv")
+    adobe_daily_upload_ready = sum(
+        1
+        for row in adobe_daily_upload_ready_rows
+        if str(row.get("Status", "")).startswith("READY_FOR_ADOBE_SUBMISSION")
+    )
+    adobe_rex_qa_rows = read_csv(DATABASE_DIR / "Adobe_Stock_Rex_Visual_QA.csv")
+    adobe_rex_pass = sum(1 for row in adobe_rex_qa_rows if str(row.get("Decision", "")).upper() == "PASS")
+    adobe_rex_hold = sum(1 for row in adobe_rex_qa_rows if str(row.get("Decision", "")).upper() == "HOLD")
+    adobe_rex_reject = sum(1 for row in adobe_rex_qa_rows if str(row.get("Decision", "")).upper() == "REJECT")
+    adobe_first_submit = count_rows(DATABASE_DIR / "Adobe_Stock_First_Submit_7.csv")
     adobe_upload_ready = count_status(
         DATABASE_DIR / "Adobe_Stock_Upload_Ready.csv",
         "Status",
@@ -167,6 +209,9 @@ def project_dashboard() -> dict:
         "Status",
         ("READY_FOR_ADOBE",),
     )
+    adobe_ab_decisions = read_csv(DATABASE_DIR / "Adobe_Stock_AB_Codex_Decision.csv")
+    adobe_ab_selected = sum(1 for row in adobe_ab_decisions if row.get("Decision") == "SELECT_FOR_U_BUTTON")
+    adobe_ab_hold = sum(1 for row in adobe_ab_decisions if str(row.get("Decision", "")).startswith(("HOLD", "REMAKE")))
     adobe_ui_status = latest_csv_value(DATABASE_DIR / "Adobe_Stock_UI_Upload_Status.csv", "Status", "")
 
     first_manifest = read_csv(DATABASE_DIR / "First_Audit_001_Asset_Manifest.csv")
@@ -191,7 +236,7 @@ def project_dashboard() -> dict:
         blockers.append("eBay publish frozen")
     if etsy_spend >= etsy_cap:
         blockers.append("Etsy budget cap reached")
-    if adobe_batch_rows and adobe_image_pass == 0:
+    if adobe_batch_rows and max(adobe_image_pass, adobe_local_pass, adobe_daily_upload_ready) == 0:
         blockers.append("Adobe waiting image QA")
     if adobe_upload_ready and adobe_ui_status == "NEEDS_ADOBE_LOGIN":
         blockers.append("Adobe Contributor login needed")
@@ -204,10 +249,14 @@ def project_dashboard() -> dict:
     adobe_pct = round(
         (10 if adobe_expanded >= 200 else pct(adobe_expanded, 200) * 0.10)
         + (10 if adobe_daily_queue >= 50 else pct(adobe_daily_queue, 50) * 0.10)
+        + pct(adobe_daily_grid_found, 50) * 0.10
         + (15 if adobe_batch_rows >= 50 else pct(adobe_batch_rows, 50) * 0.15)
         + pct(adobe_image_pass, 50) * 0.20
-        + pct(adobe_metadata_pass, 50) * 0.15
-        + pct(max(adobe_upload_ready, adobe_curated_ready), 15) * 0.15
+        + pct(adobe_daily_u_pass, 50) * 0.15
+        + pct(adobe_ab_selected, 12) * 0.05
+        + pct(max(adobe_metadata_pass, adobe_daily_upload_ready), 50) * 0.15
+        + pct(max(adobe_upload_ready, adobe_curated_ready, adobe_daily_upload_ready), 15) * 0.15
+        + pct(adobe_first_submit, 7) * 0.10
         + (15 if adobe_ui_status in {"UPLOADED", "SUBMITTED", "SUBMISSION_READY"} else 0)
     )
     first_pct = pct(first_done, 30)
@@ -231,10 +280,25 @@ def project_dashboard() -> dict:
         "adobe_base_mentor_rows": len(adobe_mentor),
         "adobe_expanded_rows": adobe_expanded,
         "adobe_daily_queue_rows": adobe_daily_queue,
+        "adobe_daily_mj_rows": len(adobe_daily_mj_rows),
+        "adobe_daily_mj_ready": adobe_daily_mj_ready,
+        "adobe_daily_mj_submitted": adobe_daily_mj_submitted,
+        "adobe_daily_grid_found": adobe_daily_grid_found,
+        "adobe_daily_u_files": adobe_daily_u_files,
+        "adobe_daily_u_candidates": len(adobe_daily_u_candidates),
+        "adobe_daily_u_pass": adobe_daily_u_pass,
         "adobe_image_pass": adobe_image_pass,
+        "adobe_local_pass": adobe_local_pass,
         "adobe_metadata_pass": adobe_metadata_pass,
-        "adobe_upload_ready": adobe_upload_ready,
+        "adobe_upload_ready": max(adobe_upload_ready, adobe_daily_upload_ready),
+        "adobe_daily_upload_ready": adobe_daily_upload_ready,
+        "adobe_rex_pass": adobe_rex_pass,
+        "adobe_rex_hold": adobe_rex_hold,
+        "adobe_rex_reject": adobe_rex_reject,
+        "adobe_first_submit": adobe_first_submit,
         "adobe_curated_ready": adobe_curated_ready,
+        "adobe_ab_selected": adobe_ab_selected,
+        "adobe_ab_hold": adobe_ab_hold,
         "adobe_ui_status": adobe_ui_status,
         "first_done": first_done,
         "mirror_pairs": mirror_pairs,
@@ -456,8 +520,13 @@ def progress_line(dashboard: dict) -> str:
         f"First Audit {dashboard['first_pct']}% ({dashboard['first_done']}/30) | "
         f"Adobe {dashboard['adobe_pct']}% "
         f"(DNA {dashboard['adobe_expanded_rows']}, batch {dashboard['adobe_rows']}, "
-        f"QA {dashboard['adobe_image_pass']}/{dashboard['adobe_metadata_pass']}, "
-        f"ready {dashboard['adobe_upload_ready']}, UI {dashboard['adobe_ui_status'] or 'not checked'}) | "
+        f"daily MJ {dashboard['adobe_daily_grid_found']}/{dashboard['adobe_daily_mj_rows']} grids, "
+        f"U {dashboard['adobe_daily_u_candidates']} found/{dashboard['adobe_daily_u_pass']} QA, "
+        f"A/B select {dashboard['adobe_ab_selected']}, hold {dashboard['adobe_ab_hold']}, "
+        f"QA local {dashboard['adobe_local_pass']}, Rex {dashboard['adobe_rex_pass']} pass/"
+        f"{dashboard['adobe_rex_reject']} reject, "
+        f"ready {dashboard['adobe_upload_ready']}, first_submit {dashboard['adobe_first_submit']}, "
+        f"UI {dashboard['adobe_ui_status'] or 'not checked'}) | "
         f"eBay {dashboard['ebay_pct']}% | "
         f"Project Mirror {dashboard['mirror_pct']}% ({dashboard['mirror_pairs']} pairs)"
     )
@@ -466,7 +535,7 @@ def progress_line(dashboard: dict) -> str:
 def remaining_line(dashboard: dict) -> str:
     first_left = max(0, 30 - int(dashboard["first_done"]))
     etsy_left = max(0, 250 - int(dashboard["digital_live"]) - int(dashboard["pod_live"]))
-    adobe_left = max(0, 50 - int(dashboard["adobe_image_pass"]))
+    adobe_left = max(0, 50 - int(max(dashboard["adobe_local_pass"], dashboard["adobe_upload_ready"])))
     blocker_text = ", ".join(dashboard["blockers"]) if dashboard["blockers"] else "none"
     return (
         "Remaining estimate: "
@@ -498,6 +567,23 @@ def rex_action_block(dashboard: dict) -> str:
     return "\n".join(lines) + "\n"
 
 
+def work_proof_line(now: datetime) -> str:
+    if not WORK_PROOF_LATEST.exists():
+        return "Work proof: missing."
+    try:
+        data = json.loads(WORK_PROOF_LATEST.read_text(encoding="utf-8"))
+        stamp = datetime.fromisoformat(str(data.get("recorded_at_et", "")))
+        age = (now - stamp).total_seconds() / 60
+        project = data.get("project") or "unknown"
+        source = data.get("source") or "unknown"
+        summary = str(data.get("summary") or "").strip()
+        if len(summary) > 140:
+            summary = summary[:137] + "..."
+        return f"Work proof: latest {age:.1f}m ago from {source}/{project}: {summary}"
+    except Exception as exc:
+        return f"Work proof: unreadable ({exc})."
+
+
 def hourly_block(
     dashboard: dict,
     completed: list[dict],
@@ -507,9 +593,9 @@ def hourly_block(
     current_count: int,
 ) -> str:
     return (
-        "HOURLY_PROGRESS:\n"
+        "TWO_HOUR_PROGRESS:\n"
         f"- Progress: {progress_line(dashboard)}.\n"
-        f"- Last 60m: {summarize_recent(completed, latest_start, now, minutes=60, verbose=True)}.\n"
+        f"- Last 120m: {summarize_recent(completed, latest_start, now, minutes=120, verbose=True)}.\n"
         f"- Current: {current_command}; total_completed={current_count}.\n"
         f"- Remaining: {remaining_line(dashboard)}\n"
         f"- {rex_action_line(dashboard)}"
@@ -534,9 +620,10 @@ def build_brief(hourly: bool = False) -> str:
         brief = hourly_block(dashboard, completed, latest_start, now, current_command, current_count)
     elif delta:
         brief = (
-            f"10M_PROGRESS: {progress_line(dashboard)}. "
-            f"{summarize_recent(completed, latest_start, now, minutes=10)}. "
-            f"Current={current_command}; +{len(delta)} commands since last visible brief; {blocker_text}."
+            f"30M_PROGRESS: {progress_line(dashboard)}. "
+            f"{summarize_recent(completed, latest_start, now, minutes=30)}. "
+            f"Current={current_command}; +{len(delta)} commands since last visible brief; "
+            f"{work_proof_line(now)}; {blocker_text}."
         )
         previous["last_completed"] = current_count
     else:
@@ -544,14 +631,15 @@ def build_brief(hourly: bool = False) -> str:
         if latest_start:
             started = f"; latest_start={latest_start['num']}:{latest_start['name']}@{latest_start['stamp']}"
         brief = (
-            f"10M_PROGRESS: {progress_line(dashboard)}. "
+            f"30M_PROGRESS: {progress_line(dashboard)}. "
             f"No new completion since last brief; current={current_command}{started}. "
-            f"{summarize_recent(completed, latest_start, now, minutes=10)}; {blocker_text}."
+            f"{summarize_recent(completed, latest_start, now, minutes=30)}; "
+            f"{work_proof_line(now)}; {blocker_text}."
         )
 
     if not hourly:
         last_hourly = parse_iso_stamp(previous.get("last_hourly_at_et"))
-        if last_hourly is None or (now - last_hourly).total_seconds() >= 3600:
+        if last_hourly is None or (now - last_hourly).total_seconds() >= 7200:
             brief = (
                 brief
                 + "\n"
@@ -573,18 +661,21 @@ def build_brief(hourly: bool = False) -> str:
         f"- Printify/Etsy pipeline: {dashboard['printify_pct']}% (live digital={dashboard['digital_live']}, live POD={dashboard['pod_live']})\n"
         f"- Adobe Stock pilot: {dashboard['adobe_pct']}% "
         f"(expanded_dna={dashboard['adobe_expanded_rows']}, daily_queue={dashboard['adobe_daily_queue_rows']}, "
-        f"batch={dashboard['adobe_rows']}, image_QA={dashboard['adobe_image_pass']}, "
+        f"batch={dashboard['adobe_rows']}, local_QA={dashboard['adobe_local_pass']}, "
+        f"rex_QA={dashboard['adobe_rex_pass']} pass/{dashboard['adobe_rex_reject']} reject, "
         f"metadata_QA={dashboard['adobe_metadata_pass']}, upload_ready={dashboard['adobe_upload_ready']}, "
+        f"first_submit={dashboard['adobe_first_submit']}, "
         f"strict_curated={dashboard['adobe_curated_ready']}, UI={dashboard['adobe_ui_status'] or 'not checked'})\n"
         f"- First Audit: {dashboard['first_pct']}% ({dashboard['first_done']}/30 release assets)\n"
         f"- eBay recovery: {dashboard['ebay_pct']}%\n"
         f"- Project Mirror: {dashboard['mirror_pct']}% ({dashboard['mirror_pairs']} A/B pairs)\n"
         f"- Etsy spend: ${dashboard['etsy_spend']:.2f}/${dashboard['etsy_cap']:.2f}\n"
         f"- {rex_action_line(dashboard)}\n\n"
+        f"- {work_proof_line(now)}\n\n"
         "## Rex Action / Parked Lanes\n\n"
         f"{rex_action_block(dashboard)}\n"
-        f"- Last 10 minutes: {summarize_recent(completed, latest_start, now)}\n\n"
-        f"- Hourly detail: {summarize_recent(completed, latest_start, now, minutes=60, verbose=True)}\n"
+        f"- Last 30 minutes: {summarize_recent(completed, latest_start, now, minutes=30)}\n\n"
+        f"- Two-hour detail: {summarize_recent(completed, latest_start, now, minutes=120, verbose=True)}\n"
         f"- Remaining: {remaining_line(dashboard)}\n\n"
         f"{brief}\n",
         encoding="utf-8",

@@ -26,6 +26,8 @@ STATE_PATH = DATABASE_DIR / "Endurance_Protocol_State.json"
 LOG_PATH = DATABASE_DIR / "Endurance_Protocol_Log.csv"
 REBOOT_DECISION_PATH = DATABASE_DIR / "Daily_Reboot_Decision.json"
 SHUTDOWN_DECISION_PATH = DATABASE_DIR / "Daily_Shutdown_Decision.json"
+SHIFT_DUTY_WINDOW_PATH = DATABASE_DIR / "Monthly_Shift_Duty_Window.json"
+THERMAL_OVERRIDE_PATH = DATABASE_DIR / "Thermal_Override.json"
 NY = ZoneInfo("America/New_York")
 
 AUTOMATION_PROFILE = Path(os.getenv("OPENCLAW_AUTOMATION_PROFILE") or r"C:\openclaw_edge_profile")
@@ -352,7 +354,52 @@ def daily_reboot_check(execute: bool = False, force: bool = False) -> dict:
 
 def daily_shutdown_due(check_time: datetime | None = None) -> bool:
     check_time = check_time or now()
+    if ac_override_suppresses_shutdown():
+        return False
+    target = dynamic_shutdown_target()
+    if target:
+        return check_time >= target
     return dtime(6, 0) <= check_time.time() <= dtime(6, 20)
+
+
+def dynamic_shutdown_target() -> datetime | None:
+    if ac_override_suppresses_shutdown():
+        return None
+    if not SHIFT_DUTY_WINDOW_PATH.exists():
+        return None
+    try:
+        payload = json.loads(SHIFT_DUTY_WINDOW_PATH.read_text(encoding="utf-8-sig"))
+        raw = payload.get("shift_end_target_et")
+        if not raw:
+            return None
+        parsed = datetime.fromisoformat(str(raw))
+    except Exception:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=NY)
+    return parsed.astimezone(NY)
+
+
+def ac_override_suppresses_shutdown() -> bool:
+    if not THERMAL_OVERRIDE_PATH.exists():
+        return False
+    try:
+        payload = json.loads(THERMAL_OVERRIDE_PATH.read_text(encoding="utf-8-sig"))
+    except Exception:
+        return False
+    if not payload.get("ac_override_active"):
+        return False
+    raw_until = payload.get("ac_override_until_et")
+    if raw_until:
+        try:
+            until = datetime.fromisoformat(str(raw_until))
+            if until.tzinfo is None:
+                until = until.replace(tzinfo=NY)
+            if until.astimezone(NY) < now():
+                return False
+        except Exception:
+            return False
+    return bool(payload.get("disable_forced_shutdown_today") or payload.get("shutdown_policy") == "rex_manual_shutdown_while_ac_on")
 
 
 def daily_shutdown_check(execute: bool = False, force: bool = False) -> dict:
@@ -362,10 +409,22 @@ def daily_shutdown_check(execute: bool = False, force: bool = False) -> dict:
     logs in, and opens Codex manually.
     """
     write_state = strong_write_active()
-    due = force or daily_shutdown_due()
+    target = dynamic_shutdown_target()
+    due = daily_shutdown_due()
+    if force and target and now() >= target:
+        due = True
+    elif force and not target:
+        due = True
     snapshot = sample_resources()
     decision = "SKIP_NOT_DUE"
-    detail = "outside 06:00-06:20 America/New_York"
+    if ac_override_suppresses_shutdown():
+        detail = "AC override active; Rex will shut down manually; CPU/memory hard guards remain."
+    else:
+        detail = (
+            f"before dynamic duty shutdown target {target.isoformat()}"
+            if target and not due
+            else "outside 06:00-06:20 America/New_York"
+        )
     shutdown_delay = 0
     if due:
         state = _state()
@@ -373,7 +432,7 @@ def daily_shutdown_check(execute: bool = False, force: bool = False) -> dict:
             {
                 "updated_at": now().isoformat(timespec="seconds"),
                 "mode": "DAILY_SHUTDOWN_PREP",
-                "reason": "06:00 ET hardware rest; Rex will power on manually",
+                "reason": "weather/resource-aware duty shutdown; Rex will power on manually",
                 "strong_write": write_state,
                 "startup_recovery": "manual: Rex powers on, logs into Windows, and opens Codex",
             }
@@ -395,7 +454,7 @@ def daily_shutdown_check(execute: bool = False, force: bool = False) -> dict:
                     "/t",
                     str(shutdown_delay),
                     "/c",
-                    "OpenClaw daily 6AM ET hardware rest. Rex will power on manually.",
+                    "OpenClaw weather/resource-aware hardware rest. Rex will power on manually.",
                 ],
                 cwd=PROJECT_ROOT,
                 stdout=subprocess.DEVNULL,

@@ -24,6 +24,9 @@ NY_TZ = ZoneInfo("America/New_York")
 
 BATCH = DATABASE / "Adobe_Stock_Pilot_Batch.csv"
 QUEUE = DATABASE / "Adobe_Stock_Pilot_Queue.csv"
+DAILY_QUEUE = DATABASE / "Adobe_Stock_Daily_Production_Queue.csv"
+DAILY_MJ_QUEUE = DATABASE / "Adobe_Stock_Daily_MJ_Dispatch_Queue.csv"
+DAILY_U_CANDIDATES = DATABASE / "Adobe_Stock_Daily_U_Candidates.csv"
 OUT_QA = DATABASE / "Adobe_Stock_Metadata_QA.csv"
 OUT_REPORT = REVIEW / "Adobe_Stock_Metadata_QA_latest.md"
 
@@ -202,10 +205,11 @@ def write_rows(path: Path, rows: list[dict[str, str]]) -> None:
 
 
 def source_rows() -> list[dict[str, str]]:
-    rows = read_rows(BATCH)
-    if rows:
-        return rows
-    return read_rows(QUEUE)
+    for path in (DAILY_U_CANDIDATES, DAILY_QUEUE, DAILY_MJ_QUEUE, BATCH, QUEUE):
+        rows = read_rows(path)
+        if rows:
+            return rows
+    return []
 
 
 def split_keywords(value: str) -> list[str]:
@@ -286,8 +290,8 @@ def validate(row: dict[str, str]) -> tuple[str, list[str]]:
         issues.append(f"title_blocked_term:{blocked}")
 
     keywords = split_keywords(keywords_text)
-    if len(keywords) < 35:
-        issues.append("too_few_keywords")
+    if len(keywords) < 15:
+        issues.append("too_few_keywords_under_15")
     if len(keywords) > 50:
         issues.append("too_many_keywords")
     blocked = contains_blocked_term(keywords_text)

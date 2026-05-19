@@ -135,6 +135,8 @@ def build_prompt(row: dict[str, str], arm: str) -> tuple[str, str, str, str]:
             f"extreme macro photography of {family.lower()} material background, "
             "clean commercial stock image, realistic surface depth, usable copy space, "
             "balanced studio side lighting, crisp micro texture, natural imperfections, "
+            "deep focus across the material plane, broad crop-safe sharp texture coverage, "
+            "no shallow depth of field, no bokeh, no blurred foreground, no blurred background, "
             "not flat, not procedural, no object silhouette, no logo, no text, no people, "
             "shot on 100mm macro lens, f/8, ultra sharp focus, 8k detail "
             "--ar 3:2 --style raw --v 6.1 --no letters, watermark, brand, person"
@@ -148,6 +150,8 @@ def build_prompt(row: dict[str, str], arm: str) -> tuple[str, str, str, str]:
             "dramatic grazing side light revealing micro ridges, layered physical depth, "
             "subtle color variation, premium interior design material sample, "
             "photorealistic surface, high local contrast without clipping, "
+            "deep focus across the material plane, broad crop-safe sharp texture coverage, "
+            "no shallow depth of field, no bokeh, no blurred foreground, no blurred background, "
             "shot on 100mm macro lens, controlled studio lighting, 8k detail "
             "--ar 3:2 --style raw --v 6.1 --no text, logo, people, watermark, product label"
         )
@@ -160,6 +164,8 @@ def build_prompt(row: dict[str, str], arm: str) -> tuple[str, str, str, str]:
             "one clean negative-space zone for layout, quiet luxury editorial mood, "
             "premium packaging background, subtle depth and shadow falloff, "
             "commercially useful composition, no centered object, no text, no logo, "
+            "deep focus across the material plane, broad crop-safe sharp texture coverage, "
+            "no shallow depth of field, no bokeh, no blurred foreground, no blurred background, "
             "shot on 100mm macro lens, f/8, ultra sharp material detail, 8k resolution "
             "--ar 3:2 --style raw --v 6.1 --no letters, watermark, brand, person"
         )

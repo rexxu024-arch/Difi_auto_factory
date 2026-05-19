@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import csv
 import json
 import os
 import re
@@ -18,7 +19,7 @@ from datetime import datetime, timedelta
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 from zoneinfo import ZoneInfo
 
 from monthly_shift_visible_brief import (
@@ -44,6 +45,11 @@ from monthly_shift_visible_brief import (
 PID_FILE = DATABASE_DIR / "Monthly_Shift_Loop.pid"
 DASHBOARD_PID_FILE = DATABASE_DIR / "OpenClaw_Progress_Dashboard.pid"
 SHIFT_DUTY_WINDOW_FILE = DATABASE_DIR / "Monthly_Shift_Duty_Window.json"
+ADOBE_QA_FILE = DATABASE_DIR / "Adobe_Stock_Rex_Visual_QA.csv"
+ADOBE_UPLOAD_READY_FILE = DATABASE_DIR / "Adobe_Stock_Daily_Upload_Ready.csv"
+ADOBE_LOCAL_UPSCALED_FILE = DATABASE_DIR / "Adobe_Stock_Local_Upscaled_Candidates.csv"
+ADOBE_FIRST_SUBMIT_FILE = DATABASE_DIR / "Adobe_Stock_First_Submit_7.csv"
+ADOBE_MARKET_SAMPLE_FILE = DATABASE_DIR / "Adobe_Stock_Market_Sample_MJ_Dispatch_Queue.csv"
 STAMP_RE = re.compile(r"^- (?P<stamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) EDT \| (?P<body>.*)$")
 LOOP_START_RE = re.compile(r"^- (?P<stamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) EDT \| START (?P<num>\d+) (?P<name>\S+)")
 LOOP_END_RE = re.compile(r"^- (?P<stamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) EDT \| END (?P<num>\d+) (?P<name>\S+) (?P<status>OK|RC=\d+|TIMEOUT)")
@@ -402,8 +408,8 @@ def current_shift_window(now: datetime) -> dict[str, Any]:
 
     The denominator Rex cares about is not Windows uptime. It is the current
     monthly-task shift: first "continue monthly tasks" / long-loop start until
-    the next 06:00 ET. If no durable window exists, infer one conservatively
-    from the first loop START event still visible in state.
+    the active weather/hardware duty deadline. The old 05:30/06:00 cutoff is
+    only a no-forecast fallback; thermal/weather data wins when present.
     """
     payload = load_json(SHIFT_DUTY_WINDOW_FILE, {})
     start = parse_iso_et(payload.get("shift_start_et"))
@@ -507,7 +513,7 @@ def duty_cycle_payload(now: datetime, pid_state: dict[str, Any]) -> dict[str, An
         "last_event_et": last_event.isoformat() if last_event else None,
         "status_class": "ok" if percent >= 95 else ("warn" if percent >= 80 else "bad"),
         "label": f"{percent}% productive this shift",
-        "method": "START/END intervals from Monthly_Shift_Loop_State.md; denominator is shift start through now, target ends at 06:00 ET.",
+        "method": "START/END intervals from Monthly_Shift_Loop_State.md; denominator is shift start through now, target ends at adaptive weather/hardware duty deadline.",
     }
 
 
@@ -951,6 +957,60 @@ def daily_task_payload(
     }
 
 
+def read_work_proofs(limit: int = 12) -> list[dict[str, Any]]:
+    path = DATABASE_DIR / "Work_Proof_Log.jsonl"
+    if not path.exists():
+        latest = load_json(DATABASE_DIR / "Work_Proof_Latest.json", {})
+        return [latest] if latest else []
+    rows: list[dict[str, Any]] = []
+    try:
+        for line in path.read_text(encoding="utf-8").splitlines()[-max(limit * 4, 40) :]:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                rows.append(json.loads(line))
+            except json.JSONDecodeError:
+                continue
+    except OSError:
+        return []
+    return rows[-limit:]
+
+
+def two_hour_progress_payload(completed: list[dict[str, Any]], now: datetime) -> dict[str, Any]:
+    recent_120 = group_recent(completed, 120)
+    grouped = groupedEntries = {
+        project: len(items)
+        for project, items in sorted(recent_120.items(), key=lambda item: (-len(item[1]), item[0]))
+    }
+    proofs = read_work_proofs(limit=10)
+    proof_items: list[dict[str, Any]] = []
+    for proof in reversed(proofs[-8:]):
+        proof_items.append(
+            {
+                "time": proof.get("recorded_at_et") or proof.get("ended_at_et") or "",
+                "source": proof.get("source") or "",
+                "project": proof.get("project") or "",
+                "summary": proof.get("summary") or "",
+                "artifacts": proof.get("artifacts") or [],
+            }
+        )
+    top = next(iter(grouped.items()), ("none", 0))
+    return {
+        "window": window_label(now, 120),
+        "grouped_counts": grouped,
+        "total_completed": sum(grouped.values()),
+        "top_project": top[0],
+        "top_count": top[1],
+        "work_proofs": proof_items,
+        "judgment": (
+            "Active progress detected across multiple projects."
+            if sum(grouped.values()) > 0
+            else "No completed command in the last 2 hours; check loop/blocker."
+        ),
+    }
+
+
 def project_payload(project_id: str) -> dict[str, Any]:
     project_id = normalize_project_id(project_id)
     base = dashboard_payload()
@@ -980,8 +1040,8 @@ def dashboard_payload() -> dict[str, Any]:
     current_count = max((int(item["num"]) for item in completed), default=0)
     latest_end = completed[-1] if completed else None
     current_command = trigger.get("current_command") or (latest_start or {}).get("name") or "unknown"
-    recent_10 = group_recent(completed, 10)
-    recent_60 = group_recent(completed, 60)
+    recent_30 = group_recent(completed, 30)
+    recent_120 = group_recent(completed, 120)
     details = build_project_details(dashboard, completed, latest_start, str(current_command))
     duty_cycle = duty_cycle_payload(now, pid_state)
     daily_tasks = daily_task_payload(dashboard, completed, now, duty_cycle)
@@ -989,8 +1049,8 @@ def dashboard_payload() -> dict[str, Any]:
     return {
         "updated_at_et": now.isoformat(timespec="seconds"),
         "windows": {
-            "last_10": window_label(now, 10),
-            "last_60": window_label(now, 60),
+            "last_10": window_label(now, 30),
+            "last_60": window_label(now, 120),
             "auto_refresh": "15 seconds",
             "hourly_detail": "project details refresh from local state every 15 seconds; page shell hard-reloads hourly",
             "log_retention": "12h active detail compaction; 7d archive window for verified history",
@@ -1033,18 +1093,402 @@ def dashboard_payload() -> dict[str, Any]:
         },
         "blockers": dashboard["blockers"],
         "rex_actions": dashboard.get("rex_actions", []),
+        "visual_qa": adobe_visual_review_summary(),
         "remaining": remaining_line(dashboard),
         "recent": {
-            "last_10_min_summary": summarize_recent(completed, latest_start, now, minutes=10, verbose=True),
-            "last_60_min_summary": summarize_recent(completed, latest_start, now, minutes=60, verbose=True),
-            "last_10_min": recent_10,
-            "last_60_min": recent_60,
+            "last_10_min_summary": summarize_recent(completed, latest_start, now, minutes=30, verbose=True),
+            "last_60_min_summary": summarize_recent(completed, latest_start, now, minutes=120, verbose=True),
+            "last_10_min": recent_30,
+            "last_60_min": recent_120,
         },
+        "two_hour_progress": two_hour_progress_payload(completed, now),
         "pipeline_cards": pipeline_cards(dashboard, completed, details, pid_state),
         "project_details": details,
         "events": read_recent_state_events(),
         "brief_file": str(BRIEF_FILE),
     }
+
+
+ADOBE_QA_FIELDS = ["Parent_Asset_ID", "Decision", "Reason", "Updated_ET"]
+
+
+def write_dict_rows(path: Path, rows: list[dict[str, str]], fields: list[str]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8-sig", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields, extrasaction="ignore")
+        writer.writeheader()
+        for row in rows:
+            writer.writerow({field: row.get(field, "") for field in fields})
+
+
+def project_relative_path(path_text: str) -> Path | None:
+    if not path_text:
+        return None
+    path = Path(path_text)
+    if not path.is_absolute():
+        path = PROJECT_ROOT / path
+    try:
+        resolved = path.resolve()
+        resolved.relative_to(PROJECT_ROOT.resolve())
+    except (OSError, ValueError):
+        return None
+    return resolved
+
+
+def adobe_decisions() -> dict[str, dict[str, str]]:
+    return {
+        row.get("Parent_Asset_ID", ""): row
+        for row in read_csv(ADOBE_QA_FILE)
+        if row.get("Parent_Asset_ID")
+    }
+
+
+def adobe_quality_by_asset() -> dict[str, dict[str, str]]:
+    return {
+        row.get("Parent_Asset_ID", ""): row
+        for row in read_csv(ADOBE_LOCAL_UPSCALED_FILE)
+        if row.get("Parent_Asset_ID")
+    }
+
+
+def interleave_by_family(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    grouped: dict[str, list[dict[str, Any]]] = {}
+    order: list[str] = []
+    for item in items:
+        family = str(item.get("family") or item.get("source") or "Other")
+        if family not in grouped:
+            grouped[family] = []
+            order.append(family)
+        grouped[family].append(item)
+    mixed: list[dict[str, Any]] = []
+    while any(grouped.values()):
+        for family in order:
+            if grouped[family]:
+                mixed.append(grouped[family].pop(0))
+    return mixed
+
+
+def adobe_visual_review_summary() -> dict[str, Any]:
+    ready = read_csv(ADOBE_UPLOAD_READY_FILE)
+    decisions = adobe_decisions()
+    first_submit = read_csv(ADOBE_FIRST_SUBMIT_FILE)
+    counts = {"PASS": 0, "REJECT": 0, "HOLD": 0, "PENDING": 0}
+    samples: list[dict[str, str]] = []
+    for row in ready:
+        parent_id = str(row.get("Parent_Asset_ID") or "").strip()
+        decision = str(decisions.get(parent_id, {}).get("Decision") or "PENDING").upper()
+        if decision not in counts:
+            decision = "PENDING"
+        counts[decision] += 1
+        if decision in {"PENDING", "HOLD"} and len(samples) < 5:
+            samples.append(
+                {
+                    "id": parent_id,
+                    "family": str(row.get("Family") or ""),
+                    "title": str(row.get("Title") or ""),
+                    "decision": decision,
+                }
+            )
+    if not samples:
+        for row in first_submit[:7]:
+            samples.append(
+                {
+                    "id": str(row.get("Parent_Asset_ID") or ""),
+                    "family": str(row.get("Family") or ""),
+                    "title": str(row.get("Title") or ""),
+                    "decision": "FIRST_SUBMIT",
+                }
+            )
+    return {
+        "adobe_qa_url": "/adobe-qa",
+        "ready_count": len(ready),
+        "first_submit_count": len(first_submit),
+        "counts": counts,
+        "needs_rex_count": counts["PENDING"] + counts["HOLD"],
+        "samples": samples,
+        "first_submit_csv": str(ADOBE_FIRST_SUBMIT_FILE),
+        "ready_csv": str(ADOBE_UPLOAD_READY_FILE),
+    }
+
+
+def adobe_qa_payload() -> dict[str, Any]:
+    ready = read_csv(ADOBE_UPLOAD_READY_FILE)
+    decisions = adobe_decisions()
+    quality = adobe_quality_by_asset()
+    items: list[dict[str, Any]] = []
+    for index, row in enumerate(ready, start=1):
+        parent_id = str(row.get("Parent_Asset_ID") or "")
+        decision = decisions.get(parent_id, {})
+        decision_value = str(decision.get("Decision") or "PENDING").upper()
+        if decision_value != "PENDING":
+            continue
+        qrow = quality.get(parent_id, {})
+        local_path = str(row.get("Local_Path") or "")
+        items.append(
+            {
+                "index": index,
+                "parent_asset_id": parent_id,
+                "family": row.get("Family", ""),
+                "title": row.get("Title", ""),
+                "filename": row.get("Filename", ""),
+                "local_path": local_path,
+                "image_url": f"/asset?path={local_path}",
+                "decision": decision_value,
+                "reason": decision.get("Reason", ""),
+                "updated_et": decision.get("Updated_ET", ""),
+                "width": qrow.get("Width", ""),
+                "height": qrow.get("Height", ""),
+                "pixels": qrow.get("Pixels", ""),
+                "edge_score": qrow.get("Edge_Detail_Score", ""),
+                "qa_status": qrow.get("QA_Status", row.get("Status", "")),
+                "issues": qrow.get("Issues", ""),
+                "source": "upload_ready",
+            }
+        )
+    # Rex training queue: show locally upscaled Adobe candidates that have not
+    # received a Rex decision yet, even when the local automated QA is holding
+    # them. These are not upload-ready, but they are useful visual training
+    # material and make the QA page non-empty while new MJ grids are still
+    # harvesting.
+    for row in read_csv(ADOBE_LOCAL_UPSCALED_FILE):
+        parent_id = str(row.get("Parent_Asset_ID") or "").strip()
+        if not parent_id:
+            continue
+        decision = decisions.get(parent_id, {})
+        decision_value = str(decision.get("Decision") or "PENDING").upper()
+        if decision_value != "PENDING":
+            continue
+        local_path = str(row.get("Upscaled_Path") or row.get("Source_Path") or "")
+        if not local_path:
+            continue
+        resolved = project_relative_path(local_path)
+        if not resolved or not resolved.exists():
+            continue
+        qa_status = str(row.get("QA_Status") or "")
+        items.append(
+            {
+                "index": 0,
+                "parent_asset_id": parent_id,
+                "family": row.get("Family", ""),
+                "title": row.get("Title", ""),
+                "filename": Path(local_path).name,
+                "local_path": str(resolved),
+                "image_url": f"/asset?path={resolved}",
+                "decision": decision_value,
+                "reason": decision.get("Reason", ""),
+                "updated_et": decision.get("Updated_ET", ""),
+                "width": row.get("Width", ""),
+                "height": row.get("Height", ""),
+                "pixels": row.get("Pixels", ""),
+                "edge_score": row.get("Edge_Detail_Score", ""),
+                "qa_status": qa_status,
+                "issues": row.get("Issues", ""),
+                "source": "local_upscaled_candidate",
+            }
+        )
+    market_items: list[dict[str, Any]] = []
+    for row in read_csv(ADOBE_MARKET_SAMPLE_FILE):
+        sku = str(row.get("Internal_SKU") or row.get("Source_Queue_ID") or "").strip()
+        output_folder = str(row.get("Output_Folder") or "").strip()
+        grid = str(row.get("Grid_File") or "").strip()
+        if not grid and sku and output_folder:
+            # The harvester can download a grid before the CSV row is rewritten
+            # by a later recovery pass. The QA UI is Rex's training surface, so
+            # prefer the physical file if it exists instead of hiding real work.
+            expected = PROJECT_ROOT / output_folder / f"{sku}_Grid.png"
+            if expected.exists():
+                grid = str(expected)
+        grid_path = project_relative_path(grid)
+        if not grid_path or not grid_path.exists():
+            continue
+        parent_id = sku
+        decision = decisions.get(parent_id, {})
+        decision_value = str(decision.get("Decision") or "PENDING").upper()
+        if decision_value != "PENDING":
+            continue
+        concept = str(row.get("Concept_Name") or "")
+        family = concept.split(" / ")[0] if concept else "Market sample"
+        market_items.append(
+            {
+                "index": 0,
+                "parent_asset_id": parent_id,
+                "family": family,
+                "title": row.get("Adobe_Title", ""),
+                "filename": Path(grid).name,
+                "local_path": str(grid_path),
+                "image_url": f"/asset?path={grid_path}",
+                "decision": decision_value,
+                "reason": decision.get("Reason", ""),
+                "updated_et": decision.get("Updated_ET", ""),
+                "width": "grid",
+                "height": "draft",
+                "pixels": "",
+                "edge_score": "",
+                "qa_status": "MARKET_TRAINING_GRID",
+                "issues": row.get("Review_Note", ""),
+                "source": "market_training",
+            }
+        )
+    # Put mixed market-training grids first because Rex is training taste before
+    # upload. Interleave them so one material family does not dominate the page.
+    items = interleave_by_family(market_items) + items
+    for index, item in enumerate(items, start=1):
+        item["index"] = index
+    counts: dict[str, int] = {}
+    for item in items:
+        counts[item["decision"]] = counts.get(item["decision"], 0) + 1
+    source_counts: dict[str, int] = {}
+    for item in items:
+        source = str(item.get("source") or "unknown")
+        source_counts[source] = source_counts.get(source, 0) + 1
+    return {
+        "updated_at_et": datetime.now(ET).isoformat(timespec="seconds"),
+        "count": len(items),
+        "counts": counts,
+        "source_counts": source_counts,
+        "items": items,
+        "qa_file": str(ADOBE_QA_FILE),
+    }
+
+
+def save_adobe_decision(payload: dict[str, Any]) -> dict[str, Any]:
+    parent_id = str(payload.get("parent_asset_id") or "").strip()
+    decision = str(payload.get("decision") or "").strip().upper()
+    reason = str(payload.get("reason") or "").strip()
+    if not parent_id:
+        raise ValueError("missing parent_asset_id")
+    if decision not in {"PASS", "REJECT", "HOLD", "PENDING"}:
+        raise ValueError("decision must be PASS, REJECT, HOLD, or PENDING")
+    rows = read_csv(ADOBE_QA_FILE)
+    by_id = {row.get("Parent_Asset_ID", ""): row for row in rows if row.get("Parent_Asset_ID")}
+    if decision == "PENDING":
+        by_id.pop(parent_id, None)
+    else:
+        by_id[parent_id] = {
+            "Parent_Asset_ID": parent_id,
+            "Decision": decision,
+            "Reason": reason,
+            "Updated_ET": datetime.now(ET).strftime("%Y-%m-%d %H:%M EDT"),
+        }
+    write_dict_rows(ADOBE_QA_FILE, list(by_id.values()), ADOBE_QA_FIELDS)
+    return {"ok": True, "parent_asset_id": parent_id, "decision": decision}
+
+
+ADOBE_QA_HTML = r"""<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Adobe Stock QA</title>
+  <style>
+    :root { color-scheme: dark; --bg:#0f1215; --panel:#171b20; --line:#303743; --text:#f3f5f7; --muted:#a6b0ba; --ok:#69d6a3; --bad:#ff6b6b; --warn:#ffd166; --blue:#8ecae6; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family:Segoe UI, Arial, sans-serif; }
+    main { max-width:1520px; margin:0 auto; padding:20px; }
+    header { display:flex; justify-content:space-between; gap:16px; align-items:flex-end; margin-bottom:14px; }
+    h1 { margin:0; font-size:25px; }
+    .sub { color:var(--muted); font-size:13px; margin-top:6px; }
+    a { color:var(--blue); text-decoration:none; }
+    .stats { display:flex; gap:8px; flex-wrap:wrap; }
+    .badge { padding:7px 10px; border-radius:999px; font-weight:800; font-size:12px; letter-spacing:.04em; background:#25303b; }
+    .pass { background:#173228; color:var(--ok); }
+    .reject { background:#392127; color:var(--bad); }
+    .hold { background:#3a321e; color:var(--warn); }
+    .pending { background:#26303a; color:#cbd5df; }
+    .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+    .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; overflow:hidden; box-shadow:0 10px 24px rgba(0,0,0,.18); }
+    .card.pass-card { border-color:#28765e; }
+    .card.reject-card { border-color:#743240; opacity:.72; }
+    .card.hold-card { border-color:#80662c; }
+    .image-wrap { background:#0a0d10; min-height:220px; display:flex; align-items:center; justify-content:center; }
+    img { width:100%; height:260px; object-fit:contain; display:block; }
+    .body { padding:12px; }
+    .title { font-weight:850; line-height:1.25; margin-bottom:7px; }
+    .meta { color:var(--muted); font-size:12px; line-height:1.4; margin-bottom:9px; }
+    textarea { width:100%; min-height:54px; border-radius:8px; border:1px solid #3b4653; background:#10151b; color:var(--text); padding:8px; resize:vertical; box-sizing:border-box; }
+    .buttons { display:grid; grid-template-columns:repeat(5,1fr); gap:7px; margin-top:8px; }
+    button { border:0; border-radius:8px; padding:9px 7px; cursor:pointer; font-weight:800; color:#0d1116; }
+    button.pass { background:var(--ok); color:#07130e; }
+    button.reject { background:var(--bad); color:#170607; }
+    button.hold { background:var(--warn); color:#1b1300; }
+    button.pending { background:#cbd5df; color:#10151b; }
+    button.submit { background:#8ecae6; color:#07131a; }
+    button.selected { outline:3px solid #f3f5f7; outline-offset:2px; }
+    @media (max-width:1180px) { .grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media (max-width:760px) { .grid { grid-template-columns:1fr; } header { display:block; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <h1>Adobe Stock Visual QA</h1>
+      <div class="sub">Market-training grids are mixed by material family first; upload-ready images follow. Pass/Reject/Hold writes to <code>Database\Adobe_Stock_Rex_Visual_QA.csv</code>. Auto-refreshes every 20s.</div>
+      <div class="sub"><a href="/">Back to HUD</a></div>
+    </div>
+    <div id="stats" class="stats"></div>
+  </header>
+  <section id="grid" class="grid"></section>
+</main>
+<script>
+const safe = value => String(value ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pendingDecisions = {};
+function cls(decision) { return String(decision || 'PENDING').toLowerCase(); }
+function button(item, decision, label) {
+  const selected = String(item.decision || 'PENDING').toUpperCase() === decision ? ' selected' : '';
+  return `<button class="${cls(decision)}${selected}" onclick="setPendingDecision('${safe(item.parent_asset_id)}','${decision}', this)">${label}</button>`;
+}
+function render(data) {
+  const counts = data.counts || {};
+  const sources = data.source_counts || {};
+  document.getElementById('stats').innerHTML = ['PASS','REJECT','HOLD','PENDING'].map(k => `<span class="badge ${cls(k)}">${k}: ${counts[k] || 0}</span>`).join('') +
+    `<span class="badge">Training: ${sources.market_training || 0}</span><span class="badge">Upload-ready: ${sources.upload_ready || 0}</span>`;
+  document.getElementById('grid').innerHTML = (data.items || []).map(item => {
+    const c = cls(item.decision);
+    const commentId = `comment-${safe(item.parent_asset_id)}`;
+    const pending = pendingDecisions[item.parent_asset_id] || item.decision || 'PENDING';
+    return `<article class="card ${c}-card">
+      <div class="image-wrap"><img loading="lazy" src="${safe(item.image_url)}" alt="${safe(item.parent_asset_id)}"></div>
+      <div class="body">
+        <div class="title">${item.index}. ${safe(item.family)} <span class="badge">${safe(item.source || '')}</span> <span class="badge ${c}">${safe(item.decision)}</span></div>
+        <div class="meta">${safe(item.title)}<br>${safe(item.parent_asset_id)}<br>${safe(item.width)} x ${safe(item.height)} px - edge ${safe(item.edge_score || '--')} - ${safe(item.qa_status)}${item.issues ? '<br>Issues: ' + safe(item.issues) : ''}</div>
+        <textarea id="${commentId}" placeholder="Rex comment / why pass or reject">${safe(item.reason)}</textarea>
+        <div class="buttons">
+          ${button({...item, decision: pending}, 'PASS', 'Positive')}
+          ${button({...item, decision: pending}, 'REJECT', 'Negative')}
+          ${button({...item, decision: pending}, 'HOLD', 'Rework')}
+          ${button({...item, decision: pending}, 'PENDING', 'Clear')}
+          <button class="submit" onclick="submitDecision('${safe(item.parent_asset_id)}')">Submit</button>
+        </div>
+      </div>
+    </article>`;
+  }).join('');
+}
+function setPendingDecision(parentId, decision, el) {
+  pendingDecisions[parentId] = decision;
+  const box = el.closest('.buttons');
+  box.querySelectorAll('button').forEach(btn => btn.classList.remove('selected'));
+  el.classList.add('selected');
+}
+async function submitDecision(parentId) {
+  const decision = pendingDecisions[parentId] || 'PENDING';
+  await saveDecision(parentId, decision);
+}
+async function saveDecision(parentId, decision) {
+  const reason = document.getElementById(`comment-${parentId}`)?.value || '';
+  const res = await fetch('/api/adobe-qa/decision', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({parent_asset_id:parentId, decision, reason})});
+  if (!res.ok) alert(await res.text());
+  await refresh();
+}
+async function refresh() {
+  const res = await fetch('/api/adobe-qa', {cache:'no-store'});
+  render(await res.json());
+}
+refresh();
+setInterval(refresh, 20000);
+</script>
+</body>
+</html>
+"""
 
 
 HTML = r"""<!doctype html>
@@ -1077,6 +1521,18 @@ HTML = r"""<!doctype html>
     .rex-action-card.bad { border-color:#8b3541; background:#211318; }
     .rex-action-card b { display:block; color:#f7fafc; margin-bottom:5px; }
     .rex-action-card span { display:block; color:var(--muted); font-size:12px; line-height:1.35; margin-top:5px; }
+    .qa-panel { margin-bottom:12px; border:1px solid #384657; border-radius:12px; padding:15px; background:#10151b; box-shadow:0 12px 32px rgba(0,0,0,.18); }
+    .qa-panel.needs { border-color:#bf9b30; background:linear-gradient(180deg,#251f0d,#10151b); }
+    .qa-panel.clear { border-color:#2c604f; background:linear-gradient(180deg,#0d1f1b,#10151b); }
+    .qa-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+    .qa-title { margin-top:5px; color:#f6f8fb; font-size:20px; font-weight:850; line-height:1.25; }
+    .qa-actions { display:flex; flex-wrap:wrap; gap:9px; margin-top:12px; align-items:center; }
+    .qa-button { display:inline-flex; align-items:center; justify-content:center; padding:10px 14px; border-radius:10px; border:1px solid #6cd6bf; background:#12302d; color:#eafff8; font-weight:900; }
+    .qa-button.secondary { border-color:#435160; background:#131a22; color:#cbd6df; }
+    .qa-stats { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+    .qa-samples { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-top:10px; }
+    .qa-sample { border:1px solid #35404c; border-radius:9px; padding:9px; background:#121820; color:var(--muted); font-size:12px; line-height:1.35; }
+    .qa-sample b { display:block; color:#f4f7fa; font-size:13px; margin-bottom:3px; }
     .pipeline { cursor:pointer; transition:border-color .2s, transform .2s; min-height:210px; display:flex; flex-direction:column; gap:9px; }
     .pipeline:hover { border-color:#70e1c8; transform:translateY(-1px); }
     .span2 { grid-column:span 2; }
@@ -1115,6 +1571,10 @@ HTML = r"""<!doctype html>
     .chip strong { display:flex; justify-content:space-between; gap:8px; font-size:14px; color:#eef4f8; }
     .chip .count { color:#70e1c8; font-size:16px; }
     .chip small { display:block; color:var(--muted); margin-top:6px; line-height:1.35; word-break:break-word; }
+    .proof-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-top:10px; }
+    .proof-item { border:1px solid #33404c; background:#10151b; border-radius:9px; padding:9px 10px; }
+    .proof-item b { display:block; color:#f4f7fa; margin-bottom:4px; }
+    .proof-item small { color:var(--muted); line-height:1.35; display:block; }
     .daily-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin-top:10px; }
     .daily-task { border:1px solid #313a45; background:#10151b; border-radius:10px; padding:12px; min-height:130px; }
     .daily-task.key { border-color:#6cd6bf; background:linear-gradient(180deg,#10201f,#10151b); }
@@ -1155,6 +1615,22 @@ HTML = r"""<!doctype html>
       <div id="rexActionBadge" class="badge warn">LOADING</div>
     </div>
     <div id="rexActionList" class="rex-action-grid"></div>
+  </section>
+
+  <section id="visualQaPanel" class="qa-panel clear">
+    <div class="qa-head">
+      <div>
+        <div class="label">Visual QA Queue</div>
+        <div id="visualQaHeadline" class="qa-title">Checking images that need Rex review...</div>
+      </div>
+      <div id="visualQaBadge" class="badge warn">LOADING</div>
+    </div>
+    <div id="visualQaStats" class="qa-stats"></div>
+    <div class="qa-actions">
+      <a class="qa-button" href="/adobe-qa">Open Adobe Stock Review UI</a>
+      <a class="qa-button secondary" href="/project/adobe_stock">Open Adobe Detail</a>
+    </div>
+    <div id="visualQaSamples" class="qa-samples"></div>
   </section>
 
   <section class="grid" id="pipelineGrid"></section>
@@ -1200,7 +1676,7 @@ HTML = r"""<!doctype html>
     <div class="card span4">
       <div class="label">Progress Pulse</div>
       <div class="pulse-head">
-        <div class="pulse-title">Last 10 minutes</div>
+        <div class="pulse-title">Last 30 minutes</div>
         <div id="last10Window" class="pulse-window">--</div>
       </div>
       <div class="pulse-kpi">
@@ -1215,12 +1691,12 @@ HTML = r"""<!doctype html>
       </details>
       <div class="divider"></div>
       <div class="pulse-head">
-        <div class="pulse-title">Last 60 minutes</div>
+        <div class="pulse-title">Last 2 hours</div>
         <div id="last60Window" class="pulse-window">--</div>
       </div>
       <div id="last60Chips" class="chip-grid"></div>
       <details class="raw">
-        <summary>raw 60-minute summary</summary>
+        <summary>raw 2-hour summary</summary>
         <p id="last60Raw" class="mono">--</p>
       </details>
       <div class="label">Remaining / Blockers</div>
@@ -1229,6 +1705,23 @@ HTML = r"""<!doctype html>
     <div class="card span6 events">
       <div class="label">Recent Raw Events</div>
       <div id="events"></div>
+    </div>
+    <div class="card span6">
+      <div class="pulse-head">
+        <div>
+          <div class="label">Two-Hour Progress Judgment</div>
+          <div class="pulse-title" id="twoHourJudgment">loading...</div>
+        </div>
+        <div id="twoHourWindow" class="pulse-window">--</div>
+      </div>
+      <div class="pulse-kpi">
+        <div class="kpi"><b id="twoHourTotal">--</b><span>commands completed</span></div>
+        <div class="kpi"><b id="twoHourTop">--</b><span>top project</span></div>
+        <div class="kpi"><b id="twoHourProofs">--</b><span>work proofs</span></div>
+      </div>
+      <div id="twoHourChips" class="chip-grid"></div>
+      <div class="label" style="margin-top:12px;">Latest Concrete Proof</div>
+      <div id="workProofList" class="proof-list"></div>
     </div>
   </section>
 </main>
@@ -1294,7 +1787,7 @@ function renderDuty(duty) {
   ids('dutyBadge').textContent = label;
   ids('dutyBadge').className = `badge ${badgeClass(duty.status_class)}`;
   ids('dutyDetail').textContent = `${duty.productive_minutes ?? '--'}m working / ${duty.available_minutes ?? '--'}m shift elapsed; idle ${duty.idle_minutes ?? '--'}m.`;
-  ids('dutyTarget').textContent = `Shift ${fmtTime(duty.window_start_et)} -> ${fmtTime(duty.window_end_target_et)} ET; target 95%+ until 06:00.`;
+  ids('dutyTarget').textContent = `Shift ${fmtTime(duty.window_start_et)} -> ${fmtTime(duty.window_end_target_et)} ET; target 95%+ until adaptive duty deadline.`;
 }
 function renderCards(cards) {
   ids('pipelineGrid').innerHTML = cards.map(card => `
@@ -1350,11 +1843,63 @@ function renderRexActions(actions) {
   badge.textContent = 'REX NEEDED';
   badge.className = actions.some(a => a.severity === 'bad') ? 'badge bad' : 'badge warn';
   headline.textContent = `${actions.length} parked lane(s). Only these need Rex; other safe lanes continue.`;
-  ids('rexActionList').innerHTML = actions.map(a => `<div class="rex-action-card ${badgeClass(a.severity)}">
+  ids('rexActionList').innerHTML = actions.map(a => {
+    const blob = `${a.project || ''} ${a.title || ''}`.toLowerCase();
+    const actionUrl = blob.includes('adobe') ? '/adobe-qa' : (blob.includes('ebay') ? '/project/ebay' : '');
+    const actionLabel = blob.includes('adobe') ? 'Review Adobe samples' : (blob.includes('ebay') ? 'Open eBay status' : 'Open detail');
+    return `<div class="rex-action-card ${badgeClass(a.severity)}">
     <b>${safe(a.project)} — ${safe(a.title)}</b>
     <span><strong>Rex:</strong> ${safe(a.rex_needed)}</span>
     <span><strong>Codex meanwhile:</strong> ${safe(a.system_action)}</span>
-  </div>`).join('');
+    ${actionUrl ? `<span><a class="qa-button secondary" href="${actionUrl}" style="margin-top:8px;padding:7px 10px;">${safe(actionLabel)}</a></span>` : ''}
+  </div>`;
+  }).join('');
+}
+function renderVisualQa(qa) {
+  qa = qa || {counts: {}, needs_rex_count: 0, ready_count: 0, first_submit_count: 0, samples: []};
+  const panel = ids('visualQaPanel');
+  const badge = ids('visualQaBadge');
+  const headline = ids('visualQaHeadline');
+  const needs = Number(qa.needs_rex_count || 0);
+  panel.className = needs > 0 ? 'qa-panel needs' : 'qa-panel clear';
+  badge.textContent = needs > 0 ? 'REX QA' : 'QA CLEAR';
+  badge.className = needs > 0 ? 'badge warn' : 'badge ok';
+  headline.textContent = needs > 0
+    ? `${needs} Adobe Stock image(s) need Rex pass/reject/hold. Open the review UI before upload.`
+    : `No pending Adobe Stock image QA. First-submit set has ${qa.first_submit_count || 0} image(s).`;
+  const counts = qa.counts || {};
+  ids('visualQaStats').innerHTML = [
+    ['Ready', qa.ready_count || 0, 'ok'],
+    ['First submit', qa.first_submit_count || 0, 'ok'],
+    ['PASS', counts.PASS || 0, 'ok'],
+    ['REJECT', counts.REJECT || 0, 'bad'],
+    ['HOLD', counts.HOLD || 0, 'warn'],
+    ['PENDING', counts.PENDING || 0, needs > 0 ? 'warn' : 'ok'],
+  ].map(([label, value, cls]) => `<span class="badge ${cls}">${safe(label)}: ${safe(value)}</span>`).join('');
+  ids('visualQaSamples').innerHTML = (qa.samples || []).map(item => `<div class="qa-sample">
+    <b>${safe(item.family || 'Adobe Stock')} · ${safe(item.decision || 'PENDING')}</b>
+    ${safe(item.title || item.id || '')}<br><span class="mono">${safe(item.id || '')}</span>
+  </div>`).join('') || '<div class="qa-sample"><b>No pending/hold sample.</b>Use the Adobe review UI only when new images are staged.</div>';
+}
+function renderTwoHourProgress(twoHour) {
+  twoHour = twoHour || {grouped_counts: {}, work_proofs: []};
+  ids('twoHourJudgment').textContent = twoHour.judgment || 'No two-hour data yet.';
+  ids('twoHourWindow').textContent = twoHour.window || '--';
+  ids('twoHourTotal').textContent = twoHour.total_completed ?? 0;
+  ids('twoHourTop').textContent = twoHour.top_project || '--';
+  ids('twoHourProofs').textContent = (twoHour.work_proofs || []).length;
+  const entries = Object.entries(twoHour.grouped_counts || {}).sort((a,b) => b[1] - a[1]);
+  ids('twoHourChips').innerHTML = entries.slice(0, 8).map(([project, count]) => `
+    <div class="chip ${count > 0 ? 'priority' : ''}">
+      <strong><span>${safe(project)}</span><span class="count">${safe(count)}</span></strong>
+      <small>Completed commands in the last 120 minutes.</small>
+    </div>`).join('') || '<div class="chip warn-chip"><strong><span>No recent completions</span><span class="count">0</span></strong><small>Check loop state and blocked lanes.</small></div>';
+  ids('workProofList').innerHTML = (twoHour.work_proofs || []).slice(0, 6).map(proof => `
+    <div class="proof-item">
+      <b>${safe(proof.project || 'OpenClaw')} Â· ${safe(proof.source || 'proof')}</b>
+      <small>${safe(proof.summary || '')}</small>
+      <small class="mono">${safe(proof.time || '')}</small>
+    </div>`).join('') || '<div class="proof-item"><b>No proof yet</b><small>Work proof recorder has not written recent entries.</small></div>';
 }
 async function refresh() {
   try {
@@ -1365,6 +1910,8 @@ async function refresh() {
     renderCards(data.pipeline_cards || []);
     renderDailyTasks(data.daily_tasks);
     renderRexActions(data.rex_actions || []);
+    renderVisualQa(data.visual_qa || {});
+    renderTwoHourProgress(data.two_hour_progress || {});
     ids('pid').textContent = data.loop.pid ?? '--';
     ids('completed').textContent = data.loop.total_completed;
     ids('cmd').textContent = data.loop.current_command;
@@ -1581,6 +2128,23 @@ class Handler(BaseHTTPRequestHandler):
         if path in {"/", "/index.html"}:
             self._send(200, HTML.encode("utf-8"), "text/html; charset=utf-8")
             return
+        if path == "/adobe-qa":
+            self._send(200, ADOBE_QA_HTML.encode("utf-8"), "text/html; charset=utf-8")
+            return
+        if path == "/api/adobe-qa":
+            payload = json.dumps(adobe_qa_payload(), ensure_ascii=False, indent=2).encode("utf-8")
+            self._send(200, payload, "application/json; charset=utf-8")
+            return
+        if path == "/asset":
+            query = parse_qs(urlparse(self.path).query)
+            asset_path = project_relative_path((query.get("path") or [""])[0])
+            if not asset_path or not asset_path.exists() or not asset_path.is_file():
+                self._send(404, b"asset not found", "text/plain; charset=utf-8")
+                return
+            suffix = asset_path.suffix.lower()
+            content_type = "image/jpeg" if suffix in {".jpg", ".jpeg"} else "image/png" if suffix == ".png" else "application/octet-stream"
+            self._send(200, asset_path.read_bytes(), content_type)
+            return
         if path.startswith("/project/"):
             project_id = normalize_project_id(path.split("/", 2)[2])
             body = DETAIL_HTML.replace("__PROJECT_ID__", project_id).encode("utf-8")
@@ -1594,6 +2158,20 @@ class Handler(BaseHTTPRequestHandler):
             project_id = normalize_project_id(path.split("/", 3)[3])
             payload = json.dumps(project_payload(project_id), ensure_ascii=False, indent=2).encode("utf-8")
             self._send(200, payload, "application/json; charset=utf-8")
+            return
+        self._send(404, b"not found", "text/plain; charset=utf-8")
+
+    def do_POST(self) -> None:
+        path = urlparse(self.path).path
+        if path == "/api/adobe-qa/decision":
+            length = int(self.headers.get("Content-Length") or "0")
+            try:
+                payload = json.loads(self.rfile.read(length).decode("utf-8") or "{}")
+                result = save_adobe_decision(payload)
+                body = json.dumps(result, ensure_ascii=False).encode("utf-8")
+                self._send(200, body, "application/json; charset=utf-8")
+            except Exception as exc:
+                self._send(400, str(exc).encode("utf-8"), "text/plain; charset=utf-8")
             return
         self._send(404, b"not found", "text/plain; charset=utf-8")
 

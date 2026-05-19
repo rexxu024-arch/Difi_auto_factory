@@ -13,7 +13,14 @@ New-Item -ItemType Directory -Force -Path $DatabaseDir | Out-Null
 
 $ensureOutput = @()
 if (Test-Path $EnsureScript) {
-    $ensureOutput = & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $EnsureScript 2>&1
+    try {
+        $ensureOutput = & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $EnsureScript 2>&1
+    } catch {
+        $ensureOutput = @(
+            "[SHIFT-WARN] ensure script failed during turn close; continuation trigger will still be written.",
+            $_.Exception.Message
+        )
+    }
 } else {
     $ensureOutput = @("[SHIFT-WARN] ensure script missing: $EnsureScript")
 }

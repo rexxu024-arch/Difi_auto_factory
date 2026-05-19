@@ -10,6 +10,7 @@ $RetentionScript = Join-Path $Root 'modules\log_retention_archive.py'
 $WeatherScript = Join-Path $Root 'modules\weather_forecast_update.py'
 $PidFile = Join-Path $Root 'Database\Monthly_Shift_Loop.pid'
 $StateFile = Join-Path $Root 'Database\Monthly_Shift_Loop_State.md'
+$DashboardPidFile = Join-Path $Root 'Database\OpenClaw_Progress_Dashboard.pid'
 
 $StaleMinutesByCommand = @{
     'etsy_pod_publish_drip' = 40
@@ -43,6 +44,168 @@ function Get-LoopPid {
         return [int](Get-Content $PidFile -ErrorAction Stop)
     } catch {
         return $null
+    }
+}
+
+function Get-CommandLineProcess {
+    param([string]$Pattern)
+    $selfPid = $PID
+    Get-CimInstance Win32_Process |
+        Where-Object {
+            $_.CommandLine -and
+            $_.CommandLine -match $Pattern -and
+            [int]$_.ProcessId -ne [int]$selfPid -and
+            $_.CommandLine -notmatch 'ensure_monthly_shift_running\.ps1'
+        } |
+        Sort-Object ProcessId
+}
+
+function Get-CommandLineProcessByName {
+    param([string]$Pattern, [string]$ProcessName)
+    $selfPid = $PID
+    Get-CimInstance Win32_Process |
+        Where-Object {
+            $_.Name -eq $ProcessName -and
+            $_.CommandLine -and
+            $_.CommandLine -match $Pattern -and
+            [int]$_.ProcessId -ne [int]$selfPid -and
+            $_.CommandLine -notmatch 'ensure_monthly_shift_running\.ps1'
+        } |
+        Sort-Object ProcessId
+}
+
+function Stop-ProcessTreeQuiet {
+    param([int]$PidToStop)
+    if ($PidToStop -le 0) {
+        return
+    }
+    & taskkill.exe /PID $PidToStop /T /F | Out-Null
+}
+
+function Stop-SingleProcessQuiet {
+    param([int]$PidToStop)
+    if ($PidToStop -le 0) {
+        return
+    }
+    Stop-Process -Id $PidToStop -Force -ErrorAction SilentlyContinue
+}
+
+function Repair-DuplicateMonthlyLoops {
+    $processes = @(Get-CommandLineProcessByName -Pattern 'monthly_shift_loop\.py' -ProcessName 'python.exe')
+    if ($processes.Count -le 2) {
+        # On this Windows venv, one logical hidden Python launch can briefly
+        # appear as a tiny launcher/worker pair. Killing either one can kill
+        # the real long shift. Only intervene when more than that pair exists.
+        return
+    }
+
+    # During a startup race the pid file can briefly point at the loser process.
+    # Keep the newest live loop and rewrite the pid file to match reality.
+    $ranked = foreach ($proc in $processes) {
+        $p = Get-Process -Id ([int]$proc.ProcessId) -ErrorAction SilentlyContinue
+        if ($null -ne $p) {
+            [pscustomobject]@{
+                Process = $proc
+                StartTime = $p.StartTime
+            }
+        }
+    }
+    $keep = ($ranked | Sort-Object StartTime -Descending | Select-Object -First 1).Process
+    if ($null -eq $keep) {
+        return
+    }
+    Set-Content -Path $PidFile -Value ([string]$keep.ProcessId) -Encoding UTF8
+
+    $killed = @()
+    foreach ($proc in $processes) {
+        if ([int]$proc.ProcessId -ne [int]$keep.ProcessId) {
+            Stop-SingleProcessQuiet -PidToStop ([int]$proc.ProcessId)
+            $killed += [int]$proc.ProcessId
+        }
+    }
+    if ($killed.Count -gt 0) {
+        Write-Output "[SHIFT-DUPLICATE-CLEANUP] kept=$($keep.ProcessId); killed=$($killed -join ',')."
+    }
+}
+
+function Repair-DuplicateLoopWrappers {
+    $processes = @(Get-CommandLineProcessByName -Pattern 'continue_monthly_tasks_5h\.ps1' -ProcessName 'powershell.exe')
+    if ($processes.Count -le 1) {
+        return
+    }
+    $keep = $processes | Select-Object -First 1
+    $killed = @()
+    foreach ($proc in $processes) {
+        if ([int]$proc.ProcessId -ne [int]$keep.ProcessId) {
+            Stop-SingleProcessQuiet -PidToStop ([int]$proc.ProcessId)
+            $killed += [int]$proc.ProcessId
+        }
+    }
+    if ($killed.Count -gt 0) {
+        Write-Output "[SHIFT-WRAPPER-DUPLICATE-CLEANUP] kept=$($keep.ProcessId); killed=$($killed -join ',')."
+    }
+}
+
+function Repair-DuplicateDashboardServers {
+    $processes = @(Get-CommandLineProcessByName -Pattern 'progress_dashboard_server\.py' -ProcessName 'python.exe')
+    if ($processes.Count -le 1) {
+        return
+    }
+
+    $preferredPid = $null
+    if (Test-Path $DashboardPidFile) {
+        try {
+            $preferredPid = [int](Get-Content $DashboardPidFile -ErrorAction Stop)
+        } catch {
+            $preferredPid = $null
+        }
+    }
+
+    $keep = $null
+    if ($null -ne $preferredPid) {
+        $keep = $processes | Where-Object { [int]$_.ProcessId -eq [int]$preferredPid } | Select-Object -First 1
+    }
+    if ($null -eq $keep) {
+        $keep = $processes | Select-Object -First 1
+        Set-Content -Path $DashboardPidFile -Value ([string]$keep.ProcessId) -Encoding UTF8
+    }
+
+    # Python launchers on Windows can appear as a parent/child pair with the
+    # same command line. If the pid file points to the child listener, killing
+    # its parent breaks the server even though the child looked like the one to
+    # keep. Preserve the preferred pid plus any dashboard ancestors/descendants
+    # in the same chain; kill only unrelated duplicate chains.
+    $keepIds = New-Object 'System.Collections.Generic.HashSet[int]'
+    [void]$keepIds.Add([int]$keep.ProcessId)
+    $changed = $true
+    while ($changed) {
+        $changed = $false
+        foreach ($proc in $processes) {
+            $procId = [int]$proc.ProcessId
+            $ppid = [int]$proc.ParentProcessId
+            if ($keepIds.Contains($procId) -or $keepIds.Contains($ppid)) {
+                if (-not $keepIds.Contains($procId)) {
+                    [void]$keepIds.Add($procId)
+                    $changed = $true
+                }
+                $parent = $processes | Where-Object { [int]$_.ProcessId -eq $ppid } | Select-Object -First 1
+                if ($null -ne $parent -and -not $keepIds.Contains([int]$parent.ProcessId)) {
+                    [void]$keepIds.Add([int]$parent.ProcessId)
+                    $changed = $true
+                }
+            }
+        }
+    }
+
+    $killed = @()
+    foreach ($proc in $processes) {
+        if (-not $keepIds.Contains([int]$proc.ProcessId)) {
+            Stop-ProcessTreeQuiet -PidToStop ([int]$proc.ProcessId)
+            $killed += [int]$proc.ProcessId
+        }
+    }
+    if ($killed.Count -gt 0) {
+        Write-Output "[HUD-DUPLICATE-CLEANUP] kept=$($keepIds -join ','); killed=$($killed -join ',')."
     }
 }
 
@@ -114,11 +277,13 @@ function Get-ShiftProgressState {
 }
 
 function Start-LoopHidden {
-    Start-Process -FilePath 'powershell.exe' `
-        -ArgumentList @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $Runner) `
+    Remove-Item (Join-Path $Root 'Database\Monthly_Shift_Loop.start.lock') -ErrorAction SilentlyContinue
+    Start-Process -FilePath $Python `
+        -ArgumentList @($LoopScript, '--max-minutes', '0', '--min-minutes', '0', '--sleep-seconds', '1') `
         -WorkingDirectory $Root `
         -WindowStyle Hidden
-    Start-Sleep -Seconds 3
+    Start-Sleep -Seconds 5
+    Repair-DuplicateMonthlyLoops
 }
 
 function Restart-Loop {
@@ -132,31 +297,46 @@ function Restart-Loop {
     Write-Output "[SHIFT-RESTARTED] monthly shift loop repaired; reason=$Reason."
 }
 
-if (Test-Path $WeatherScript) {
-    try {
-        & $Python $WeatherScript --quiet
-    } catch {
-        Write-Output "[WEATHER-WARN] forecast update failed: $($_.Exception.Message)"
-    }
+$WatchdogMutex = [System.Threading.Mutex]::new($false, 'Global\OpenClawMonthlyShiftWatchdog')
+if (-not $WatchdogMutex.WaitOne(0)) {
+    Write-Output '[WATCHDOG-SKIP] another watchdog/visible bridge instance is already running; skipping this overlapping check.'
+    exit 0
 }
 
-if (-not (Test-LoopPidAlive)) {
-    Start-LoopHidden
-    Write-Output '[SHIFT-RESTARTED] monthly shift loop was missing and has been restarted.'
-} else {
-    $loopPid = Get-LoopPid
-    $progress = Get-ShiftProgressState
-    if ($progress.stale) {
-        Restart-Loop -Reason $progress.reason
+try {
+    if (Test-Path $WeatherScript) {
+        try {
+            & $Python $WeatherScript --quiet
+        } catch {
+            Write-Output "[WEATHER-WARN] forecast update failed: $($_.Exception.Message)"
+        }
+    }
+
+    Repair-DuplicateMonthlyLoops
+    Repair-DuplicateLoopWrappers
+    Repair-DuplicateDashboardServers
+
+    if (-not (Test-LoopPidAlive)) {
+        Start-LoopHidden
+        Write-Output '[SHIFT-RESTARTED] monthly shift loop was missing and has been restarted.'
     } else {
-        Write-Output "[SHIFT-ALIVE] monthly shift loop running; pid=$loopPid; latest_start=$($progress.latestStartNum):$($progress.latestStartName); latest_end=$($progress.latestEndNum):$($progress.latestEndName)."
+        $loopPid = Get-LoopPid
+        $progress = Get-ShiftProgressState
+        if ($progress.stale) {
+            Restart-Loop -Reason $progress.reason
+        } else {
+            Write-Output "[SHIFT-ALIVE] monthly shift loop running; pid=$loopPid; latest_start=$($progress.latestStartNum):$($progress.latestStartName); latest_end=$($progress.latestEndNum):$($progress.latestEndName)."
+        }
     }
-}
 
-if (Test-Path $RetentionScript) {
-    & $Python $RetentionScript --quiet
-}
+    if (Test-Path $RetentionScript) {
+        & $Python $RetentionScript --quiet
+    }
 
-if (Test-Path $BriefScript) {
-    & $Python $BriefScript
+    if (Test-Path $BriefScript) {
+        & $Python $BriefScript
+    }
+} finally {
+    $WatchdogMutex.ReleaseMutex() | Out-Null
+    $WatchdogMutex.Dispose()
 }
