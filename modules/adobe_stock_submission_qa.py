@@ -25,6 +25,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATABASE = PROJECT_ROOT / "Database"
 REVIEW = PROJECT_ROOT / "Review_Packets"
 FACTORY = PROJECT_ROOT / "adobe_stock_factory" / "upload_ready"
+HOLD_FACTORY = PROJECT_ROOT / "adobe_stock_factory" / "hold_training_reference_not_for_submit"
 PROGRESS_LOG = PROJECT_ROOT / "PROGRESS_LOG.md"
 LEDGER = DATABASE / "Adobe_Stock_Submission_Ledger.csv"
 OUT = DATABASE / "Adobe_Stock_Submission_QA.csv"
@@ -98,6 +99,14 @@ def write_rows(path: Path, rows: list[dict[str, str]]) -> None:
 
 
 def folder_for(batch: str) -> Path:
+    for root in (FACTORY, HOLD_FACTORY):
+        direct = root / batch
+        if direct.exists():
+            return direct
+    for root in (FACTORY, HOLD_FACTORY):
+        matches = sorted(path for path in root.glob(f"*{batch}*") if path.is_dir())
+        if matches:
+            return matches[0]
     return FACTORY / batch
 
 
@@ -111,6 +120,15 @@ def metadata_rows_by_folder(folder: Path) -> dict[str, tuple[Path, dict[str, str
             if filename:
                 rows.setdefault(filename, (csv_path, row))
     return rows
+
+
+def safe_project_path(path: Path) -> str:
+    if not path or str(path) == ".":
+        return ""
+    try:
+        return str(path.resolve().relative_to(PROJECT_ROOT))
+    except (OSError, ValueError):
+        return str(path)
 
 
 def public_metadata_status(title: str, keywords: str) -> tuple[str, str]:
@@ -203,7 +221,7 @@ def build(limit: int = 0) -> list[dict[str, str]]:
                 "Filename": filename,
                 "Batch": batch,
                 "Ledger_Status": clean(row.get("Status")),
-                "Local_File": str(image_path.relative_to(PROJECT_ROOT)) if image_path.exists() else str(image_path),
+                "Local_File": safe_project_path(image_path) if image_path.exists() else str(image_path),
                 "File_Exists": "yes" if file_exists else "no",
                 "Width": info.get("Width", ""),
                 "Height": info.get("Height", ""),
@@ -212,7 +230,7 @@ def build(limit: int = 0) -> list[dict[str, str]]:
                 "File_Bytes": info.get("File_Bytes", ""),
                 "Edge_Detail_Score": info.get("Edge_Detail_Score", ""),
                 "Sharp_Tile_Coverage": info.get("Sharp_Tile_Coverage", ""),
-                "Metadata_CSV": str(csv_path.relative_to(PROJECT_ROOT)) if csv_path else "",
+                "Metadata_CSV": safe_project_path(csv_path),
                 "Title": title,
                 "Keyword_Count": str(keyword_count),
                 "Created_Using_AI_Local_Assumption": "must be checked in Adobe Contributor; local CSV cannot set checkbox",

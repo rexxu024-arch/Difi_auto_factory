@@ -35,6 +35,7 @@ TRIGGER_FILE = DATABASE_DIR / "OpenClaw_Next_Action.trigger.json"
 LOCK_FILE = DATABASE_DIR / "Monthly_Shift_Loop.pid"
 START_LOCK_FILE = DATABASE_DIR / "Monthly_Shift_Loop.start.lock"
 NIGHT_QUEUE_FILE = DATABASE_DIR / "Night_Queue.csv"
+MJ_ACCOUNT_RISK_FILE = DATABASE_DIR / "MJ_Account_Risk_State.json"
 PROGRESS_LOG = PROJECT_ROOT / "PROGRESS_LOG.md"
 ET = ZoneInfo("America/New_York")
 SYSTEM_FAILURE_RCS = {1073807364, 3221225794}
@@ -141,8 +142,40 @@ def project_for_command(command: ShiftCommand) -> str:
 
 
 def commands_for_project(project_label: str) -> tuple[ShiftCommand, ...]:
-    selected = tuple(command for command in COMMANDS if project_for_command(command) == project_label)
-    return selected or COMMANDS
+    selected = tuple(
+        command
+        for command in COMMANDS
+        if project_for_command(command) == project_label and not command_blocked_by_mj_risk(command)
+    )
+    if selected:
+        return selected
+    return tuple(command for command in COMMANDS if not command_blocked_by_mj_risk(command))
+
+
+def mj_risk_active() -> bool:
+    if not MJ_ACCOUNT_RISK_FILE.exists():
+        return False
+    try:
+        data = json.loads(MJ_ACCOUNT_RISK_FILE.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return True
+    return str(data.get("state", "")).upper() not in {"", "CLEARED", "RESOLVED", "MJ_ACCOUNT_RISK_CLEARED"}
+
+
+def command_blocked_by_mj_risk(command: ShiftCommand) -> bool:
+    if not mj_risk_active():
+        return False
+    haystack = " ".join((command.name, *command.args)).lower()
+    return (
+        "_mj_" in haystack
+        or haystack.endswith("_mj")
+        or "midjourney" in haystack
+        or "discord" in haystack
+        or "shock_and_awe_mj_" in haystack
+        or "mj_dispatch" in haystack
+        or "mj_harvest" in haystack
+        or "request-upscales" in haystack
+    )
 
 
 def et_now() -> datetime:
@@ -624,6 +657,9 @@ def main() -> int:
             else:
                 command = COMMANDS[command_index % len(COMMANDS)]
                 command_index += 1
+                if command_blocked_by_mj_risk(command):
+                    log_line(f"SKIP_MJ_RISK {command.name}")
+                    continue
             if not allocation_allows(command):
                 if args.project_block_minutes <= 0 and command_index % len(COMMANDS) == 0:
                     time.sleep(max(args.sleep_seconds, 10))

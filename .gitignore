@@ -14,6 +14,8 @@
 /Archive_Assets/
 /adobe_stock_factory/assets/
 /adobe_stock_factory/upload_ready/
+/adobe_stock_factory/Pending_Upscale/
+/adobe_stock_factory/hold_training_reference_not_for_submit/
 /adobe_stock_factory/rejected/
 /screen_*.png
 /audit.log
