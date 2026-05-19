@@ -174,7 +174,7 @@ def run_cdp(mode: str, files: list[Path], cdp_port: int, launch_cdp: bool) -> tu
 def run(mode: str, headless: bool, profile: str, transport: str, cdp_port: int, launch_cdp: bool) -> dict[str, str]:
     assert_adobe_write_paths((STATUS_CSV, REPORT))
     files, source_index = curated_files(profile)
-    if not files:
+    if mode == "upload" and not files:
         raise RuntimeError("No curated Adobe files found. Run the Adobe curated/first-submit pack builder first.")
 
     if transport == "cdp":

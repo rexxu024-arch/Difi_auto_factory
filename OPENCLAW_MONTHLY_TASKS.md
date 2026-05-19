@@ -111,6 +111,12 @@ V8.1 defense tasks:
 
 Updated: 2026-05-15 ET
 
+MJ account-risk update, 2026-05-19 ET:
+- Midjourney/Discord page showed a 5-day temporary block message tied to suspected third-party tools or scripting.
+- Until Rex clears this state, all raw Discord API dispatch and automated Discord/MJ UI submission are hard-frozen.
+- Adobe Stock production must continue through existing local assets, metadata QA, duplicate guards, upload ledgers, local non-MJ processing, and future manually/approved generation paths only.
+- Do not treat a 204 Discord interaction as success. No MJ job is considered submitted unless there is a safe, visible, policy-compliant confirmation path.
+
 Strategic shift:
 - Cousin/First Audit review moved to early June, so First Audit is no longer the immediate top workload.
 - Adobe Stock / sweatshop becomes the current P1 cashflow infrastructure lane until the first high-quality submission batch is ready.
@@ -281,4 +287,14 @@ Current rule:
 - If marketplace tests are waiting for 48-72 hour data, use that waiting window for P0 private showcase work, blueprint R&D, QA gates, and automation hardening.
 - Do not idle just because one path is blocked by login, UI, API approval, or platform delay. Move to the next safe high-value task.
 - If P0/P1/P2 are all waiting on external platform data or Rex input, advance P3 feasibility and scaffolding so the machine keeps creating future earning options.
+
+## Weak-Network / Platform-Blocked Fallback
+
+When Discord, Adobe Contributor, Etsy, eBay, Printify, or Gemini are unavailable, switch to the local-only work map instead of idling. The canonical packet is:
+
+- `Review_Packets/Network_Restricted_Task_Map.md`
+
+Allowed local fallback lanes include Adobe metadata QA, old-training salvage with Rex/sharpness/duplicate filters, sticker ZIP packaging, marketplace lifecycle planning, First Audit folder hygiene, local contact sheets, and git-safe cleanup planning.
+
+Do not run Adobe upload, Discord/Midjourney dispatch, marketplace publish/write, or bulk browser UI actions when login/captcha/network/account guards are dirty.
 

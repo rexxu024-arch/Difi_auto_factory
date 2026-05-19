@@ -163,6 +163,31 @@ def prepared_parent_ids() -> set[str]:
     return blocked
 
 
+def prepared_image_hashes() -> set[str]:
+    """Block images already staged, uploaded, or parked in Adobe review folders.
+
+    Adobe may keep files on the contributor page even when the local folder is
+    later moved to a hold lane. Filename-based blocking is not enough because a
+    later pack can copy the same image under a new batch-local name.
+    """
+    blocked: set[str] = set()
+    roots = [
+        UPLOAD_READY_ROOT,
+        FACTORY / "hold_training_reference_not_for_submit",
+    ]
+    for root in roots:
+        if not root.exists():
+            continue
+        for path in root.rglob("*"):
+            if not is_upload_image(path):
+                continue
+            try:
+                blocked.add(file_sha256(path))
+            except OSError:
+                continue
+    return blocked
+
+
 def is_upload_image(path: Path) -> bool:
     if not path.is_file() or path.suffix.lower() not in IMAGE_EXTS:
         return False
@@ -290,7 +315,11 @@ def finalize_folder(batch_slug: str, out_dir: Path, rows: list[dict[str, str]]) 
     return final_dir
 
 
-def build(limit: int, max_per_family: int) -> tuple[list[dict[str, str]], Path, Path]:
+def build(
+    limit: int,
+    max_per_family: int,
+    allow_codex_approved: bool = False,
+) -> tuple[list[dict[str, str]], Path, Path]:
     existing = resume_existing_batch()
     if existing is not None:
         return existing
@@ -305,10 +334,12 @@ def build(limit: int, max_per_family: int) -> tuple[list[dict[str, str]], Path, 
     }
     blocked_filenames = blocked_submitted_filenames()
     already_prepared = prepared_parent_ids()
+    already_prepared_hashes = prepared_image_hashes()
     out_dir.mkdir(parents=True, exist_ok=False)
 
     rows: list[dict[str, str]] = []
     decisions = rex_decisions()
+    allowed_decisions = {"PASS"} if not allow_codex_approved else {"PASS", "PENDING", ""}
     source_rows = [
         row
         for row in read_rows(SOURCE)
@@ -319,9 +350,10 @@ def build(limit: int, max_per_family: int) -> tuple[list[dict[str, str]], Path, 
         )
         and "PENDING_HUMAN_VERIFICATION" not in prior_status_by_parent.get(clean(row.get("Parent_Asset_ID")), "").upper()
         and clean(row.get("Parent_Asset_ID")) not in already_prepared
-        # Upload-ready means Rex explicitly approved this exact generated asset
-        # for submission. Training/reference/pending assets stay in QA/DNA lanes.
-        and decisions.get(clean(row.get("Parent_Asset_ID")), "PENDING") == "PASS"
+        # Default upload-ready means Rex explicitly approved this exact generated
+        # asset. Rex also authorized Codex self-audit for Adobe throughput; that
+        # mode still excludes explicit REJECT/HOLD rows.
+        and decisions.get(clean(row.get("Parent_Asset_ID")), "PENDING") in allowed_decisions
     ]
     allowed_families = dominant_allowed_families(source_rows, max_families=3)
     family_seen: Counter[str] = Counter()
@@ -350,6 +382,8 @@ def build(limit: int, max_per_family: int) -> tuple[list[dict[str, str]], Path, 
         if not source.exists():
             continue
         source_hash = file_sha256(source)
+        if source_hash in already_prepared_hashes:
+            continue
         if source_hash in seen_hashes:
             continue
         seen_hashes.add(source_hash)
@@ -526,8 +560,17 @@ def main() -> int:
         default=18,
         help="Cap each material family while keeping a 50-file folder coherent across 1-3 related themes.",
     )
+    parser.add_argument(
+        "--allow-codex-approved",
+        action="store_true",
+        help="Allow Codex-self-audited QA_PASS assets that Rex has not explicitly rejected/held.",
+    )
     args = parser.parse_args()
-    rows, out_dir, _contact = build(max(1, min(args.limit, 50)), max(0, args.max_per_family))
+    rows, out_dir, _contact = build(
+        max(1, min(args.limit, 50)),
+        max(0, args.max_per_family),
+        allow_codex_approved=args.allow_codex_approved,
+    )
     print(f"[ADOBE-DAILY-UPLOAD-READY] files={len(rows)} folder={out_dir}")
     return 0
 
